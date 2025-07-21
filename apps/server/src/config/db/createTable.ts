@@ -1,4 +1,3 @@
-import { defaults } from "pg";
 import pool from "./db";
 
 const createUserTable = async () => {

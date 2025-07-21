@@ -3,6 +3,8 @@ import checkDbConnection from "./utils/checkhealth";
 import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
+import { type User } from "@repo/types/src/user";
+
 import createUserTable from "./config/db/createTable";
 import { authRouter } from "./features/auth/routes";
 dotenv.config();
@@ -13,6 +15,7 @@ app.get("/", (_req, res) => {
   res.send("Hello from Express with Bun!");
 });
 
+const user: User = {};
 const PORT = process.env.PORT || 5000;
 
 const corsOptions: CorsOptions = {
