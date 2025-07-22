@@ -3,10 +3,10 @@ import checkDbConnection from "./utils/checkhealth";
 import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
-import { type User } from "@repo/types/src/user";
 
 import createUserTable from "./config/db/createTable";
 import { authRouter } from "./features/auth/routes";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -15,7 +15,6 @@ app.get("/", (_req, res) => {
   res.send("Hello from Express with Bun!");
 });
 
-const user: User = {};
 const PORT = process.env.PORT || 5000;
 
 const corsOptions: CorsOptions = {
@@ -33,6 +32,7 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
 app.use("/auth", authRouter);

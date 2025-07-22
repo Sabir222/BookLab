@@ -1,24 +1,29 @@
 import pool from "./db";
 
 const createUserTable = async () => {
-  const query = `
-CREATE TABLE IF NOT EXISTS users (
-  user_id SERIAL PRIMARY KEY,
-  username VARCHAR(50) UNIQUE,
-  email VARCHAR(255) UNIQUE,
-  hashed_password VARCHAR(255),
-  profile_image_url TEXT,
-  credits INT DEFAULT 0,
-  loyalty_points INT DEFAULT 0,
-  is_verified BOOLEAN DEFAULT FALSE,
-  role VARCHAR(50) DEFAULT 'user',
-  last_login TIMESTAMP,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+  const enableUuidExtension = `
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  `;
 
- `;
+  const query = `
+    CREATE TABLE IF NOT EXISTS users (
+      user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      username VARCHAR(50) UNIQUE,
+      email VARCHAR(255) UNIQUE,
+      hashed_password VARCHAR(255),
+      profile_image_url TEXT,
+      credits INT DEFAULT 0,
+      loyalty_points INT DEFAULT 0,
+      is_verified BOOLEAN DEFAULT FALSE,
+      role VARCHAR(50) DEFAULT 'user',
+      last_login TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
   try {
+    await pool.query(enableUuidExtension);
     await pool.query(query);
     console.log("User Table created");
   } catch (error) {
