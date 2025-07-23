@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "test": "vitest run",
     "build": "tsc",
     "start": "bun src/server.ts",
     "check-types": "tsc --noEmit",
@@ -20,7 +21,10 @@
     "@types/express-rate-limit": "^6.0.2",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/pg": "^8.15.4",
-    "eslint-formatter-table": "^7.32.1"
+    "@types/supertest": "^6.0.3",
+    "eslint-formatter-table": "^7.32.1",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
   },
   "peerDependencies": {
     "typescript": "^5"

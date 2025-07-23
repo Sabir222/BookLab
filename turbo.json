@@ -3,6 +3,12 @@
   "ui": "tui",
   "globalEnv": ["NODE_ENV"],
   "tasks": {
+    "test": {
+      "dependsOn": ["transit"]
+    },
+    "transit": {
+      "dependsOn": ["^transit"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
