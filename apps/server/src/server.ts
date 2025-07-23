@@ -3,10 +3,10 @@ import checkDbConnection from "./utils/checkhealth";
 import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
-
-import createUserTable from "./config/db/createTable";
+import createUserTable from "@repo/db/createTable";
 import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 const app = express();

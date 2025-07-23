@@ -1,4 +1,4 @@
-import pool from "../../../config/db/db";
+import pool from "@repo/db/db";
 import { hashPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";

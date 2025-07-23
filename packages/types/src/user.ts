@@ -1,4 +1,4 @@
-export type User = {
+type User = {
   user_id: number;
   username: string;
   email: string;
@@ -12,3 +12,5 @@ export type User = {
   created_at: string; // or Date
   updated_at: string; // or Date
 };
+
+export default User;

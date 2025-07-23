@@ -1,4 +1,4 @@
-import pool from "../config/db/db";
+import pool from "@repo/db/db";
 
 const checkDbConnection = async () => {
   try {

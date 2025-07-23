@@ -4,7 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --watch src/server.ts"
+    "build": "tsc",
+    "start": "bun src/server.ts",
+    "check-types": "tsc --noEmit",
+    "dev": "bun --watch src/server.ts",
+    "lint": "bunx eslint . --ext .ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -15,13 +19,16 @@
     "@types/express": "^5.0.3",
     "@types/express-rate-limit": "^6.0.2",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/pg": "^8.15.4"
+    "@types/pg": "^8.15.4",
+    "eslint-formatter-table": "^7.32.1"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "@repo/types": "workspace:*",
+    "@repo/db": "workspace:*",
     "cookie": "^1.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

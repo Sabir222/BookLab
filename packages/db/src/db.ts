@@ -1,7 +1,5 @@
 import { Pool } from "pg";
 
-// TODO: mode this logic to packages/
-
 const pool = new Pool({
   user: "sabir",
   host: "localhost",
