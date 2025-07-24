@@ -8,7 +8,7 @@
 
 ### Apps
 
-- [Backend](./apps/docsn)
+- [Backend](./apps/docs)
 - [Frontend](./apps/web)
 - [Docs](./apps/docs)
 
