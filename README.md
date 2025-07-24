@@ -1,5 +1,27 @@
-this project is a web app to rent and sell books, plus a platform to discuss books(comment about books and upvote system);
+# BookLab 📚
 
-## Auth Apis
+**BookLab** is a full-stack web application built for learning purposes. It allows users to:
 
--
+- 📖 Rent and sell books
+- 💬 Comment and discuss books with an upvote system
+- 💻 Join real-time chat rooms to talk about books with others
+
+### Apps
+
+- [Backend](./apps/docsn)
+- [Frontend](./apps/web)
+- [Docs](./apps/docs)
+
+### Packages
+
+- [UI Library](./packages/ui)
+- [Types](./packages/types)
+- [Db](./packages/db)
+
+## 🚀 Purpose
+
+This project is designed as a **learning playground** to:
+
+- Practice full-stack development
+- Explore monorepo architecture using [Turborepo](https://turbo.build/)
+- Learn how to integrate multiple languages and frameworks together
