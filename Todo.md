@@ -1,7 +1,7 @@
-# move db logic to packages/
-
 # understand more typescript configuration
 
-# add testing
+# remove types package
 
-# add a typescript linter in neovim (eslint sucks)
+# learn and add testing
+
+# understand db migration
