@@ -17,7 +17,7 @@ authRouter.post(
   validate(signupSchema),
   signUpController,
 );
-authRouter.get("/login", validate(loginSchema), loginController);
+authRouter.post("/login", validate(loginSchema), loginController);
 authRouter.get("/me", meController);
 authRouter.get("/logout", logoutController);
 authRouter.get("/refresh", refreshController);

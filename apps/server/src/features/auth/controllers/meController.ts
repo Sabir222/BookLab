@@ -10,12 +10,13 @@ type JWTPayload = {
 };
 
 const meController = async (req: Request, res: Response) => {
-  const { access_token } = req.cookies;
+  const accessTokenName = process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken";
+  const accessToken = req.cookies[accessTokenName];
 
-  if (!access_token) return res.status(401).json({ message: "Unauthorized!" });
+  if (!accessToken) return res.status(401).json({ message: "Unauthorized!" });
 
   const decoded = jwt.verify(
-    access_token,
+    accessToken,
     process.env.JWT_SECRET!,
   ) as JWTPayload;
 

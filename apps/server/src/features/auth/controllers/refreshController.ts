@@ -2,14 +2,16 @@ import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
 const refreshController = (req: Request, res: Response) => {
-  const { SabirAuthRefresh } = req.cookies;
+  const refreshTokenName =
+    process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
+  const refreshToken = req.cookies[refreshTokenName];
 
-  if (!SabirAuthRefresh) {
+  if (!refreshToken) {
     return res.status(400).json({ message: "Refresh token is expired!" });
   }
 
   const decoded: any = jwt.verify(
-    SabirAuthRefresh,
+    refreshToken,
     process.env.JWT_REFRESH_SECRET!,
   );
 
