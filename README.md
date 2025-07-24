@@ -25,3 +25,10 @@ This project is designed as a **learning playground** to:
 - Practice full-stack development
 - Explore monorepo architecture using [Turborepo](https://turbo.build/)
 - Learn how to integrate multiple languages and frameworks together
+
+## License
+
+This project is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/).
+
+You are free to use, share, and adapt the code for **non-commercial purposes**.  
+For commercial use, please contact the author for permission.
