@@ -1,11 +1,10 @@
 import express from "express";
-import checkDbConnection from "./utils/checkhealth";
 import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
-import createUserTable from "@repo/db/createTable";
 import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
+import { testConnection } from "@repo/db/database";
 
 dotenv.config();
 
@@ -38,8 +37,8 @@ app.use(express.json());
 app.use("/auth", authRouter);
 
 const startServer = async () => {
-  await checkDbConnection();
-  await createUserTable();
+  await testConnection();
+
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${process.env.PORT}`);
   });

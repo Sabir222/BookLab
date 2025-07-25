@@ -1,7 +1,7 @@
-import pool from "@repo/db/db";
 import { hashPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
+import { userQueries, type User, type CreateUserData } from "@repo/db/database";
 
 class SignUpError extends Error {
   constructor(
@@ -21,21 +21,21 @@ type SignUpRequestBody = {
 };
 
 type JWTPayload = {
-  id: number;
+  id: string;
   email: string;
   username: string;
 };
-
+//TODO: add this to utils and call it here.
 const validateEnv = () => {
   const required = ["JWT_SECRET", "JWT_REFRESH_SECRET"];
   const missing = required.filter((key) => !process.env[key]);
   if (missing.length > 0) {
     throw new Error(
-      `Missing requied environment variables: ${missing.join(", ")}`,
+      `Missing required environment variables: ${missing.join(", ")}`,
     );
   }
 };
-
+//TODO: add this to utils too
 const generateToken = (payload: JWTPayload) => {
   const jwtSecret = process.env.JWT_SECRET!;
   const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET!;
@@ -89,43 +89,32 @@ const createUser = async (
   username: string,
   email: string,
   hashedPassword: string,
-) => {
-  const client = await pool.connect();
-
-  try {
-    await client.query("BEGIN");
-
-    const existingUserQuery = {
-      text: "SELECT user_id FROM users WHERE email = $1 OR username = $2",
-      values: [email, username],
-    };
-
-    const existingUser = await client.query(existingUserQuery);
-
-    if (existingUser.rows.length > 0) {
-      throw new SignUpError(
-        409,
-        "User with this email or username already exists",
-        "USER_EXISTS",
-      );
-    }
-
-    const insertQuery = {
-      text: "INSERT INTO users(username, email, hashed_password) VALUES($1, $2, $3) RETURNING user_id, username, email",
-      values: [username, email, hashedPassword],
-    };
-
-    const result = await client.query(insertQuery);
-
-    await client.query("COMMIT");
-
-    return result.rows[0];
-  } catch (error) {
-    await client.query("ROLLBACK");
-    throw error;
-  } finally {
-    client.release();
+): Promise<User> => {
+  const existingEmailUser = await userQueries.findByEmail(email);
+  if (existingEmailUser) {
+    throw new SignUpError(
+      409,
+      "User with this email already exists",
+      "EMAIL_EXISTS",
+    );
   }
+
+  const existingUsernameUser = await userQueries.findByUsername(username);
+  if (existingUsernameUser) {
+    throw new SignUpError(
+      409,
+      "User with this username already exists",
+      "USERNAME_EXISTS",
+    );
+  }
+
+  const userData: CreateUserData = {
+    username,
+    email,
+    hashedPassword,
+  };
+
+  return await userQueries.create(userData);
 };
 
 export const signUpController = async (
@@ -150,9 +139,9 @@ export const signUpController = async (
     const newUser = await createUser(username, email, hashedPassword);
 
     const tokenPayload: JWTPayload = {
-      id: newUser.user_id,
+      id: newUser.user_id, // This is now a UUID string
       email: newUser.email,
-      username: newUser.username,
+      username: newUser.username!,
     };
 
     const { accessToken, refreshToken } = generateToken(tokenPayload);
