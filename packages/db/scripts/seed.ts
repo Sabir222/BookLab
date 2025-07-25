@@ -2,6 +2,10 @@
 import { db } from "../src/client.js";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 async function seedDatabase() {
   try {

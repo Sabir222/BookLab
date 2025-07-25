@@ -4,13 +4,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./types": {
-      "types": "./src/types.ts",
-      "default": "./dist/types.js"
-    },
-    "./users": {
-      "types": "./src/queries/users.ts",
-      "default": "./dist/queries/users.js"
+    "./database": {
+      "types": "./src/database.ts",
+      "default": "./dist/database.js"
     }
   },
   "files": [

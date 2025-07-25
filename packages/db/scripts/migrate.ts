@@ -2,14 +2,10 @@
 import { db } from "../src/client.js";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-console.log({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PW,
-  port: Number(process.env.DB_PORT),
-});
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 async function runMigrations() {
   try {

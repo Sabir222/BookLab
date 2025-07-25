@@ -1,4 +1,4 @@
-import pool from "@repo/db/db";
+import { userQueries, type User } from "@repo/db/database";
 import { comparerPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
@@ -20,11 +20,11 @@ type LoginRequestBody = {
 };
 
 type JWTPayload = {
-  id: number;
+  id: string;
   email: string;
   username: string;
 };
-
+//TODO: add this to utils and call it here for both signUp and logIn
 const validateEnv = () => {
   const required = ["JWT_SECRET", "JWT_REFRESH_SECRET"];
   const missing = required.filter((key) => !process.env[key]);
@@ -35,6 +35,7 @@ const validateEnv = () => {
   }
 };
 
+//TODO: add this to utils and call it here for both signUp and logIn
 const generateToken = (payload: JWTPayload) => {
   const jwtSecret = process.env.JWT_SECRET!;
   const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET!;
@@ -50,6 +51,7 @@ const generateToken = (payload: JWTPayload) => {
   return { accessToken, refreshToken };
 };
 
+//TODO: add this to utils and call it here for both signUp and logIn
 const setAuthCookies = (
   res: Response,
   accessToken: string,
@@ -85,35 +87,24 @@ const setAuthCookies = (
 };
 
 const authenticateUser = async (username: string, password: string) => {
-  const client = await pool.connect();
+  //TODO: make this to work if user want to login with email too
+  const user: User | null = await userQueries.findByUsername(username);
 
-  try {
-    const query = {
-      text: "SELECT user_id, username, email, hashed_password FROM users WHERE username = $1",
-      values: [username],
-    };
-
-    const result = await client.query(query);
-
-    if (result.rows.length === 0) {
-      throw new LoginError(400, "User not found!", "USER_NOT_FOUND");
-    }
-
-    const user = result.rows[0];
-    const { user_id, hashed_password, email } = user;
-
-    if (!comparerPassword(password, hashed_password)) {
-      throw new LoginError(401, "Password is incorrect", "INVALID_PASSWORD");
-    }
-
-    return {
-      id: user_id,
-      username: user.username,
-      email: email,
-    };
-  } finally {
-    client.release();
+  if (user === null) {
+    throw new LoginError(400, "User not found!", "USER_NOT_FOUND");
   }
+
+  const { user_id, hashed_password, email } = user;
+
+  if (!comparerPassword(password, hashed_password)) {
+    throw new LoginError(401, "Password is incorrect", "INVALID_PASSWORD");
+  }
+
+  return {
+    id: user_id,
+    username: user.username,
+    email: email,
+  };
 };
 
 export const loginController = async (

@@ -1,6 +1,6 @@
 export type User = {
   user_id: string;
-  username?: string;
+  username: string;
   email: string;
   hashed_password: string;
   profile_image_url?: string;

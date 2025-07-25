@@ -21,3 +21,11 @@ packages/db/
 │ ├── seed.ts # Seed data
 │ └── generate-types.ts # Auto-generate types
 └── package.json
+
+docker run --name booklab-db \
+ -e POSTGRES_USER=sabir \
+ -e POSTGRES_PASSWORD=pw \
+ -e POSTGRES_DB=booklab_db \
+ -p 5432:5432 \
+ -v booklab_pgdata:/var/lib/postgresql/data \
+ -d postgres

@@ -1,9 +1,7 @@
-import { type User } from "@repo/db/types";
-import { type CreateUserData } from "@repo/db/types";
-import { userQueries } from "@repo/db/users";
 import { hashPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
+import { userQueries, type User, type CreateUserData } from "@repo/db/database";
 
 class SignUpError extends Error {
   constructor(
@@ -23,11 +21,11 @@ type SignUpRequestBody = {
 };
 
 type JWTPayload = {
-  id: string; // Changed from number to string (UUID)
+  id: string;
   email: string;
   username: string;
 };
-
+//TODO: add this to utils and call it here.
 const validateEnv = () => {
   const required = ["JWT_SECRET", "JWT_REFRESH_SECRET"];
   const missing = required.filter((key) => !process.env[key]);
@@ -37,7 +35,7 @@ const validateEnv = () => {
     );
   }
 };
-
+//TODO: add this to utils too
 const generateToken = (payload: JWTPayload) => {
   const jwtSecret = process.env.JWT_SECRET!;
   const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET!;
@@ -87,13 +85,11 @@ const setAuthCookies = (
   );
 };
 
-// Simplified createUser function using the new userQueries
 const createUser = async (
   username: string,
   email: string,
   hashedPassword: string,
 ): Promise<User> => {
-  // Check if user already exists
   const existingEmailUser = await userQueries.findByEmail(email);
   if (existingEmailUser) {
     throw new SignUpError(
@@ -112,7 +108,6 @@ const createUser = async (
     );
   }
 
-  // Create the user
   const userData: CreateUserData = {
     username,
     email,

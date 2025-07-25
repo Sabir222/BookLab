@@ -1,10 +1,9 @@
-import pool from "@repo/db/db";
-
+import { userQueries } from "@repo/db/database";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
 type JWTPayload = {
-  id: number;
+  id: string;
   email: string;
   username: string;
 };
@@ -20,16 +19,16 @@ const meController = async (req: Request, res: Response) => {
     process.env.JWT_SECRET!,
   ) as JWTPayload;
 
-  const query = {
-    text: "SELECT * FROM users WHERE user_id = $1",
-    values: [decoded.id],
-  };
+  const result = await userQueries.findById(decoded.id);
+  //const { user_id, email, full_name, role, hashed_password } = result.rows[0];
 
-  const result = await pool.query(query);
-  const { user_id, email, full_name, role, hashed_password } = result.rows[0];
-
-  return res
-    .json({ user_id, email, full_name, role, hashed_password })
-    .status(200);
+  return (
+    res
+      //.json({ user_id, email, full_name, role, hashed_password })
+      .json({
+        result,
+      })
+      .status(200)
+  );
 };
 export default meController;

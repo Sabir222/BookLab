@@ -4,6 +4,7 @@ import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
 import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
+import { testConnection } from "@repo/db/database";
 
 dotenv.config();
 
@@ -36,6 +37,8 @@ app.use(express.json());
 app.use("/auth", authRouter);
 
 const startServer = async () => {
+  await testConnection();
+
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${process.env.PORT}`);
   });
