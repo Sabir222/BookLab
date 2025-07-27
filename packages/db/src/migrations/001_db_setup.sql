@@ -23,7 +23,7 @@ $$
 language plpgsql
 ;
 
-INSERT INTO schema_migrations (version) VALUES ('000_setup_database');
+INSERT INTO schema_migrations (version) VALUES ('001_db_setup');
 
 commit
 ;
