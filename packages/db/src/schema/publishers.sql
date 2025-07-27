@@ -10,7 +10,7 @@ CREATE TABLE publishers (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TRIGGER update_users_updated_at
+CREATE TRIGGER update_publishers_updated_at
   BEFORE UPDATE ON publishers
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
