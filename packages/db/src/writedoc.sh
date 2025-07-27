@@ -7,10 +7,10 @@ OUTPUT_FILE="./MIGRATIONS.md"
 # Clear the output file
 > "$OUTPUT_FILE"
 
-# Loop over all files in the directory
-find "$TARGET_DIR" -type f | while read -r FILE; do
+# Find files, sort by filename (basename) numerically
+find "$TARGET_DIR" -type f | sort -t '/' -k 3 | while read -r FILE; do
   echo "Processing $FILE"
-  
+
   {
     echo -e "\n\n### File: $FILE\n"
     echo '```sql'

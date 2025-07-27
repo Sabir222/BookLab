@@ -1,9 +1,9 @@
 -- Migration: Database Setup
--- Version: 000_setup_database
+-- Version: 001_db_setup
 -- Created: 26-07-2025
--- Description: Setup schema migrations table and UUID extension
-begin
-;
+-- Description: Setup schema migrations table, extensions, functions, and enum types
+
+BEGIN;
 
 CREATE TABLE IF NOT EXISTS schema_migrations (
   version VARCHAR(255) PRIMARY KEY,
@@ -12,19 +12,28 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-create or replace function update_updated_at_column()
-returns trigger
-as $$
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$
-language plpgsql
-;
+$$ LANGUAGE plpgsql;
 
-INSERT INTO schema_migrations (version) VALUES ('001_db_setup');
+DO $$ BEGIN
+    CREATE TYPE book_format AS ENUM ('hardcover', 'paperback', 'ebook', 'audiobook', 'magazine', 'journal');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-commit
-;
+DO $$ BEGIN
+    CREATE TYPE user_role AS ENUM ('admin','user', 'moderator');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
+
+INSERT INTO schema_migrations (version) VALUES ('001_db_setup')
+ON CONFLICT (version) DO NOTHING;
+
+COMMIT;
