@@ -9,6 +9,7 @@ CREATE TABLE book_reviews (
     review_text TEXT,
     is_verified BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
 
     CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id),
     CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -36,7 +37,7 @@ CREATE TRIGGER update_book_reviews_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews.sql');
+INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews_table.sql');
 
 commit
 ;

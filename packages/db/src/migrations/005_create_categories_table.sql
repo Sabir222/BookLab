@@ -25,6 +25,7 @@ CREATE INDEX IF NOT EXISTS idx_categories_active
 ON categories(is_active) 
 WHERE is_active = true;
 
+INSERT INTO schema_migrations (version) VALUES ('005_create_categories_table');
 commit
 ;
 -- ROLLBACK (DOWN MIGRATION)

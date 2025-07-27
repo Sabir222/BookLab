@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS genres (
   parent_genre_id UUID,
   is_active BOOL DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
 
   CONSTRAINT fk_parent_genre 
     FOREIGN KEY (parent_genre_id) 
@@ -24,6 +25,8 @@ WHERE parent_genre_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_genres_active 
 ON genres(is_active)
 WHERE is_active = true;
+
+INSERT INTO schema_migrations (version) VALUES ('006_create_genre_table');
 
 commit
 ;
