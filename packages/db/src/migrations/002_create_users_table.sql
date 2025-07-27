@@ -29,7 +29,7 @@ CREATE TRIGGER update_users_updated_at
   BEFORE UPDATE ON users 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('001_create_users_table');
+INSERT INTO schema_migrations (version) VALUES ('002_create_users_table');
 
 commit
 ;
@@ -52,7 +52,7 @@ DROP INDEX IF EXISTS idx_users_email;
 DROP TABLE IF EXISTS users;
 
 -- Remove from migrations (adjust version name as needed)
-DELETE FROM schema_migrations WHERE version = '001_create_users_table';
+DELETE FROM schema_migrations WHERE version = '002_create_users_table';
 
 COMMIT;
 */

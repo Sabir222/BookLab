@@ -26,7 +26,7 @@ CREATE TRIGGER update_publishers_updated_at
   BEFORE UPDATE ON publishers 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('002_create_publishers_table');
+INSERT INTO schema_migrations (version) VALUES ('003_create_publishers_table');
 
 commit
 ;
@@ -49,7 +49,7 @@ DROP INDEX IF EXISTS idx_publishers_name;
 DROP TABLE IF EXISTS publishers;
 
 -- Remove from migrations
-DELETE FROM schema_migrations WHERE version = '002_create_publishers_table';
+DELETE FROM schema_migrations WHERE version = '003_create_publishers_table';
 
 COMMIT;
 */

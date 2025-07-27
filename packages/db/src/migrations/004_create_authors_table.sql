@@ -23,7 +23,7 @@ CREATE TRIGGER update_authors_updated_at
   BEFORE UPDATE ON authors 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('003_create_authors_table');
+INSERT INTO schema_migrations (version) VALUES ('004_create_authors_table');
 
 commit
 ;
@@ -40,7 +40,7 @@ DROP INDEX IF EXISTS idx_authors_last_name;
 
 DROP TABLE IF EXISTS authors;
 
-DELETE FROM schema_migrations WHERE version = '003_create_authors_table';
+DELETE FROM schema_migrations WHERE version = '004_create_authors_table';
 
 COMMIT;
 */
