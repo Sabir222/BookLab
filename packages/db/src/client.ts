@@ -1,4 +1,5 @@
 import { Pool, PoolClient } from "pg";
+
 const pool = new Pool({
   user: "sabir",
   host: "localhost",
