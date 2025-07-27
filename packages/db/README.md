@@ -1,26 +1,42 @@
-packages/db/
-├── src/
-│ ├── index.ts # Main exports
-│ ├── client.ts # Connection pool
-│ ├── schema/ # Schema definitions
-│ │ ├── users.sql
-│ │ ├── posts.sql
-│ │ └── index.ts
-│ ├── migrations/ # Versioned changes only
-│ │ ├── 001_initial_schema.sql
-│ │ └── 002_add_post_tags.sql
-│ ├── queries/ # Organized SQL queries
-│ │ ├── users.ts
-│ │ └── posts.ts
-│ ├── seeds/ # Test/dev data
-│ │ └── dev-data.sql
-│ └── types.ts # TypeScript definitions
-├── scripts/
-│ ├── reset-db.ts # Full reset (dev only)
-│ ├── migrate.ts # Run migrations
-│ ├── seed.ts # Seed data
-│ └── generate-types.ts # Auto-generate types
-└── package.json
+```sql
+1. users           ← No dependencies
+2. authors         ← No dependencies
+3. publishers      ← No dependencies
+4. categories      ← Self-referencing (can be empty initially)
+5. genres          ← Self-referencing (can be empty initially)
+6. book_series     ← No dependencies
+7. books           ← References: users, publishers, categories
+8. book_authors    ← References: books, authors
+9. book_categories ← References: books, categories
+10. book_genres    ← References: books, genres
+11. book_series_entries ← References: books, book_series
+12. book_reviews   ← References: books, users
+```
+
+## Users Table Relationships:
+
+- **users → books (as owner)** — One user owns many books
+- **users → books (as creator)** — One user creates many book records
+- **users → books (as modifier)** — One user modifies many books
+- **users → books (as deleter)** — One user deletes many books
+- **users → book_reviews** — One user writes many reviews
+
+## Books Table Relationships:
+
+- **publishers → books** — One publisher publishes many books
+- **categories → books (primary)** — One category is primary for many books
+- **books → book_reviews** — One book receives many reviews
+- **books ↔ authors (via book_authors)** — Many-to-many
+- **books ↔ categories (via book_categories)** — Many-to-many
+- **books ↔ genres (via book_genres)** — Many-to-many
+- **books ↔ book_series (via book_series_entries)** — Many-to-many
+
+## Self-Referencing Relationships:
+
+- **categories → categories** (parent-child hierarchy)
+- **genres → genres** (parent-child hierarchy)
+
+### database
 
 docker run --name booklab-db \
  -e POSTGRES_USER=sabir \
