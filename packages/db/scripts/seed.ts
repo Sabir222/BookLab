@@ -11,7 +11,7 @@ async function seedDatabase() {
   try {
     console.log("🌱 Seeding database...");
 
-    const seedPath = path.join(__dirname, "../src/seeds/dev-data.sql");
+    const seedPath = path.join(__dirname, "../src/seeds/dev-data2.sql");
     const seedSql = fs.readFileSync(seedPath, "utf8");
 
     await db.query(seedSql);
