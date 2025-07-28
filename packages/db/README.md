@@ -36,8 +36,22 @@
 - **categories → categories** (parent-child hierarchy)
 - **genres → genres** (parent-child hierarchy)
 
-### database
+### self-referencing table example:
 
+```text
+Fiction (parent_category_id: NULL)
+├── Mystery & Thriller (parent_category_id: Fiction ID)
+├── Romance (parent_category_id: Fiction ID)
+├── Science Fiction & Fantasy (parent_category_id: Fiction ID)
+│ ├── Epic Fantasy (parent_category_id: Science Fiction & Fantasy ID)
+│ ├── Space Opera (parent_category_id: Science Fiction & Fantasy ID)
+│ └── Urban Fantasy (parent_category_id: Science Fiction & Fantasy ID)
+└── Historical Fiction (parent_category_id: Fiction ID)
+```
+
+### Database-Docker:
+
+```bash
 docker run --name booklab-db \
  -e POSTGRES_USER=sabir \
  -e POSTGRES_PASSWORD=pw \
@@ -45,3 +59,4 @@ docker run --name booklab-db \
  -p 5432:5432 \
  -v booklab_pgdata:/var/lib/postgresql/data \
  -d postgres
+```

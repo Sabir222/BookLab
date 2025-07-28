@@ -9,3 +9,5 @@
 # understand db migration
 
 # make sqls work
+
+# make tmux work envirenement
