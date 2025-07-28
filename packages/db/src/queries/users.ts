@@ -1,5 +1,9 @@
 import { db } from "../client.js";
-import { User, CreateUserData, UpdateUserData } from "../types.js";
+import {
+  type User,
+  type CreateUserData,
+  type UpdateUserData,
+} from "../types.js";
 
 export const userQueries = {
   async findById(userId: string): Promise<User | null> {

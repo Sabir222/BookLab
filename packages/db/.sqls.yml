@@ -1,4 +1,4 @@
 connections:
   - alias: local_pg
     driver: postgres
-    dataSourceName: "postgresql://sabir:pw@localhost:5432/booklab_db?sslmode=disable"
+    dataSourceName: "postgresql://sabir:pw@localhost:5432/booklab_db"
