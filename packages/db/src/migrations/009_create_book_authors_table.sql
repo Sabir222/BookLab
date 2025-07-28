@@ -23,6 +23,6 @@ commit
 
 -- DROP INDEX IF EXISTS idx_book_authors_author_id;
 -- DROP TABLE IF EXISTS book_authors;
--- DELETE FROM schema_migrations WHERE version = '009_create_book_authors_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '009_create_book_authors_table';
 
 

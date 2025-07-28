@@ -20,6 +20,6 @@ commit
 
 -- DROP INDEX IF EXISTS idx_book_categories_category_id;
 -- DROP TABLE IF EXISTS book_categories;
--- DELETE FROM schema_migrations WHERE version = '010_create_book_categories_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '010_create_book_categories_table';
 
 

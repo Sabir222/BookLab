@@ -33,7 +33,7 @@ DROP TRIGGER IF EXISTS update_book_series_updated_at ON book_series;
 DROP INDEX IF EXISTS idx_series_name;
 DROP INDEX IF EXISTS idx_is_completed;
 DROP TABLE IF EXISTS book_series;
-DELETE FROM schema_migrations WHERE version = '007_create_book_series_table'; -- Added missing semicolon
+DELETE FROM schema_migrations WHERE version = '007_create_book_series_table';
 COMMIT;
 */
 

@@ -20,6 +20,6 @@ commit
 
 -- DROP TABLE IF EXISTS book_series_entries;
 -- DELETE FROM schema_migrations WHERE version =
--- '012_create_book_series_entries_table.sql';
+-- '012_create_book_series_entries_table';
 
 

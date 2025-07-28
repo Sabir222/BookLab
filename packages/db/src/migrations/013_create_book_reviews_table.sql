@@ -49,6 +49,6 @@ commit
 -- DROP INDEX IF EXISTS idx_book_reviews_user_id;
 -- DROP INDEX IF EXISTS idx_book_reviews_book_id;
 -- DROP TABLE IF EXISTS book_reviews;
--- DELETE FROM schema_migrations WHERE version = '013_create_book_reviews_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '013_create_book_reviews_table';
 
 
