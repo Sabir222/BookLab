@@ -25,7 +25,12 @@ CREATE INDEX IF NOT EXISTS idx_categories_active
 ON categories(is_active) 
 WHERE is_active = true;
 
+CREATE TRIGGER update_users_updated_at 
+  BEFORE UPDATE ON categories 
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 INSERT INTO schema_migrations (version) VALUES ('005_create_categories_table');
+
 commit
 ;
 -- ROLLBACK (DOWN MIGRATION)
