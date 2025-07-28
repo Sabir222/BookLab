@@ -13,7 +13,7 @@ CREATE TABLE book_series_entries (
     CONSTRAINT unique_series_volume UNIQUE (series_id, volume_number)
 );
 
-INSERT INTO schema_migrations (version) VALUES ('012_create_book_series_entries_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('012_create_book_series_entries_table');
 
 commit
 ;

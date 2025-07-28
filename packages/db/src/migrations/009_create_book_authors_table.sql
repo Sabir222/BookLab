@@ -16,7 +16,7 @@ CREATE TABLE book_authors (
 DROP INDEX IF EXISTS idx_book_authors_author_id;
 CREATE INDEX idx_book_authors_author_id ON book_authors(author_id);
 
-INSERT INTO schema_migrations (version) VALUES ('009_create_book_authors_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('009_create_book_authors_table');
 
 commit
 ;

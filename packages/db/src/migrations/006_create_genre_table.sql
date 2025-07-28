@@ -26,7 +26,7 @@ CREATE INDEX IF NOT EXISTS idx_genres_active
 ON genres(is_active)
 WHERE is_active = true;
 
-CREATE TRIGGER update_users_updated_at 
+CREATE TRIGGER update_genres_updated_at 
   BEFORE UPDATE ON genres 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 

@@ -105,7 +105,7 @@ CREATE TRIGGER update_books_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('008_create_books_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('008_create_books_table');
 
 commit
 ;

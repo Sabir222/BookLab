@@ -37,7 +37,7 @@ CREATE TRIGGER update_book_reviews_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews_table');
 
 commit
 ;

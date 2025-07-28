@@ -13,7 +13,7 @@ CREATE TABLE book_categories (
 DROP INDEX IF EXISTS idx_book_categories_category_id;
 CREATE INDEX idx_book_categories_category_id ON book_categories(category_id);
 
-INSERT INTO schema_migrations (version) VALUES ('010_create_book_categories_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('010_create_book_categories_table');
 
 commit
 ;
