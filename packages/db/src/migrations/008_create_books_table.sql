@@ -1,7 +1,7 @@
 begin
 ;
 
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS  books (
     book_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(500) NOT NULL,
     subtitle VARCHAR(500),

@@ -13,3 +13,9 @@
 # make sqls work
 
 # make tmux work envirenement
+
+# Logging, Monitoring, Tracing
+
+# redis
+
+# neovim blog

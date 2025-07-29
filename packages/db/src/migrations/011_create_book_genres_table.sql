@@ -1,7 +1,7 @@
 begin
 ;
 
-CREATE TABLE book_genres (
+CREATE TABLE IF NOT EXISTS book_genres (
     book_id UUID NOT NULL,
     genre_id UUID NOT NULL,
 
