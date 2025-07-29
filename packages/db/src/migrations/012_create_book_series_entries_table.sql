@@ -1,7 +1,7 @@
 begin
 ;
 
-CREATE TABLE book_series_entries (
+CREATE TABLE IF NOT EXISTS book_series_entries (
     book_id UUID NOT NULL,
     series_id UUID NOT NULL,
     volume_number INTEGER,

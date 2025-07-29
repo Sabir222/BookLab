@@ -1,7 +1,7 @@
 begin
 ;
 
-CREATE TABLE book_authors (
+CREATE TABLE IF NOT EXISTS  book_authors (
     book_id UUID NOT NULL,
     author_id UUID NOT NULL,
     role VARCHAR(50) DEFAULT 'author',

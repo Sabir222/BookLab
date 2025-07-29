@@ -1,7 +1,7 @@
 begin
 ;
 -- TODO: verified is true for dev env , make it false in production
-CREATE TABLE book_reviews (
+CREATE TABLE IF NOT EXISTS book_reviews (
     review_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     book_id UUID NOT NULL,
     user_id UUID NOT NULL,
@@ -42,13 +42,23 @@ INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews_table')
 commit
 ;
 
--- DROP TRIGGER IF EXISTS update_book_reviews_updated_at ON book_reviews;
--- DROP INDEX IF EXISTS idx_book_reviews_verified;
--- DROP INDEX IF EXISTS idx_book_reviews_created_at;
--- DROP INDEX IF EXISTS idx_book_reviews_rating;
--- DROP INDEX IF EXISTS idx_book_reviews_user_id;
--- DROP INDEX IF EXISTS idx_book_reviews_book_id;
--- DROP TABLE IF EXISTS book_reviews;
--- DELETE FROM schema_migrations WHERE version = '013_create_book_reviews_table';
+/*
+begin
+;
+DROP TRIGGER IF EXISTS update_book_reviews_updated_at ON book_reviews;
+DROP INDEX IF EXISTS idx_book_reviews_verified;
+DROP INDEX IF EXISTS idx_book_reviews_created_at;
+DROP INDEX IF EXISTS idx_book_reviews_rating;
+DROP INDEX IF EXISTS idx_book_reviews_user_id;
+DROP INDEX IF EXISTS idx_book_reviews_book_id;
+DROP TABLE IF EXISTS book_reviews;
+delete from schema_migrations
+where version = '013_create_book_reviews_table'
+;
+INSERT INTO schema_migrations (version) VALUES ('014_delete_book_reviews_table');
+;
+commit
+;
+*/
 
 

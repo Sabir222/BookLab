@@ -1,7 +1,7 @@
 begin
 ;
 
-CREATE TABLE book_categories (
+CREATE TABLE IF NOT EXISTS book_categories (
     book_id UUID NOT NULL,
     category_id UUID NOT NULL,
 
