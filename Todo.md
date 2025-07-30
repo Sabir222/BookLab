@@ -1,24 +1,24 @@
-# book api to my db
+# 📌 To-Do List
 
-# dadbod nvim for sql
+## 🧠 Motivation & AI
 
-# understand more typescript configuration
+- [ ] Create an AI agent for generating motivation letters
 
-# remove types package
+## 📚 Learning & Understanding
 
-# learn and add testing
+- [ ] Deepen understanding of TypeScript configuration
+- [ ] Understand database migrations
+- [ ] Learn and implement testing
+- [ ] Learn Redis
+- [ ] Learn about Logging, Monitoring, and Tracing
 
-# understand db migration
+## 🛠️ Development & Features
 
-# make sqls work
+- [ ] Connect external book API to database
+- [ ] Remove unnecessary `@types/*` packages
+- [ ] Write and maintain function documentation
+- [ ] Learn testing using vitest
 
-# make tmux work envirenement
+## 🚦 DevOps
 
-# Logging, Monitoring, Tracing
-
-# redis
-
-# neovim blog
-
-# cd ci
-# functions documentation
+- [ ] Set up CI/CD pipeline
