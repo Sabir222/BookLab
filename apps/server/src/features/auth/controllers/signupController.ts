@@ -1,7 +1,10 @@
 import { hashPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
-import jwt from "jsonwebtoken";
 import { userQueries, type User, type CreateUserData } from "@repo/db/database";
+import validateEnv from "../../../utils/validateEnv";
+import type { JWTPayload } from "../../../utils/generateToken";
+import generateToken from "../../../utils/generateToken";
+import setAuthCookies from "../../../utils/setAuthCookies";
 
 class SignUpError extends Error {
   constructor(
@@ -20,70 +23,17 @@ type SignUpRequestBody = {
   password: string;
 };
 
-type JWTPayload = {
-  id: string;
-  email: string;
-  username: string;
-};
-//TODO: add this to utils and call it here.
-const validateEnv = () => {
-  const required = ["JWT_SECRET", "JWT_REFRESH_SECRET"];
-  const missing = required.filter((key) => !process.env[key]);
-  if (missing.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missing.join(", ")}`,
-    );
-  }
-};
-//TODO: add this to utils too
-const generateToken = (payload: JWTPayload) => {
-  const jwtSecret = process.env.JWT_SECRET!;
-  const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET!;
-
-  const accessToken = jwt.sign(payload, jwtSecret, {
-    expiresIn: "15m",
-  });
-
-  const refreshToken = jwt.sign({ id: payload.id }, jwtRefreshSecret, {
-    expiresIn: "7d",
-  });
-
-  return { accessToken, refreshToken };
-};
-
-const setAuthCookies = (
-  res: Response,
-  accessToken: string,
-  refreshToken: string,
-) => {
-  const isProduction = process.env.NODE_ENV === "production";
-
-  const cookieOptions = {
-    secure: isProduction,
-    httpOnly: true,
-    sameSite: "strict" as const,
-  };
-
-  res.cookie(
-    process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken",
-    refreshToken,
-    {
-      ...cookieOptions,
-      maxAge:
-        Number(process.env.REFRESH_TOKEN_COOKIE_MAX_AGE) ||
-        7 * 24 * 60 * 60 * 1000, // 7 days
-    },
-  );
-
-  res.cookie(
-    process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken",
-    accessToken,
-    {
-      ...cookieOptions,
-      maxAge: Number(process.env.ACCESS_TOKEN_COOKIE_MAX_AGE) || 15 * 60 * 1000, // 15 minutes
-    },
-  );
-};
+/**
+ * Creates a new user in the database after validating that the email and username
+ * do not already exist. Throws an error if either already exists.
+ *
+ * @param {string} username - The username of the new user.
+ * @param {string} email - The email of the new user.
+ * @param {string} hashedPassword - The hashed password of the new user.
+ * @returns {Promise<User>} - Returns the created user object.
+ *
+ * @throws {SignUpError} - If a user with the same email or username already exists.
+ */
 
 const createUser = async (
   username: string,
@@ -117,6 +67,17 @@ const createUser = async (
   return await userQueries.create(userData);
 };
 
+/**
+ * Controller for handling user sign-up requests.
+ * Validates the request, creates a new user, generates JWT tokens,
+ * sets cookies, and responds with user data and access token.
+ *
+ * @param {Request} req - The request object containing user credentials.
+ * @param {Response} res - The response object to send back the result.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ *
+ * @throws {SignUpError} - If user creation fails or required fields are missing
+ */
 export const signUpController = async (
   req: Request,
   res: Response,
@@ -139,7 +100,7 @@ export const signUpController = async (
     const newUser = await createUser(username, email, hashedPassword);
 
     const tokenPayload: JWTPayload = {
-      id: newUser.user_id, // This is now a UUID string
+      id: newUser.user_id,
       email: newUser.email,
       username: newUser.username!,
     };

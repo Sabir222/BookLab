@@ -1,5 +1,12 @@
 import rateLimit from "express-rate-limit";
 
+/**
+ * Rate limiting middleware for authentication and API endpoints.
+ * This module defines rate limits for signup, login, password reset,
+ * general API requests, and file uploads.
+ *
+ * @module authRateLimits
+ */
 export const authRateLimits = {
   signup: rateLimit({
     windowMs: 15 * 60 * 1000,
