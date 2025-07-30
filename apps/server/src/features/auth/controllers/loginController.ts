@@ -1,7 +1,10 @@
 import { userQueries, type User } from "@repo/db/database";
 import { comparerPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
-import jwt from "jsonwebtoken";
+import type { JWTPayload } from "../../../utils/generateToken";
+import generateToken from "../../../utils/generateToken";
+import validateEnv from "../../../utils/validateEnv";
+import setAuthCookies from "../../../utils/setAuthCookies";
 
 class LoginError extends Error {
   constructor(
@@ -19,72 +22,16 @@ type LoginRequestBody = {
   password: string;
 };
 
-type JWTPayload = {
-  id: string;
-  email: string;
-  username: string;
-};
-//TODO: add this to utils and call it here for both signUp and logIn
-const validateEnv = () => {
-  const required = ["JWT_SECRET", "JWT_REFRESH_SECRET"];
-  const missing = required.filter((key) => !process.env[key]);
-  if (missing.length > 0) {
-    throw new Error(
-      `Missing requied environment variables: ${missing.join(", ")}`,
-    );
-  }
-};
-
-//TODO: add this to utils and call it here for both signUp and logIn
-const generateToken = (payload: JWTPayload) => {
-  const jwtSecret = process.env.JWT_SECRET!;
-  const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET!;
-
-  const accessToken = jwt.sign(payload, jwtSecret, {
-    expiresIn: "15m",
-  });
-
-  const refreshToken = jwt.sign({ id: payload.id }, jwtRefreshSecret, {
-    expiresIn: "7d",
-  });
-
-  return { accessToken, refreshToken };
-};
-
-//TODO: add this to utils and call it here for both signUp and logIn
-const setAuthCookies = (
-  res: Response,
-  accessToken: string,
-  refreshToken: string,
-) => {
-  const isProduction = process.env.NODE_ENV === "production";
-
-  const cookieOptions = {
-    secure: isProduction,
-    httpOnly: true,
-    sameSite: "strict" as const,
-  };
-
-  res.cookie(
-    process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken",
-    refreshToken,
-    {
-      ...cookieOptions,
-      maxAge:
-        Number(process.env.REFRESH_TOKEN_COOKIE_MAX_AGE) ||
-        7 * 24 * 60 * 60 * 1000, // 7 days
-    },
-  );
-
-  res.cookie(
-    process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken",
-    accessToken,
-    {
-      ...cookieOptions,
-      maxAge: Number(process.env.ACCESS_TOKEN_COOKIE_MAX_AGE) || 15 * 60 * 1000, // 15 minutes
-    },
-  );
-};
+/**
+ * Authenticates a user by checking the provided username and password.
+ * Throws an error if the user is not found or if the password is incorrect.
+ *
+ * @param {string} username - The username of the user.
+ * @param {string} password - The password of the user.
+ * @returns {Promise<{ id: string; username: string; email: string }>} - Returns user data if authentication is successful.
+ *
+ * @throws {LoginError} - If user not found or password is incorrect.
+ */
 
 const authenticateUser = async (username: string, password: string) => {
   //TODO: make this to work if user want to login with email too
@@ -106,6 +53,17 @@ const authenticateUser = async (username: string, password: string) => {
     email: email,
   };
 };
+
+/**
+ * Controller for handling user login requests.
+ * Validates the request, authenticates the user, generates JWT tokens,
+ * sets cookies, and responds with user data and access token.
+ *
+ * @param {Request} req - The request object containing user credentials.
+ * @param {Response} res - The response object to send back the result.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ *
+ * @throws {LoginError} - If authentication fails or required fields are missing*/
 
 export const loginController = async (
   req: Request,

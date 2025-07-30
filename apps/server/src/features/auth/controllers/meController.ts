@@ -8,6 +8,15 @@ type JWTPayload = {
   username: string;
 };
 
+/**
+ * Controller for handling requests to get the current user's information.
+ * It checks for a valid access token in cookies, decodes it, retrieves user data,
+ * and responds with the user information.
+ *
+ * @param {Request} req - The request object containing cookies with access token.
+ * @param {Response} res - The response object to send back the user data or error.
+ * @returns {Promise<void>} - A promise that resolves when the response is sent.
+ */
 const meController = async (req: Request, res: Response) => {
   const accessTokenName = process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken";
   const accessToken = req.cookies[accessTokenName];

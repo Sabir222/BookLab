@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+/**
+ * Schema for validating user signup data.
+ * It requires a username, email, and password with specific validation rules.
+ * If validation fails, it provides custom error messages.
+ */
 export const signupSchema = z.object({
   body: z.object({
     username: z

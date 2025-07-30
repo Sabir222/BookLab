@@ -1,6 +1,15 @@
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
+/**
+ * Controller for handling refresh token requests.
+ * Validates the refresh token, generates new access and refresh tokens,
+ * and sets them as cookies in the response.
+ *
+ * @param {Request} req - The request object containing cookies with the refresh token.
+ * @param {Response} res - The response object to send back the new tokens or error.
+ * @returns {Response} - A response with new access token or an error message.
+ */
 const refreshController = (req: Request, res: Response) => {
   const refreshTokenName =
     process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
