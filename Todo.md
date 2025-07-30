@@ -21,3 +21,4 @@
 # neovim blog
 
 # cd ci
+# functions documentation
