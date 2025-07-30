@@ -19,3 +19,5 @@
 # redis
 
 # neovim blog
+
+# cd ci
