@@ -1,4 +1,4 @@
-import { type Request, type Response } from "express";
+import { type Response } from "express";
 
 /**
  * Sets authentication cookies for access and refresh tokens.
