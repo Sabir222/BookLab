@@ -6,6 +6,8 @@
 - 💬 Comment and discuss books with an upvote system
 - 💻 Join real-time chat rooms to talk about books with others
 
+> **Note:** Important Note: This project is coded mostly without AI assistance, except for writing documentation for functions and the project itself, and explaining concepts related to the project. After all, the core purpose of this project is learning through hands-on experience and personal problem-solving.
+
 ### Apps
 
 - [Backend](./apps/server/)
@@ -15,7 +17,6 @@
 ### Packages
 
 - [UI Library](./packages/ui)
-- [Types](./packages/types)
 - [Db](./packages/db)
 
 ## 🚀 Purpose
