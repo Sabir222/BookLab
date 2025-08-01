@@ -8,7 +8,64 @@ import cookieParser from "cookie-parser";
 import { testConnection } from "@repo/db/database";
 import session from "express-session";
 
+// Load environment variables first
 dotenv.config();
+
+// Validate environment variables BEFORE any setup
+function validateEnvironment() {
+  const requiredVars = ["CORS_ORIGIN"]; // Add other required vars here
+  const missingVars = [];
+
+  for (const varName of requiredVars) {
+    if (!process.env[varName]) {
+      missingVars.push(varName);
+    }
+  }
+
+  if (missingVars.length > 0) {
+    console.error(
+      `❌ Missing required environment variables: ${missingVars.join(", ")}`,
+    );
+    if (process.env.NODE_ENV === "production") {
+      process.exit(1);
+    }
+  }
+
+  // SESSION_SECRET validation
+  if (!process.env.SESSION_SECRET) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "❌ SESSION_SECRET environment variable must be set in production.",
+      );
+      process.exit(1);
+    } else {
+      console.warn(
+        "⚠️  Warning: SESSION_SECRET is not set. Using insecure fallback for development only.",
+      );
+    }
+  }
+
+  if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length < 32) {
+    console.warn(
+      "⚠️  Warning: SESSION_SECRET should be at least 32 characters long for security.",
+    );
+  }
+
+  // Validate PORT
+  const port = process.env.PORT;
+  if (
+    port &&
+    (isNaN(Number(port)) || Number(port) < 1 || Number(port) > 65535)
+  ) {
+    console.error("❌ PORT must be a valid number between 1 and 65535");
+    process.exit(1);
+  }
+
+  console.log("✅ Environment validation passed");
+}
+
+// Validate environment before any app setup
+validateEnvironment();
 
 const app = express();
 
@@ -75,6 +132,7 @@ app.get("/csrf-token", csrfProtection, (req, res) => {
 
 // Protected routes with csrf add here
 app.use("/auth", csrfProtection, authRouter);
+
 /**
  * UNPROTECTED ROUTES (add here if needed)
  * - Routes that don't need CSRF protection
@@ -83,29 +141,7 @@ app.use("/auth", csrfProtection, authRouter);
  * - app.use("/health", healthRouter);    // No csrfProtection middleware
  */
 
-// TODO: refactor utils/validatEnv and use it here
-function validateEnvironment() {
-  if (!process.env.SESSION_SECRET) {
-    if (process.env.NODE_ENV === "production") {
-      console.error(
-        "❌ SESSION_SECRET environment variable must be set in production.",
-      );
-      process.exit(1);
-    } else {
-      console.warn(
-        "⚠️  Warning: SESSION_SECRET is not set. Using insecure fallback for development only.",
-      );
-    }
-  }
-
-  if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length < 32) {
-    console.warn(
-      "⚠️  Warning: SESSION_SECRET should be at least 32 characters long for security.",
-    );
-  }
-}
-validateEnvironment();
-
+// CSRF error handler
 app.use(
   (
     err: any,
@@ -120,7 +156,6 @@ app.use(
         referer: req.get("Referer"),
         timestamp: new Date().toISOString(),
       });
-
       res.status(403).json({
         error: "Invalid CSRF token",
         message: "Request blocked for security reasons",
@@ -132,11 +167,15 @@ app.use(
 );
 
 const startServer = async () => {
-  await testConnection();
-
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${process.env.PORT}`);
-  });
+  try {
+    await testConnection();
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
+  }
 };
 
 startServer();
