@@ -82,6 +82,30 @@ app.use("/auth", csrfProtection, authRouter);
  * - app.use("/webhooks", webhookRouter); // No csrfProtection middleware
  * - app.use("/health", healthRouter);    // No csrfProtection middleware
  */
+
+// TODO: refactor utils/validatEnv and use it here
+function validateEnvironment() {
+  if (!process.env.SESSION_SECRET) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "❌ SESSION_SECRET environment variable must be set in production.",
+      );
+      process.exit(1);
+    } else {
+      console.warn(
+        "⚠️  Warning: SESSION_SECRET is not set. Using insecure fallback for development only.",
+      );
+    }
+  }
+
+  if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length < 32) {
+    console.warn(
+      "⚠️  Warning: SESSION_SECRET should be at least 32 characters long for security.",
+    );
+  }
+}
+validateEnvironment();
+
 app.use(
   (
     err: any,
