@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "fallback-secret-key",
+    secret: (process.env.SESSION_SECRET as string) || "fallback-secret-key",
     resave: false,
     saveUninitialized: false,
     cookie: {
