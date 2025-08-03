@@ -1,4 +1,4 @@
-import { createClient } from "redis";
+import { createClient, RedisClientType } from "redis";
 
 export interface RedisConfig {
   url?: string;
@@ -15,13 +15,14 @@ const defaultConfig: RedisConfig = {
   database: parseInt(process.env.REDIS_DB || "0"),
 };
 
-export const createRedisClient = (config: RedisConfig = {}) => {
+export const createRedisClient = (
+  config: RedisConfig = {},
+): RedisClientType => {
   const clientConfig = { ...defaultConfig, ...config };
 
   const client = createClient({
     url:
-      clientConfig.url ||
-      `redis://${clientConfig.host}:${clientConfig.port}`,
+      clientConfig.url || `redis://${clientConfig.host}:${clientConfig.port}`,
     password: clientConfig.password,
     database: clientConfig.database,
   });
@@ -38,5 +39,5 @@ export const createRedisClient = (config: RedisConfig = {}) => {
     console.log("Redis client ready");
   });
 
-  return client;
+  return client as RedisClientType;
 };

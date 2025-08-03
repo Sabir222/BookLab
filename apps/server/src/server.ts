@@ -3,12 +3,13 @@ import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
 import csrf from "csurf";
 import helmet from "helmet";
-import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import { healthRouter } from "./utils/checkhealth";
 import { ensureHealthyStart } from "@repo/db/health";
 import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
+import bookPublicRouter from "./features/book/routes";
+import authRouter from "./features/auth/routes";
 
 // Load environment variables first
 dotenv.config();
@@ -132,7 +133,7 @@ app.get("/csrf-token", csrfProtection, (req, res) => {
 app.use("/auth", csrfProtection, authRouter);
 // Unprotected routes without csrf here
 app.use("/health", healthRouter);
-
+app.use("/books", bookPublicRouter);
 // CSRF error handler
 app.use(
   (
