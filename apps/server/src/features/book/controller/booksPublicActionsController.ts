@@ -25,7 +25,7 @@ const getBookById = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: `Books with id ${bookId} found`, book: book });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: "Something wrong happened!" });
   }
 };
