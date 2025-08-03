@@ -22,4 +22,4 @@ authRouter.get("/me", meController);
 authRouter.get("/logout", logoutController);
 authRouter.get("/refresh", refreshController);
 
-export { authRouter };
+export default authRouter;

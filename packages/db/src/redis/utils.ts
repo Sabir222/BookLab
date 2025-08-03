@@ -211,7 +211,10 @@ const scanKeys = async (
   let cursor = "0";
   let keys: string[] = [];
   do {
-    const reply = await client.scan(cursor, { MATCH: pattern, COUNT: scanCount });
+    const reply = await client.scan(cursor, {
+      MATCH: pattern,
+      COUNT: scanCount,
+    });
     cursor = reply.cursor;
     keys = keys.concat(reply.keys);
   } while (cursor !== "0");

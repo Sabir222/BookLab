@@ -3,7 +3,7 @@ import {
   type User,
   type CreateUserData,
   type UpdateUserData,
-} from "../types.js";
+} from "../types/user-types.js";
 
 export const userQueries = {
   async findById(userId: string): Promise<User | null> {

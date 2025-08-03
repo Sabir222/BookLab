@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { db } from "../src/client.js";
+import { db } from "../src/postgres/client.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -25,7 +25,7 @@ async function runMigrations() {
       appliedResult.rows.map((row) => row.version),
     );
 
-    const migrationsDir = path.join(__dirname, "../src/migrations");
+    const migrationsDir = path.join(__dirname, "../src/postgres/migrations");
     const migrationFiles = fs
       .readdirSync(migrationsDir)
       .filter((file) => file.endsWith(".sql"))

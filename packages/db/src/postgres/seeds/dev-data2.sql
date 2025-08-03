@@ -5,17 +5,18 @@ begin
 -- USERS SEED DATA
 -- ======================
 INSERT INTO users (email, username, hashed_password, credits, loyalty_points, role) VALUES
-('messi@example.com', 'messi', '$2b$10$hashedpassword1', 1000, 500, 'admin'),
-('iniesta@example.com', 'testuser1000', '$2b$10$hashedpassword2', 100, 50, 'user'),
-('premium222@example.com', 'premiumiiim', '$2b$10$hashedpassword3', 500, 200, 'moderator'),
-('john.doe@email.com', 'bookworm_john', '$2b$10$hashedpassword4', 250, 125, 'user'),
-('sarah.smith@email.com', 'sarahreads', '$2b$10$hashedpassword5', 180, 90, 'user'),
-('mike.jones@email.com', 'mikelovesbooks', '$2b$10$hashedpassword6', 320, 160, 'user'),
-('emma.wilson@email.com', 'emmalit', '$2b$10$hashedpassword7', 75, 25, 'user'),
-('david.brown@email.com', 'davidb_reader', '$2b$10$hashedpassword8', 450, 225, 'user'),
-('lisa.garcia@email.com', 'lisag_books', '$2b$10$hashedpassword9', 150, 75, 'user'),
-('alex.martin@email.com', 'alexm_reader', '$2b$10$hashedpassword10', 280, 140, 'user');
-
+('sabir.koutabi@email.com', 'sabir_koutabi', '$2b$10$hashedpassword1', 1000, 500, 'admin'),
+('imam.koutabi@email.com', 'imam_koutabi', '$2b$10$hashedpasswordYY', 600, 300, 'moderator'),
+('rime.koutabi@email.com', 'rime_reads', '$2b$10$hashedpasswordXX', 200, 100, 'moderator'),
+('youssef.elmahi@email.com', 'yoyo_books', '$2b$10$hashedpassword2', 100, 50, 'user'),
+('noura.farid@email.com', 'noura_books', '$2b$10$hashedpassword3', 500, 200, 'user'),
+('karim.tazi@email.com', 'karim_reader', '$2b$10$hashedpassword4', 250, 125, 'user'),
+('lina.amrani@email.com', 'lina_literary', '$2b$10$hashedpassword5', 180, 90, 'user'),
+('mehdi.zouhair@email.com', 'mehdi_reads', '$2b$10$hashedpassword6', 320, 160, 'user'),
+('souad.cherkaoui@email.com', 'souad_books', '$2b$10$hashedpassword7', 75, 25, 'user'),
+('ayman.hassani@email.com', 'ayman_novels', '$2b$10$hashedpassword8', 450, 225, 'user'),
+('zineb.ouahbi@email.com', 'zineb_reader', '$2b$10$hashedpassword9', 150, 75, 'user'),
+('tariq.mekouar@email.com', 'tariq_pages', '$2b$10$hashedpassword10', 280, 140, 'user');
 -- ======================
 -- AUTHORS SEED DATA
 -- ======================
@@ -397,21 +398,21 @@ INSERT INTO book_series_entries (book_id, series_id, volume_number, volume_title
 INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, created_at) VALUES
 -- Reviews for Harry Potter
 ('880e8400-e29b-41d4-a716-446655440000', 
- (SELECT user_id FROM users WHERE username = 'testuser' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'rime_reads' LIMIT 1), 
  5, 
  'An absolutely magical start to an incredible series. Rowlings world-building is phenomenal and Harry is such a relatable character.', 
  TRUE, 
  NOW() - INTERVAL '30 days'),
 
 ('880e8400-e29b-41d4-a716-446655440000', 
- (SELECT user_id FROM users WHERE email = 'john.doe@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'yoyo_books' LIMIT 1), 
  4, 
  'Great book for both children and adults. The magic system is well thought out and the characters are memorable.', 
  TRUE, 
  NOW() - INTERVAL '25 days'),
 
 ('880e8400-e29b-41d4-a716-446655440000', 
- (SELECT user_id FROM users WHERE email = 'sarah.smith@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'karim_reader' LIMIT 1), 
  5, 
  'This book sparked my love for reading. Even as an adult re-reading it, the magic still feels real.', 
  TRUE, 
@@ -419,14 +420,14 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for 1984
 ('880e8400-e29b-41d4-a716-446655440001', 
- (SELECT user_id FROM users WHERE username = 'premium' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'imam_koutabi' LIMIT 1), 
  5, 
  'A chilling and prophetic masterpiece. Orwells vision of totalitarianism is more relevant than ever.', 
  TRUE, 
  NOW() - INTERVAL '35 days'),
 
 ('880e8400-e29b-41d4-a716-446655440001', 
- (SELECT user_id FROM users WHERE email = 'mike.jones@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'mehdi_reads' LIMIT 1), 
  4, 
  'Disturbing but necessary reading. The concepts of thoughtcrime and doublethink are brilliantly executed.', 
  TRUE, 
@@ -434,14 +435,14 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for The Alchemist
 ('880e8400-e29b-41d4-a716-446655440002', 
- (SELECT user_id FROM users WHERE email = 'emma.wilson@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'lina_literary' LIMIT 1), 
  4, 
  'A beautiful, simple story about following your dreams. Sometimes the message feels a bit heavy-handed, but overall inspiring.', 
  TRUE, 
  NOW() - INTERVAL '22 days'),
 
 ('880e8400-e29b-41d4-a716-446655440002', 
- (SELECT user_id FROM users WHERE email = 'david.brown@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'souad_books' LIMIT 1), 
  5, 
  'This book changed my perspective on life. Coelhos writing is both philosophical and accessible.', 
  TRUE, 
@@ -449,14 +450,14 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for Sapiens
 ('880e8400-e29b-41d4-a716-446655440005', 
- (SELECT user_id FROM users WHERE username = 'testuser' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'rime_reads' LIMIT 1), 
  5, 
  'Fascinating look at human history from a unique perspective. Harari makes complex topics accessible and engaging.', 
  TRUE, 
  NOW() - INTERVAL '15 days'),
 
 ('880e8400-e29b-41d4-a716-446655440005', 
- (SELECT user_id FROM users WHERE email = 'lisa.garcia@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'zineb_reader' LIMIT 1), 
  4, 
  'Thought-provoking and well-researched. Some of the conclusions are debatable, but it definitely makes you think.', 
  TRUE, 
@@ -464,14 +465,14 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for Becoming
 ('880e8400-e29b-41d4-a716-446655440006', 
- (SELECT user_id FROM users WHERE email = 'alex.martin@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'tariq_pages' LIMIT 1), 
  5, 
  'Michelle Obamas story is incredibly inspiring. Her honesty and vulnerability make this memoir truly special.', 
  TRUE, 
  NOW() - INTERVAL '10 days'),
 
 ('880e8400-e29b-41d4-a716-446655440006', 
- (SELECT user_id FROM users WHERE username = 'premium' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'imam_koutabi' LIMIT 1), 
  4, 
  'Well-written and insightful. Gives great behind-the-scenes look at life in the White House.', 
  TRUE, 
@@ -479,14 +480,14 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for The Shining
 ('880e8400-e29b-41d4-a716-446655440008', 
- (SELECT user_id FROM users WHERE email = 'john.doe@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'yoyo_books' LIMIT 1), 
  4, 
  'Genuinely terrifying psychological horror. King knows how to build tension and create atmosphere.', 
  TRUE, 
  NOW() - INTERVAL '6 days'),
 
 ('880e8400-e29b-41d4-a716-446655440008', 
- (SELECT user_id FROM users WHERE email = 'sarah.smith@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'karim_reader' LIMIT 1), 
  5, 
  'One of Kings best works. The isolation and psychological breakdown are masterfully portrayed.', 
  TRUE, 
@@ -494,19 +495,18 @@ INSERT INTO book_reviews (book_id, user_id, rating, review_text, is_verified, cr
 
 -- Reviews for Norwegian Wood
 ('880e8400-e29b-41d4-a716-446655440009', 
- (SELECT user_id FROM users WHERE email = 'emma.wilson@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'lina_literary' LIMIT 1), 
  4, 
  'Beautiful, melancholic story about love and loss. Murakamis prose is dreamlike and haunting.', 
  TRUE, 
  NOW() - INTERVAL '2 days'),
 
 ('880e8400-e29b-41d4-a716-446655440009', 
- (SELECT user_id FROM users WHERE email = 'david.brown@email.com' LIMIT 1), 
+ (SELECT user_id FROM users WHERE username = 'ayman_novels' LIMIT 1), 
  3, 
  'Well-written but quite depressing. The characters feel real but I found the pace a bit slow.', 
  TRUE, 
  NOW() - INTERVAL '1 day');
-
 commit
 ;
 

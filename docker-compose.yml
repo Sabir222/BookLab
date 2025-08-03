@@ -1,0 +1,79 @@
+version: '3.8'
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: turbo-postgres
+    environment:
+      POSTGRES_DB: turbo_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: turbo-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # Web App (Next.js)
+  web:
+    build:
+      context: .
+      target: web
+    container_name: turbo-web
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/turbo_db
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+  # Docs App (Next.js)
+  docs:
+    build:
+      context: .
+      target: docs
+    container_name: turbo-docs
+    ports:
+      - "3001:3001"
+    restart: unless-stopped
+  # Server (Express + TypeScript)
+  server:
+    build:
+      context: .
+      target: server
+    container_name: turbo-server
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/turbo_db
+      - REDIS_URL=redis://redis:6379
+      - PORT=8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  redis_data:
