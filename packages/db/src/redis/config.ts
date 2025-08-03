@@ -21,8 +21,9 @@ export const createRedisClient = (config: RedisConfig = {}) => {
   const client = createClient({
     url:
       clientConfig.url ||
-      `redis://${clientConfig.host}:${clientConfig.port}/${clientConfig.database}`,
+      `redis://${clientConfig.host}:${clientConfig.port}`,
     password: clientConfig.password,
+    database: clientConfig.database,
   });
 
   client.on("error", (err) => {
