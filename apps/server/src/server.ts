@@ -5,8 +5,10 @@ import csrf from "csurf";
 import helmet from "helmet";
 import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
-import { testConnection } from "@repo/db/database";
 import session from "express-session";
+import { healthRouter } from "./utils/checkhealth";
+import { ensureHealthyStart } from "@repo/db/health";
+import { connectRedis } from "@repo/db/redis";
 
 dotenv.config();
 
@@ -73,15 +75,10 @@ app.get("/csrf-token", csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
-// Protected routes with csrf add here
+// Protected routes with csrf  here
 app.use("/auth", csrfProtection, authRouter);
-/**
- * UNPROTECTED ROUTES (add here if needed)
- * - Routes that don't need CSRF protection
- * - Examples: webhooks, public APIs, health checks
- * - app.use("/webhooks", webhookRouter); // No csrfProtection middleware
- * - app.use("/health", healthRouter);    // No csrfProtection middleware
- */
+// Unprotected routes without csrf here
+app.use("/health", healthRouter);
 
 // TODO: refactor utils/validatEnv and use it here
 function validateEnvironment() {
@@ -132,8 +129,8 @@ app.use(
 );
 
 const startServer = async () => {
-  await testConnection();
-
+  await connectRedis();
+  await ensureHealthyStart();
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${process.env.PORT}`);
   });

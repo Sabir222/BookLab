@@ -1,4 +1,4 @@
-import { userQueries } from "@repo/db/database";
+import { userQueries } from "@repo/db/postgres";
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 
