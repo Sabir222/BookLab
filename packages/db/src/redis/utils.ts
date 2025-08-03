@@ -200,12 +200,30 @@ export const batchSetCache = async (
   }
 };
 
+/**
+ * Helper function to scan and collect all keys matching a pattern using SCAN.
+ */
+const scanKeys = async (
+  client: RedisClientType,
+  pattern: string,
+  scanCount = 1000,
+): Promise<string[]> => {
+  let cursor = "0";
+  let keys: string[] = [];
+  do {
+    const reply = await client.scan(cursor, { MATCH: pattern, COUNT: scanCount });
+    cursor = reply.cursor;
+    keys = keys.concat(reply.keys);
+  } while (cursor !== "0");
+  return keys;
+};
+
 export const invalidateCachePattern = async (
   client: RedisClientType,
   pattern: string,
 ): Promise<number> => {
   try {
-    const keys = await client.keys(pattern);
+    const keys = await scanKeys(client, pattern);
     if (keys.length === 0) return 0;
     return await client.del(keys);
   } catch (error) {
