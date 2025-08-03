@@ -8,12 +8,11 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import { healthRouter } from "./utils/checkhealth";
 import { ensureHealthyStart } from "@repo/db/health";
-import { connectRedis } from "@repo/db/redis";
+import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 
 // Load environment variables first
 dotenv.config();
 
-// Validate environment variables BEFORE any setup
 function validateEnvironment() {
   const requiredVars = ["CORS_ORIGIN"]; // Add other required vars here
   const missingVars = [];
@@ -33,7 +32,6 @@ function validateEnvironment() {
     }
   }
 
-  // SESSION_SECRET validation
   if (!process.env.SESSION_SECRET) {
     if (process.env.NODE_ENV === "production") {
       console.error(
@@ -53,20 +51,18 @@ function validateEnvironment() {
     );
   }
 
-  // Validate PORT
   const port = process.env.PORT;
   if (
     port &&
     (isNaN(Number(port)) || Number(port) < 1 || Number(port) > 65535)
   ) {
-    console.error("❌ PORT must be a valid number between 1 and 65535");
+    console.error("PORT must be a valid number between 1 and 65535");
     process.exit(1);
   }
 
-  console.log("✅ Environment validation passed");
+  console.log("Environment validation passed");
 }
 
-// Validate environment before any app setup
 validateEnvironment();
 
 const app = express();
@@ -137,7 +133,6 @@ app.use("/auth", csrfProtection, authRouter);
 // Unprotected routes without csrf here
 app.use("/health", healthRouter);
 
-
 // CSRF error handler
 app.use(
   (
@@ -164,11 +159,30 @@ app.use(
 );
 
 const startServer = async () => {
-  await connectRedis();
-  await ensureHealthyStart();
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${process.env.PORT}`);
-  });
+  try {
+    await connectRedis();
+    await ensureHealthyStart();
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+    });
+
+    server.on("error", (error: NodeJS.ErrnoException) => {
+      if (error.code === "EADDRINUSE") {
+        console.error(`Port ${PORT} is already in use`);
+      } else {
+        console.error("Server error:", error);
+      }
+      process.exit(1);
+    });
+
+    registerRedisShutdownHandlers();
+
+    return server;
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
 };
 
 startServer();

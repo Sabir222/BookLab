@@ -21,9 +21,9 @@ export const createTables = async (): Promise<void> => {
 
     try {
       await db.query(sql);
-      console.log(`✅ Created tables from ${file}`);
+      console.log(`Created tables from ${file}`);
     } catch (error) {
-      console.error(`❌ Error creating tables from ${file}:`, error);
+      console.error(`Error creating tables from ${file}:`, error);
       throw error;
     }
   }

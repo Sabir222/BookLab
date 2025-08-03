@@ -186,19 +186,19 @@ export const ensureHealthyStart = async (
     exitOnFailure = true,
   } = config;
 
-  console.log("🔍 Checking system health before startup...");
+  console.log("Checking system health before startup...");
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const health = await checkSystemHealth();
 
       if (health.overall.status === "healthy") {
-        console.log("✅ All services healthy - proceeding with startup");
+        console.log("All services healthy - proceeding with startup");
         return;
       }
 
       if (health.overall.status === "degraded" && allowDegraded) {
-        console.warn("⚠️  Some services degraded but continuing startup");
+        console.warn("Some services degraded but continuing startup");
         return;
       }
 
@@ -206,14 +206,14 @@ export const ensureHealthyStart = async (
         console.error(
           `❌ Health check failed (${attempt}/${maxRetries}): ${health.overall.message}`,
         );
-        console.log(`   Retrying in ${retryDelay}ms...`);
+        console.log(`Retrying in ${retryDelay}ms...`);
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
         continue;
       }
 
-      console.error(`🚨 Health check failed after ${maxRetries} attempts`);
-      console.error(`   Status: ${health.overall.status}`);
-      console.error(`   Message: ${health.overall.message}`);
+      console.error(`Health check failed after ${maxRetries} attempts`);
+      console.error(`Status: ${health.overall.status}`);
+      console.error(`Message: ${health.overall.message}`);
 
       Object.entries(health.services).forEach(([service, status]) => {
         const icon = status.status === "healthy" ? "✅" : "❌";
@@ -223,7 +223,7 @@ export const ensureHealthyStart = async (
       });
 
       if (exitOnFailure) {
-        console.error("🛑 Exiting due to health check failure");
+        console.error("Exiting due to health check failure");
         process.exit(1);
       }
 
@@ -231,17 +231,17 @@ export const ensureHealthyStart = async (
     } catch (error: any) {
       if (attempt < maxRetries) {
         console.error(
-          `💥 Health check error (${attempt}/${maxRetries}): ${error.message}`,
+          `Health check error (${attempt}/${maxRetries}): ${error.message}`,
         );
-        console.log(`   Retrying in ${retryDelay}ms...`);
+        console.log(`Retrying in ${retryDelay}ms...`);
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
         continue;
       }
 
-      console.error("🚨 Health check failed with error:", error.message);
+      console.error("Health check failed with error:", error.message);
 
       if (exitOnFailure) {
-        console.error("🛑 Exiting due to health check error");
+        console.error("Exiting due to health check error");
         process.exit(1);
       }
 

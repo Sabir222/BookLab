@@ -9,7 +9,7 @@
 - [ ] Deepen understanding of TypeScript configuration
 - [ ] Understand database migrations
 - [ ] Learn and implement testing
-- [ ] Learn Redis and use it for auth instead of cookies
+- [ ] Learn Redis utils and how to use them and shutdown stuff
 - [ ] Learn about Logging, Monitoring, and Tracing
 
 ## 🛠️ Development & Features

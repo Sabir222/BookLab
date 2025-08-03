@@ -64,9 +64,9 @@ export const getConnection = async (): Promise<PoolClient> => {
 export const testConnection = async (): Promise<void> => {
   const isHealthy = await db.isHealthy();
   if (isHealthy) {
-    console.log("✅ Database is running");
+    console.log("Database is running");
   } else {
-    console.error("❌ Database is not running");
+    console.error("Database is not running");
   }
 };
 

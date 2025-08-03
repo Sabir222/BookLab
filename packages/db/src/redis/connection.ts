@@ -35,15 +35,18 @@ export const disconnectRedis = async (): Promise<void> => {
   }
 };
 
-/**
- * Optionally register process signal handlers for graceful Redis shutdown.
- * Call this from your application entry point if you want the library to handle SIGINT/SIGTERM.
- */
 export const registerRedisShutdownHandlers = () => {
-  const shutdown = async () => {
-    await disconnectRedis();
-    process.exit(0);
+  const shutdown = async (signal: string) => {
+    try {
+      console.log(`Received ${signal}, gracefully shutting down Redis...`);
+      await disconnectRedis();
+      process.exit(0);
+    } catch (error) {
+      console.error("Error during Redis shutdown:", error);
+      process.exit(1);
+    }
   };
-  process.on("SIGINT", shutdown);
-  process.on("SIGTERM", shutdown);
+
+  process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
 };

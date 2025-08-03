@@ -9,7 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 async function runMigrations() {
   try {
-    console.log("🔄 Running database migrations...");
+    console.log("Running database migrations...");
 
     await db.query(`
       CREATE TABLE IF NOT EXISTS schema_migrations (
@@ -35,22 +35,22 @@ async function runMigrations() {
       const version = file.replace(".sql", "");
 
       if (appliedMigrations.has(version)) {
-        console.log(`⏭️  Skipping ${version} (already applied)`);
+        console.log(`Skipping ${version} (already applied)`);
         continue;
       }
 
-      console.log(`🔄 Running migration ${version}...`);
+      console.log(`Running migration ${version}...`);
 
       const migrationPath = path.join(migrationsDir, file);
       const sql = fs.readFileSync(migrationPath, "utf8");
 
       await db.query(sql);
-      console.log(`✅ Applied migration ${version}`);
+      console.log(`Applied migration ${version}`);
     }
 
-    console.log("🎉 All migrations completed!");
+    console.log("All migrations completed!");
   } catch (error) {
-    console.error("❌ Migration failed:", error);
+    console.error("Migration failed:", error);
     process.exit(1);
   } finally {
     await db.end();
