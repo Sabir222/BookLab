@@ -10,7 +10,6 @@ import {
 const getBookById = async (req: Request, res: Response) => {
   try {
     const bookId = req.params.id;
-    console.log(bookId);
     if (!bookId) {
       return res.status(400).json({ error: "Missing Book id!" });
     }
