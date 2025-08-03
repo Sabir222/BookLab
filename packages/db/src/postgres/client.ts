@@ -29,6 +29,32 @@ export const db = {
       return false;
     }
   },
+  async getHealthStatus(): Promise<{
+    healthy: boolean;
+    responseTime: number;
+    error?: string;
+  }> {
+    const startTime = Date.now();
+
+    try {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), 5000),
+      );
+
+      await Promise.race([pool.query("SELECT 1"), timeoutPromise]);
+
+      return {
+        healthy: true,
+        responseTime: Date.now() - startTime,
+      };
+    } catch (error: any) {
+      return {
+        healthy: false,
+        responseTime: Date.now() - startTime,
+        error: error.message,
+      };
+    }
+  },
 };
 
 export const getConnection = async (): Promise<PoolClient> => {

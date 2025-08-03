@@ -4,9 +4,17 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./database": {
-      "types": "./src/database.ts",
-      "default": "./dist/database.js"
+    "./postgres": {
+      "types": "./src/postgres/database.ts",
+      "default": "./dist/postgres/database.js"
+    },
+    "./redis": {
+      "types": "./src/redis/index.ts",
+      "default": "./dist/redis/index.js"
+    },
+    "./health": {
+      "types": "./src/health/index.ts",
+      "default": "./dist/health/index.js"
     }
   },
   "files": [
@@ -22,10 +30,12 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
+    "@types/redis": "^4.0.11",
     "typescript": "^5.0.0",
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "dotenv": "^17.2.1"
+    "dotenv": "^17.2.1",
+    "redis": "^5.7.0"
   }
 }

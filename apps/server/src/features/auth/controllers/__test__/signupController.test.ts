@@ -1,5 +1,5 @@
 // import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-// import { db } from "@repo/db/database";
+// import { db } from "@repo/db/postgres";
 // import { signUpController } from "../signupController";
 // import type { Request, Response } from "express";
 // import { hashPassword } from "../../../../utils/hashPassword";

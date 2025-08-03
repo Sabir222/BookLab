@@ -1,6 +1,6 @@
 import { hashPassword } from "../../../utils/hashPassword";
 import { type Request, type Response } from "express";
-import { userQueries, type User, type CreateUserData } from "@repo/db/database";
+import { userQueries, type User, type CreateUserData } from "@repo/db/postgres";
 import validateEnv from "../../../utils/validateEnv";
 import type { JWTPayload } from "../../../utils/generateToken";
 import generateToken from "../../../utils/generateToken";

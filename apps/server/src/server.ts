@@ -5,8 +5,10 @@ import csrf from "csurf";
 import helmet from "helmet";
 import { authRouter } from "./features/auth/routes";
 import cookieParser from "cookie-parser";
-import { testConnection } from "@repo/db/database";
 import session from "express-session";
+import { healthRouter } from "./utils/checkhealth";
+import { ensureHealthyStart } from "@repo/db/health";
+import { connectRedis } from "@repo/db/redis";
 
 // Load environment variables first
 dotenv.config();
@@ -130,16 +132,11 @@ app.get("/csrf-token", csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
-// Protected routes with csrf add here
+// Protected routes with csrf  here
 app.use("/auth", csrfProtection, authRouter);
+// Unprotected routes without csrf here
+app.use("/health", healthRouter);
 
-/**
- * UNPROTECTED ROUTES (add here if needed)
- * - Routes that don't need CSRF protection
- * - Examples: webhooks, public APIs, health checks
- * - app.use("/webhooks", webhookRouter); // No csrfProtection middleware
- * - app.use("/health", healthRouter);    // No csrfProtection middleware
- */
 
 // CSRF error handler
 app.use(
@@ -167,15 +164,11 @@ app.use(
 );
 
 const startServer = async () => {
-  try {
-    await testConnection();
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error("❌ Failed to start server:", error);
-    process.exit(1);
-  }
+  await connectRedis();
+  await ensureHealthyStart();
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${process.env.PORT}`);
+  });
 };
 
 startServer();
