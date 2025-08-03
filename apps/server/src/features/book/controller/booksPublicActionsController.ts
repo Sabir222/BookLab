@@ -15,7 +15,6 @@ const getBookById = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Missing Book id!" });
     }
     const book = await bookQueries.findById(bookId);
-    console.log(book);
     if (!book) {
       return res
         .status(404)
