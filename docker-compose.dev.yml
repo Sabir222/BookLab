@@ -1,0 +1,170 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: turbo-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sabir
+      POSTGRES_PASSWORD: pw
+      POSTGRES_DB: booklab_db
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - turbo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sabir -d booklab_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: turbo-redis-dev
+    restart: unless-stopped
+    command: redis-server --requirepass redispw --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_dev:/data
+    networks:
+      - turbo-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+  # Server API
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+      target: development
+    container_name: turbo-server-dev
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - SCHEME=http
+      - CORS_ORIGIN=http://localhost:3000,http://localhost:3001,http://localhost:4000
+      - SESSION_SECRET=1f3fd74888c842f58d507322785a4861
+      - JWT_SECRET=fJq86HD1s7FlTEMd3O85AuIWL1fdrhziD6q5xvEd7fs=
+      - JWT_REFRESH_SECRET=DCqJ9pZa75Tz+DT3AJV+Ffcl/5ZvJ/59Ns2Lanjj3cQ=
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=sabir
+      - DB_PASSWORD=pw
+      - DB_NAME=booklab_db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redispw
+      - REDIS_DB=0
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/server/node_modules
+    networks:
+      - turbo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/server
+          target: /app/apps/server
+          ignore:
+            - node_modules/
+        - action: sync
+          path: ./packages
+          target: /app/packages
+          ignore:
+            - node_modules/
+  # Web App
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: development
+    container_name: turbo-web-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    networks:
+      - turbo-network
+    depends_on:
+      - server
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/web
+          target: /app/apps/web
+          ignore:
+            - node_modules/
+            - .next/
+        - action: sync
+          path: ./packages
+          target: /app/packages
+          ignore:
+            - node_modules/
+  # Docs App
+  docs:
+    build:
+      context: .
+      dockerfile: apps/docs/Dockerfile
+      target: development
+    container_name: turbo-docs-dev
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/docs/node_modules
+      - /app/apps/docs/.next
+    networks:
+      - turbo-network
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/docs
+          target: /app/apps/docs
+          ignore:
+            - node_modules/
+            - .next/
+        - action: sync
+          path: ./packages
+          target: /app/packages
+          ignore:
+            - node_modules/
+volumes:
+  postgres_data_dev:
+    driver: local
+  redis_data_dev:
+    driver: local
+networks:
+  turbo-network:
+    driver: bridge
