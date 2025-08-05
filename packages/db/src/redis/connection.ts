@@ -1,4 +1,4 @@
-import { createRedisClient, RedisConfig } from "./config.js";
+import { createRedisClient, type RedisConfig } from "./config.js";
 
 let redisClient: ReturnType<typeof createRedisClient> | null = null;
 
