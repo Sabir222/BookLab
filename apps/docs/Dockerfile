@@ -1,85 +1,42 @@
-# apps/docs/Dockerfile
-FROM oven/bun:1.1.38-alpine AS base
+FROM oven/bun:1-alpine
 
-# Install dependencies only when needed
-FROM base AS deps
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy root package.json and lockfile
-COPY package.json bun.lock ./
+# Create a non-root user for security and permission compatibility
+# This prevents permission issues with volume mounts
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001 -G nodejs
+
+# Copy package files first for better layer caching
+# This allows Docker to cache the dependency installation step
+COPY package.json bun.lock* ./
 COPY turbo.json ./
-
-# Copy package.json files from all workspaces
 COPY apps/docs/package.json ./apps/docs/
 COPY packages/ ./packages/
 
-# Install dependencies
-RUN bun install --frozen-lockfile
+# Install dependencies as root (needed for system-level installs)
+RUN bun install
 
-# Build stage
-FROM base AS builder
-WORKDIR /app
-
-# Copy dependencies
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/docs/node_modules ./apps/docs/node_modules
-
-# Copy source code
+# Copy the rest of the application code
+# For development, this gets overridden by volume mount
 COPY . .
 
-# Build the docs app
-RUN bunx turbo build --filter=docs
+# Change ownership of all files to the nodejs user
+# This is CRITICAL - ensures the non-root user can read/write files
+RUN chown -R nextjs:nodejs /usr/src/app
 
-# Production stage
-FROM base AS production
-WORKDIR /app
-
-# Create non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy built application
-COPY --from=builder --chown=nextjs:nodejs /app/apps/docs/.next ./apps/docs/.next
-COPY --from=builder --chown=nextjs:nodejs /app/apps/docs/public ./apps/docs/public
-COPY --from=builder --chown=nextjs:nodejs /app/apps/docs/package.json ./apps/docs/
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Switch to non-root user BEFORE running the application
+# This prevents permission errors when turbo tries to access files
 USER nextjs
 
+# Expose the port the app runs on
 EXPOSE 3001
+
+# Set environment variables
 ENV PORT=3001
-ENV HOSTNAME="0.0.0.0"
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3001/api/health || exit 1
-
-CMD ["bun", "run", "apps/docs/server.js"]
-
-# Development stage
-FROM base AS development
-WORKDIR /app
-
-# Install curl for health checks
-RUN apk add --no-cache curl
-
-# Copy dependencies
-COPY --from=deps /app/node_modules ./node_modules
-
-# Copy source code
-COPY . .
-
-# Create non-root user for development
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 --ingroup nodejs devuser
-RUN chown -R devuser:nodejs /app
-
-USER devuser
-
-EXPOSE 3001
-ENV PORT=3001
-
-# Health check for development
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:3001 || exit 1
-
+# Start the development server
+# The non-root user will now have proper permissions to run turbo
 CMD ["bunx", "turbo", "run", "dev", "--filter=docs"]

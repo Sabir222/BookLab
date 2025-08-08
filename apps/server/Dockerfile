@@ -1,88 +1,41 @@
-FROM oven/bun:1.1.38-alpine AS base
+FROM oven/bun:1-alpine
 
-# Install dependencies only when needed
-FROM base AS deps
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy root package.json and lockfile
-COPY package.json bun.lock ./
+# Create a non-root user for security and permission compatibility
+# This prevents permission issues with volume mounts
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001 -G nodejs
+
+# Copy package files first for better layer caching
+# This allows Docker to cache the dependency installation step
+COPY package.json bun.lock* ./
 COPY turbo.json ./
-
-# Copy package.json files from all workspaces
 COPY apps/server/package.json ./apps/server/
 COPY packages/ ./packages/
 
-# Install dependencies
-RUN bun install --frozen-lockfile
+# Install dependencies as root (needed for system-level installs)
+RUN bun install
 
-# Development stage (default for dev)
-FROM base AS development
-WORKDIR /app
-
-# Install curl for health checks
-RUN apk add --no-cache curl
-
-# Copy dependencies
-COPY --from=deps /app/node_modules ./node_modules
-
-# Copy source code
+# Copy the rest of the application code
+# For development, this gets overridden by volume mount
 COPY . .
 
-# Create non-root user for development
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 --ingroup nodejs devuser
-RUN chown -R devuser:nodejs /app
+# Change ownership of all files to the nodejs user
+# This is CRITICAL - ensures the non-root user can read/write files
+RUN chown -R nextjs:nodejs /usr/src/app
 
-USER devuser
+# Switch to non-root user BEFORE running the application
+# This prevents permission errors when turbo tries to access files
+USER nextjs
 
+# Expose the port the app runs on
 EXPOSE 4000
+
+# Set environment variables
 ENV PORT=4000
 ENV NODE_ENV=development
 
-# Health check for development
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:4000/health || exit 1
-
+# Start the development server
+# The non-root user will now have proper permissions to run turbo
 CMD ["bunx", "turbo", "run", "dev", "--filter=server"]
-
-# Build stage
-FROM base AS builder
-WORKDIR /app
-
-# Copy dependencies
-COPY --from=deps /app/node_modules ./node_modules
-
-# Copy source code
-COPY . .
-
-# Build the server and dependencies
-RUN bunx turbo build --filter=server
-
-# Production stage
-FROM base AS production
-WORKDIR /app
-
-# Install curl for health checks
-RUN apk add --no-cache curl
-
-# Create non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 --ingroup nodejs serveruser
-
-# Copy built application and node_modules
-COPY --from=builder --chown=serveruser:nodejs /app/apps/server/dist ./apps/server/dist
-COPY --from=builder --chown=serveruser:nodejs /app/packages ./packages
-COPY --from=builder --chown=serveruser:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=serveruser:nodejs /app/apps/server/package.json ./apps/server/
-
-USER serveruser
-
-EXPOSE 4000
-ENV PORT=4000
-ENV NODE_ENV=production
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:4000/health || exit 1
-
-CMD ["bun", "run", "apps/server/dist/index.js"]
