@@ -1,5 +1,4 @@
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:16-alpine
     container_name: turbo-postgres-dev
@@ -21,7 +20,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-  # Redis Cache
   redis:
     image: redis:7-alpine
     container_name: turbo-redis-dev
@@ -33,20 +31,13 @@ services:
       - redis_data_dev:/data
     networks:
       - turbo-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-      start_period: 10s
-  # Server API
   server:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
-      target: development
     container_name: turbo-server-dev
     restart: unless-stopped
+    user: "0:0"
     ports:
       - "4000:4000"
     environment:
@@ -68,36 +59,23 @@ services:
       - REDIS_PASSWORD=redispw
       - REDIS_DB=0
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/server/node_modules
+      - ./apps/server:/usr/src/app/apps/server:cached
+      - ./packages:/usr/src/app/packages:cached
+      - ./turbo.json:/usr/src/app/turbo.json:cached
+      - ./package.json:/usr/src/app/package.json:cached
+      - server_node_modules:/usr/src/app/node_modules
     networks:
       - turbo-network
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    develop:
-      watch:
-        - action: sync
-          path: ./apps/server
-          target: /app/apps/server
-          ignore:
-            - node_modules/
-        - action: sync
-          path: ./packages
-          target: /app/packages
-          ignore:
-            - node_modules/
-  # Web App
+      - postgres
+      - redis
   web:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
-      target: development
     container_name: turbo-web-dev
     restart: unless-stopped
+    user: "0:0"
     ports:
       - "3000:3000"
     environment:
@@ -105,35 +83,23 @@ services:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/web/node_modules
-      - /app/apps/web/.next
+      - ./apps/web:/usr/src/app/apps/web:cached
+      - ./packages:/usr/src/app/packages:cached
+      - ./turbo.json:/usr/src/app/turbo.json:cached
+      - ./package.json:/usr/src/app/package.json:cached
+      - web_node_modules:/usr/src/app/node_modules
+      - /usr/src/app/apps/web/.next
     networks:
       - turbo-network
     depends_on:
       - server
-    develop:
-      watch:
-        - action: sync
-          path: ./apps/web
-          target: /app/apps/web
-          ignore:
-            - node_modules/
-            - .next/
-        - action: sync
-          path: ./packages
-          target: /app/packages
-          ignore:
-            - node_modules/
-  # Docs App
   docs:
     build:
       context: .
       dockerfile: apps/docs/Dockerfile
-      target: development
     container_name: turbo-docs-dev
     restart: unless-stopped
+    user: "0:0"
     ports:
       - "3001:3001"
     environment:
@@ -141,29 +107,24 @@ services:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/docs/node_modules
-      - /app/apps/docs/.next
+      - ./apps/docs:/usr/src/app/apps/docs:cached
+      - ./packages:/usr/src/app/packages:cached
+      - ./turbo.json:/usr/src/app/turbo.json:cached
+      - ./package.json:/usr/src/app/package.json:cached
+      - docs_node_modules:/usr/src/app/node_modules
+      - /usr/src/app/apps/docs/.next
     networks:
       - turbo-network
-    develop:
-      watch:
-        - action: sync
-          path: ./apps/docs
-          target: /app/apps/docs
-          ignore:
-            - node_modules/
-            - .next/
-        - action: sync
-          path: ./packages
-          target: /app/packages
-          ignore:
-            - node_modules/
 volumes:
   postgres_data_dev:
     driver: local
   redis_data_dev:
+    driver: local
+  server_node_modules:
+    driver: local
+  web_node_modules:
+    driver: local
+  docs_node_modules:
     driver: local
 networks:
   turbo-network:
