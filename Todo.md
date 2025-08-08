@@ -14,6 +14,7 @@
 
 ## 🛠️ Development & Features
 
+- [ ] remove csrf its Deprecated
 - [ ] Connect external book API to database
 - [ ] Remove unnecessary `@types/*` packages
 - [ ] Write and maintain function documentation

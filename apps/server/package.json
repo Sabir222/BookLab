@@ -8,26 +8,27 @@
     "health:quick": "curl -s http://localhost:4000/health/quick | jq",
     "test": "vitest run",
     "build": "tsc",
-    "start": "bun src/server.ts",
+    "start": "node dist/server.js",
     "check-types": "tsc --noEmit",
-    "dev": "bun --watch src/server.ts",
-    "lint": "bunx eslint . --ext .ts"
+    "dev": "nodemon --watch src --exec tsx src/server.ts",
+    "lint": "pnpm dlx eslint . --ext .ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
-    "@types/bun": "latest",
-    "@types/cookie": "^1.0.0",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/csurf": "^1.11.5",
     "@types/express": "^5.0.3",
-    "@types/express-rate-limit": "^6.0.2",
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "latest",
     "@types/pg": "^8.15.4",
     "@types/supertest": "^6.0.3",
     "eslint-formatter-table": "^7.32.1",
+    "nodemon": "^3.1.10",
     "supertest": "^7.1.4",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
