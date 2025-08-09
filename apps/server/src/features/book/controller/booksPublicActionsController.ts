@@ -64,7 +64,7 @@ const getAllBooksRedis = async (
 ): Promise<Response> => {
   const { limit } = req.query;
   const bookLimit = limit ? parseInt(limit as string, 10) : 50;
-  
+
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
     return handleError(
       res,
@@ -96,7 +96,13 @@ const getAllBooksRedis = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get books", "INTERNAL_SERVER_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get books",
+      "INTERNAL_SERVER_ERROR",
+      error,
+    );
   }
 };
 
@@ -178,7 +184,13 @@ const getBooksByAuthor = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Author search failed", "AUTHOR_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Author search failed",
+      "AUTHOR_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -219,7 +231,13 @@ const getBooksByCategory = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Category search failed", "CATEGORY_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Category search failed",
+      "CATEGORY_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -230,7 +248,7 @@ const getNewReleases = async (
   const { days, limit } = req.query;
   const dayLimit = days ? parseInt(days as string, 10) : 30;
   const bookLimit = limit ? parseInt(limit as string, 10) : 20;
-  
+
   if (isNaN(dayLimit) || dayLimit < 1 || dayLimit > 365) {
     return handleError(
       res,
@@ -239,7 +257,7 @@ const getNewReleases = async (
       "INVALID_DAYS",
     );
   }
-  
+
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
     return handleError(
       res,
@@ -271,7 +289,13 @@ const getNewReleases = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get new releases", "NEW_RELEASES_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get new releases",
+      "NEW_RELEASES_ERROR",
+      error,
+    );
   }
 };
 
@@ -312,7 +336,13 @@ const getBooksByISBN = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "ISBN search failed", "ISBN_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "ISBN search failed",
+      "ISBN_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -347,14 +377,135 @@ const getRelatedBooks = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get related books", "RELATED_BOOKS_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get related books",
+      "RELATED_BOOKS_ERROR",
+      error,
+    );
   }
 };
 
+const getFilteredBooks = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const {
+    title,
+    authorName,
+    categoryName,
+    minRating,
+    maxPrice,
+    format,
+    inStock,
+    forSale,
+    forRent,
+    language,
+    publisherId,
+    publishedAfter,
+    publishedBefore,
+    limit,
+    offset,
+  } = req.query;
 
+  const parsedLimit = limit ? parseInt(limit as string, 10) : 20;
+  const parsedOffset = offset ? parseInt(offset as string, 10) : 0;
+  const parsedMinRating = minRating
+    ? parseFloat(minRating as string)
+    : undefined;
+  const parsedMaxPrice = maxPrice ? parseFloat(maxPrice as string) : undefined;
 
+  // Validate limit and offset
+  if (isNaN(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
+    return handleError(
+      res,
+      400,
+      "Invalid limit parameter (1-100)",
+      "INVALID_LIMIT",
+    );
+  }
 
+  if (isNaN(parsedOffset) || parsedOffset < 0) {
+    return handleError(
+      res,
+      400,
+      "Invalid offset parameter (must be >= 0)",
+      "INVALID_OFFSET",
+    );
+  }
 
+  const cacheKey = `books:filtered:${JSON.stringify(req.query)}`;
+  let redis: RedisClientType | null = null;
+
+  try {
+    redis = getRedisClient();
+    const cached = await getCache<Book[]>(redis, cacheKey, true);
+    if (cached) {
+      return sendResponse(res, 200, {
+        success: true,
+        data: { books: cached },
+        meta: { cached: true },
+      });
+    }
+
+    const filters: {
+      title?: string;
+      authorName?: string;
+      categoryName?: string;
+      minRating?: number;
+      maxPrice?: number;
+      format?: string;
+      inStock?: boolean;
+      forSale?: boolean;
+      forRent?: boolean;
+      language?: string;
+      publisherId?: string;
+      publishedAfter?: string;
+      publishedBefore?: string;
+    } = {};
+
+    // Add filters only if they exist
+    if (title && typeof title === "string") filters.title = title;
+    if (authorName && typeof authorName === "string")
+      filters.authorName = authorName;
+    if (categoryName && typeof categoryName === "string")
+      filters.categoryName = categoryName;
+    if (!isNaN(parsedMinRating)) filters.minRating = parsedMinRating;
+    if (!isNaN(parsedMaxPrice)) filters.maxPrice = parsedMaxPrice;
+    if (format && typeof format === "string") filters.format = format;
+    if (inStock !== undefined) filters.inStock = inStock === "true";
+    if (forSale !== undefined) filters.forSale = forSale === "true";
+    if (forRent !== undefined) filters.forRent = forRent === "true";
+    if (language && typeof language === "string") filters.language = language;
+    if (publisherId && typeof publisherId === "string")
+      filters.publisherId = publisherId;
+    if (publishedAfter && typeof publishedAfter === "string")
+      filters.publishedAfter = publishedAfter;
+    if (publishedBefore && typeof publishedBefore === "string")
+      filters.publishedBefore = publishedBefore;
+
+    const books = await bookQueries.filterBooks(
+      filters,
+      parsedLimit,
+      parsedOffset,
+    );
+    setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+    return sendResponse(res, 200, {
+      success: true,
+      data: { books },
+      meta: { cached: false },
+    });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to filter books",
+      "FILTER_BOOKS_ERROR",
+      error,
+    );
+  }
+};
 
 export const bookPublicActionsController = {
   getBookById,
@@ -365,4 +516,5 @@ export const bookPublicActionsController = {
   getNewReleases,
   getBooksByISBN,
   getRelatedBooks,
+  getFilteredBooks,
 };

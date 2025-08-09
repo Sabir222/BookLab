@@ -43,8 +43,6 @@ export const bookQueries = {
     return parseBooks(result.rows);
   },
 
-
-
   async findBooksByAuthor(authorName: string, limit = 20): Promise<Book[]> {
     const result = await db.query(
       `SELECT DISTINCT b.*, 
@@ -157,8 +155,6 @@ export const bookQueries = {
     return parseBooks(result.rows);
   },
 
-
-
   async findBooksByMultipleAuthors(
     authorNames: string[],
     limit = 20,
@@ -208,6 +204,154 @@ export const bookQueries = {
        LIMIT $2`,
       [categoryNames, limit],
     );
+    return parseBooks(result.rows);
+  },
+
+  async filterBooks(
+    filters: {
+      title?: string;
+      authorName?: string;
+      categoryName?: string;
+      minRating?: number;
+      maxPrice?: number;
+      format?: string;
+      inStock?: boolean;
+      forSale?: boolean;
+      forRent?: boolean;
+      language?: string;
+      publisherId?: string;
+      publishedAfter?: string;
+      publishedBefore?: string;
+    },
+    limit = 20,
+    offset = 0,
+  ): Promise<Book[]> {
+    // Base query with joins
+    let query = `
+      SELECT DISTINCT b.*
+      FROM books b
+    `;
+    
+    // Add conditional joins only when needed
+    const joins: string[] = [];
+    const whereConditions: string[] = ["b.is_active = true"];
+    const queryParams: any[] = [];
+    let paramCounter = 1;
+
+    // Title filter with case-insensitive partial match
+    if (filters.title) {
+      queryParams.push("%" + filters.title + "%");
+      whereConditions.push("(LOWER(b.title) LIKE LOWER($" + paramCounter + ") OR LOWER(b.subtitle) LIKE LOWER($" + paramCounter + "))");
+      paramCounter++;
+    }
+
+    // Author filter
+    if (filters.authorName) {
+      joins.push(`
+        INNER JOIN book_authors ba ON b.book_id = ba.book_id
+        INNER JOIN authors a ON ba.author_id = a.author_id
+      `);
+      queryParams.push("%" + filters.authorName + "%");
+      whereConditions.push("(LOWER(a.first_name) LIKE LOWER($" + paramCounter + ") OR LOWER(a.last_name) LIKE LOWER($" + paramCounter + ") OR LOWER(a.first_name || ' ' || a.last_name) LIKE LOWER($" + paramCounter + "))");
+      paramCounter++;
+    }
+
+    // Category filter
+    if (filters.categoryName) {
+      joins.push(`
+        INNER JOIN book_categories bc ON b.book_id = bc.book_id
+        INNER JOIN categories c ON bc.category_id = c.category_id
+      `);
+      queryParams.push("%" + filters.categoryName + "%");
+      whereConditions.push("LOWER(c.category_name) LIKE LOWER($" + paramCounter + ")");
+      paramCounter++;
+    }
+
+    // Minimum rating filter
+    if (filters.minRating !== undefined) {
+      queryParams.push(filters.minRating);
+      whereConditions.push("b.average_rating >= $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Maximum price filter
+    if (filters.maxPrice !== undefined) {
+      queryParams.push(filters.maxPrice);
+      whereConditions.push("b.price_sale <= $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Format filter
+    if (filters.format) {
+      queryParams.push(filters.format);
+      whereConditions.push("b.book_format = $" + paramCounter);
+      paramCounter++;
+    }
+
+    // In stock filter
+    if (filters.inStock !== undefined) {
+      if (filters.inStock) {
+        whereConditions.push("b.stock_quantity > b.reserved_quantity");
+      } else {
+        whereConditions.push("b.stock_quantity <= b.reserved_quantity");
+      }
+    }
+
+    // For sale filter
+    if (filters.forSale !== undefined) {
+      queryParams.push(filters.forSale);
+      whereConditions.push("b.for_sale = $" + paramCounter);
+      paramCounter++;
+    }
+
+    // For rent filter
+    if (filters.forRent !== undefined) {
+      queryParams.push(filters.forRent);
+      whereConditions.push("b.for_rent = $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Language filter
+    if (filters.language) {
+      queryParams.push(filters.language);
+      whereConditions.push("b.language = $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Publisher ID filter
+    if (filters.publisherId) {
+      queryParams.push(filters.publisherId);
+      whereConditions.push("b.publisher_id = $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Published after date filter
+    if (filters.publishedAfter) {
+      queryParams.push(filters.publishedAfter);
+      whereConditions.push("b.publication_date >= $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Published before date filter
+    if (filters.publishedBefore) {
+      queryParams.push(filters.publishedBefore);
+      whereConditions.push("b.publication_date <= $" + paramCounter);
+      paramCounter++;
+    }
+
+    // Add joins to the query
+    query += joins.join('\n') + '\n';
+
+    // Add WHERE conditions
+    if (whereConditions.length > 0) {
+      query += 'WHERE ' + whereConditions.join(' AND ') + '\n';
+    }
+
+    // Add ordering and pagination
+    query += 'ORDER BY b.created_at DESC LIMIT $' + paramCounter + ' OFFSET $' + (paramCounter + 1);
+    queryParams.push(limit, offset);
+
+    const result = await db.query(query, queryParams);
     return parseBooks(result.rows);
   },
 };
