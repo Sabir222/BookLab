@@ -74,7 +74,7 @@ export const checkRedisHealth = async (): Promise<ServiceHealth> => {
   const startTime = Date.now();
 
   try {
-    const { getRedisClient, connectRedis } = await import(
+    const { getRedisClient } = await import(
       "../redis/connection.js"
     );
 

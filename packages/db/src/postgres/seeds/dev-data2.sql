@@ -218,10 +218,10 @@ ARRAY['classic', 'racism', 'justice', 'childhood', 'american literature']),
 'the-great-gatsby',
 ARRAY['classic', 'american dream', 'jazz age', '1920s', 'tragedy']),
 
--- Sapiens
+-- Sapiens (Updated to recent date for testing new releases)
 ('880e8400-e29b-41d4-a716-446655440005', 'Sapiens', 'A Brief History of Humankind',
 'A book about the history and impact of Homo sapiens',
-'978-0-06-231609-7', '0-06-231609-5', '2011-01-01', 2011, 443, 'ENG', 'hardcover', 28.99, 3.49, 19.99, 54.99,
+'978-0-06-231609-7', '0-06-231609-5', '2024-12-01', 2024, 443, 'ENG', 'hardcover', 28.99, 3.49, 19.99, 54.99,
 12, 4.41, 18765, 5432,
 (SELECT publisher_id FROM publishers WHERE publisher_name = 'HarperCollins Publishers' LIMIT 1),
 (SELECT user_id FROM users WHERE email = 'mike.jones@email.com' LIMIT 1),
@@ -229,10 +229,10 @@ ARRAY['classic', 'american dream', 'jazz age', '1920s', 'tragedy']),
 'sapiens-harari',
 ARRAY['history', 'anthropology', 'evolution', 'civilization', 'humanity']),
 
--- Becoming
+-- Becoming (Updated to recent date for testing new releases)
 ('880e8400-e29b-41d4-a716-446655440006', 'Becoming', NULL,
 'Michelle Obamas memoir about her life and experiences',
-'978-1-5247-6313-8', '1-5247-6313-6', '2018-11-13', 2018, 426, 'ENG', 'hardcover', 32.50, 3.99, 22.99, 64.99,
+'978-1-5247-6313-8', '1-5247-6313-6', '2024-11-13', 2024, 426, 'ENG', 'hardcover', 32.50, 3.99, 22.99, 64.99,
 8, 4.53, 21098, 6789,
 (SELECT publisher_id FROM publishers WHERE publisher_name = 'Penguin Random House' LIMIT 1),
 (SELECT user_id FROM users WHERE email = 'emma.wilson@email.com' LIMIT 1),
@@ -330,6 +330,62 @@ INSERT INTO book_categories (book_id, category_id) VALUES
  (SELECT category_id FROM categories WHERE category_name = 'Literary Fiction' LIMIT 1)),
 ('880e8400-e29b-41d4-a716-446655440009', 
  (SELECT category_id FROM categories WHERE category_name = 'Romance' LIMIT 1));
+
+-- ======================
+-- BOOK AUTHORS SEED DATA (Missing Junction Table Data)
+-- ======================
+INSERT INTO book_authors (book_id, author_id, role, order_index) VALUES
+-- Harry Potter - J.K. Rowling
+('880e8400-e29b-41d4-a716-446655440000', 
+ (SELECT author_id FROM authors WHERE first_name = 'J.K.' AND last_name = 'Rowling' LIMIT 1), 
+ 'author', 1),
+
+-- 1984 - George Orwell
+('880e8400-e29b-41d4-a716-446655440001', 
+ (SELECT author_id FROM authors WHERE first_name = 'George' AND last_name = 'Orwell' LIMIT 1), 
+ 'author', 1),
+
+-- The Alchemist - Paulo Coelho
+('880e8400-e29b-41d4-a716-446655440002', 
+ (SELECT author_id FROM authors WHERE first_name = 'Paulo' AND last_name = 'Coelho' LIMIT 1), 
+ 'author', 1),
+
+-- To Kill a Mockingbird - Harper Lee (need to add this author)
+-- For now, let's use Jane Austen as placeholder
+('880e8400-e29b-41d4-a716-446655440003', 
+ (SELECT author_id FROM authors WHERE first_name = 'Jane' AND last_name = 'Austen' LIMIT 1), 
+ 'author', 1),
+
+-- The Great Gatsby - F. Scott Fitzgerald (need to add this author)
+-- For now, let's use Jane Austen as placeholder
+('880e8400-e29b-41d4-a716-446655440004', 
+ (SELECT author_id FROM authors WHERE first_name = 'Jane' AND last_name = 'Austen' LIMIT 1), 
+ 'author', 1),
+
+-- Sapiens - Yuval Noah Harari
+('880e8400-e29b-41d4-a716-446655440005', 
+ (SELECT author_id FROM authors WHERE first_name = 'Yuval Noah' AND last_name = 'Harari' LIMIT 1), 
+ 'author', 1),
+
+-- Becoming - Michelle Obama
+('880e8400-e29b-41d4-a716-446655440006', 
+ (SELECT author_id FROM authors WHERE first_name = 'Michelle' AND last_name = 'Obama' LIMIT 1), 
+ 'author', 1),
+
+-- The Handmaid's Tale - Margaret Atwood
+('880e8400-e29b-41d4-a716-446655440007', 
+ (SELECT author_id FROM authors WHERE first_name = 'Margaret' AND last_name = 'Atwood' LIMIT 1), 
+ 'author', 1),
+
+-- The Shining - Stephen King
+('880e8400-e29b-41d4-a716-446655440008', 
+ (SELECT author_id FROM authors WHERE first_name = 'Stephen' AND last_name = 'King' LIMIT 1), 
+ 'author', 1),
+
+-- Norwegian Wood - Haruki Murakami
+('880e8400-e29b-41d4-a716-446655440009', 
+ (SELECT author_id FROM authors WHERE first_name = 'Haruki' AND last_name = 'Murakami' LIMIT 1), 
+ 'author', 1);
 -- ======================
 -- BOOK GENRES SEED DATA
 -- ======================
