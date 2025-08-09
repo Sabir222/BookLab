@@ -465,14 +465,15 @@ const getFilteredBooks = async (
       publishedBefore?: string;
     } = {};
 
-    // Add filters only if they exist
     if (title && typeof title === "string") filters.title = title;
     if (authorName && typeof authorName === "string")
       filters.authorName = authorName;
     if (categoryName && typeof categoryName === "string")
       filters.categoryName = categoryName;
-    if (!isNaN(parsedMinRating)) filters.minRating = parsedMinRating;
-    if (!isNaN(parsedMaxPrice)) filters.maxPrice = parsedMaxPrice;
+    if (parsedMinRating !== undefined && !isNaN(parsedMinRating))
+      filters.minRating = parsedMinRating;
+    if (parsedMaxPrice !== undefined && !isNaN(parsedMaxPrice))
+      filters.maxPrice = parsedMaxPrice;
     if (format && typeof format === "string") filters.format = format;
     if (inStock !== undefined) filters.inStock = inStock === "true";
     if (forSale !== undefined) filters.forSale = forSale === "true";
