@@ -32,9 +32,6 @@ const handleError = (
 
 const getBookById = async (req: Request, res: Response): Promise<Response> => {
   const { id: bookId } = req.params;
-  if (!bookId?.trim()) {
-    return handleError(res, 400, "Book ID is required", "MISSING_BOOK_ID");
-  }
 
   try {
     const book = await bookQueries.findById(bookId);
