@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const getBookByIdSchema = z.object({
   params: z.object({
-    id: z.string().min(1, "Book ID is required"),
+    id: z.string().uuid("Book ID must be a valid UUID"),
   }),
 });
 
@@ -63,7 +63,7 @@ export const searchBooksByISBNSchema = z.object({
 
 export const getRelatedBooksSchema = z.object({
   params: z.object({
-    id: z.string().min(1, "Book ID is required"),
+    id: z.string().uuid("Book ID must be a valid UUID"),
   }),
 });
 

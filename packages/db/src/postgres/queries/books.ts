@@ -225,69 +225,78 @@ export const bookQueries = {
     limit = 20,
     offset = 0,
   ): Promise<Book[]> {
-    // Base query with joins
     let query = `
       SELECT DISTINCT b.*
       FROM books b
     `;
 
-    // Add conditional joins only when needed
     const joins: string[] = [];
     const whereConditions: string[] = ["b.is_active = true"];
     const queryParams: any[] = [];
     let paramCounter = 1;
 
-    // Title filter with fuzzy search (similar to findBooksByName)
     if (filters.title) {
       queryParams.push(filters.title);
-      whereConditions.push("(b.title % $" + paramCounter + " OR b.subtitle % $" + paramCounter + " OR (b.title || ' ' || COALESCE(b.subtitle, '')) % $" + paramCounter + ")");
+      whereConditions.push(
+        "(b.title % $" +
+          paramCounter +
+          " OR b.subtitle % $" +
+          paramCounter +
+          " OR (b.title || ' ' || COALESCE(b.subtitle, '')) % $" +
+          paramCounter +
+          ")",
+      );
       paramCounter++;
     }
 
-    // Author filter with fuzzy search (similar to findBooksByAuthor)
     if (filters.authorName) {
       joins.push(`
         INNER JOIN book_authors ba ON b.book_id = ba.book_id
         INNER JOIN authors a ON ba.author_id = a.author_id
       `);
       queryParams.push(filters.authorName);
-      whereConditions.push("(a.first_name % $" + paramCounter + " OR a.last_name % $" + paramCounter + " OR (a.first_name || ' ' || a.last_name) % $" + paramCounter + ")");
+      whereConditions.push(
+        "(a.first_name % $" +
+          paramCounter +
+          " OR a.last_name % $" +
+          paramCounter +
+          " OR (a.first_name || ' ' || a.last_name) % $" +
+          paramCounter +
+          ")",
+      );
       paramCounter++;
     }
 
-    // Category filter with case-insensitive partial match
     if (filters.categoryName) {
       joins.push(`
         INNER JOIN book_categories bc ON b.book_id = bc.book_id
         INNER JOIN categories c ON bc.category_id = c.category_id
       `);
       queryParams.push("%" + filters.categoryName + "%");
-      whereConditions.push("LOWER(c.category_name) LIKE LOWER($" + paramCounter + ")");
+      whereConditions.push(
+        "LOWER(c.category_name) LIKE LOWER($" + paramCounter + ")",
+      );
       paramCounter++;
     }
 
-    // Minimum rating filter
     if (filters.minRating !== undefined) {
       queryParams.push(filters.minRating);
       whereConditions.push("b.average_rating >= $" + paramCounter);
       paramCounter++;
     }
 
-    // Maximum price filter
     if (filters.maxPrice !== undefined) {
       queryParams.push(filters.maxPrice);
       whereConditions.push("b.price_sale <= $" + paramCounter);
       paramCounter++;
     }
 
-    // Format filter
     if (filters.format) {
       queryParams.push(filters.format);
       whereConditions.push("b.book_format = $" + paramCounter);
       paramCounter++;
     }
 
-    // In stock filter
     if (filters.inStock !== undefined) {
       if (filters.inStock) {
         whereConditions.push("b.stock_quantity > b.reserved_quantity");
@@ -296,61 +305,334 @@ export const bookQueries = {
       }
     }
 
-    // For sale filter
     if (filters.forSale !== undefined) {
       queryParams.push(filters.forSale);
       whereConditions.push("b.for_sale = $" + paramCounter);
       paramCounter++;
     }
 
-    // For rent filter
     if (filters.forRent !== undefined) {
       queryParams.push(filters.forRent);
       whereConditions.push("b.for_rent = $" + paramCounter);
       paramCounter++;
     }
 
-    // Language filter
     if (filters.language) {
       queryParams.push(filters.language);
       whereConditions.push("b.language = $" + paramCounter);
       paramCounter++;
     }
 
-    // Publisher ID filter
     if (filters.publisherId) {
       queryParams.push(filters.publisherId);
       whereConditions.push("b.publisher_id = $" + paramCounter);
       paramCounter++;
     }
 
-    // Published after date filter
     if (filters.publishedAfter) {
       queryParams.push(filters.publishedAfter);
       whereConditions.push("b.publication_date >= $" + paramCounter);
       paramCounter++;
     }
 
-    // Published before date filter
     if (filters.publishedBefore) {
       queryParams.push(filters.publishedBefore);
       whereConditions.push("b.publication_date <= $" + paramCounter);
       paramCounter++;
     }
 
-    // Add joins to the query
-    query += joins.join('\n') + '\n';
+    query += joins.join("\n") + "\n";
 
     // Add WHERE conditions
     if (whereConditions.length > 0) {
-      query += 'WHERE ' + whereConditions.join(' AND ') + '\n';
+      query += "WHERE " + whereConditions.join(" AND ") + "\n";
     }
 
-    // Add ordering and pagination
-    query += 'ORDER BY b.created_at DESC LIMIT $' + paramCounter + ' OFFSET $' + (paramCounter + 1);
+    query +=
+      "ORDER BY b.created_at DESC LIMIT $" +
+      paramCounter +
+      " OFFSET $" +
+      (paramCounter + 1);
     queryParams.push(limit, offset);
 
     const result = await db.query(query, queryParams);
     return parseBooks(result.rows);
   },
+
+  async create(bookData: {
+    title: string;
+    subtitle?: string | null;
+    description?: string | null;
+    isbn13?: string | null;
+    isbn10?: string | null;
+    publicationDate?: string | null;
+    publishedYear?: number | null;
+    pageCount?: number | null;
+    language?: string | null;
+    coverImageUrl?: string | null;
+    edition?: string | null;
+    bookFormat: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
+    bookCondition?: string | null;
+    dimensions?: string | null;
+    weightGrams?: number | null;
+    forSale: boolean;
+    forRent: boolean;
+    priceSale: number;
+    priceRentDaily?: number | null;
+    priceRentWeekly?: number | null;
+    priceRentMonthly?: number | null;
+    stockQuantity: number;
+    reservedQuantity?: number;
+    isActive?: boolean;
+    averageRating?: number | null;
+    totalRatings?: number;
+    totalReviews?: number;
+    publisherId?: string | null;
+    ownerId?: string | null;
+    primaryCategoryId?: string | null;
+    searchKeywords?: string[] | null;
+    slug: string;
+    createdBy?: string | null;
+    lastModifiedBy?: string | null;
+  }): Promise<Book> {
+    const result = await db.query(
+      `INSERT INTO books (
+        title, subtitle, description, isbn_13, isbn_10, publication_date, published_year,
+        page_count, language, cover_image_url, edition, book_format, book_condition,
+        dimensions, weight_grams, for_sale, for_rent, price_sale, price_rent_daily,
+        price_rent_weekly, price_rent_monthly, stock_quantity, reserved_quantity,
+        is_active, average_rating, total_ratings, total_reviews, publisher_id, owner_id,
+        primary_category_id, search_keywords, slug, created_by, last_modified_by
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17,
+        $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34
+      ) RETURNING *`,
+      [
+        bookData.title,
+        bookData.subtitle,
+        bookData.description,
+        bookData.isbn13,
+        bookData.isbn10,
+        bookData.publicationDate,
+        bookData.publishedYear,
+        bookData.pageCount,
+        bookData.language,
+        bookData.coverImageUrl,
+        bookData.edition,
+        bookData.bookFormat,
+        bookData.bookCondition,
+        bookData.dimensions,
+        bookData.weightGrams,
+        bookData.forSale,
+        bookData.forRent,
+        bookData.priceSale,
+        bookData.priceRentDaily,
+        bookData.priceRentWeekly,
+        bookData.priceRentMonthly,
+        bookData.stockQuantity,
+        bookData.reservedQuantity || 0,
+        bookData.isActive !== undefined ? bookData.isActive : true,
+        bookData.averageRating,
+        bookData.totalRatings || 0,
+        bookData.totalReviews || 0,
+        bookData.publisherId,
+        bookData.ownerId,
+        bookData.primaryCategoryId,
+        bookData.searchKeywords,
+        bookData.slug,
+        bookData.createdBy,
+        bookData.lastModifiedBy,
+      ],
+    );
+    return result.rows[0] as Book;
+  },
+
+  async update(
+    bookId: string,
+    bookData: {
+      title?: string;
+      subtitle?: string | null;
+      description?: string | null;
+      isbn13?: string | null;
+      isbn10?: string | null;
+      publicationDate?: string | null;
+      publishedYear?: number | null;
+      pageCount?: number | null;
+      language?: string | null;
+      coverImageUrl?: string | null;
+      edition?: string | null;
+      bookFormat?: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
+      bookCondition?: string | null;
+      dimensions?: string | null;
+      weightGrams?: number | null;
+      forSale?: boolean;
+      forRent?: boolean;
+      priceSale?: number;
+      priceRentDaily?: number | null;
+      priceRentWeekly?: number | null;
+      priceRentMonthly?: number | null;
+      stockQuantity?: number;
+      reservedQuantity?: number;
+      isActive?: boolean;
+      averageRating?: number | null;
+      totalRatings?: number;
+      totalReviews?: number;
+      publisherId?: string | null;
+      ownerId?: string | null;
+      primaryCategoryId?: string | null;
+      searchKeywords?: string[] | null;
+      slug?: string;
+      lastModifiedBy?: string | null;
+    },
+  ): Promise<Book | null> {
+    const fields: string[] = [];
+    const values: any[] = [];
+    let paramCounter = 1;
+
+    const fieldMap: Record<string, string> = {
+      title: "title",
+      subtitle: "subtitle",
+      description: "description",
+      isbn13: "isbn_13",
+      isbn10: "isbn_10",
+      publicationDate: "publication_date",
+      publishedYear: "published_year",
+      pageCount: "page_count",
+      language: "language",
+      coverImageUrl: "cover_image_url",
+      edition: "edition",
+      bookFormat: "book_format",
+      bookCondition: "book_condition",
+      dimensions: "dimensions",
+      weightGrams: "weight_grams",
+      forSale: "for_sale",
+      forRent: "for_rent",
+      priceSale: "price_sale",
+      priceRentDaily: "price_rent_daily",
+      priceRentWeekly: "price_rent_weekly",
+      priceRentMonthly: "price_rent_monthly",
+      stockQuantity: "stock_quantity",
+      reservedQuantity: "reserved_quantity",
+      isActive: "is_active",
+      averageRating: "average_rating",
+      totalRatings: "total_ratings",
+      totalReviews: "total_reviews",
+      publisherId: "publisher_id",
+      ownerId: "owner_id",
+      primaryCategoryId: "primary_category_id",
+      searchKeywords: "search_keywords",
+      slug: "slug",
+      lastModifiedBy: "last_modified_by",
+    };
+
+    Object.entries(bookData).forEach(([key, value]) => {
+      if (value !== undefined && fieldMap[key]) {
+        fields.push(`${fieldMap[key]} = ${paramCounter}`);
+        values.push(value);
+        paramCounter++;
+      }
+    });
+
+    fields.push("updated_at = NOW()");
+
+    if (fields.length === 0) return null;
+
+    values.push(bookId);
+
+    const result = await db.query(
+      `UPDATE books SET ${fields.join(", ")} WHERE book_id = ${paramCounter} RETURNING *`,
+      values,
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async delete(bookId: string): Promise<boolean> {
+    const result = await db.query("DELETE FROM books WHERE book_id = $1", [
+      bookId,
+    ]);
+    return (result.rowCount ?? 0) > 0;
+  },
+
+  async softDelete(bookId: string, deletedBy?: string): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET deleted_at = NOW(), deleted_by = $2, is_active = false WHERE book_id = $1 RETURNING *",
+      [bookId, deletedBy || null],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async restore(bookId: string): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET deleted_at = NULL, deleted_by = NULL, is_active = true WHERE book_id = $1 RETURNING *",
+      [bookId],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async exists(bookId: string): Promise<boolean> {
+    const result = await db.query("SELECT 1 FROM books WHERE book_id = $1", [
+      bookId,
+    ]);
+    return result.rows.length > 0;
+  },
+
+  async findBySlug(slug: string): Promise<Book | null> {
+    const result = await db.query(
+      "SELECT * FROM books WHERE slug = $1 LIMIT 1",
+      [slug],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async updateStock(
+    bookId: string,
+    newStock: number,
+    reservedQuantity?: number,
+  ): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET stock_quantity = $2, reserved_quantity = COALESCE($3, reserved_quantity), updated_at = NOW() WHERE book_id = $1 RETURNING *",
+      [bookId, newStock, reservedQuantity],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async addToStock(bookId: string, quantity: number): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET stock_quantity = stock_quantity + $2, updated_at = NOW() WHERE book_id = $1 RETURNING *",
+      [bookId, quantity],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async reserveBooks(bookId: string, quantity: number): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET reserved_quantity = reserved_quantity + $2, updated_at = NOW() WHERE book_id = $1 RETURNING *",
+      [bookId, quantity],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async releaseReservedBooks(
+    bookId: string,
+    quantity: number,
+  ): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET reserved_quantity = GREATEST(0, reserved_quantity - $2), updated_at = NOW() WHERE book_id = $1 RETURNING *",
+      [bookId, quantity],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
+
+  async updateRatings(
+    bookId: string,
+    averageRating: number,
+    totalRatings: number,
+  ): Promise<Book | null> {
+    const result = await db.query(
+      "UPDATE books SET average_rating = $2, total_ratings = $3, updated_at = NOW() WHERE book_id = $1 RETURNING *",
+      [bookId, averageRating, totalRatings],
+    );
+    return result.rows[0] ? (result.rows[0] as Book) : null;
+  },
 };
+

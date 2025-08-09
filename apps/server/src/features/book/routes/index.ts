@@ -54,7 +54,7 @@ bookPublicRouter.get(
 bookPublicRouter.get(
   "/",
   validate(getAllBooksSchema),
-  bookPublicActionsController.getAllBooksRedis,
+  bookPublicActionsController.getAllBooks,
 );
 bookPublicRouter.get(
   "/:id",

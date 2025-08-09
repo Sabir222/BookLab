@@ -55,10 +55,7 @@ const getBookById = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-const getAllBooksRedis = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
   const { limit } = req.query;
   const bookLimit = limit ? parseInt(limit as string, 10) : 50;
 
@@ -507,7 +504,7 @@ const getFilteredBooks = async (
 
 export const bookPublicActionsController = {
   getBookById,
-  getAllBooksRedis,
+  getAllBooks,
   getBooksByName,
   getBooksByAuthor,
   getBooksByCategory,
