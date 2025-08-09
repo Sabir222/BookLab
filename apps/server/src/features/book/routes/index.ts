@@ -11,15 +11,24 @@ import {
   searchBooksByISBNSchema,
   getRelatedBooksSchema,
   filterBooksSchema,
+  createBookSchema,
+  updateBookSchema,
+  deleteBookSchema,
+  softDeleteBookSchema,
+  restoreBookSchema,
+  bookExistsSchema,
+  getBookBySlugSchema,
+  updateBookStockSchema,
+  addToBookStockSchema,
+  reserveBooksSchema,
+  releaseReservedBooksSchema,
+  updateBookRatingsSchema,
 } from "../validation/booksControllerValidations.js";
 
 const bookPublicRouter = express.Router();
 
-bookPublicRouter.get(
-  "/search",
-  validate(searchBooksByNameSchema),
-  bookPublicActionsController.getBooksByName,
-);
+// Search routes (more specific paths first)
+bookPublicRouter.get("/search", validate(searchBooksByNameSchema), bookPublicActionsController.getBooksByName);
 bookPublicRouter.get(
   "/search/author",
   validate(searchBooksByAuthorSchema),
@@ -45,21 +54,24 @@ bookPublicRouter.get(
   validate(getRelatedBooksSchema),
   bookPublicActionsController.getRelatedBooks,
 );
-bookPublicRouter.get(
-  "/filter",
-  validate(filterBooksSchema),
-  bookPublicActionsController.getFilteredBooks,
-);
+bookPublicRouter.get("/filter", validate(filterBooksSchema), bookPublicActionsController.getFilteredBooks);
 
-bookPublicRouter.get(
-  "/",
-  validate(getAllBooksSchema),
-  bookPublicActionsController.getAllBooks,
-);
-bookPublicRouter.get(
-  "/:id",
-  validate(getBookByIdSchema),
-  bookPublicActionsController.getBookById,
-);
+// General routes (less specific paths last)
+bookPublicRouter.get("/", validate(getAllBooksSchema), bookPublicActionsController.getAllBooks);
+bookPublicRouter.get("/:id", validate(getBookByIdSchema), bookPublicActionsController.getBookById);
+
+// New book management routes
+bookPublicRouter.post("/", validate(createBookSchema), bookPublicActionsController.createBook);
+bookPublicRouter.put("/:id", validate(updateBookSchema), bookPublicActionsController.updateBook);
+bookPublicRouter.delete("/:id", validate(deleteBookSchema), bookPublicActionsController.deleteBook);
+bookPublicRouter.patch("/:id/soft-delete", validate(softDeleteBookSchema), bookPublicActionsController.softDeleteBook);
+bookPublicRouter.patch("/:id/restore", validate(restoreBookSchema), bookPublicActionsController.restoreBook);
+bookPublicRouter.get("/:id/exists", validate(bookExistsSchema), bookPublicActionsController.bookExists);
+bookPublicRouter.get("/slug/:slug", validate(getBookBySlugSchema), bookPublicActionsController.getBookBySlug);
+bookPublicRouter.patch("/:id/stock", validate(updateBookStockSchema), bookPublicActionsController.updateBookStock);
+bookPublicRouter.patch("/:id/stock/add", validate(addToBookStockSchema), bookPublicActionsController.addToBookStock);
+bookPublicRouter.patch("/:id/stock/reserve", validate(reserveBooksSchema), bookPublicActionsController.reserveBooks);
+bookPublicRouter.patch("/:id/stock/release", validate(releaseReservedBooksSchema), bookPublicActionsController.releaseReservedBooks);
+bookPublicRouter.patch("/:id/ratings", validate(updateBookRatingsSchema), bookPublicActionsController.updateBookRatings);
 
 export default bookPublicRouter;

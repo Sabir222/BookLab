@@ -85,44 +85,6 @@ The server will start at `http://localhost:5000` with hot reloading enabled.
 
 For complete API documentation, see [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
 
-### Quick API Overview
-
-- **Base URL**: `http://localhost:5000/api`
-- **Authentication**: JWT Bearer tokens
-- **Format**: JSON requests and responses
-
-#### Key Endpoints
-
-```bash
-# Health Check
-GET /api/health
-
-# Authentication
-POST /api/auth/signup      # Create account
-POST /api/auth/login       # Login
-GET  /api/auth/me          # Get user info
-GET  /api/auth/logout      # Logout
-
-# Books
-GET  /api/books                    # List all books
-GET  /api/books/:id                # Get book by ID
-GET  /api/books/search?q=query     # Search books by title
-GET  /api/books/search/author?q=   # Search by author
-GET  /api/books/new-releases       # Get new releases
-```
-
-### Test User Credentials
-
-For testing purposes, you can use these credentials:
-
-```json
-{
-  "email": "testuser@example.com",
-  "username": "testuser",
-  "password": "TestPassword10!"
-}
-```
-
 ## 🛠 Development Scripts
 
 ```bash
