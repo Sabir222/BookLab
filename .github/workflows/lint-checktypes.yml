@@ -22,7 +22,7 @@ jobs:
         with:
           version: 8
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: Run lint
         run: pnpm turbo run lint
       - name: Run type check
