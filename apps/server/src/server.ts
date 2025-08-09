@@ -1,21 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors, { type CorsOptions } from "cors";
-import csrf from "csurf";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import session from "express-session";
-import { healthRouter } from "./utils/checkhealth";
+import { healthRouter } from "./utils/checkhealth.js";
 import { ensureHealthyStart } from "@repo/db/health";
 import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
-import bookPublicRouter from "./features/book/routes";
-import authRouter from "./features/auth/routes";
+import bookPublicRouter from "./features/book/routes/index.js";
+import authRouter from "./features/auth/routes/index.js";
 
-// Load environment variables first
 dotenv.config();
 
 function validateEnvironment() {
-  const requiredVars = ["CORS_ORIGIN"]; // Add other required vars here
+  const requiredVars = ["CORS_ORIGIN"];
   const missingVars = [];
 
   for (const varName of requiredVars) {
@@ -108,56 +106,10 @@ app.use(
   }),
 );
 
-const csrfProtection = csrf({
-  cookie: {
-    key: "_csrf",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-  },
-  value: (req) => {
-    return (
-      req.body._csrf ||
-      req.query._csrf ||
-      req.headers["x-csrf-token"] ||
-      req.headers["x-xsrf-token"]
-    );
-  },
-});
-
-app.get("/csrf-token", csrfProtection, (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
-
-// Protected routes with csrf  here
-app.use("/auth", csrfProtection, authRouter);
-// Unprotected routes without csrf here
-app.use("/health", healthRouter);
-app.use("/books", bookPublicRouter);
-// CSRF error handler
-app.use(
-  (
-    err: any,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-  ) => {
-    if (err.code === "EBADCSRFTOKEN") {
-      console.error("CSRF token validation failed:", {
-        ip: req.ip,
-        userAgent: req.get("User-Agent"),
-        referer: req.get("Referer"),
-        timestamp: new Date().toISOString(),
-      });
-      res.status(403).json({
-        error: "Invalid CSRF token",
-        message: "Request blocked for security reasons",
-      });
-    } else {
-      next(err);
-    }
-  },
-);
+// Routes
+app.use("/api/auth", authRouter);
+app.use("/api/health", healthRouter);
+app.use("/api/books", bookPublicRouter);
 
 const startServer = async () => {
   try {

@@ -1,10 +1,10 @@
-import { hashPassword } from "../../../utils/hashPassword";
+import { hashPassword } from "../../../utils/hashPassword.js";
 import { type Request, type Response } from "express";
 import { userQueries, type User, type CreateUserData } from "@repo/db/postgres";
-import validateEnv from "../../../utils/validateEnv";
-import type { JWTPayload } from "../../../utils/generateToken";
-import generateToken from "../../../utils/generateToken";
-import setAuthCookies from "../../../utils/setAuthCookies";
+import validateEnv from "../../../utils/validateEnv.js";
+import type { JWTPayload } from "../../../utils/generateToken.js";
+import generateToken from "../../../utils/generateToken.js";
+import setAuthCookies from "../../../utils/setAuthCookies.js";
 
 class SignUpError extends Error {
   constructor(
