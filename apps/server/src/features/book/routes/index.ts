@@ -1,10 +1,18 @@
 import express from "express";
-import { bookPublicActionsController } from "../controller/booksPublicActionsController";
+import { bookPublicActionsController } from "../controller/booksPublicActionsController.js";
 
 const bookPublicRouter = express.Router();
 
-bookPublicRouter.get("/redis", bookPublicActionsController.getAllBooksRedis);
+// Search routes (more specific paths first)
+bookPublicRouter.get("/search", bookPublicActionsController.getBooksByName);
+bookPublicRouter.get("/search/author", bookPublicActionsController.getBooksByAuthor);
+bookPublicRouter.get("/search/category", bookPublicActionsController.getBooksByCategory);
+bookPublicRouter.get("/search/isbn", bookPublicActionsController.getBooksByISBN);
+bookPublicRouter.get("/new-releases", bookPublicActionsController.getNewReleases);
+bookPublicRouter.get("/:id/related", bookPublicActionsController.getRelatedBooks);
+
+// General routes (less specific paths last)
+bookPublicRouter.get("/", bookPublicActionsController.getAllBooksRedis);
 bookPublicRouter.get("/:id", bookPublicActionsController.getBookById);
-bookPublicRouter.get("/", bookPublicActionsController.getAllBooks);
 
 export default bookPublicRouter;
