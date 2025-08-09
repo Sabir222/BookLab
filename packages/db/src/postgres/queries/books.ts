@@ -22,52 +22,59 @@ export const bookQueries = {
 
   async findBooksByName(title: string, limit = 10): Promise<Book[]> {
     const result = await db.query(
-      `SELECT *, 
+      `SELECT *,
        GREATEST(
          COALESCE(similarity(title, $1), 0),
          COALESCE(similarity(subtitle, $1), 0),
          COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
        ) AS similarity_score
-       FROM books
-       WHERE (title % $1 OR subtitle % $1 OR (title || ' ' || COALESCE(subtitle, '')) % $1)
-       AND GREATEST(
+     FROM books
+     WHERE (
+       title % $1
+       OR subtitle % $1
+       OR (title || ' ' || COALESCE(subtitle, '')) % $1
+     )
+     AND is_active = true
+     AND GREATEST(
          COALESCE(similarity(title, $1), 0),
          COALESCE(similarity(subtitle, $1), 0),
          COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
        ) >= 0.2
-       AND is_active = true
-       ORDER BY similarity_score DESC
-       LIMIT $2`,
+     ORDER BY similarity_score DESC
+     LIMIT $2`,
       [title, limit],
     );
     return parseBooks(result.rows);
   },
 
-  async findBooksByAuthor(authorName: string, limit = 20): Promise<Book[]> {
+  async findBooksByName(title: string, limit = 10): Promise<Book[]> {
     const result = await db.query(
-      `SELECT DISTINCT b.*, 
+      `SELECT *,
        GREATEST(
-         COALESCE(similarity(a.first_name, $1), 0),
-         COALESCE(similarity(a.last_name, $1), 0),
-         COALESCE(similarity(a.first_name || ' ' || a.last_name, $1), 0)
+         COALESCE(similarity(title, $1), 0),
+         COALESCE(similarity(subtitle, $1), 0),
+         COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
        ) AS similarity_score
-       FROM books b
-       INNER JOIN book_authors ba ON b.book_id = ba.book_id
-       INNER JOIN authors a ON ba.author_id = a.author_id
-       WHERE (a.first_name % $1 OR a.last_name % $1 OR (a.first_name || ' ' || a.last_name) % $1)
-       AND GREATEST(
-         COALESCE(similarity(a.first_name, $1), 0),
-         COALESCE(similarity(a.last_name, $1), 0),
-         COALESCE(similarity(a.first_name || ' ' || a.last_name, $1), 0)
-       ) >= 0.2
-       AND b.is_active = true
-       ORDER BY similarity_score DESC
-       LIMIT $2`,
-      [authorName, limit],
+     FROM books
+     WHERE
+       is_active = true
+       AND (
+         title ILIKE '%' || $1 || '%'
+         OR subtitle ILIKE '%' || $1 || '%'
+         OR (title || ' ' || COALESCE(subtitle, '')) ILIKE '%' || $1 || '%'
+         OR title % $1
+         OR subtitle % $1
+         OR (title || ' ' || COALESCE(subtitle, '')) % $1
+       )
+     ORDER BY
+       CASE WHEN title ILIKE '%' || $1 || '%' THEN 1 ELSE 0 END DESC,
+       similarity_score DESC
+     LIMIT $2`,
+      [title, limit],
     );
+
     return parseBooks(result.rows);
   },
-
   async findBooksByCategory(categoryName: string, limit = 20): Promise<Book[]> {
     const result = await db.query(
       `SELECT DISTINCT b.*, similarity(c.category_name, $1) AS similarity_score
@@ -159,7 +166,9 @@ export const bookQueries = {
     authorNames: string[],
     limit = 20,
   ): Promise<Book[]> {
-    const placeholders = authorNames.map((_, index) => `$${index + 1}`).join(", ");
+    const placeholders = authorNames
+      .map((_, index) => `$${index + 1}`)
+      .join(", ");
     const result = await db.query(
       `SELECT DISTINCT b.*,
        MAX(GREATEST(
@@ -231,7 +240,7 @@ export const bookQueries = {
       SELECT DISTINCT b.*
       FROM books b
     `;
-    
+
     // Add conditional joins only when needed
     const joins: string[] = [];
     const whereConditions: string[] = ["b.is_active = true"];
@@ -241,7 +250,13 @@ export const bookQueries = {
     // Title filter with case-insensitive partial match
     if (filters.title) {
       queryParams.push("%" + filters.title + "%");
-      whereConditions.push("(LOWER(b.title) LIKE LOWER($" + paramCounter + ") OR LOWER(b.subtitle) LIKE LOWER($" + paramCounter + "))");
+      whereConditions.push(
+        "(LOWER(b.title) LIKE LOWER($" +
+          paramCounter +
+          ") OR LOWER(b.subtitle) LIKE LOWER($" +
+          paramCounter +
+          "))",
+      );
       paramCounter++;
     }
 
@@ -252,7 +267,15 @@ export const bookQueries = {
         INNER JOIN authors a ON ba.author_id = a.author_id
       `);
       queryParams.push("%" + filters.authorName + "%");
-      whereConditions.push("(LOWER(a.first_name) LIKE LOWER($" + paramCounter + ") OR LOWER(a.last_name) LIKE LOWER($" + paramCounter + ") OR LOWER(a.first_name || ' ' || a.last_name) LIKE LOWER($" + paramCounter + "))");
+      whereConditions.push(
+        "(LOWER(a.first_name) LIKE LOWER($" +
+          paramCounter +
+          ") OR LOWER(a.last_name) LIKE LOWER($" +
+          paramCounter +
+          ") OR LOWER(a.first_name || ' ' || a.last_name) LIKE LOWER($" +
+          paramCounter +
+          "))",
+      );
       paramCounter++;
     }
 
@@ -263,7 +286,9 @@ export const bookQueries = {
         INNER JOIN categories c ON bc.category_id = c.category_id
       `);
       queryParams.push("%" + filters.categoryName + "%");
-      whereConditions.push("LOWER(c.category_name) LIKE LOWER($" + paramCounter + ")");
+      whereConditions.push(
+        "LOWER(c.category_name) LIKE LOWER($" + paramCounter + ")",
+      );
       paramCounter++;
     }
 
@@ -340,18 +365,23 @@ export const bookQueries = {
     }
 
     // Add joins to the query
-    query += joins.join('\n') + '\n';
+    query += joins.join("\n") + "\n";
 
     // Add WHERE conditions
     if (whereConditions.length > 0) {
-      query += 'WHERE ' + whereConditions.join(' AND ') + '\n';
+      query += "WHERE " + whereConditions.join(" AND ") + "\n";
     }
 
     // Add ordering and pagination
-    query += 'ORDER BY b.created_at DESC LIMIT $' + paramCounter + ' OFFSET $' + (paramCounter + 1);
+    query +=
+      "ORDER BY b.created_at DESC LIMIT $" +
+      paramCounter +
+      " OFFSET $" +
+      (paramCounter + 1);
     queryParams.push(limit, offset);
 
     const result = await db.query(query, queryParams);
     return parseBooks(result.rows);
   },
 };
+
