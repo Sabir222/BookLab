@@ -21,25 +21,115 @@ export const bookQueries = {
   },
 
   async findBooksByName(title: string, limit = 10): Promise<Book[]> {
+    // Clean and prepare the search query
+    const cleanQuery = title.trim().toLowerCase();
+    const queryWords = cleanQuery
+      .split(/\s+/)
+      .filter((word) => word.length > 0);
+
     const result = await db.query(
-      `SELECT *,
-       GREATEST(
-         COALESCE(similarity(title, $1), 0),
-         COALESCE(similarity(subtitle, $1), 0),
-         COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
-       ) AS similarity_score
-       FROM books
-       WHERE (title % $1 OR subtitle % $1 OR (title || ' ' || COALESCE(subtitle, '')) % $1)
-       AND GREATEST(
-         COALESCE(similarity(title, $1), 0),
-         COALESCE(similarity(subtitle, $1), 0),
-         COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
-       ) >= 0.2
-       AND is_active = true
-       ORDER BY similarity_score DESC
-       LIMIT $2`,
-      [title, limit],
+      `
+    WITH search_input AS (
+      SELECT 
+        $1::text AS original_query,
+        $3::text AS clean_query,
+        $4::text[] AS query_words
+    ),
+    scored_books AS (
+      SELECT 
+        b.*,
+        -- Multiple scoring strategies
+        GREATEST(
+          -- 1. Exact match (highest score)
+          CASE 
+            WHEN LOWER(b.title) = si.clean_query THEN 1.0
+            WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
+            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
+            ELSE 0
+          END,
+          
+          -- 2. Starts with query (high score)
+          CASE 
+            WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
+            WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
+            ELSE 0
+          END,
+          
+          -- 3. Contains full query (good score)
+          CASE 
+            WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
+            WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
+            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
+            ELSE 0
+          END,
+          
+          -- 4. Word-based matching (handles partial matches like "harry" for "harry potter")
+          CASE 
+            WHEN EXISTS (
+              SELECT 1 FROM unnest(si.query_words) AS word
+              WHERE LOWER(b.title) LIKE '%' || word || '%'
+                OR LOWER(b.subtitle) LIKE '%' || word || '%'
+            ) THEN 0.6
+            ELSE 0
+          END,
+          
+          -- 5. Fuzzy similarity (handles typos)
+          GREATEST(
+            COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.5,
+            COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.45,
+            COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.4
+          ),
+          
+          -- 6. Trigram matching with % operator (backup fuzzy matching)
+          CASE 
+            WHEN LOWER(b.title) % si.clean_query THEN 0.3
+            WHEN LOWER(b.subtitle) % si.clean_query THEN 0.25
+            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) % si.clean_query THEN 0.2
+            ELSE 0
+          END
+        ) AS similarity_score,
+        
+        -- Additional scoring factors
+        CASE 
+          WHEN LENGTH(b.title) <= 50 THEN 0.05  -- Boost shorter titles
+          ELSE 0
+        END AS length_bonus
+        
+      FROM books b
+      CROSS JOIN search_input si
+      WHERE b.is_active = true
+        AND (
+          -- Basic filters to reduce dataset before scoring
+          LOWER(b.title) LIKE '%' || si.clean_query || '%'
+          OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
+          OR LOWER(b.title) % si.clean_query
+          OR LOWER(b.subtitle) % si.clean_query
+          OR EXISTS (
+            SELECT 1 FROM unnest(si.query_words) AS word
+            WHERE word != '' AND (
+              LOWER(b.title) LIKE '%' || word || '%'
+              OR LOWER(b.subtitle) LIKE '%' || word || '%'
+            )
+          )
+        )
+    )
+    SELECT *
+    FROM scored_books
+    WHERE (similarity_score + length_bonus) >= 0.1  -- Lower threshold to catch more matches
+    ORDER BY 
+      (similarity_score + length_bonus) DESC,
+      LENGTH(title) ASC,  -- Prefer shorter titles when scores are equal
+      title ASC
+    LIMIT $2
+    `,
+      [
+        title, // $1: original query
+        limit, // $2: limit
+        cleanQuery, // $3: cleaned query
+        queryWords, // $4: query words array
+      ],
     );
+
     return parseBooks(result.rows);
   },
 
@@ -635,4 +725,3 @@ export const bookQueries = {
     return result.rows[0] ? (result.rows[0] as Book) : null;
   },
 };
-
