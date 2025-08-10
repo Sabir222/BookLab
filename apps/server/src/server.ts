@@ -10,58 +10,9 @@ import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
 import authRouter from "./features/auth/routes/index.js";
 import userRouter from "./features/user/routes/index.js";
+import { validateEnvironment } from "./utils/validateEnv.js";
 
 dotenv.config();
-
-function validateEnvironment() {
-  const requiredVars = ["CORS_ORIGIN"];
-  const missingVars = [];
-
-  for (const varName of requiredVars) {
-    if (!process.env[varName]) {
-      missingVars.push(varName);
-    }
-  }
-
-  if (missingVars.length > 0) {
-    console.error(
-      `❌ Missing required environment variables: ${missingVars.join(", ")}`,
-    );
-    if (process.env.NODE_ENV === "production") {
-      process.exit(1);
-    }
-  }
-
-  if (!process.env.SESSION_SECRET) {
-    if (process.env.NODE_ENV === "production") {
-      console.error(
-        "❌ SESSION_SECRET environment variable must be set in production.",
-      );
-      process.exit(1);
-    } else {
-      console.warn(
-        "⚠️  Warning: SESSION_SECRET is not set. Using insecure fallback for development only.",
-      );
-    }
-  }
-
-  if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length < 32) {
-    console.warn(
-      "⚠️  Warning: SESSION_SECRET should be at least 32 characters long for security.",
-    );
-  }
-
-  const port = process.env.PORT;
-  if (
-    port &&
-    (isNaN(Number(port)) || Number(port) < 1 || Number(port) > 65535)
-  ) {
-    console.error("PORT must be a valid number between 1 and 65535");
-    process.exit(1);
-  }
-
-  console.log("Environment validation passed");
-}
 
 validateEnvironment();
 

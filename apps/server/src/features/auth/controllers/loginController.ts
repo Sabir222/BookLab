@@ -3,7 +3,6 @@ import { comparerPassword } from "../../../utils/hashPassword.js";
 import { type Request, type Response } from "express";
 import type { JWTPayload } from "../../../utils/generateToken.js";
 import generateToken from "../../../utils/generateToken.js";
-import validateEnv from "../../../utils/validateEnv.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
 
 class LoginError extends Error {
@@ -70,8 +69,6 @@ export const loginController = async (
   res: Response,
 ): Promise<void> => {
   try {
-    validateEnv();
-
     const { username, password }: LoginRequestBody = req.body;
 
     if (!username || !password) {

@@ -1,7 +1,6 @@
 import { hashPassword } from "../../../utils/hashPassword.js";
 import { type Request, type Response } from "express";
 import { userQueries, type User, type CreateUserData } from "@repo/db/postgres";
-import validateEnv from "../../../utils/validateEnv.js";
 import type { JWTPayload } from "../../../utils/generateToken.js";
 import generateToken from "../../../utils/generateToken.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
@@ -83,8 +82,6 @@ export const signUpController = async (
   res: Response,
 ): Promise<void> => {
   try {
-    validateEnv();
-
     const { email, username, password }: SignUpRequestBody = req.body;
 
     if (!email || !username || !password) {

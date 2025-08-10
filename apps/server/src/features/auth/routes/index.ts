@@ -8,6 +8,7 @@ import logoutController from "../controllers/logoutController.js";
 import refreshController from "../controllers/refreshController.js";
 import { authRateLimits } from "../middlewares/authRateLimit.js";
 import { loginController } from "../controllers/loginController.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const authRouter = express.Router();
 
@@ -18,8 +19,8 @@ authRouter.post(
   signUpController,
 );
 authRouter.post("/login", validate(loginSchema), loginController);
-authRouter.get("/me", meController);
-authRouter.get("/logout", logoutController);
-authRouter.get("/refresh", refreshController);
+authRouter.get("/me", authenticate, meController);
+authRouter.get("/logout", authenticate, logoutController);
+authRouter.get("/refresh", authenticate, refreshController);
 
 export default authRouter;
