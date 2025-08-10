@@ -4,7 +4,122 @@ This document provides detailed information about all available API endpoints fo
 
 ## Base URL
 
-All endpoints are relative to: `http://localhost:4000/api/books`
+All endpoints are relative to: `http://localhost:4000/api`
+
+## Authentication Endpoints
+
+### 1. Sign Up
+**POST** `/api/auth/signup`
+
+Create a new user account.
+
+#### Request
+- **Body Parameters**:
+  - `email` (string, required): User's email address
+  - `username` (string, required): Desired username
+  - `password` (string, required): Password (min 8 characters)
+
+#### Response
+- **201 Created**: Returns user information and auth tokens
+- **400 Bad Request**: Invalid request data
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/auth/signup" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "username": "testuser",
+    "password": "SecurePass123!"
+  }'
+```
+
+### 2. Login
+**POST** `/api/auth/login`
+
+Authenticate a user and receive access tokens.
+
+#### Request
+- **Body Parameters**:
+  - `email` (string, required): User's email address
+  - `password` (string, required): User's password
+
+#### Response
+- **200 OK**: Returns user information and auth tokens
+- **400 Bad Request**: Invalid credentials
+- **401 Unauthorized**: Authentication failed
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "SecurePass123!"
+  }'
+```
+
+### 3. Get Current User
+**GET** `/api/auth/me`
+
+Retrieve information about the currently authenticated user.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+
+#### Response
+- **200 OK**: Returns current user information
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/auth/me" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### 4. Logout
+**GET** `/api/auth/logout`
+
+Invalidate the current user's session.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+
+#### Response
+- **200 OK**: Successfully logged out
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/auth/logout" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### 5. Refresh Token
+**GET** `/api/auth/refresh`
+
+Refresh the authentication tokens.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer refresh token
+
+#### Response
+- **200 OK**: Returns new access and refresh tokens
+- **401 Unauthorized**: Invalid or expired refresh token
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/auth/refresh" \
+  -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
+```
 
 ## Public Book Endpoints
 
@@ -497,6 +612,222 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
   }'
 ```
 
+## User Management Endpoints
+
+### 22. Get User by ID
+**GET** `/api/users/:id`
+
+Retrieve a user's public profile by their ID.
+
+#### Request
+- **Path Parameters**:
+  - `id` (string, required): UUID of the user
+
+#### Response
+- **200 OK**: Returns the user's public profile
+- **404 Not Found**: User not found
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000"
+```
+
+### 23. Get Current User Profile
+**GET** `/api/users/me`
+
+Retrieve the current authenticated user's profile.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+
+#### Response
+- **200 OK**: Returns the current user's profile
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/users/me" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### 24. Update User Profile
+**PUT** `/api/users/me`
+
+Update the current user's profile information.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+- **Body Parameters**:
+  - `username` (string, optional): New username (3-30 characters)
+  - `email` (string, optional): New email address
+  - `profileImageUrl` (string, optional): URL to profile image
+
+#### Response
+- **200 OK**: Returns the updated user profile
+- **400 Bad Request**: Invalid request data
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X PUT "http://localhost:4000/api/users/me" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "newusername",
+    "email": "newemail@example.com"
+  }'
+```
+
+### 25. Change Password
+**PUT** `/api/users/me/password`
+
+Change the current user's password.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+- **Body Parameters**:
+  - `currentPassword` (string, required): Current password
+  - `newPassword` (string, required): New password (min 8 characters, with complexity)
+  - `confirmNewPassword` (string, required): Confirmation of new password
+
+#### Response
+- **200 OK**: Password updated successfully
+- **400 Bad Request**: Invalid request data or password mismatch
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X PUT "http://localhost:4000/api/users/me/password" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "currentPassword": "oldpassword123",
+    "newPassword": "NewPassword123!",
+    "confirmNewPassword": "NewPassword123!"
+  }'
+```
+
+### 26. Delete User Account
+**DELETE** `/api/users/me`
+
+Delete the current user's account.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+- **Body Parameters**:
+  - `password` (string, required): Current password for confirmation
+
+#### Response
+- **200 OK**: Account deleted successfully
+- **400 Bad Request**: Invalid password
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X DELETE "http://localhost:4000/api/users/me" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "password": "currentpassword123"
+  }'
+```
+
+### 27. List Users (Admin)
+**GET** `/api/users/`
+
+List all users (admin only).
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token (admin)
+- **Query Parameters**:
+  - `limit` (integer, optional): Number of users to return (1-100, default: 50)
+  - `offset` (integer, optional): Pagination offset (>= 0, default: 0)
+  - `role` (string, optional): Filter by user role
+
+#### Response
+- **200 OK**: Returns list of users
+- **401 Unauthorized**: Not authenticated
+- **403 Forbidden**: Insufficient permissions
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/users/?limit=20&offset=0" \
+  -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN"
+```
+
+### 28. Admin Update User
+**PUT** `/api/users/:id`
+
+Update any user's information (admin only).
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token (admin)
+- **Path Parameters**:
+  - `id` (string, required): UUID of the user to update
+- **Body Parameters**:
+  - `username` (string, optional): New username (3-30 characters)
+  - `email` (string, optional): New email address
+  - `profileImageUrl` (string, optional): URL to profile image
+  - `role` (string, optional): New role (user, admin, moderator)
+  - `isVerified` (boolean, optional): Verification status
+  - `credits` (number, optional): User credits
+  - `loyaltyPoints` (number, optional): User loyalty points
+
+#### Response
+- **200 OK**: Returns the updated user profile
+- **400 Bad Request**: Invalid request data
+- **401 Unauthorized**: Not authenticated
+- **403 Forbidden**: Insufficient permissions
+- **404 Not Found**: User not found
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X PUT "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000" \
+  -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "moderator",
+    "isVerified": true
+  }'
+```
+
+### 29. Admin Delete User
+**DELETE** `/api/users/:id`
+
+Delete any user's account (admin only).
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token (admin)
+- **Path Parameters**:
+  - `id` (string, required): UUID of the user to delete
+
+#### Response
+- **200 OK**: User deleted successfully
+- **401 Unauthorized**: Not authenticated
+- **403 Forbidden**: Insufficient permissions
+- **404 Not Found**: User not found
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X DELETE "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000" \
+  -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN"
+```
+
 ## Common Response Formats
 
 ### Success Response
@@ -539,6 +870,15 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 - `RESERVE_BOOKS_ERROR`: Error reserving books
 - `RELEASE_RESERVED_BOOKS_ERROR`: Error releasing reserved books
 - `UPDATE_BOOK_RATINGS_ERROR`: Error updating book ratings
+- `UNAUTHORIZED`: Authentication required
+- `USER_NOT_FOUND`: The requested user was not found
+- `GET_USER_ERROR`: Error getting user
+- `UPDATE_USER_ERROR`: Error updating user profile
+- `CHANGE_PASSWORD_ERROR`: Error changing password
+- `DELETE_USER_ERROR`: Error deleting user account
+- `LIST_USERS_ERROR`: Error listing users
+- `ADMIN_UPDATE_USER_ERROR`: Error updating user (admin)
+- `ADMIN_DELETE_USER_ERROR`: Error deleting user (admin)
 
 ## Rate Limiting
 
