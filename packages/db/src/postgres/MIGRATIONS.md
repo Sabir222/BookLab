@@ -490,12 +490,12 @@ CREATE TABLE IF NOT EXISTS  books (
     deleted_at TIMESTAMP NULL,
     deleted_by UUID,
 
-    CONSTRAINT fk_books_publisher FOREIGN KEY (publisher_id) REFERENCES publishers(publisher_id),
-    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id),
+    CONSTRAINT fk_books_publisher FOREIGN KEY (publisher_id) REFERENCES publishers(publisher_id) ON DELETE SET NULL,
+    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_books_category FOREIGN KEY (primary_category_id) REFERENCES categories(category_id),
-    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id),
+    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id) ON DELETE CASCADE,
     
     CONSTRAINT chk_books_rating_range CHECK (average_rating >= 0 AND average_rating <= 5),
     CONSTRAINT chk_books_positive_quantities CHECK (
@@ -590,8 +590,8 @@ CREATE TABLE IF NOT EXISTS  book_authors (
     order_index INTEGER DEFAULT 1,
 
     CONSTRAINT pk_book_authors PRIMARY KEY (book_id, author_id),
-    CONSTRAINT fk_book_authors_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_authors_author FOREIGN KEY (author_id) REFERENCES authors(author_id),
+    CONSTRAINT fk_book_authors_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_authors_author FOREIGN KEY (author_id) REFERENCES authors(author_id) ON DELETE CASCADE,
     CONSTRAINT chk_book_authors_order_positive CHECK (order_index > 0)
 );
 
@@ -624,8 +624,8 @@ CREATE TABLE IF NOT EXISTS book_categories (
     category_id UUID NOT NULL,
 
     CONSTRAINT pk_book_categories PRIMARY KEY (book_id, category_id),
-    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_categories_category_id;
@@ -657,8 +657,8 @@ CREATE TABLE IF NOT EXISTS book_genres (
     genre_id UUID NOT NULL,
 
     CONSTRAINT pk_book_genres PRIMARY KEY (book_id, genre_id),
-    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_genres_genre_id;
@@ -692,8 +692,8 @@ CREATE TABLE IF NOT EXISTS book_series_entries (
     volume_title VARCHAR(255),
     
     CONSTRAINT pk_book_series_entries PRIMARY KEY (book_id, series_id),
-    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id),
+    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id) ON DELETE CASCADE,
     CONSTRAINT unique_series_volume UNIQUE (series_id, volume_number)
 );
 
@@ -728,8 +728,8 @@ CREATE TABLE IF NOT EXISTS book_reviews (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
 
-    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT chk_book_reviews_rating_range CHECK (rating >= 1 AND rating <= 5),
     CONSTRAINT unique_user_book_review UNIQUE (book_id, user_id)
 );

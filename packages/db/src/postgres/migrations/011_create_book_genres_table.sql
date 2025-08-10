@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS book_genres (
     genre_id UUID NOT NULL,
 
     CONSTRAINT pk_book_genres PRIMARY KEY (book_id, genre_id),
-    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_genres_genre_id;
