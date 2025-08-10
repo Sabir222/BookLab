@@ -38,7 +38,7 @@ export const bookQueries = {
     scored_books AS (
       SELECT 
         b.*,
-        -- Multiple scoring strategies
+        -- Multiple scoring strategies with better typo tolerance
         GREATEST(
           -- 1. Exact match (highest score)
           CASE 
@@ -63,30 +63,69 @@ export const bookQueries = {
             ELSE 0
           END,
           
-          -- 4. Word-based matching (handles partial matches like "harry" for "harry potter")
+          -- 4. Enhanced fuzzy similarity for typos (IMPROVED)
+          GREATEST(
+            -- Higher multipliers for better typo tolerance
+            COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
+            COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
+            COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
+            
+            -- Word-level fuzzy matching for individual words
+            (
+              SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
+              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+              CROSS JOIN unnest(si.query_words) AS query_word
+              WHERE similarity(word_from_title, query_word) > 0.3
+            ),
+            
+            -- Levenshtein distance for short queries (good for typos)
+            CASE 
+              WHEN LENGTH(si.clean_query) <= 15 THEN
+                GREATEST(
+                  CASE 
+                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 3 THEN 0.6
+                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 5 THEN 0.4
+                    ELSE 0
+                  END,
+                  CASE 
+                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 3 THEN 0.55
+                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 5 THEN 0.35
+                    ELSE 0
+                  END
+                )
+              ELSE 0
+            END
+          ),
+          
+          -- 5. Word-based matching (handles partial matches like "harry" for "harry potter")
           CASE 
             WHEN EXISTS (
               SELECT 1 FROM unnest(si.query_words) AS word
               WHERE LOWER(b.title) LIKE '%' || word || '%'
                 OR LOWER(b.subtitle) LIKE '%' || word || '%'
-            ) THEN 0.6
+            ) THEN 0.5
             ELSE 0
           END,
           
-          -- 5. Fuzzy similarity (handles typos)
+          -- 6. Enhanced trigram matching (better typo tolerance)
           GREATEST(
-            COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.5,
-            COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.45,
-            COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.4
-          ),
-          
-          -- 6. Trigram matching with % operator (backup fuzzy matching)
-          CASE 
-            WHEN LOWER(b.title) % si.clean_query THEN 0.3
-            WHEN LOWER(b.subtitle) % si.clean_query THEN 0.25
-            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) % si.clean_query THEN 0.2
-            ELSE 0
-          END
+            CASE WHEN LOWER(b.title) % si.clean_query THEN 
+              similarity(LOWER(b.title), si.clean_query) * 0.4
+            ELSE 0 END,
+            CASE WHEN LOWER(b.subtitle) % si.clean_query THEN 
+              similarity(LOWER(b.subtitle), si.clean_query) * 0.35
+            ELSE 0 END,
+            -- Word-level trigram matching
+            (
+              SELECT COALESCE(MAX(
+                CASE WHEN word_from_title % query_word THEN
+                  similarity(word_from_title, query_word) * 0.3
+                ELSE 0 END
+              ), 0)
+              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+              CROSS JOIN unnest(si.query_words) AS query_word
+            )
+          )
         ) AS similarity_score,
         
         -- Additional scoring factors
@@ -99,40 +138,44 @@ export const bookQueries = {
       CROSS JOIN search_input si
       WHERE b.is_active = true
         AND (
-          -- Basic filters to reduce dataset before scoring
+          -- Expanded filters for better typo tolerance
           LOWER(b.title) LIKE '%' || si.clean_query || '%'
           OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
           OR LOWER(b.title) % si.clean_query
           OR LOWER(b.subtitle) % si.clean_query
+          OR COALESCE(similarity(LOWER(b.title), si.clean_query), 0) > 0.2
+          OR COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) > 0.2
+          OR (LENGTH(si.clean_query) <= 15 AND (
+            levenshtein(LOWER(b.title), si.clean_query) <= 5
+            OR levenshtein(LOWER(b.subtitle), si.clean_query) <= 5
+          ))
           OR EXISTS (
             SELECT 1 FROM unnest(si.query_words) AS word
             WHERE word != '' AND (
               LOWER(b.title) LIKE '%' || word || '%'
               OR LOWER(b.subtitle) LIKE '%' || word || '%'
+              OR EXISTS (
+                SELECT 1 FROM unnest(string_to_array(LOWER(b.title), ' ')) AS title_word
+                WHERE similarity(title_word, word) > 0.3 OR title_word % word
+              )
             )
           )
         )
     )
     SELECT *
     FROM scored_books
-    WHERE (similarity_score + length_bonus) >= 0.1  -- Lower threshold to catch more matches
+    WHERE (similarity_score + length_bonus) >= 0.08  -- Even lower threshold for typos
     ORDER BY 
       (similarity_score + length_bonus) DESC,
       LENGTH(title) ASC,  -- Prefer shorter titles when scores are equal
       title ASC
     LIMIT $2
     `,
-      [
-        title, // $1: original query
-        limit, // $2: limit
-        cleanQuery, // $3: cleaned query
-        queryWords, // $4: query words array
-      ],
+      [title, limit, cleanQuery, queryWords],
     );
 
     return parseBooks(result.rows);
   },
-
   async findBooksByAuthor(authorName: string, limit = 20): Promise<Book[]> {
     const result = await db.query(
       `SELECT DISTINCT b.*,
