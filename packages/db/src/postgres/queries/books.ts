@@ -21,7 +21,6 @@ export const bookQueries = {
   },
 
   async findBooksByName(title: string, limit = 10): Promise<Book[]> {
-    // Clean and prepare the search query
     const cleanQuery = title.trim().toLowerCase();
     const queryWords = cleanQuery
       .split(/\s+/)
@@ -38,47 +37,34 @@ export const bookQueries = {
     scored_books AS (
       SELECT 
         b.*,
-        -- Multiple scoring strategies with better typo tolerance
         GREATEST(
-          -- 1. Exact match (highest score)
           CASE 
             WHEN LOWER(b.title) = si.clean_query THEN 1.0
             WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
             WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
             ELSE 0
           END,
-          
-          -- 2. Starts with query (high score)
           CASE 
             WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
             WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
             ELSE 0
           END,
-          
-          -- 3. Contains full query (good score)
           CASE 
             WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
             WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
             WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
             ELSE 0
           END,
-          
-          -- 4. Enhanced fuzzy similarity for typos (IMPROVED)
           GREATEST(
-            -- Higher multipliers for better typo tolerance
             COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
             COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
             COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
-            
-            -- Word-level fuzzy matching for individual words
             (
               SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
               FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
               CROSS JOIN unnest(si.query_words) AS query_word
               WHERE similarity(word_from_title, query_word) > 0.3
             ),
-            
-            -- Levenshtein distance for short queries (good for typos)
             CASE 
               WHEN LENGTH(si.clean_query) <= 15 THEN
                 GREATEST(
@@ -96,8 +82,6 @@ export const bookQueries = {
               ELSE 0
             END
           ),
-          
-          -- 5. Word-based matching (handles partial matches like "harry" for "harry potter")
           CASE 
             WHEN EXISTS (
               SELECT 1 FROM unnest(si.query_words) AS word
@@ -106,8 +90,6 @@ export const bookQueries = {
             ) THEN 0.5
             ELSE 0
           END,
-          
-          -- 6. Enhanced trigram matching (better typo tolerance)
           GREATEST(
             CASE WHEN LOWER(b.title) % si.clean_query THEN 
               similarity(LOWER(b.title), si.clean_query) * 0.4
@@ -115,7 +97,6 @@ export const bookQueries = {
             CASE WHEN LOWER(b.subtitle) % si.clean_query THEN 
               similarity(LOWER(b.subtitle), si.clean_query) * 0.35
             ELSE 0 END,
-            -- Word-level trigram matching
             (
               SELECT COALESCE(MAX(
                 CASE WHEN word_from_title % query_word THEN
@@ -127,18 +108,14 @@ export const bookQueries = {
             )
           )
         ) AS similarity_score,
-        
-        -- Additional scoring factors
         CASE 
-          WHEN LENGTH(b.title) <= 50 THEN 0.05  -- Boost shorter titles
+          WHEN LENGTH(b.title) <= 50 THEN 0.05
           ELSE 0
         END AS length_bonus
-        
       FROM books b
       CROSS JOIN search_input si
       WHERE b.is_active = true
         AND (
-          -- Expanded filters for better typo tolerance
           LOWER(b.title) LIKE '%' || si.clean_query || '%'
           OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
           OR LOWER(b.title) % si.clean_query
@@ -164,10 +141,10 @@ export const bookQueries = {
     )
     SELECT *
     FROM scored_books
-    WHERE (similarity_score + length_bonus) >= 0.08  -- Even lower threshold for typos
+    WHERE (similarity_score + length_bonus) >= 0.08
     ORDER BY 
       (similarity_score + length_bonus) DESC,
-      LENGTH(title) ASC,  -- Prefer shorter titles when scores are equal
+      LENGTH(title) ASC,
       title ASC
     LIMIT $2
     `,
