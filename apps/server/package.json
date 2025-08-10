@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@repo/db": "workspace:*",
-    "@repo/types": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "bcrypt": "^6.0.0",
     "cookie": "^1.0.2",
