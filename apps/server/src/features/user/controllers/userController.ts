@@ -2,7 +2,6 @@ import type { Request, Response } from "express";
 import { userQueries } from "@repo/db/postgres";
 import { hashPassword } from "../../../utils/hashPassword.js";
 
-// Helper functions for responses
 const sendResponse = (
   res: Response,
   status: number,
@@ -24,13 +23,12 @@ const handleError = (
   });
 };
 
-// Get current user profile
 export const getCurrentUser = async (
   req: Request,
   res: Response,
 ): Promise<Response> => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.id;
     if (!userId) {
       return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
     }
@@ -83,7 +81,7 @@ export const updateUserProfile = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.id;
     if (!userId) {
       return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
     }
@@ -122,7 +120,7 @@ export const changePassword = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.id;
     if (!userId) {
       return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
     }
@@ -167,7 +165,7 @@ export const deleteUser = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    const userId = (req as any).user?.userId;
+    const userId = req.user?.id;
     if (!userId) {
       return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
     }
@@ -184,7 +182,17 @@ export const deleteUser = async (
       success: true,
       message: "Account deleted successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
+    // Handle foreign key constraint violation
+    if (error.code === '23503') {
+      return handleError(
+        res,
+        409,
+        "Cannot delete account with associated records (reviews, etc.)",
+        "USER_HAS_ASSOCIATED_RECORDS"
+      );
+    }
+    
     return handleError(
       res,
       500,
@@ -200,18 +208,28 @@ export const listUsers = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    // TODO: Check if user is admin
-    // For now, we'll assume the user is authorized
+    if (!req.user || req.user.role !== "admin") {
+      return handleError(
+        res,
+        403,
+        "Insufficient permissions",
+        "INSUFFICIENT_PERMISSIONS",
+      );
+    }
 
     const { limit = 50, offset = 0, role } = req.query;
     const parsedLimit = parseInt(limit as string, 10);
     const parsedOffset = parseInt(offset as string, 10);
 
-    // TODO: Implement role filtering
-    console.log("Filtering by role:", role); // Using the variable to avoid TS6133
+    // Get all users (role filtering would need to be implemented in the database layer)
     const users = await userQueries.list(parsedLimit, parsedOffset);
 
-    const publicUsers = users.map((user) => {
+    // Filter by role if specified (client-side filtering since there's no DB function)
+    const filteredUsers = role
+      ? users.filter((user) => user.role === role)
+      : users;
+
+    const publicUsers = filteredUsers.map((user: any) => {
       const { hashed_password, ...publicUser } = user;
       return publicUser;
     });
@@ -222,7 +240,7 @@ export const listUsers = async (
       meta: {
         limit: parsedLimit,
         offset: parsedOffset,
-        total: users.length,
+        total: filteredUsers.length,
       },
     });
   } catch (error) {
@@ -241,8 +259,15 @@ export const adminUpdateUser = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    // TODO: Check if user is admin
-    // For now, we'll assume the user is authorized
+    // Check if user is admin
+    if (!req.user || req.user.role !== "admin") {
+      return handleError(
+        res,
+        403,
+        "Insufficient permissions",
+        "INSUFFICIENT_PERMISSIONS",
+      );
+    }
 
     const { id: userId } = req.params;
     const {
@@ -292,8 +317,10 @@ export const adminDeleteUser = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    // TODO: Check if user is admin
-    // For now, we'll assume the user is authorized
+    // Check if user is admin
+    if (!req.user || req.user.role !== "admin") {
+      return handleError(res, 403, "Insufficient permissions", "INSUFFICIENT_PERMISSIONS");
+    }
 
     const { id: userId } = req.params;
 
@@ -306,7 +333,17 @@ export const adminDeleteUser = async (
       success: true,
       message: "User deleted successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
+    // Handle foreign key constraint violation
+    if (error.code === '23503') {
+      return handleError(
+        res,
+        409,
+        "Cannot delete user with associated records (reviews, etc.)",
+        "USER_HAS_ASSOCIATED_RECORDS"
+      );
+    }
+    
     return handleError(
       res,
       500,
@@ -316,4 +353,3 @@ export const adminDeleteUser = async (
     );
   }
 };
-
