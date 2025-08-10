@@ -1,5 +1,5 @@
 {
-  "name": "reserve",
+  "name": "server",
   "module": "index.ts",
   "type": "module",
   "private": true,

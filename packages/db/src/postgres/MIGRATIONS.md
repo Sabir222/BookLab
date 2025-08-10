@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 );
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -300,6 +301,12 @@ CREATE INDEX IF NOT EXISTS idx_categories_active
 ON categories(is_active)
 WHERE is_active = true;
 
+CREATE TRIGGER update_categories_updated_at
+  BEFORE UPDATE ON categories
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+INSERT INTO schema_migrations (version) VALUES ('005_create_categories_table');
+
 commit
 ;
 -- ROLLBACK (DOWN MIGRATION)
@@ -333,6 +340,7 @@ CREATE TABLE IF NOT EXISTS genres (
   parent_genre_id UUID,
   is_active BOOL DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
 
   CONSTRAINT fk_parent_genre
     FOREIGN KEY (parent_genre_id)
@@ -350,6 +358,12 @@ WHERE parent_genre_id IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_genres_active
 ON genres(is_active)
 WHERE is_active = true;
+
+CREATE TRIGGER update_genres_updated_at
+  BEFORE UPDATE ON genres
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+INSERT INTO schema_migrations (version) VALUES ('006_create_genre_table');
 
 commit
 ;
@@ -410,7 +424,7 @@ DROP TRIGGER IF EXISTS update_book_series_updated_at ON book_series;
 DROP INDEX IF EXISTS idx_series_name;
 DROP INDEX IF EXISTS idx_is_completed;
 DROP TABLE IF EXISTS book_series;
-DELETE FROM schema_migrations WHERE version = '007_create_book_series_table'; -- Added missing semicolon
+DELETE FROM schema_migrations WHERE version = '007_create_book_series_table';
 COMMIT;
 */
 
@@ -425,7 +439,7 @@ COMMIT;
 begin
 ;
 
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS  books (
     book_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(500) NOT NULL,
     subtitle VARCHAR(500),
@@ -529,7 +543,7 @@ CREATE TRIGGER update_books_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('008_create_books_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('008_create_books_table');
 
 commit
 ;
@@ -552,13 +566,13 @@ commit
 
 ---
 
-### File: ./migrations/009_create_book_authors.sql
+### File: ./migrations/009_create_book_authors_table.sql
 
 ```sql
 begin
 ;
 
-CREATE TABLE book_authors (
+CREATE TABLE IF NOT EXISTS  book_authors (
     book_id UUID NOT NULL,
     author_id UUID NOT NULL,
     role VARCHAR(50) DEFAULT 'author',
@@ -573,27 +587,27 @@ CREATE TABLE book_authors (
 DROP INDEX IF EXISTS idx_book_authors_author_id;
 CREATE INDEX idx_book_authors_author_id ON book_authors(author_id);
 
-INSERT INTO schema_migrations (version) VALUES ('009_create_book_authors_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('009_create_book_authors_table');
 
 commit
 ;
 
 -- DROP INDEX IF EXISTS idx_book_authors_author_id;
 -- DROP TABLE IF EXISTS book_authors;
--- DELETE FROM schema_migrations WHERE version = '009_create_book_authors_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '009_create_book_authors_table';
 
 
 ```
 
 ---
 
-### File: ./migrations/010_create_book_categories.sql
+### File: ./migrations/010_create_book_categories_table.sql
 
 ```sql
 begin
 ;
 
-CREATE TABLE book_categories (
+CREATE TABLE IF NOT EXISTS book_categories (
     book_id UUID NOT NULL,
     category_id UUID NOT NULL,
 
@@ -605,27 +619,27 @@ CREATE TABLE book_categories (
 DROP INDEX IF EXISTS idx_book_categories_category_id;
 CREATE INDEX idx_book_categories_category_id ON book_categories(category_id);
 
-INSERT INTO schema_migrations (version) VALUES ('010_create_book_categories_table.sql');
+INSERT INTO schema_migrations (version) VALUES ('010_create_book_categories_table');
 
 commit
 ;
 
 -- DROP INDEX IF EXISTS idx_book_categories_category_id;
 -- DROP TABLE IF EXISTS book_categories;
--- DELETE FROM schema_migrations WHERE version = '010_create_book_categories_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '010_create_book_categories_table';
 
 
 ```
 
 ---
 
-### File: ./migrations/011_create_book_genres.sql
+### File: ./migrations/011_create_book_genres_table.sql
 
 ```sql
 begin
 ;
 
-CREATE TABLE book_genres (
+CREATE TABLE IF NOT EXISTS book_genres (
     book_id UUID NOT NULL,
     genre_id UUID NOT NULL,
 
@@ -637,27 +651,27 @@ CREATE TABLE book_genres (
 DROP INDEX IF EXISTS idx_book_genres_genre_id;
 CREATE INDEX idx_book_genres_genre_id ON book_genres(genre_id);
 
-INSERT INTO schema_migrations (version) VALUES ('011_create_book_genres.sql');
+INSERT INTO schema_migrations (version) VALUES ('011_create_book_genres_table');
 
 commit
 ;
 
 -- DROP INDEX IF EXISTS idx_book_genres_genre_id;
 -- DROP TABLE IF EXISTS book_genres;
--- DELETE FROM schema_migrations WHERE version = '011_create_book_genres_table.sql';
+-- DELETE FROM schema_migrations WHERE version = '011_create_book_genres_table';
 
 
 ```
 
 ---
 
-### File: ./migrations/012_create_book_series_entries.sql
+### File: ./migrations/012_create_book_series_entries_table.sql
 
 ```sql
 begin
 ;
 
-CREATE TABLE book_series_entries (
+CREATE TABLE IF NOT EXISTS book_series_entries (
     book_id UUID NOT NULL,
     series_id UUID NOT NULL,
     volume_number INTEGER,
@@ -669,27 +683,27 @@ CREATE TABLE book_series_entries (
     CONSTRAINT unique_series_volume UNIQUE (series_id, volume_number)
 );
 
-INSERT INTO schema_migrations (version) VALUES ('012_create_book_series_entries.sql');
+INSERT INTO schema_migrations (version) VALUES ('012_create_book_series_entries_table');
 
 commit
 ;
 
 -- DROP TABLE IF EXISTS book_series_entries;
 -- DELETE FROM schema_migrations WHERE version =
--- '012_create_book_series_entries_table.sql';
+-- '012_create_book_series_entries_table';
 
 
 ```
 
 ---
 
-### File: ./migrations/013_create_book_reviews.sql
+### File: ./migrations/013_create_book_reviews_table.sql
 
 ```sql
 begin
 ;
 -- TODO: verified is true for dev env , make it false in production
-CREATE TABLE book_reviews (
+CREATE TABLE IF NOT EXISTS book_reviews (
     review_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     book_id UUID NOT NULL,
     user_id UUID NOT NULL,
@@ -697,6 +711,7 @@ CREATE TABLE book_reviews (
     review_text TEXT,
     is_verified BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
 
     CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id),
     CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id),
@@ -724,20 +739,66 @@ CREATE TRIGGER update_book_reviews_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
-INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews.sql');
+INSERT INTO schema_migrations (version) VALUES ('013_create_book_reviews_table');
 
 commit
 ;
 
--- DROP TRIGGER IF EXISTS update_book_reviews_updated_at ON book_reviews;
--- DROP INDEX IF EXISTS idx_book_reviews_verified;
--- DROP INDEX IF EXISTS idx_book_reviews_created_at;
--- DROP INDEX IF EXISTS idx_book_reviews_rating;
--- DROP INDEX IF EXISTS idx_book_reviews_user_id;
--- DROP INDEX IF EXISTS idx_book_reviews_book_id;
--- DROP TABLE IF EXISTS book_reviews;
--- DELETE FROM schema_migrations WHERE version = '013_create_book_reviews_table.sql';
+/*
+begin
+;
+DROP TRIGGER IF EXISTS update_book_reviews_updated_at ON book_reviews;
+DROP INDEX IF EXISTS idx_book_reviews_verified;
+DROP INDEX IF EXISTS idx_book_reviews_created_at;
+DROP INDEX IF EXISTS idx_book_reviews_rating;
+DROP INDEX IF EXISTS idx_book_reviews_user_id;
+DROP INDEX IF EXISTS idx_book_reviews_book_id;
+DROP TABLE IF EXISTS book_reviews;
+delete from schema_migrations
+where version = '013_create_book_reviews_table'
+;
+INSERT INTO schema_migrations (version) VALUES ('014_delete_book_reviews_table');
+;
+commit
+;
+*/
 
+
+```
+
+---
+
+### File: ./migrations/014_add_fuzzy_search_indexes_books.sql
+
+```sql
+CREATE INDEX  idx_books_title_gin_trgm
+
+ON books USING gin (title gin_trgm_ops);
+
+CREATE INDEX  idx_books_subtitle_gin_trgm
+ON books USING gin (subtitle gin_trgm_ops);
+
+CREATE INDEX  idx_books_title_subtitle_gin_trgm
+ON books USING gin ((COALESCE(title, '') || ' ' || COALESCE(subtitle, '')) gin_trgm_ops);
+
+CREATE INDEX  idx_books_isbn_combined_gin_trgm
+ON books USING gin ((COALESCE(isbn_13, '') || ' ' || COALESCE(isbn_10, '')) gin_trgm_ops);
+
+-- Author fuzzy search indexes
+CREATE INDEX idx_authors_full_name_gin_trgm
+ON authors USING gin ((COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')) gin_trgm_ops);
+
+CREATE INDEX idx_authors_first_name_gin_trgm
+ON authors USING gin (first_name gin_trgm_ops);
+
+CREATE INDEX idx_authors_last_name_gin_trgm
+ON authors USING gin (last_name gin_trgm_ops);
+
+-- Category fuzzy search indexes
+CREATE INDEX idx_categories_name_gin_trgm
+ON categories USING gin (category_name gin_trgm_ops);
+
+INSERT INTO schema_migrations (version) VALUES ('014_add_fuzzy_search_indexes');
 
 ```
 

@@ -32,9 +32,6 @@ const handleError = (
 
 const getBookById = async (req: Request, res: Response): Promise<Response> => {
   const { id: bookId } = req.params;
-  if (!bookId?.trim()) {
-    return handleError(res, 400, "Book ID is required", "MISSING_BOOK_ID");
-  }
 
   try {
     const book = await bookQueries.findById(bookId);
@@ -58,13 +55,10 @@ const getBookById = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-const getAllBooksRedis = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
+const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
   const { limit } = req.query;
   const bookLimit = limit ? parseInt(limit as string, 10) : 50;
-  
+
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
     return handleError(
       res,
@@ -96,7 +90,13 @@ const getAllBooksRedis = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get books", "INTERNAL_SERVER_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get books",
+      "INTERNAL_SERVER_ERROR",
+      error,
+    );
   }
 };
 
@@ -178,7 +178,13 @@ const getBooksByAuthor = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Author search failed", "AUTHOR_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Author search failed",
+      "AUTHOR_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -219,7 +225,13 @@ const getBooksByCategory = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Category search failed", "CATEGORY_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Category search failed",
+      "CATEGORY_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -230,7 +242,7 @@ const getNewReleases = async (
   const { days, limit } = req.query;
   const dayLimit = days ? parseInt(days as string, 10) : 30;
   const bookLimit = limit ? parseInt(limit as string, 10) : 20;
-  
+
   if (isNaN(dayLimit) || dayLimit < 1 || dayLimit > 365) {
     return handleError(
       res,
@@ -239,7 +251,7 @@ const getNewReleases = async (
       "INVALID_DAYS",
     );
   }
-  
+
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
     return handleError(
       res,
@@ -271,7 +283,13 @@ const getNewReleases = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get new releases", "NEW_RELEASES_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get new releases",
+      "NEW_RELEASES_ERROR",
+      error,
+    );
   }
 };
 
@@ -312,7 +330,13 @@ const getBooksByISBN = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "ISBN search failed", "ISBN_SEARCH_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "ISBN search failed",
+      "ISBN_SEARCH_ERROR",
+      error,
+    );
   }
 };
 
@@ -347,22 +371,489 @@ const getRelatedBooks = async (
       meta: { cached: false },
     });
   } catch (error) {
-    return handleError(res, 500, "Failed to get related books", "RELATED_BOOKS_ERROR", error);
+    return handleError(
+      res,
+      500,
+      "Failed to get related books",
+      "RELATED_BOOKS_ERROR",
+      error,
+    );
   }
 };
 
+const getFilteredBooks = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const {
+    title,
+    authorName,
+    categoryName,
+    minRating,
+    maxPrice,
+    format,
+    inStock,
+    forSale,
+    forRent,
+    language,
+    publisherId,
+    publishedAfter,
+    publishedBefore,
+    limit,
+    offset,
+  } = req.query;
 
+  const parsedLimit = limit ? parseInt(limit as string, 10) : 20;
+  const parsedOffset = offset ? parseInt(offset as string, 10) : 0;
+  const parsedMinRating = minRating
+    ? parseFloat(minRating as string)
+    : undefined;
+  const parsedMaxPrice = maxPrice ? parseFloat(maxPrice as string) : undefined;
 
+  // Validate limit and offset
+  if (isNaN(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
+    return handleError(
+      res,
+      400,
+      "Invalid limit parameter (1-100)",
+      "INVALID_LIMIT",
+    );
+  }
 
+  if (isNaN(parsedOffset) || parsedOffset < 0) {
+    return handleError(
+      res,
+      400,
+      "Invalid offset parameter (must be >= 0)",
+      "INVALID_OFFSET",
+    );
+  }
 
+  const cacheKey = `books:filtered:${JSON.stringify(req.query)}`;
+  let redis: RedisClientType | null = null;
+
+  try {
+    redis = getRedisClient();
+    const cached = await getCache<Book[]>(redis, cacheKey, true);
+    if (cached) {
+      return sendResponse(res, 200, {
+        success: true,
+        data: { books: cached },
+        meta: { cached: true },
+      });
+    }
+
+    const filters: {
+      title?: string;
+      authorName?: string;
+      categoryName?: string;
+      minRating?: number;
+      maxPrice?: number;
+      format?: string;
+      inStock?: boolean;
+      forSale?: boolean;
+      forRent?: boolean;
+      language?: string;
+      publisherId?: string;
+      publishedAfter?: string;
+      publishedBefore?: string;
+    } = {};
+
+    if (title && typeof title === "string") filters.title = title;
+    if (authorName && typeof authorName === "string")
+      filters.authorName = authorName;
+    if (categoryName && typeof categoryName === "string")
+      filters.categoryName = categoryName;
+    if (parsedMinRating !== undefined && !isNaN(parsedMinRating))
+      filters.minRating = parsedMinRating;
+    if (parsedMaxPrice !== undefined && !isNaN(parsedMaxPrice))
+      filters.maxPrice = parsedMaxPrice;
+    if (format && typeof format === "string") filters.format = format;
+    if (inStock !== undefined) filters.inStock = inStock === "true";
+    if (forSale !== undefined) filters.forSale = forSale === "true";
+    if (forRent !== undefined) filters.forRent = forRent === "true";
+    if (language && typeof language === "string") filters.language = language;
+    if (publisherId && typeof publisherId === "string")
+      filters.publisherId = publisherId;
+    if (publishedAfter && typeof publishedAfter === "string")
+      filters.publishedAfter = publishedAfter;
+    if (publishedBefore && typeof publishedBefore === "string")
+      filters.publishedBefore = publishedBefore;
+
+    const books = await bookQueries.filterBooks(
+      filters,
+      parsedLimit,
+      parsedOffset,
+    );
+    setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+    return sendResponse(res, 200, {
+      success: true,
+      data: { books },
+      meta: { cached: false },
+    });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to filter books",
+      "FILTER_BOOKS_ERROR",
+      error,
+    );
+  }
+};
+
+// Create a new book
+const createBook = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const bookData = req.body;
+    const book = await bookQueries.create(bookData);
+    return sendResponse(res, 201, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to create book",
+      "CREATE_BOOK_ERROR",
+      error,
+    );
+  }
+};
+
+// Update a book
+const updateBook = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const bookData = req.body;
+    const book = await bookQueries.update(bookId, bookData);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to update book",
+      "UPDATE_BOOK_ERROR",
+      error,
+    );
+  }
+};
+
+// Delete a book
+const deleteBook = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const deleted = await bookQueries.delete(bookId);
+    
+    if (!deleted) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { 
+      success: true, 
+      message: `Book '${bookId}' deleted successfully` 
+    });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to delete book",
+      "DELETE_BOOK_ERROR",
+      error,
+    );
+  }
+};
+
+// Soft delete a book
+const softDeleteBook = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { deletedBy } = req.body;
+    const book = await bookQueries.softDelete(bookId, deletedBy);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to soft delete book",
+      "SOFT_DELETE_BOOK_ERROR",
+      error,
+    );
+  }
+};
+
+// Restore a book
+const restoreBook = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const book = await bookQueries.restore(bookId);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to restore book",
+      "RESTORE_BOOK_ERROR",
+      error,
+    );
+  }
+};
+
+// Check if a book exists
+const bookExists = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const exists = await bookQueries.exists(bookId);
+    return sendResponse(res, 200, { success: true, data: { exists } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to check book existence",
+      "BOOK_EXISTS_ERROR",
+      error,
+    );
+  }
+};
+
+// Get book by slug
+const getBookBySlug = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { slug } = req.params;
+    const book = await bookQueries.findBySlug(slug);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book with slug '${slug}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to get book by slug",
+      "GET_BOOK_BY_SLUG_ERROR",
+      error,
+    );
+  }
+};
+
+// Update book stock
+const updateBookStock = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { newStock, reservedQuantity } = req.body;
+    const book = await bookQueries.updateStock(bookId, newStock, reservedQuantity);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to update book stock",
+      "UPDATE_BOOK_STOCK_ERROR",
+      error,
+    );
+  }
+};
+
+// Add to book stock
+const addToBookStock = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { quantity } = req.body;
+    const book = await bookQueries.addToStock(bookId, quantity);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to add to book stock",
+      "ADD_TO_BOOK_STOCK_ERROR",
+      error,
+    );
+  }
+};
+
+// Reserve books
+const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { quantity } = req.body;
+    const book = await bookQueries.reserveBooks(bookId, quantity);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to reserve books",
+      "RESERVE_BOOKS_ERROR",
+      error,
+    );
+  }
+};
+
+// Release reserved books
+const releaseReservedBooks = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { quantity } = req.body;
+    const book = await bookQueries.releaseReservedBooks(bookId, quantity);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to release reserved books",
+      "RELEASE_RESERVED_BOOKS_ERROR",
+      error,
+    );
+  }
+};
+
+// Update book ratings
+const updateBookRatings = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { id: bookId } = req.params;
+    const { averageRating, totalRatings } = req.body;
+    const book = await bookQueries.updateRatings(bookId, averageRating, totalRatings);
+    
+    if (!book) {
+      return handleError(
+        res,
+        404,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+      );
+    }
+    
+    return sendResponse(res, 200, { success: true, data: { book } });
+  } catch (error) {
+    return handleError(
+      res,
+      500,
+      "Failed to update book ratings",
+      "UPDATE_BOOK_RATINGS_ERROR",
+      error,
+    );
+  }
+};
 
 export const bookPublicActionsController = {
   getBookById,
-  getAllBooksRedis,
+  getAllBooks,
   getBooksByName,
   getBooksByAuthor,
   getBooksByCategory,
   getNewReleases,
   getBooksByISBN,
   getRelatedBooks,
+  getFilteredBooks,
+  createBook,
+  updateBook,
+  deleteBook,
+  softDeleteBook,
+  restoreBook,
+  bookExists,
+  getBookBySlug,
+  updateBookStock,
+  addToBookStock,
+  reserveBooks,
+  releaseReservedBooks,
+  updateBookRatings,
 };

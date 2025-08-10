@@ -9,6 +9,7 @@ import { ensureHealthyStart } from "@repo/db/health";
 import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
 import authRouter from "./features/auth/routes/index.js";
+import userRouter from "./features/user/routes/index.js";
 
 dotenv.config();
 
@@ -110,6 +111,7 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/health", healthRouter);
 app.use("/api/books", bookPublicRouter);
+app.use("/api/users", userRouter);
 
 const startServer = async () => {
   try {
