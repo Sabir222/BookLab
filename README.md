@@ -12,11 +12,9 @@
 
 - [Backend](./apps/server/)
 - [Frontend](./apps/web)
-- [Docs](./apps/docs)
 
 ### Packages
 
-- [UI Library](./packages/ui)
 - [Db](./packages/db)
 
 ## 🚀 Purpose

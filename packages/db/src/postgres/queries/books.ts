@@ -21,28 +21,138 @@ export const bookQueries = {
   },
 
   async findBooksByName(title: string, limit = 10): Promise<Book[]> {
+    const cleanQuery = title.trim().toLowerCase();
+    const queryWords = cleanQuery
+      .split(/\s+/)
+      .filter((word) => word.length > 0);
+
     const result = await db.query(
-      `SELECT *,
-       GREATEST(
-         COALESCE(similarity(title, $1), 0),
-         COALESCE(similarity(subtitle, $1), 0),
-         COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
-       ) AS similarity_score
-       FROM books
-       WHERE (title % $1 OR subtitle % $1 OR (title || ' ' || COALESCE(subtitle, '')) % $1)
-       AND GREATEST(
-         COALESCE(similarity(title, $1), 0),
-         COALESCE(similarity(subtitle, $1), 0),
-         COALESCE(similarity(title || ' ' || COALESCE(subtitle, ''), $1), 0)
-       ) >= 0.2
-       AND is_active = true
-       ORDER BY similarity_score DESC
-       LIMIT $2`,
-      [title, limit],
+      `
+    WITH search_input AS (
+      SELECT 
+        $1::text AS original_query,
+        $3::text AS clean_query,
+        $4::text[] AS query_words
+    ),
+    scored_books AS (
+      SELECT 
+        b.*,
+        GREATEST(
+          CASE 
+            WHEN LOWER(b.title) = si.clean_query THEN 1.0
+            WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
+            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
+            ELSE 0
+          END,
+          CASE 
+            WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
+            WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
+            ELSE 0
+          END,
+          CASE 
+            WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
+            WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
+            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
+            ELSE 0
+          END,
+          GREATEST(
+            COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
+            COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
+            COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
+            (
+              SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
+              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+              CROSS JOIN unnest(si.query_words) AS query_word
+              WHERE similarity(word_from_title, query_word) > 0.3
+            ),
+            CASE 
+              WHEN LENGTH(si.clean_query) <= 15 THEN
+                GREATEST(
+                  CASE 
+                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 3 THEN 0.6
+                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 5 THEN 0.4
+                    ELSE 0
+                  END,
+                  CASE 
+                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 3 THEN 0.55
+                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 5 THEN 0.35
+                    ELSE 0
+                  END
+                )
+              ELSE 0
+            END
+          ),
+          CASE 
+            WHEN EXISTS (
+              SELECT 1 FROM unnest(si.query_words) AS word
+              WHERE LOWER(b.title) LIKE '%' || word || '%'
+                OR LOWER(b.subtitle) LIKE '%' || word || '%'
+            ) THEN 0.5
+            ELSE 0
+          END,
+          GREATEST(
+            CASE WHEN LOWER(b.title) % si.clean_query THEN 
+              similarity(LOWER(b.title), si.clean_query) * 0.4
+            ELSE 0 END,
+            CASE WHEN LOWER(b.subtitle) % si.clean_query THEN 
+              similarity(LOWER(b.subtitle), si.clean_query) * 0.35
+            ELSE 0 END,
+            (
+              SELECT COALESCE(MAX(
+                CASE WHEN word_from_title % query_word THEN
+                  similarity(word_from_title, query_word) * 0.3
+                ELSE 0 END
+              ), 0)
+              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+              CROSS JOIN unnest(si.query_words) AS query_word
+            )
+          )
+        ) AS similarity_score,
+        CASE 
+          WHEN LENGTH(b.title) <= 50 THEN 0.05
+          ELSE 0
+        END AS length_bonus
+      FROM books b
+      CROSS JOIN search_input si
+      WHERE b.is_active = true
+        AND (
+          LOWER(b.title) LIKE '%' || si.clean_query || '%'
+          OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
+          OR LOWER(b.title) % si.clean_query
+          OR LOWER(b.subtitle) % si.clean_query
+          OR COALESCE(similarity(LOWER(b.title), si.clean_query), 0) > 0.2
+          OR COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) > 0.2
+          OR (LENGTH(si.clean_query) <= 15 AND (
+            levenshtein(LOWER(b.title), si.clean_query) <= 5
+            OR levenshtein(LOWER(b.subtitle), si.clean_query) <= 5
+          ))
+          OR EXISTS (
+            SELECT 1 FROM unnest(si.query_words) AS word
+            WHERE word != '' AND (
+              LOWER(b.title) LIKE '%' || word || '%'
+              OR LOWER(b.subtitle) LIKE '%' || word || '%'
+              OR EXISTS (
+                SELECT 1 FROM unnest(string_to_array(LOWER(b.title), ' ')) AS title_word
+                WHERE similarity(title_word, word) > 0.3 OR title_word % word
+              )
+            )
+          )
+        )
+    )
+    SELECT *
+    FROM scored_books
+    WHERE (similarity_score + length_bonus) >= 0.08
+    ORDER BY 
+      (similarity_score + length_bonus) DESC,
+      LENGTH(title) ASC,
+      title ASC
+    LIMIT $2
+    `,
+      [title, limit, cleanQuery, queryWords],
     );
+
     return parseBooks(result.rows);
   },
-
   async findBooksByAuthor(authorName: string, limit = 20): Promise<Book[]> {
     const result = await db.query(
       `SELECT DISTINCT b.*,
@@ -635,4 +745,3 @@ export const bookQueries = {
     return result.rows[0] ? (result.rows[0] as Book) : null;
   },
 };
-

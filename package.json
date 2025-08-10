@@ -1,5 +1,5 @@
 {
-  "name": "Reservation-app",
+  "name": "Booklab",
   "private": true,
   "scripts": {
     "build": "turbo run build",
