@@ -43,11 +43,11 @@ CREATE TABLE IF NOT EXISTS  books (
     deleted_by UUID,
 
     CONSTRAINT fk_books_publisher FOREIGN KEY (publisher_id) REFERENCES publishers(publisher_id),
-    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id),
+    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_books_category FOREIGN KEY (primary_category_id) REFERENCES categories(category_id),
-    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id),
+    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id) ON DELETE CASCADE,
     
     CONSTRAINT chk_books_rating_range CHECK (average_rating >= 0 AND average_rating <= 5),
     CONSTRAINT chk_books_positive_quantities CHECK (
