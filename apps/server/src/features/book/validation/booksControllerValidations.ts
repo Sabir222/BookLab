@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const getBookByIdSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
 });
 
@@ -20,19 +20,19 @@ export const getAllBooksSchema = z.object({
 
 export const searchBooksByNameSchema = z.object({
   query: z.object({
-    q: z.string().min(1, "Search query is required"),
+    q: z.string().min(1, { message: "Search query is required" }),
   }),
 });
 
 export const searchBooksByAuthorSchema = z.object({
   query: z.object({
-    q: z.string().min(1, "Author search query is required"),
+    q: z.string().min(1, { message: "Author search query is required" }),
   }),
 });
 
 export const searchBooksByCategorySchema = z.object({
   query: z.object({
-    q: z.string().min(1, "Category search query is required"),
+    q: z.string().min(1, { message: "Category search query is required" }),
   }),
 });
 
@@ -57,13 +57,13 @@ export const getNewReleasesSchema = z.object({
 
 export const searchBooksByISBNSchema = z.object({
   query: z.object({
-    q: z.string().min(1, "ISBN search query is required"),
+    q: z.string().min(1, { message: "ISBN search query is required" }),
   }),
 });
 
 export const getRelatedBooksSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
 });
 
@@ -123,10 +123,9 @@ export const filterBooksSchema = z.object({
   }),
 });
 
-// Validation schema for creating a book
 export const createBookSchema = z.object({
   body: z.object({
-    title: z.string().min(1, "Title is required"),
+    title: z.string().min(1, { message: "Title is required" }),
     subtitle: z.string().optional(),
     description: z.string().optional(),
     isbn13: z.string().optional(),
@@ -137,36 +136,45 @@ export const createBookSchema = z.object({
     language: z.string().optional(),
     coverImageUrl: z.string().optional(),
     edition: z.string().optional(),
-    bookFormat: z.enum(["hardcover", "paperback", "ebook", "audiobook", "other"]),
+    bookFormat: z.enum([
+      "hardcover",
+      "paperback",
+      "ebook",
+      "audiobook",
+      "other",
+    ]),
     bookCondition: z.string().optional(),
     dimensions: z.string().optional(),
     weightGrams: z.number().optional(),
     forSale: z.boolean(),
     forRent: z.boolean(),
-    priceSale: z.number().min(0, "Price must be a positive number"),
+    priceSale: z
+      .number()
+      .min(0, { message: "Price must be a positive number" }),
     priceRentDaily: z.number().optional(),
     priceRentWeekly: z.number().optional(),
     priceRentMonthly: z.number().optional(),
-    stockQuantity: z.number().min(0, "Stock quantity must be non-negative"),
+    stockQuantity: z
+      .number()
+      .min(0, { message: "Stock quantity must be non-negative" }),
     reservedQuantity: z.number().optional(),
     isActive: z.boolean().optional(),
     averageRating: z.number().optional(),
     totalRatings: z.number().optional(),
     totalReviews: z.number().optional(),
-    publisherId: z.string().uuid().optional(),
-    ownerId: z.string().uuid().optional(),
-    primaryCategoryId: z.string().uuid().optional(),
+    publisherId: z.uuid().optional(),
+    ownerId: z.uuid().optional(),
+    primaryCategoryId: z.uuid().optional(),
     searchKeywords: z.array(z.string()).optional(),
-    slug: z.string().min(1, "Slug is required"),
-    createdBy: z.string().uuid().optional(),
-    lastModifiedBy: z.string().uuid().optional(),
+    slug: z.string().min(1, { message: "Slug is required" }),
+    createdBy: z.uuid().optional(),
+    lastModifiedBy: z.uuid().optional(),
   }),
 });
 
-// Validation schema for updating a book
 export const updateBookSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
     title: z.string().optional(),
@@ -198,101 +206,96 @@ export const updateBookSchema = z.object({
     averageRating: z.number().nullable().optional(),
     totalRatings: z.number().optional(),
     totalReviews: z.number().optional(),
-    publisherId: z.string().uuid().nullable().optional(),
-    ownerId: z.string().uuid().nullable().optional(),
-    primaryCategoryId: z.string().uuid().nullable().optional(),
+    publisherId: z.uuid().nullable().optional(),
+    ownerId: z.uuid().nullable().optional(),
+    primaryCategoryId: z.uuid().nullable().optional(),
     searchKeywords: z.array(z.string()).optional(),
     slug: z.string().optional(),
-    lastModifiedBy: z.string().uuid().nullable().optional(),
+    lastModifiedBy: z.uuid().nullable().optional(),
   }),
 });
 
-// Validation schema for deleting a book
 export const deleteBookSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
 });
 
-// Validation schema for soft deleting a book
 export const softDeleteBookSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    deletedBy: z.string().uuid().optional(),
+    deletedBy: z.uuid().optional(),
   }),
 });
 
-// Validation schema for restoring a book
 export const restoreBookSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
 });
 
-// Validation schema for checking if a book exists
 export const bookExistsSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
 });
 
-// Validation schema for finding a book by slug
 export const getBookBySlugSchema = z.object({
   params: z.object({
-    slug: z.string().min(1, "Slug is required"),
+    slug: z.string().min(1, { message: "Slug is required" }),
   }),
 });
 
-// Validation schema for updating book stock
 export const updateBookStockSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    newStock: z.number().min(0, "Stock must be non-negative"),
+    newStock: z.number().min(0, { message: "Stock must be non-negative" }),
     reservedQuantity: z.number().optional(),
   }),
 });
 
-// Validation schema for adding to book stock
 export const addToBookStockSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    quantity: z.number().min(1, "Quantity must be positive"),
+    quantity: z.number().min(1, { message: "Quantity must be positive" }),
   }),
 });
 
-// Validation schema for reserving books
 export const reserveBooksSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    quantity: z.number().min(1, "Quantity must be positive"),
+    quantity: z.number().min(1, { message: "Quantity must be positive" }),
   }),
 });
 
-// Validation schema for releasing reserved books
 export const releaseReservedBooksSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    quantity: z.number().min(1, "Quantity must be positive"),
+    quantity: z.number().min(1, { message: "Quantity must be positive" }),
   }),
 });
 
-// Validation schema for updating book ratings
 export const updateBookRatingsSchema = z.object({
   params: z.object({
-    id: z.string().uuid("Book ID must be a valid UUID"),
+    id: z.uuid(),
   }),
   body: z.object({
-    averageRating: z.number().min(0).max(5, "Rating must be between 0 and 5"),
-    totalRatings: z.number().min(0, "Total ratings must be non-negative"),
+    averageRating: z
+      .number()
+      .min(0)
+      .max(5, { message: "Rating must be between 0 and 5" }),
+    totalRatings: z
+      .number()
+      .min(0, { message: "Total ratings must be non-negative" }),
   }),
 });
