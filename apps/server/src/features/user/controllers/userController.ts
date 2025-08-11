@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { userQueries } from "@repo/db/postgres";
-import { hashPassword } from "../../../utils/hashPassword.js";
+import { hashPassword, comparerPassword } from "../../../utils/hashPassword.js";
 
 const sendResponse = (
   res: Response,
@@ -132,10 +132,18 @@ export const changePassword = async (
       return handleError(res, 404, "User not found", "USER_NOT_FOUND");
     }
 
-    // TODO: Verify current password
-
-    //NOTE: Using the variable to avoid lint error
-    console.log("Current password provided:", currentPassword);
+    const isPasswordValid = comparerPassword(
+      currentPassword,
+      user.hashed_password,
+    );
+    if (!isPasswordValid) {
+      return handleError(
+        res,
+        401,
+        "Current password is incorrect",
+        "INVALID_PASSWORD",
+      );
+    }
 
     //NOTE: no need to await this , i already use sync while salting in hashpw fnc
     const hashedNewPassword = hashPassword(newPassword);
@@ -173,8 +181,25 @@ export const deleteUser = async (
       return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
     }
 
-    // TODO: Verify password before deletion
-    // For now, we'll just delete the user directly
+    const { password } = req.body;
+    if (!password) {
+      return handleError(
+        res,
+        400,
+        "Password is required for account deletion",
+        "PASSWORD_REQUIRED",
+      );
+    }
+
+    const user = await userQueries.findById(userId);
+    if (!user) {
+      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+    }
+
+    const isPasswordValid = comparerPassword(password, user.hashed_password);
+    if (!isPasswordValid) {
+      return handleError(res, 401, "Password is incorrect", "INVALID_PASSWORD");
+    }
 
     const deleted = await userQueries.delete(userId);
     if (!deleted) {
