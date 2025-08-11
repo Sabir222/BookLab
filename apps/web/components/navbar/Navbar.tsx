@@ -3,7 +3,7 @@ import { Menu, X, Search, BookOpen, User, ShoppingCart, Bookmark } from "lucide-
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export const Navbar = () => {
         const [menuState, setMenuState] = useState(false);
@@ -81,7 +81,7 @@ export const Navbar = () => {
                                         {/* Search */}
                                         <div ref={searchRef} className="relative">
                                                 {searchOpen ? (
-                                                        <div className="absolute right-0 top-12 md:top-auto md:bottom-full md:mb-2 w-72 sm:w-80 p-3 bg-background border border-border rounded-lg shadow-xl z-50">
+                                                        <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 p-3 bg-background border border-border rounded-lg shadow-xl z-50">
                                                                 <form onSubmit={handleSearch}>
                                                                         <div className="relative">
                                                                                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -166,26 +166,6 @@ export const Navbar = () => {
                         {menuState && (
                                 <div className="md:hidden border-t border-border/40 bg-background">
                                         <div className="container px-4 py-4">
-                                                {/* Mobile Search */}
-                                                <div className="relative mb-4">
-                                                        <form onSubmit={handleSearch}>
-                                                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                                                                <input
-                                                                        type="text"
-                                                                        placeholder="Find your next great read..."
-                                                                        className="w-full rounded-md border border-input bg-accent py-2 pl-10 pr-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                                                        value={searchQuery}
-                                                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                                                />
-                                                                <button
-                                                                        type="submit"
-                                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
-                                                                >
-                                                                        <Search className="h-4 w-4" />
-                                                                </button>
-                                                        </form>
-                                                </div>
-                                                
                                                 {/* Mobile Navigation */}
                                                 <nav className="flex flex-col gap-1 mb-4">
                                                         {navItems.map((item, index) => (
