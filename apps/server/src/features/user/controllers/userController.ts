@@ -132,11 +132,14 @@ export const changePassword = async (
       return handleError(res, 404, "User not found", "USER_NOT_FOUND");
     }
 
-    // TODO: Verify current password (you'll need to implement password comparison)
-    // For now, we'll just update the password directly
-    console.log("Current password provided:", currentPassword); // Using the variable to avoid TS6133
+    // TODO: Verify current password
 
-    const hashedNewPassword = await hashPassword(newPassword);
+    //NOTE: Using the variable to avoid lint error
+    console.log("Current password provided:", currentPassword);
+
+    //NOTE: no need to await this , i already use sync while salting in hashpw fnc
+    const hashedNewPassword = hashPassword(newPassword);
+
     const updatedUser = await userQueries.update(userId, {
       hashedPassword: hashedNewPassword,
     });
@@ -183,16 +186,6 @@ export const deleteUser = async (
       message: "Account deleted successfully",
     });
   } catch (error: any) {
-    // Handle foreign key constraint violation
-    if (error.code === '23503') {
-      return handleError(
-        res,
-        409,
-        "Cannot delete account with associated records (reviews, etc.)",
-        "USER_HAS_ASSOCIATED_RECORDS"
-      );
-    }
-    
     return handleError(
       res,
       500,
@@ -319,7 +312,12 @@ export const adminDeleteUser = async (
   try {
     // Check if user is admin
     if (!req.user || req.user.role !== "admin") {
-      return handleError(res, 403, "Insufficient permissions", "INSUFFICIENT_PERMISSIONS");
+      return handleError(
+        res,
+        403,
+        "Insufficient permissions",
+        "INSUFFICIENT_PERMISSIONS",
+      );
     }
 
     const { id: userId } = req.params;
@@ -335,15 +333,15 @@ export const adminDeleteUser = async (
     });
   } catch (error: any) {
     // Handle foreign key constraint violation
-    if (error.code === '23503') {
+    if (error.code === "23503") {
       return handleError(
         res,
         409,
         "Cannot delete user with associated records (reviews, etc.)",
-        "USER_HAS_ASSOCIATED_RECORDS"
+        "USER_HAS_ASSOCIATED_RECORDS",
       );
     }
-    
+
     return handleError(
       res,
       500,
