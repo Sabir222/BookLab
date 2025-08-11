@@ -39,7 +39,7 @@ export function SearchBar({ className }: SearchBarProps) {
         return (
                 <div ref={searchRef} className={`relative ${className || ''}`}>
                         {searchOpen ? (
-                                <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 p-3 bg-background border border-border rounded-lg shadow-xl z-50">
+                                <div className="fixed left-1/2 top-20 w-[90vw] -translate-x-1/2 md:w-[70vw] lg:w-[60vw] max-w-2xl p-3 bg-background border border-border rounded-lg shadow-xl z-50">
                                         <form onSubmit={handleSearch}>
                                                 <div className="relative">
                                                         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
