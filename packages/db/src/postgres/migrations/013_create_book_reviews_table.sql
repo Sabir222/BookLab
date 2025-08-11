@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS book_reviews (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
 
-    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT chk_book_reviews_rating_range CHECK (rating >= 1 AND rating <= 5),
     CONSTRAINT unique_user_book_review UNIQUE (book_id, user_id)
 );

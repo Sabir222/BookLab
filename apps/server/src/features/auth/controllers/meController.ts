@@ -1,43 +1,42 @@
 import { userQueries } from "@repo/db/postgres";
 import { type Request, type Response } from "express";
-import jwt from "jsonwebtoken";
 
-type JWTPayload = {
-  id: string;
-  email: string;
-  username: string;
-};
-
-/**
- * Controller for handling requests to get the current user's information.
- * It checks for a valid access token in cookies, decodes it, retrieves user data,
- * and responds with the user information.
- *
- * @param {Request} req - The request object containing cookies with access token.
- * @param {Response} res - The response object to send back the user data or error.
- * @returns {Promise<void>} - A promise that resolves when the response is sent.
- */
 const meController = async (req: Request, res: Response) => {
-  const accessTokenName = process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken";
-  const accessToken = req.cookies[accessTokenName];
+  try {
+    const userId = req.user?.id;
+    console.log(req.user);
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        error: "Unauthorized!",
+        code: "UNAUTHORIZED",
+      });
+    }
 
-  if (!accessToken) return res.status(401).json({ message: "Unauthorized!" });
+    const user = await userQueries.findById(userId);
 
-  const decoded = jwt.verify(
-    accessToken,
-    process.env.JWT_SECRET!,
-  ) as JWTPayload;
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User not found",
+        code: "USER_NOT_FOUND",
+      });
+    }
 
-  const result = await userQueries.findById(decoded.id);
-  //const { user_id, email, full_name, role, hashed_password } = result.rows[0];
+    const { hashed_password, ...publicUser } = user;
 
-  return (
-    res
-      //.json({ user_id, email, full_name, role, hashed_password })
-      .json({
-        result,
-      })
-      .status(200)
-  );
+    return res.status(200).json({
+      success: true,
+      data: { user: publicUser },
+    });
+  } catch (error) {
+    console.error("Error in meController:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error",
+      code: "INTERNAL_ERROR",
+    });
+  }
 };
+
 export default meController;

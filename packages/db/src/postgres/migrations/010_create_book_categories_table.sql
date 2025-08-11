@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS book_categories (
     category_id UUID NOT NULL,
 
     CONSTRAINT pk_book_categories PRIMARY KEY (book_id, category_id),
-    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_categories_category_id;

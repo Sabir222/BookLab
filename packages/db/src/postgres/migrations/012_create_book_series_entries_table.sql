@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS book_series_entries (
     volume_title VARCHAR(255),
     
     CONSTRAINT pk_book_series_entries PRIMARY KEY (book_id, series_id),
-    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id),
+    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id) ON DELETE CASCADE,
     CONSTRAINT unique_series_volume UNIQUE (series_id, volume_number)
 );
 

@@ -1,3 +1,5 @@
+
+
 ### File: ./migrations/001_db_setup.sql
 
 ```sql
@@ -15,6 +17,7 @@ CREATE TABLE IF NOT EXISTS schema_migrations (
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -44,6 +47,7 @@ COMMIT;
 ```
 
 ---
+
 
 ### File: ./migrations/002_create_users_table.sql
 
@@ -88,8 +92,8 @@ CREATE INDEX idx_users_role ON users(role);
 DROP INDEX IF EXISTS idx_users_created_at;
 CREATE INDEX idx_users_created_at ON users(created_at);
 
-CREATE TRIGGER update_users_updated_at
-  BEFORE UPDATE ON users
+CREATE TRIGGER update_users_updated_at 
+  BEFORE UPDATE ON users 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('002_create_users_table');
@@ -125,6 +129,7 @@ COMMIT;
 
 ---
 
+
 ### File: ./migrations/003_create_publishers_table.sql
 
 ```sql
@@ -145,7 +150,7 @@ CREATE TABLE IF NOT EXISTS publishers (
     is_active BOOLEAN NOT NULL DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-
+    
     CONSTRAINT unique_publisher_name UNIQUE (publisher_name),
     CONSTRAINT check_founded_year_valid CHECK (founded_year >= 1000 AND founded_year <= EXTRACT(YEAR FROM NOW())),
     CONSTRAINT check_website_url_format CHECK (website_url IS NULL OR website_url ~* '^https?://.*')
@@ -170,8 +175,8 @@ DROP INDEX IF EXISTS idx_publishers_active_country;
 CREATE INDEX idx_publishers_active_country ON publishers(country, is_active) WHERE is_active = true AND country IS NOT NULL;
 
 
-CREATE TRIGGER update_publishers_updated_at
-    BEFORE UPDATE ON publishers
+CREATE TRIGGER update_publishers_updated_at 
+    BEFORE UPDATE ON publishers 
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('003_create_publishers_table');
@@ -209,6 +214,7 @@ COMMIT;
 
 ---
 
+
 ### File: ./migrations/004_create_authors_table.sql
 
 ```sql
@@ -240,8 +246,8 @@ CREATE INDEX idx_authors_birth_date ON authors(birth_date);
 DROP INDEX IF EXISTS idx_authors_created_at;
 CREATE INDEX idx_authors_created_at ON authors(created_at);
 
-CREATE TRIGGER update_authors_updated_at
-  BEFORE UPDATE ON authors
+CREATE TRIGGER update_authors_updated_at 
+  BEFORE UPDATE ON authors 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('004_create_authors_table');
@@ -271,6 +277,7 @@ COMMIT;
 
 ---
 
+
 ### File: ./migrations/005_create_categories_table.sql
 
 ```sql
@@ -285,24 +292,24 @@ CREATE TABLE IF NOT EXISTS categories (
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
-
-    CONSTRAINT fk_parent_category
-        FOREIGN KEY (parent_category_id)
+    
+    CONSTRAINT fk_parent_category 
+        FOREIGN KEY (parent_category_id) 
         REFERENCES categories(category_id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_categories_parent_id
-ON categories(parent_category_id)
+CREATE INDEX IF NOT EXISTS idx_categories_parent_id 
+ON categories(parent_category_id) 
 WHERE parent_category_id IS NOT NULL;
 
-CREATE INDEX IF NOT EXISTS idx_categories_active
-ON categories(is_active)
+CREATE INDEX IF NOT EXISTS idx_categories_active 
+ON categories(is_active) 
 WHERE is_active = true;
 
-CREATE TRIGGER update_categories_updated_at
-  BEFORE UPDATE ON categories
+CREATE TRIGGER update_categories_updated_at 
+  BEFORE UPDATE ON categories 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('005_create_categories_table');
@@ -328,6 +335,7 @@ COMMIT;
 
 ---
 
+
 ### File: ./migrations/006_create_genre_table.sql
 
 ```sql
@@ -342,25 +350,25 @@ CREATE TABLE IF NOT EXISTS genres (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW(),
 
-  CONSTRAINT fk_parent_genre
-    FOREIGN KEY (parent_genre_id)
+  CONSTRAINT fk_parent_genre 
+    FOREIGN KEY (parent_genre_id) 
     REFERENCES genres(genre_id)
-    ON DELETE SET NULL
+    ON DELETE SET NULL 
     ON UPDATE CASCADE,
 
   CONSTRAINT unique_genre_name UNIQUE (genre_name)
 );
 
-CREATE INDEX IF NOT EXISTS idx_genres_parent_id
+CREATE INDEX IF NOT EXISTS idx_genres_parent_id 
 ON genres(parent_genre_id)
 WHERE parent_genre_id IS NOT NULL;
 
-CREATE INDEX IF NOT EXISTS idx_genres_active
+CREATE INDEX IF NOT EXISTS idx_genres_active 
 ON genres(is_active)
 WHERE is_active = true;
 
-CREATE TRIGGER update_genres_updated_at
-  BEFORE UPDATE ON genres
+CREATE TRIGGER update_genres_updated_at 
+  BEFORE UPDATE ON genres 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('006_create_genre_table');
@@ -386,6 +394,7 @@ COMMIT;
 
 ---
 
+
 ### File: ./migrations/007_create_book_series_table.sql
 
 ```sql
@@ -409,8 +418,8 @@ CREATE INDEX IF NOT EXISTS idx_is_completed
 ON book_series(is_completed)
 WHERE is_completed = true;
 
-CREATE TRIGGER update_book_series_updated_at
-  BEFORE UPDATE ON book_series
+CREATE TRIGGER update_book_series_updated_at 
+  BEFORE UPDATE ON book_series 
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO schema_migrations (version) VALUES ('007_create_book_series_table');
@@ -432,6 +441,7 @@ COMMIT;
 ```
 
 ---
+
 
 ### File: ./migrations/008_create_books_table.sql
 
@@ -480,18 +490,18 @@ CREATE TABLE IF NOT EXISTS  books (
     deleted_at TIMESTAMP NULL,
     deleted_by UUID,
 
-    CONSTRAINT fk_books_publisher FOREIGN KEY (publisher_id) REFERENCES publishers(publisher_id),
-    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id),
+    CONSTRAINT fk_books_publisher FOREIGN KEY (publisher_id) REFERENCES publishers(publisher_id) ON DELETE SET NULL,
+    CONSTRAINT fk_books_owner FOREIGN KEY (owner_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT fk_books_category FOREIGN KEY (primary_category_id) REFERENCES categories(category_id),
-    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id),
-    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id),
-
+    CONSTRAINT fk_books_created_by FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_modified_by FOREIGN KEY (last_modified_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_books_deleted_by FOREIGN KEY (deleted_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    
     CONSTRAINT chk_books_rating_range CHECK (average_rating >= 0 AND average_rating <= 5),
     CONSTRAINT chk_books_positive_quantities CHECK (
-        stock_quantity >= 0 AND
-        reserved_quantity >= 0 AND
-        total_ratings >= 0 AND
+        stock_quantity >= 0 AND 
+        reserved_quantity >= 0 AND 
+        total_ratings >= 0 AND 
         total_reviews >= 0
     ),
     CONSTRAINT chk_books_isbn_format CHECK (
@@ -499,10 +509,10 @@ CREATE TABLE IF NOT EXISTS  books (
         (isbn_10 IS NULL OR LENGTH(isbn_10) IN (10, 13))
     ),
     CONSTRAINT chk_books_rental_pricing CHECK (
-        (for_rent = false) OR
+        (for_rent = false) OR 
         (for_rent = true AND (price_rent_daily IS NOT NULL OR price_rent_weekly IS NOT NULL OR price_rent_monthly IS NOT NULL))
     ),
-
+    
     CONSTRAINT unique_isbn_10 UNIQUE (isbn_10),
     CONSTRAINT unique_isbn_13 UNIQUE (isbn_13),
     CONSTRAINT unique_slug UNIQUE (slug)
@@ -566,6 +576,7 @@ commit
 
 ---
 
+
 ### File: ./migrations/009_create_book_authors_table.sql
 
 ```sql
@@ -579,8 +590,8 @@ CREATE TABLE IF NOT EXISTS  book_authors (
     order_index INTEGER DEFAULT 1,
 
     CONSTRAINT pk_book_authors PRIMARY KEY (book_id, author_id),
-    CONSTRAINT fk_book_authors_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_authors_author FOREIGN KEY (author_id) REFERENCES authors(author_id),
+    CONSTRAINT fk_book_authors_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_authors_author FOREIGN KEY (author_id) REFERENCES authors(author_id) ON DELETE CASCADE,
     CONSTRAINT chk_book_authors_order_positive CHECK (order_index > 0)
 );
 
@@ -601,6 +612,7 @@ commit
 
 ---
 
+
 ### File: ./migrations/010_create_book_categories_table.sql
 
 ```sql
@@ -612,8 +624,8 @@ CREATE TABLE IF NOT EXISTS book_categories (
     category_id UUID NOT NULL,
 
     CONSTRAINT pk_book_categories PRIMARY KEY (book_id, category_id),
-    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id)
+    CONSTRAINT fk_book_categories_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_categories_category FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_categories_category_id;
@@ -633,6 +645,7 @@ commit
 
 ---
 
+
 ### File: ./migrations/011_create_book_genres_table.sql
 
 ```sql
@@ -644,8 +657,8 @@ CREATE TABLE IF NOT EXISTS book_genres (
     genre_id UUID NOT NULL,
 
     CONSTRAINT pk_book_genres PRIMARY KEY (book_id, genre_id),
-    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+    CONSTRAINT fk_book_genres_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_genres_genre FOREIGN KEY (genre_id) REFERENCES genres(genre_id) ON DELETE CASCADE
 );
 
 DROP INDEX IF EXISTS idx_book_genres_genre_id;
@@ -665,6 +678,7 @@ commit
 
 ---
 
+
 ### File: ./migrations/012_create_book_series_entries_table.sql
 
 ```sql
@@ -676,10 +690,10 @@ CREATE TABLE IF NOT EXISTS book_series_entries (
     series_id UUID NOT NULL,
     volume_number INTEGER,
     volume_title VARCHAR(255),
-
+    
     CONSTRAINT pk_book_series_entries PRIMARY KEY (book_id, series_id),
-    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id),
+    CONSTRAINT fk_book_series_entries_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_series_entries_series FOREIGN KEY (series_id) REFERENCES book_series(series_id) ON DELETE CASCADE,
     CONSTRAINT unique_series_volume UNIQUE (series_id, volume_number)
 );
 
@@ -697,6 +711,7 @@ commit
 
 ---
 
+
 ### File: ./migrations/013_create_book_reviews_table.sql
 
 ```sql
@@ -713,8 +728,8 @@ CREATE TABLE IF NOT EXISTS book_reviews (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
 
-    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id),
-    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT fk_book_reviews_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
+    CONSTRAINT fk_book_reviews_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CONSTRAINT chk_book_reviews_rating_range CHECK (rating >= 1 AND rating <= 5),
     CONSTRAINT unique_user_book_review UNIQUE (book_id, user_id)
 );
@@ -768,37 +783,202 @@ commit
 
 ---
 
+
 ### File: ./migrations/014_add_fuzzy_search_indexes_books.sql
 
 ```sql
-CREATE INDEX  idx_books_title_gin_trgm
+-- Migration: Add Fuzzy Search Indexes
+-- Version: 014_add_fuzzy_search_indexes
+-- Created: 10-08-2025
+-- Description: Add fuzzy search indexes for books, authors, and categories
+begin
+;
 
+DROP INDEX IF EXISTS idx_books_title_gin_trgm;
+DROP INDEX IF EXISTS idx_books_subtitle_gin_trgm;
+DROP INDEX IF EXISTS idx_books_title_subtitle_gin_trgm;
+DROP INDEX IF EXISTS idx_books_isbn_combined_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_full_name_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_first_name_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_last_name_gin_trgm;
+DROP INDEX IF EXISTS idx_categories_name_gin_trgm;
+
+CREATE INDEX idx_books_title_gin_trgm 
 ON books USING gin (title gin_trgm_ops);
 
-CREATE INDEX  idx_books_subtitle_gin_trgm
+CREATE INDEX idx_books_subtitle_gin_trgm 
 ON books USING gin (subtitle gin_trgm_ops);
 
-CREATE INDEX  idx_books_title_subtitle_gin_trgm
+CREATE INDEX idx_books_title_subtitle_gin_trgm 
 ON books USING gin ((COALESCE(title, '') || ' ' || COALESCE(subtitle, '')) gin_trgm_ops);
 
-CREATE INDEX  idx_books_isbn_combined_gin_trgm
+CREATE INDEX idx_books_isbn_combined_gin_trgm 
 ON books USING gin ((COALESCE(isbn_13, '') || ' ' || COALESCE(isbn_10, '')) gin_trgm_ops);
 
--- Author fuzzy search indexes
-CREATE INDEX idx_authors_full_name_gin_trgm
+CREATE INDEX idx_authors_full_name_gin_trgm 
 ON authors USING gin ((COALESCE(first_name, '') || ' ' || COALESCE(last_name, '')) gin_trgm_ops);
 
-CREATE INDEX idx_authors_first_name_gin_trgm
+CREATE INDEX idx_authors_first_name_gin_trgm 
 ON authors USING gin (first_name gin_trgm_ops);
 
-CREATE INDEX idx_authors_last_name_gin_trgm
+CREATE INDEX idx_authors_last_name_gin_trgm 
 ON authors USING gin (last_name gin_trgm_ops);
 
--- Category fuzzy search indexes
-CREATE INDEX idx_categories_name_gin_trgm
+CREATE INDEX idx_categories_name_gin_trgm 
 ON categories USING gin (category_name gin_trgm_ops);
 
-INSERT INTO schema_migrations (version) VALUES ('014_add_fuzzy_search_indexes');
+INSERT INTO schema_migrations (version) VALUES ('014_add_fuzzy_search_indexes')
+ON CONFLICT (version) DO NOTHING;
+
+commit
+;
+
+-- ROLLBACK (DOWN MIGRATION)
+-- Uncomment and run this section to rollback this migration
+/*
+BEGIN;
+
+-- Drop indexes
+DROP INDEX IF EXISTS idx_books_title_gin_trgm;
+DROP INDEX IF EXISTS idx_books_subtitle_gin_trgm;
+DROP INDEX IF EXISTS idx_books_title_subtitle_gin_trgm;
+DROP INDEX IF EXISTS idx_books_isbn_combined_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_full_name_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_first_name_gin_trgm;
+DROP INDEX IF EXISTS idx_authors_last_name_gin_trgm;
+DROP INDEX IF EXISTS idx_categories_name_gin_trgm;
+
+-- Remove from migrations
+DELETE FROM schema_migrations WHERE version = '014_add_fuzzy_search_indexes';
+
+COMMIT;
+*/
+
+
+
+```
+
+---
+
+
+### File: ./migrations/015_create_user_wishlist_table.sql
+
+```sql
+-- Migration: Create User Wishlist Table
+-- Version: 015_create_user_wishlist_table
+-- Created: 10-08-2025
+-- Description: Create user_wishlist table to store users' wishlist books
+begin
+;
+
+CREATE TABLE IF NOT EXISTS user_wishlist (
+    user_id UUID NOT NULL,
+    book_id UUID NOT NULL,
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    notes TEXT,
+
+    CONSTRAINT pk_user_wishlist PRIMARY KEY (user_id, book_id),
+    CONSTRAINT fk_user_wishlist_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_wishlist_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+);
+
+DROP INDEX IF EXISTS idx_user_wishlist_user_id;
+CREATE INDEX idx_user_wishlist_user_id ON user_wishlist(user_id);
+
+DROP INDEX IF EXISTS idx_user_wishlist_book_id;
+CREATE INDEX idx_user_wishlist_book_id ON user_wishlist(book_id);
+
+DROP INDEX IF EXISTS idx_user_wishlist_added_at;
+CREATE INDEX idx_user_wishlist_added_at ON user_wishlist(added_at);
+
+INSERT INTO schema_migrations (version) VALUES ('015_create_user_wishlist_table')
+ON CONFLICT (version) DO NOTHING;
+
+commit
+;
+
+-- ROLLBACK (DOWN MIGRATION)
+-- Uncomment and run this section to rollback this migration
+/*
+BEGIN;
+
+-- Drop indexes
+DROP INDEX IF EXISTS idx_user_wishlist_added_at;
+DROP INDEX IF EXISTS idx_user_wishlist_book_id;
+DROP INDEX IF EXISTS idx_user_wishlist_user_id;
+
+-- Drop table
+DROP TABLE IF EXISTS user_wishlist;
+
+-- Remove from migrations
+DELETE FROM schema_migrations WHERE version = '015_create_user_wishlist_table';
+
+COMMIT;
+*/
+
+
+
+```
+
+---
+
+
+### File: ./migrations/016_create_user_favorite_books_table.sql
+
+```sql
+-- Migration: Create User Favorite Books Table
+-- Version: 016_create_user_favorite_books_table
+-- Created: 10-08-2025
+-- Description: Create user_favorite_books table to store users' favorite books
+begin
+;
+
+CREATE TABLE IF NOT EXISTS user_favorite_books (
+    user_id UUID NOT NULL,
+    book_id UUID NOT NULL,
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    notes TEXT,
+
+    CONSTRAINT pk_user_favorite_books PRIMARY KEY (user_id, book_id),
+    CONSTRAINT fk_user_favorite_books_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_favorite_books_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+);
+
+DROP INDEX IF EXISTS idx_user_favorite_books_user_id;
+CREATE INDEX idx_user_favorite_books_user_id ON user_favorite_books(user_id);
+
+DROP INDEX IF EXISTS idx_user_favorite_books_book_id;
+CREATE INDEX idx_user_favorite_books_book_id ON user_favorite_books(book_id);
+
+DROP INDEX IF EXISTS idx_user_favorite_books_added_at;
+CREATE INDEX idx_user_favorite_books_added_at ON user_favorite_books(added_at);
+
+INSERT INTO schema_migrations (version) VALUES ('016_create_user_favorite_books_table')
+ON CONFLICT (version) DO NOTHING;
+
+commit
+;
+
+-- ROLLBACK (DOWN MIGRATION)
+-- Uncomment and run this section to rollback this migration
+/*
+BEGIN;
+
+-- Drop indexes
+DROP INDEX IF EXISTS idx_user_favorite_books_added_at;
+DROP INDEX IF EXISTS idx_user_favorite_books_book_id;
+DROP INDEX IF EXISTS idx_user_favorite_books_user_id;
+
+-- Drop table
+DROP TABLE IF EXISTS user_favorite_books;
+
+-- Remove from migrations
+DELETE FROM schema_migrations WHERE version = '016_create_user_favorite_books_table';
+
+COMMIT;
+*/
+
+
 
 ```
 

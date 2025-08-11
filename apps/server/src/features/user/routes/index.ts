@@ -1,5 +1,6 @@
 import express from "express";
 import { validate } from "../../auth/middlewares/validate.js";
+import { authenticate, authorizeAdmin } from "../../auth/middlewares/authenticate.js";
 import { 
   getUserByIdSchema,
   updateUserProfileSchema,
@@ -26,14 +27,14 @@ const userRouter = express.Router();
 userRouter.get("/:id", validate(getUserByIdSchema), getUserById);
 
 // Protected routes (require authentication)
-userRouter.get("/me", getCurrentUser);
-userRouter.put("/me", validate(updateUserProfileSchema), updateUserProfile);
-userRouter.put("/me/password", validate(changePasswordSchema), changePassword);
-userRouter.delete("/me", validate(deleteUserSchema), deleteUser);
+userRouter.get("/me", authenticate, getCurrentUser);
+userRouter.put("/me", authenticate, validate(updateUserProfileSchema), updateUserProfile);
+userRouter.put("/me/password", authenticate, validate(changePasswordSchema), changePassword);
+userRouter.delete("/me", authenticate, validate(deleteUserSchema), deleteUser);
 
 // Admin routes (require admin authentication)
-userRouter.get("/", validate(listUsersSchema), listUsers);
-userRouter.put("/:id", validate(adminUpdateUserSchema), adminUpdateUser);
-userRouter.delete("/:id", validate(adminDeleteUserSchema), adminDeleteUser);
+userRouter.get("/", authenticate, authorizeAdmin, validate(listUsersSchema), listUsers);
+userRouter.put("/:id", authenticate, authorizeAdmin, validate(adminUpdateUserSchema), adminUpdateUser);
+userRouter.delete("/:id", authenticate, authorizeAdmin, validate(adminDeleteUserSchema), adminDeleteUser);
 
 export default userRouter;

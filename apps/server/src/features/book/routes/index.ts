@@ -1,6 +1,7 @@
 import express from "express";
 import { bookPublicActionsController } from "../controller/booksPublicActionsController.js";
 import { validate } from "../middleware/validate.js";
+import { authenticate } from "../../auth/middlewares/authenticate.js";
 import {
   getBookByIdSchema,
   getAllBooksSchema,
@@ -60,18 +61,18 @@ bookPublicRouter.get("/filter", validate(filterBooksSchema), bookPublicActionsCo
 bookPublicRouter.get("/", validate(getAllBooksSchema), bookPublicActionsController.getAllBooks);
 bookPublicRouter.get("/:id", validate(getBookByIdSchema), bookPublicActionsController.getBookById);
 
-// New book management routes
-bookPublicRouter.post("/", validate(createBookSchema), bookPublicActionsController.createBook);
-bookPublicRouter.put("/:id", validate(updateBookSchema), bookPublicActionsController.updateBook);
-bookPublicRouter.delete("/:id", validate(deleteBookSchema), bookPublicActionsController.deleteBook);
-bookPublicRouter.patch("/:id/soft-delete", validate(softDeleteBookSchema), bookPublicActionsController.softDeleteBook);
-bookPublicRouter.patch("/:id/restore", validate(restoreBookSchema), bookPublicActionsController.restoreBook);
+// New book management routes (require authentication)
+bookPublicRouter.post("/", authenticate, validate(createBookSchema), bookPublicActionsController.createBook);
+bookPublicRouter.put("/:id", authenticate, validate(updateBookSchema), bookPublicActionsController.updateBook);
+bookPublicRouter.delete("/:id", authenticate, validate(deleteBookSchema), bookPublicActionsController.deleteBook);
+bookPublicRouter.patch("/:id/soft-delete", authenticate, validate(softDeleteBookSchema), bookPublicActionsController.softDeleteBook);
+bookPublicRouter.patch("/:id/restore", authenticate, validate(restoreBookSchema), bookPublicActionsController.restoreBook);
 bookPublicRouter.get("/:id/exists", validate(bookExistsSchema), bookPublicActionsController.bookExists);
 bookPublicRouter.get("/slug/:slug", validate(getBookBySlugSchema), bookPublicActionsController.getBookBySlug);
-bookPublicRouter.patch("/:id/stock", validate(updateBookStockSchema), bookPublicActionsController.updateBookStock);
-bookPublicRouter.patch("/:id/stock/add", validate(addToBookStockSchema), bookPublicActionsController.addToBookStock);
-bookPublicRouter.patch("/:id/stock/reserve", validate(reserveBooksSchema), bookPublicActionsController.reserveBooks);
-bookPublicRouter.patch("/:id/stock/release", validate(releaseReservedBooksSchema), bookPublicActionsController.releaseReservedBooks);
-bookPublicRouter.patch("/:id/ratings", validate(updateBookRatingsSchema), bookPublicActionsController.updateBookRatings);
+bookPublicRouter.patch("/:id/stock", authenticate, validate(updateBookStockSchema), bookPublicActionsController.updateBookStock);
+bookPublicRouter.patch("/:id/stock/add", authenticate, validate(addToBookStockSchema), bookPublicActionsController.addToBookStock);
+bookPublicRouter.patch("/:id/stock/reserve", authenticate, validate(reserveBooksSchema), bookPublicActionsController.reserveBooks);
+bookPublicRouter.patch("/:id/stock/release", authenticate, validate(releaseReservedBooksSchema), bookPublicActionsController.releaseReservedBooks);
+bookPublicRouter.patch("/:id/ratings", authenticate, validate(updateBookRatingsSchema), bookPublicActionsController.updateBookRatings);
 
 export default bookPublicRouter;

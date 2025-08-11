@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
     credits INT NOT NULL DEFAULT 0,
     loyalty_points INT NOT NULL DEFAULT 0,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
-    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    role user_role NOT NULL DEFAULT 'user',
     last_login TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
@@ -22,8 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT unique_username UNIQUE (username),
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT check_credits_non_negative CHECK (credits >= 0),
-    CONSTRAINT check_loyalty_points_non_negative CHECK (loyalty_points >= 0),
-    CONSTRAINT check_valid_role CHECK (role IN ('user', 'admin', 'moderator'))
+    CONSTRAINT check_loyalty_points_non_negative CHECK (loyalty_points >= 0)
 );
 
 DROP INDEX IF EXISTS idx_users_email;
