@@ -1,6 +1,6 @@
 "use client";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
@@ -11,6 +11,7 @@ import { NavLinks } from "./NavLinks";
 
 export const Navbar = () => {
         const [menuState, setMenuState] = useState(false);
+        const [isScrolled, setIsScrolled] = useState(false);
 
         const navItems = [
                 { name: "Books", href: "/books" },
@@ -19,38 +20,51 @@ export const Navbar = () => {
                 { name: "Deals", href: "/deals" },
         ];
 
+        useEffect(() => {
+                const handleScroll = () => {
+                        setIsScrolled(window.scrollY > 10);
+                };
+                window.addEventListener("scroll", handleScroll);
+                return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
+
         return (
-                <header className="sticky top-0 z-50 w-full bg-background border-b border-border/40">
-                        {/* Bookshelf Top Border */}
-                        <div className="h-1 bg-secondary w-full"></div>
-                        
-                        <div className="container flex h-16 items-center justify-between px-4 sm:px-6">
-                                {/* Logo */}
-                                <BrandLogo />
+                <header className="fixed z-20 w-full px-2 group">
+                        <div
+                                className={`mx-auto transition-all duration-300 ${
+                                        isScrolled
+                                                ? "bg-accent/90 max-w-6xl rounded-2xl border backdrop-blur-lg mt-2 px-6 lg:px-12"
+                                                : "max-w-6xl px-6 lg:px-12"
+                                }`}
+                        >
+                                <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+                                        {/* Logo */}
+                                        <BrandLogo />
 
-                                {/* Desktop Navigation */}
-                                <div className="hidden md:flex md:items-center md:gap-1">
-                                        <NavLinks navItems={navItems} />
-                                </div>
+                                        {/* Desktop Navigation */}
+                                        <div className="hidden md:flex md:items-center md:gap-1">
+                                                <NavLinks navItems={navItems} />
+                                        </div>
 
-                                {/* Right Side Actions */}
-                                <div className="flex items-center gap-2">
-                                        {/* Search */}
-                                        <SearchBar />
-                                        
-                                        {/* User Menu */}
-                                        <UserMenu />
-                                        
-                                        {/* Mobile Menu Button */}
-                                        <Button 
-                                                variant="ghost" 
-                                                size="icon"
-                                                className="md:hidden hover:bg-accent"
-                                                onClick={() => setMenuState(!menuState)}
-                                        >
-                                                <Menu className="h-5 w-5" />
-                                                <span className="sr-only">Toggle menu</span>
-                                        </Button>
+                                        {/* Right Side Actions */}
+                                        <div className="flex items-center gap-2">
+                                                {/* Search */}
+                                                <SearchBar />
+                                                
+                                                {/* User Menu */}
+                                                <UserMenu />
+                                                
+                                                {/* Mobile Menu Button */}
+                                                <Button 
+                                                        variant="ghost" 
+                                                        size="icon"
+                                                        className="md:hidden hover:bg-accent"
+                                                        onClick={() => setMenuState(!menuState)}
+                                                >
+                                                        <Menu className="h-5 w-5" />
+                                                        <span className="sr-only">Toggle menu</span>
+                                                </Button>
+                                        </div>
                                 </div>
                         </div>
 
