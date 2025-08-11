@@ -42,7 +42,7 @@ export const Navbar = () => {
                                         <BrandLogo />
 
                                         {/* Desktop Navigation */}
-                                        <div className="hidden md:flex md:items-center md:gap-1">
+                                        <div className="hidden lg:flex lg:items-center lg:gap-1">
                                                 <NavLinks navItems={navItems} />
                                         </div>
 
@@ -58,7 +58,7 @@ export const Navbar = () => {
                                                 <Button 
                                                         variant="ghost" 
                                                         size="icon"
-                                                        className="md:hidden hover:bg-accent"
+                                                        className="lg:hidden hover:bg-accent"
                                                         onClick={() => setMenuState(!menuState)}
                                                 >
                                                         <Menu className="h-5 w-5" />

@@ -11,7 +11,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
         return (
-                <div className="md:hidden bg-accent/90 rounded-2xl border backdrop-blur-lg mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out">
+                <div className="lg:hidden bg-accent/90 rounded-2xl border backdrop-blur-lg mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out">
                         <div
                                 className="container px-4 py-4"
                         >
