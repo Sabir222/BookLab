@@ -1,9 +1,8 @@
-import Image from "next/image";
-import { Navbar } from "@/components/navigation/navbar";
+import { Navbar } from "@/components/navigation/Navbar";
 
 export default function Home() {
         return (
-                <div className="font-sans">
+                <div className="font-sans min-h-[2000px]">
                         <Navbar />
                 </div >
         );

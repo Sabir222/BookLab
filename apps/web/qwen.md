@@ -1,6 +1,19 @@
 # BookLab Frontend
 
+## color palette
+
+```
+#2f2c2b
+#b14446
+#ece8e2
+#c2c0bb
+#a2895e
+```
+
 use tailwindcss
+shadcn ui
+pnpm
+typescript tsx
 This is the frontend for BookLab, a bookstore platform that allows users to both purchase and rent books.
 
 ## Overview
@@ -59,13 +72,13 @@ export function MyComponent() {
 If you need a component that doesn't exist yet, you can install it using the shadcn/ui CLI:
 
 ```bash
-npx shadcn-ui@latest add [component-name]
+pnpm dlx shadcn-ui@latest add [component-name]
 ```
 
 For example, to add a card component:
 
 ```bash
-npx shadcn-ui@latest add card
+pnpm dlx shadcn-ui@latest add card
 ```
 
 ### 4. Custom Component Creation
@@ -92,4 +105,3 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
