@@ -1,103 +1,197 @@
-// import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-// import { db } from "@repo/db/postgres";
-// import { signUpController } from "../signupController";
-// import type { Request, Response } from "express";
-// import { hashPassword } from "../../../../utils/hashPassword";
-//
-// vi.mock("@repo/db/db");
-// vi.mock("../../../../utils/hashPassword");
-//
-// describe("signUpController", () => {
-//   let mockRequest: Partial<Request>;
-//   let mockResponse: Partial<Response>;
-//   let mockDbClient: any;
-//
-//   beforeEach(() => {
-//     mockRequest = {
-//       body: {
-//         email: "test@example.com",
-//         username: "testuser",
-//         password: "password123",
-//       },
-//     };
-//
-//     mockResponse = {
-//       status: vi.fn().mockReturnThis(),
-//       json: vi.fn().mockReturnThis(),
-//       cookie: vi.fn().mockReturnThis(),
-//     };
-//
-//     mockDbClient = {
-//       query: vi.fn(),
-//       release: vi.fn(),
-//     };
-//     vi.mocked(db.connect).mockResolvedValue(mockDbClient);
-//
-//     vi.mocked(hashPassword).mockReturnValue("hashed_password");
-//
-//     process.env.JWT_SECRET = "test-secret";
-//     process.env.JWT_REFRESH_SECRET = "test-refresh-secret";
-//     process.env.REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
-//     process.env.ACCESS_TOKEN_COOKIE_NAME = "accessToken";
-//     process.env.REFRESH_TOKEN_COOKIE_MAX_AGE = "604800000";
-//     process.env.ACCESS_TOKEN_COOKIE_MAX_AGE = "900000";
-//     process.env.NODE_ENV = "test";
-//
-//     vi.spyOn(console, "log").mockImplementation(() => {});
-//     vi.spyOn(console, "error").mockImplementation(() => {});
-//   });
-//
-//   afterEach(() => {
-//     vi.restoreAllMocks();
-//   });
-//
-//   it("should create a new user and return 201 on successful signup", async () => {
-//     // Mock the sequence of queries for successful signup:
-//     // 1. BEGIN transaction
-//     mockDbClient.query.mockResolvedValueOnce({});
-//     // 2. Check existing user (returns empty)
-//     mockDbClient.query.mockResolvedValueOnce({ rows: [] });
-//     // 3. Insert new user
-//     mockDbClient.query.mockResolvedValueOnce({
-//       rows: [{ user_id: 1, email: "test@example.com", username: "testuser" }],
-//     });
-//     // 4. COMMIT transaction
-//     mockDbClient.query.mockResolvedValueOnce({});
-//
-//     await signUpController(mockRequest as Request, mockResponse as Response);
-//
-//     expect(mockResponse.status).toHaveBeenCalledWith(201);
-//     expect(mockResponse.json).toHaveBeenCalledWith(
-//       expect.objectContaining({
-//         message: "User created successfully",
-//         user: { id: 1, email: "test@example.com", username: "testuser" },
-//       }),
-//     );
-//   });
-//
-//   it("should return 400 if email, username, or password is missing", async () => {
-//     mockRequest.body.password = "";
-//
-//     await signUpController(mockRequest as Request, mockResponse as Response);
-//
-//     expect(mockResponse.status).toHaveBeenCalledWith(400);
-//     expect(mockResponse.json).toHaveBeenCalledWith({
-//       error: "Data missing try again please!",
-//       code: "MISSING_FIELDS",
-//     });
-//   });
-//
-//   it("should return 409 if the user already exists", async () => {
-//     mockDbClient.query.mockResolvedValueOnce({});
-//     mockDbClient.query.mockResolvedValueOnce({ rows: [{ user_id: 99 }] });
-//     mockDbClient.query.mockResolvedValueOnce({});
-//
-//     await signUpController(mockRequest as Request, mockResponse as Response);
-//
-//     expect(mockResponse.status).toHaveBeenCalledWith(409);
-//     expect(mockResponse.json).toHaveBeenCalledWith({
-//       error: "User with this email or username already exists",
-//       code: "USER_EXISTS",
-//     });
-//   });
-// });
+// Mock dependencies before importing the controller
+vi.mock("@repo/db/postgres", () => ({
+  userQueries: {
+    findByEmail: vi.fn(),
+    findByUsername: vi.fn(),
+    create: vi.fn(),
+  },
+  type: {
+    User: {},
+    CreateUserData: {},
+  },
+}));
+
+vi.mock("../../../utils/hashPassword", () => ({
+  hashPassword: vi.fn(() => "hashedPassword123"),
+  comparerPassword: vi.fn(),
+}));
+
+vi.mock("../../../utils/generateToken", () => ({
+  default: vi.fn(() => ({
+    accessToken: "mock-access-token",
+    refreshToken: "mock-refresh-token",
+  })),
+  __esModule: true,
+}));
+
+vi.mock("../../../utils/setAuthCookies", () => ({
+  default: vi.fn(),
+}));
+
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { Request, Response } from "express";
+import { signUpController } from "../signupController.js";
+import { userQueries } from "@repo/db/postgres";
+
+describe("signUpController", () => {
+  let mockRequest: Partial<Request>;
+  let mockResponse: Partial<Response>;
+  let jsonResponse: any;
+  let status: any;
+  let cookie: any;
+
+  beforeEach(() => {
+    // Set up environment variables
+    process.env.JWT_SECRET = "test-secret";
+    process.env.JWT_REFRESH_SECRET = "test-refresh-secret";
+
+    jsonResponse = vi.fn();
+    status = vi.fn().mockReturnValue({ json: jsonResponse });
+    cookie = vi.fn().mockReturnValue({ status });
+
+    mockRequest = {
+      body: {},
+    };
+
+    mockResponse = {
+      status,
+      json: jsonResponse,
+      cookie,
+    };
+
+    // Set up mocks - they are already set up in the mock definitions
+
+    // Clear all mocks before each test
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should successfully create a user when valid data is provided", async () => {
+    const mockUserData = {
+      user_id: "123",
+      email: "test@example.com",
+      username: "testuser",
+      hashed_password: "hashedPassword123",
+    };
+
+    // Mock the dependencies
+    (userQueries.findByEmail as any).mockResolvedValue(null);
+    (userQueries.findByUsername as any).mockResolvedValue(null);
+    (userQueries.create as any).mockResolvedValue(mockUserData);
+    // hashPassword is already mocked to return "hashedPassword123"
+
+    mockRequest.body = {
+      email: "test@example.com",
+      username: "testuser",
+      password: "password123",
+    };
+
+    await signUpController(mockRequest as Request, mockResponse as Response);
+
+    expect(userQueries.findByEmail).toHaveBeenCalledWith("test@example.com");
+    expect(userQueries.findByUsername).toHaveBeenCalledWith("testuser");
+    // hashPassword is mocked to return "hashedPassword123"
+    // Check that userQueries.create was called with the correct data
+    expect(userQueries.create).toHaveBeenCalled();
+    const createCallArgs = (userQueries.create as any).mock.calls[0][0];
+    expect(createCallArgs.email).toBe("test@example.com");
+    expect(createCallArgs.username).toBe("testuser");
+    // We can't easily check the hashed password value since it's generated by bcrypt
+    expect(status).toHaveBeenCalledWith(201);
+    expect(jsonResponse).toHaveBeenCalled();
+  });
+
+  it("should return 400 error when required fields are missing", async () => {
+    mockRequest.body = {
+      email: "test@example.com",
+      // username and password are missing
+    };
+
+    await signUpController(mockRequest as Request, mockResponse as Response);
+
+    expect(status).toHaveBeenCalledWith(400);
+    expect(jsonResponse).toHaveBeenCalledWith({
+      error: "Data missing try again please!",
+      code: "MISSING_FIELDS",
+    });
+  });
+
+  it("should return 409 error when email already exists", async () => {
+    const existingUser = {
+      user_id: "456",
+      email: "existing@example.com",
+      username: "existinguser",
+      hashed_password: "hashedPassword456",
+    };
+
+    (userQueries.findByEmail as any).mockResolvedValue(existingUser);
+
+    mockRequest.body = {
+      email: "existing@example.com",
+      username: "newuser",
+      password: "password123",
+    };
+
+    await signUpController(mockRequest as Request, mockResponse as Response);
+
+    expect(userQueries.findByEmail).toHaveBeenCalledWith("existing@example.com");
+    expect(status).toHaveBeenCalledWith(409);
+    expect(jsonResponse).toHaveBeenCalledWith({
+      error: "User with this email already exists",
+      code: "EMAIL_EXISTS",
+    });
+  });
+
+  it("should return 409 error when username already exists", async () => {
+    // Email doesn't exist
+    (userQueries.findByEmail as any).mockResolvedValue(null);
+
+    const existingUser = {
+      user_id: "789",
+      email: "other@example.com",
+      username: "existinguser",
+      hashed_password: "hashedPassword789",
+    };
+
+    (userQueries.findByUsername as any).mockResolvedValue(existingUser);
+
+    mockRequest.body = {
+      email: "new@example.com",
+      username: "existinguser",
+      password: "password123",
+    };
+
+    await signUpController(mockRequest as Request, mockResponse as Response);
+
+    expect(userQueries.findByEmail).toHaveBeenCalledWith("new@example.com");
+    expect(userQueries.findByUsername).toHaveBeenCalledWith("existinguser");
+    expect(status).toHaveBeenCalledWith(409);
+    expect(jsonResponse).toHaveBeenCalledWith({
+      error: "User with this username already exists",
+      code: "USERNAME_EXISTS",
+    });
+  });
+
+  it("should return 500 error when an unexpected error occurs", async () => {
+    (userQueries.findByEmail as any).mockRejectedValue(
+      new Error("Database error"),
+    );
+
+    mockRequest.body = {
+      email: "test@example.com",
+      username: "testuser",
+      password: "password123",
+    };
+
+    await signUpController(mockRequest as Request, mockResponse as Response);
+
+    expect(status).toHaveBeenCalledWith(500);
+    expect(jsonResponse).toHaveBeenCalledWith({
+      error: "Internal server error",
+      code: "INTERNAL_ERROR",
+    });
+  });
+});
