@@ -11,11 +11,10 @@ interface MobileMenuProps {
 
 export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
         return (
-                <div className="md:hidden border-t border-border/40 bg-background">
+                <div className="md:hidden bg-accent/90 rounded-2xl border backdrop-blur-lg mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out">
                         <div
-                                className="container px-4 py-4 animate-in slide-in-from-top-2 duration-600 ease-out"
+                                className="container px-4 py-4"
                         >
-                                {/* Mobile Navigation */}
                                 <nav className="flex flex-col gap-1 mb-4">
                                         {navItems.map((item, index) => (
                                                 <Link

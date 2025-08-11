@@ -31,12 +31,12 @@ export const Navbar = () => {
         return (
                 <header className="fixed z-20 w-full px-2 group">
                         <div
-                                className={`mx-auto transition-all duration-300 ${
-                                        isScrolled
-                                                ? "bg-accent/90 max-w-6xl rounded-2xl border backdrop-blur-lg mt-2 px-6 lg:px-12"
-                                                : "max-w-6xl px-6 lg:px-12"
-                                }`}
-                        >
+        className={`mx-auto max-w-6xl transition-all duration-300 px-6 lg:px-12 ${
+                isScrolled
+                        ? "bg-accent/90 rounded-2xl border backdrop-blur-lg mt-2"
+                        : ""
+        }`}
+>
                                 <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                                         {/* Logo */}
                                         <BrandLogo />
