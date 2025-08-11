@@ -1,183 +1,226 @@
 "use client";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, BookOpen, User, ShoppingCart, Bookmark } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 export const Navbar = () => {
-        const menuItems = [
-                { name: "Books", href: "/books", external: false },
-                { name: "Genres", href: "/genres", external: false },
-                { name: "Authors", href: "/authors", external: false },
-                { name: "About", href: "/about", external: false },
-        ];
         const [menuState, setMenuState] = useState(false);
-        const [isScrolled, setIsScrolled] = useState(false);
+        const [searchOpen, setSearchOpen] = useState(false);
         const [searchQuery, setSearchQuery] = useState("");
+        const searchRef = useRef<HTMLDivElement>(null);
 
-        useEffect(() => {
-                const handleScroll = () => {
-                        setIsScrolled(window.scrollY > 50);
-                };
-                window.addEventListener("scroll", handleScroll);
-                return () => window.removeEventListener("scroll", handleScroll);
-        }, []);
+        const navItems = [
+                { name: "Books", href: "/books" },
+                { name: "Authors", href: "/authors" },
+                { name: "Genres", href: "/genres" },
+                { name: "Deals", href: "/deals" },
+        ];
 
         const handleSearch = (e: React.FormEvent) => {
                 e.preventDefault();
                 if (searchQuery.trim()) {
-                        // Implement search functionality
-                        console.log("Searching for:", searchQuery);
-                        // You can redirect to search results page or trigger search function
                         window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
                 }
         };
 
+        // Close search when clicking outside
+        useEffect(() => {
+                const handleClickOutside = (e: MouseEvent) => {
+                        if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+                                setSearchOpen(false);
+                        }
+                };
+
+                if (searchOpen) {
+                        document.addEventListener('mousedown', handleClickOutside);
+                }
+                return () => {
+                        document.removeEventListener('mousedown', handleClickOutside);
+                };
+        }, [searchOpen]);
+
         return (
-                <header>
-                        <nav
-                                data-state={menuState && "active"}
-                                className="fixed z-20 w-full px-2 group"
-                        >
-                                <div
-                                        className={cn(
-                                                "mx-auto max-w-6xl px-6 transition-all duration-300 lg:px-12 border",
-                                                isScrolled
-                                                        ? "bg-accent/90 mt-2 rounded-2xl border-muted/50 backdrop-blur-lg shadow-md"
-                                                        : "mt-2 border-transparent",
-                                        )}
-                                >
-                                        <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-                                                {/* Logo and Title */}
-                                                <div className="flex w-full justify-between lg:w-auto">
+                <header className="sticky top-0 z-50 w-full bg-background border-b border-border/40">
+                        {/* Bookshelf Top Border */}
+                        <div className="h-1 bg-secondary w-full"></div>
+                        
+                        <div className="container flex h-16 items-center justify-between px-4 sm:px-6">
+                                {/* Logo */}
+                                <div className="flex items-center gap-3">
+                                        <div className="flex items-end">
+                                                <div className="h-8 w-2 bg-secondary rounded-t-sm"></div>
+                                                <div className="h-6 w-2 bg-highlight mx-0.5 rounded-t-sm"></div>
+                                                <div className="h-7 w-2 bg-muted-foreground rounded-t-sm"></div>
+                                                <div className="h-5 w-2 bg-primary mx-0.5 rounded-t-sm"></div>
+                                        </div>
+                                        <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+                                                BookLab
+                                        </Link>
+                                </div>
+
+                                {/* Desktop Navigation */}
+                                <div className="hidden md:flex md:items-center md:gap-1">
+                                        <nav className="flex items-center gap-2">
+                                                {navItems.map((item, index) => (
                                                         <Link
-                                                                href="/"
-                                                                aria-label="home"
-                                                                className="flex items-center space-x-2"
-                                                                prefetch={true}
+                                                                key={index}
+                                                                href={item.href}
+                                                                className="px-3 py-2 text-sm font-medium text-primary/80 hover:text-secondary hover:bg-accent rounded-md transition-colors relative group"
                                                         >
-                                                                <span className="text-xl font-bold tracking-tight text-primary">
-                                                                        BookLab
-                                                                </span>
+                                                                {item.name}
+                                                                <span className="absolute bottom-1 left-3 right-3 h-0.5 bg-secondary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
                                                         </Link>
+                                                ))}
+                                        </nav>
+                                </div>
 
-                                                        <button
-                                                                onClick={() => setMenuState(!menuState)}
-                                                                aria-label={menuState ? "Close Menu" : "Open Menu"}
-                                                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
-                                                        >
-                                                                <Menu className="group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 size-6 duration-200 text-primary" />
-                                                                <X className="absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 duration-200 text-primary" />
-                                                        </button>
-                                                </div>
+                                {/* Right Side Actions */}
+                                <div className="flex items-center gap-2">
+                                        {/* Search */}
+                                        <div ref={searchRef} className="relative">
+                                                {searchOpen ? (
+                                                        <div className="absolute right-0 top-12 md:top-auto md:bottom-full md:mb-2 w-72 sm:w-80 p-3 bg-background border border-border rounded-lg shadow-xl z-50">
+                                                                <form onSubmit={handleSearch}>
+                                                                        <div className="relative">
+                                                                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                                                                <input
+                                                                                        autoFocus
+                                                                                        type="text"
+                                                                                        placeholder="Find your next great read..."
+                                                                                        className="w-full rounded-md border border-input bg-accent py-2 pl-10 pr-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                                                                        value={searchQuery}
+                                                                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                                                                />
+                                                                                <Button 
+                                                                                        type="button"
+                                                                                        variant="ghost" 
+                                                                                        size="icon"
+                                                                                        className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6"
+                                                                                        onClick={() => setSearchOpen(false)}
+                                                                                >
+                                                                                        <X className="h-4 w-4" />
+                                                                                </Button>
+                                                                        </div>
+                                                                        <div className="mt-2 text-xs text-muted-foreground">
+                                                                                Search by title, author, ISBN, or genre
+                                                                        </div>
+                                                                </form>
+                                                        </div>
+                                                ) : null}
+                                                <Button 
+                                                        variant="ghost" 
+                                                        size="icon"
+                                                        onClick={() => setSearchOpen(!searchOpen)}
+                                                        aria-label="Search"
+                                                        className="hover:bg-accent"
+                                                >
+                                                        <Search className="h-5 w-5" />
+                                                </Button>
+                                        </div>
+                                        
+                                        {/* Wishlist */}
+                                        <Button variant="ghost" size="icon" className="relative hidden sm:flex hover:bg-accent">
+                                                <Bookmark className="h-5 w-5" />
+                                                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-secondary text-[0.6rem] text-secondary-foreground flex items-center justify-center">5</span>
+                                                <span className="sr-only">Wishlist</span>
+                                        </Button>
+                                        
+                                        {/* Cart */}
+                                        <Button variant="ghost" size="icon" className="relative hover:bg-accent">
+                                                <ShoppingCart className="h-5 w-5" />
+                                                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-secondary text-[0.6rem] text-secondary-foreground flex items-center justify-center">2</span>
+                                                <span className="sr-only">Cart</span>
+                                        </Button>
+                                        
+                                        {/* Account */}
+                                        <Button variant="ghost" size="icon" className="hidden sm:flex hover:bg-accent">
+                                                <User className="h-5 w-5" />
+                                                <span className="sr-only">Account</span>
+                                        </Button>
+                                        
+                                        {/* Sign In Button */}
+                                        <Button className="hidden md:flex bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm">
+                                                Sign In
+                                        </Button>
+                                        
+                                        {/* Mobile Menu Button */}
+                                        <Button 
+                                                variant="ghost" 
+                                                size="icon"
+                                                className="md:hidden hover:bg-accent"
+                                                onClick={() => setMenuState(!menuState)}
+                                        >
+                                                {menuState ? (
+                                                        <X className="h-5 w-5" />
+                                                ) : (
+                                                        <Menu className="h-5 w-5" />
+                                                )}
+                                                <span className="sr-only">Toggle menu</span>
+                                        </Button>
+                                </div>
+                        </div>
 
-                                                {/* Search Bar - Hidden on mobile, visible on desktop */}
-                                                <div className="hidden lg:block flex-1 max-w-md mx-4">
-                                                        <form onSubmit={handleSearch} className="relative">
+                        {/* Mobile Menu */}
+                        {menuState && (
+                                <div className="md:hidden border-t border-border/40 bg-background">
+                                        <div className="container px-4 py-4">
+                                                {/* Mobile Search */}
+                                                <div className="relative mb-4">
+                                                        <form onSubmit={handleSearch}>
+                                                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                                                 <input
                                                                         type="text"
-                                                                        placeholder="Search books, authors, genres..."
-                                                                        className="w-full rounded-full border border-muted bg-accent py-2 pl-4 pr-10 text-sm focus:border-highlight focus:outline-none focus:ring-1 focus:ring-highlight"
+                                                                        placeholder="Find your next great read..."
+                                                                        className="w-full rounded-md border border-input bg-accent py-2 pl-10 pr-4 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                                                         value={searchQuery}
                                                                         onChange={(e) => setSearchQuery(e.target.value)}
                                                                 />
                                                                 <button
                                                                         type="submit"
-                                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-primary/70 hover:text-primary"
+                                                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary"
                                                                 >
                                                                         <Search className="h-4 w-4" />
                                                                 </button>
                                                         </form>
                                                 </div>
-
-                                                <div className="m-auto hidden size-fit lg:block">
-                                                        <ul className="flex gap-8 text-sm">
-                                                                {menuItems.map((item, index) => (
-                                                                        <li key={index}>
-                                                                                {item.external ? (
-                                                                                        <a
-                                                                                                href={item.href}
-                                                                                                target="_blank"
-                                                                                                rel="noopener noreferrer"
-                                                                                                className="text-primary/80 hover:text-secondary block duration-150 px-4 py-2"
-                                                                                        >
-                                                                                                {item.name}
-                                                                                        </a>
-                                                                                ) : (
-                                                                                        <Link
-                                                                                                href={item.href}
-                                                                                                className="text-primary/80 hover:text-secondary block duration-150 px-4 py-2"
-                                                                                                prefetch={true}
-                                                                                        >
-                                                                                                {item.name}
-                                                                                        </Link>
-                                                                                )}
-                                                                        </li>
-                                                                ))}
-                                                        </ul>
-                                                </div>
-
-                                                <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none">
-                                                        <div className="lg:hidden w-full">
-                                                                {/* Mobile Search Bar */}
-                                                                <form onSubmit={handleSearch} className="relative mb-6">
-                                                                        <input
-                                                                                type="text"
-                                                                                placeholder="Search books, authors, genres..."
-                                                                                className="w-full rounded-full border border-muted bg-accent py-2 pl-4 pr-10 text-sm focus:border-highlight focus:outline-none focus:ring-1 focus:ring-highlight"
-                                                                                value={searchQuery}
-                                                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                                                        />
-                                                                        <button
-                                                                                type="submit"
-                                                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-primary/70 hover:text-primary"
-                                                                        >
-                                                                                <Search className="h-4 w-4" />
-                                                                        </button>
-                                                                </form>
-
-                                                                <ul className="space-y-6 text-base">
-                                                                        {menuItems.map((item, index) => (
-                                                                                <li key={index}>
-                                                                                        {item.external ? (
-                                                                                                <a
-                                                                                                        href={item.href}
-                                                                                                        target="_blank"
-                                                                                                        rel="noopener noreferrer"
-                                                                                                        className="text-primary/80 hover:text-secondary block duration-150"
-                                                                                                >
-                                                                                                        {item.name}
-                                                                                                </a>
-                                                                                        ) : (
-                                                                                                <Link
-                                                                                                        href={item.href}
-                                                                                                        className="text-primary/80 hover:text-secondary block duration-150"
-                                                                                                        prefetch={true}
-                                                                                                >
-                                                                                                        {item.name}
-                                                                                                </Link>
-                                                                                        )}
-                                                                                </li>
-                                                                        ))}
-                                                                </ul>
-                                                        </div>
-
-                                                        <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit items-center">
-                                                                <Button
-                                                                        asChild
-                                                                        className={cn(
-                                                                                "bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium w-full md:w-fit",
-                                                                        )}
+                                                
+                                                {/* Mobile Navigation */}
+                                                <nav className="flex flex-col gap-1 mb-4">
+                                                        {navItems.map((item, index) => (
+                                                                <Link
+                                                                        key={index}
+                                                                        href={item.href}
+                                                                        className="px-3 py-3 text-base font-medium text-primary/80 hover:text-secondary hover:bg-accent rounded-md"
+                                                                        onClick={() => setMenuState(false)}
                                                                 >
-                                                                        <Link href="/login">Sign In</Link>
-                                                                </Button>
-                                                        </div>
+                                                                        {item.name}
+                                                                </Link>
+                                                        ))}
+                                                </nav>
+                                                
+                                                <div className="flex gap-2 pb-2 border-b border-border/40">
+                                                        <Button variant="ghost" size="icon" className="relative flex-1">
+                                                                <Bookmark className="h-5 w-5" />
+                                                                <span className="ml-2">Wishlist</span>
+                                                                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-secondary text-[0.6rem] text-secondary-foreground flex items-center justify-center">5</span>
+                                                        </Button>
+                                                        
+                                                        <Button variant="ghost" size="icon" className="relative flex-1">
+                                                                <User className="h-5 w-5" />
+                                                                <span className="ml-2">Account</span>
+                                                        </Button>
+                                                </div>
+                                                
+                                                <div className="mt-4 flex flex-col gap-2">
+                                                        <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm w-full">
+                                                                Sign In
+                                                        </Button>
                                                 </div>
                                         </div>
                                 </div>
-                        </nav>
+                        )}
                 </header>
         );
 };
