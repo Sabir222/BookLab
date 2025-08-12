@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { MiniBookCard } from "@/components/books/MiniBookCard";
 import { useNavbarStore } from "./navbarStore";
 
 interface SearchBarProps {
@@ -107,21 +108,11 @@ export function SearchBar({ className }: SearchBarProps) {
                                                 <div className="border-t border-border max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-accent scrollbar-track-background scrollbar-thumb-rounded-full">
                                                         {searchResults.map((result, index) => (
                                                                 <div key={result.id}>
-                                                                        <div
-                                                                                className="px-3 py-2 hover:bg-accent cursor-pointer flex items-start gap-2 transition-colors duration-150"
-                                                                                onClick={() => {
-                                                                                        closeSearch();
-                                                                                        window.location.href = `/book/${result.id}`;
-                                                                                }}
-                                                                        >
-                                                                                <div className="mt-0.5 text-muted-foreground">
-                                                                                        <span className="text-sm">📚</span>
-                                                                                </div>
-                                                                                <div>
-                                                                                        <div className="font-medium text-sm">{result.title}</div>
-                                                                                        <div className="text-xs text-muted-foreground mt-1">{result.author}</div>
-                                                                                </div>
-                                                                        </div>
+                                                                        <MiniBookCard
+                                                                                id={result.id}
+                                                                                title={result.title}
+                                                                                author={result.author}
+                                                                        />
                                                                         {index < searchResults.length - 1 && <Separator className="my-0" />}
                                                                 </div>
                                                         ))}
@@ -148,7 +139,7 @@ export function SearchBar({ className }: SearchBarProps) {
                                 size="icon"
                                 onClick={() => isSearchOpen ? closeSearch() : openSearch()}
                                 aria-label="Search"
-                                className="hover:bg-accent"
+                                className="hover:bg-accent cursor-pointer"
                         >
                                 <Search className="h-5 w-5" />
                         </Button>

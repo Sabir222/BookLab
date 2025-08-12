@@ -59,7 +59,7 @@ export const Navbar = () => {
                                                 <Button 
                                                         variant="ghost" 
                                                         size="icon"
-                                                        className="lg:hidden hover:bg-accent"
+                                                        className="lg:hidden hover:bg-accent cursor-pointer"
                                                         onClick={() => isMenuOpen ? closeMenu() : openMenu()}
                                                 >
                                                         <Menu className="h-5 w-5" />
