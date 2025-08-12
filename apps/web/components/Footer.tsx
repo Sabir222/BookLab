@@ -7,7 +7,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto py-12 md:py-16 lg:py-20 px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-semibold mb-4">BookLab</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary !text-secondary">BookLab</h3>
             <p className="text-muted-foreground text-sm">
               Your one-stop destination for all kinds of books. Discover, explore, and enjoy
               reading with our vast collection.
@@ -15,25 +15,25 @@ export function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary !text-secondary">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/books" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/books" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Books
                 </Link>
               </li>
               <li>
-                <Link href="/categories" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/categories" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Categories
                 </Link>
               </li>
               <li>
-                <Link href="/authors" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/authors" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Authors
                 </Link>
               </li>
@@ -41,25 +41,25 @@ export function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Customer Service</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary !text-secondary">Customer Service</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/contact" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/faq" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/shipping" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/shipping" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Shipping Policy
                 </Link>
               </li>
               <li>
-                <Link href="/returns" className="text-muted-foreground hover:text-primary text-sm">
+                <Link href="/returns" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
                   Returns & Exchanges
                 </Link>
               </li>
@@ -67,7 +67,7 @@ export function Footer() {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary !text-secondary">Contact</h3>
             <ul className="space-y-2 text-muted-foreground text-sm">
               <li>Email: info@booklab.com</li>
               <li>Phone: (123) 456-7890</li>
@@ -83,10 +83,10 @@ export function Footer() {
             &copy; {new Date().getFullYear()} BookLab. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Link href="/privacy" className="text-muted-foreground hover:text-primary text-sm">
+            <Link href="/privacy" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-muted-foreground hover:text-primary text-sm">
+            <Link href="/terms" className="text-muted-foreground hover:text-secondary text-sm transition-colors">
               Terms of Service
             </Link>
           </div>

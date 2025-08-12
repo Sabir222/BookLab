@@ -21,15 +21,11 @@ import {
 import { cn } from "@/lib/utils";
 
 const bookCategories = [
-  {
-    title: "Book Categories",
-    items: [
-      { title: "Fiction", href: "/categories/fiction" },
-      { title: "Non-Fiction", href: "/categories/non-fiction" },
-      { title: "History", href: "/categories/history" },
-      { title: "Popular Genres", href: "/categories/popular" },
-    ]
-  }
+  { title: "Book Categories" },
+  { title: "Fiction" },
+  { title: "Non-Fiction" },
+  { title: "History" },
+  { title: "Popular Genres" },
 ];
 
 const dropdownSections = [
@@ -119,7 +115,7 @@ export const Navbar = () => {
                                         <NavigationMenuList>
                                                 {bookCategories.map((category) => (
                                                         <NavigationMenuItem key={category.title}>
-                                                                <NavigationMenuTrigger className="font-medium text-sm">
+                                                                <NavigationMenuTrigger className="font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
                                                                         {category.title}
                                                                 </NavigationMenuTrigger>
                                                                 <NavigationMenuContent>
@@ -132,7 +128,7 @@ export const Navbar = () => {
                                                                                                                         "text-sm font-medium",
                                                                                                                         section.title.includes("Discover") 
                                                                                                                                 ? "text-primary font-bold" 
-                                                                                                                                : "text-muted-foreground"
+                                                                                                                                : "text-secondary"
                                                                                                                 )}>
                                                                                                                         {section.title}
                                                                                                                 </h3>
@@ -141,7 +137,7 @@ export const Navbar = () => {
                                                                                                                                 <li key={item.title}>
                                                                                                                                         <Link
                                                                                                                                                 href={item.href}
-                                                                                                                                                className="block rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                                                                                                                className="block rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-secondary transition-colors"
                                                                                                                                         >
                                                                                                                                                 {item.title}
                                                                                                                                         </Link>
@@ -167,4 +163,4 @@ export const Navbar = () => {
                 )}
         </header>
         );
-};
+};;;;;;;
