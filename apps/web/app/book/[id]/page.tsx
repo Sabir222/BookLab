@@ -1,5 +1,7 @@
 import { BookHeader } from "@/components/books/BookHeader";
 import { BookAccordion } from "@/components/books/BookAccordion";
+import { promises as fs } from "fs";
+import path from "path";
 
 // Mock book data - in a real app this would come from an API
 const getBookById = (id: string) => {
@@ -32,7 +34,7 @@ const getBookById = (id: string) => {
           id: "1",
           author: "Alice Johnson",
           rating: 5,
-          comment: "A masterpiece of American literature. Fitzgerald's prose is absolutely beautiful.",
+          comment: "A masterpiece of American literature. Fitzgerald&#39;s prose is absolutely beautiful.",
           date: "2023-05-15"
         },
         {
@@ -72,8 +74,9 @@ const getBookById = (id: string) => {
   return books[id] || null;
 };
 
-export default function BookDetailPage({ params }: { params: { id: string } }) {
-  const book = getBookById(params.id);
+export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const book = getBookById(id);
 
   if (!book) {
     return (
@@ -93,7 +96,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
       <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12 py-8">
         <BookHeader book={book} />
       </div>
-      
+
       {/* About Section */}
       <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12 mt-12">
         <h2 className="text-2xl font-bold text-primary">About</h2>
@@ -101,7 +104,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
           {book.description}
         </p>
       </div>
-      
+
       {/* Accordion Sections */}
       <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12">
         <BookAccordion book={book} />
