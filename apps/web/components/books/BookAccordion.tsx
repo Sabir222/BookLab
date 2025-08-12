@@ -5,6 +5,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BookCard } from "@/components/books/BookCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface BookAccordionProps {
   book: {
@@ -51,6 +58,30 @@ export function BookAccordion({ book }: BookAccordionProps) {
       title: "Animal Farm",
       author: "George Orwell",
       price: 11.99,
+    },
+    {
+      id: "7",
+      title: "The Great Gatsby",
+      author: "F. Scott Fitzgerald",
+      price: 14.99,
+    },
+    {
+      id: "8",
+      title: "To Kill a Mockingbird",
+      author: "Harper Lee",
+      price: 15.99,
+    },
+    {
+      id: "9",
+      title: "1984",
+      author: "George Orwell",
+      price: 13.49,
+    },
+    {
+      id: "10",
+      title: "Pride and Prejudice",
+      author: "Jane Austen",
+      price: 12.99,
     },
   ];
 
@@ -108,17 +139,24 @@ export function BookAccordion({ book }: BookAccordionProps) {
             Also by This Author
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-              {relatedBooks.slice(0, 4).map((relatedBook) => (
-                <BookCard
-                  key={relatedBook.id}
-                  id={relatedBook.id}
-                  title={relatedBook.title}
-                  author={relatedBook.author}
-                  price={relatedBook.price}
-                  className="!p-2"
-                />
-              ))}
+            <div className="mt-2">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {relatedBooks.map((relatedBook) => (
+                    <CarouselItem key={relatedBook.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+                      <BookCard
+                        id={relatedBook.id}
+                        title={relatedBook.title}
+                        author={relatedBook.author}
+                        price={relatedBook.price}
+                        className="!p-2"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -128,17 +166,24 @@ export function BookAccordion({ book }: BookAccordionProps) {
             Similar Items
           </AccordionTrigger>
           <AccordionContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-              {relatedBooks.slice(0, 4).map((relatedBook) => (
-                <BookCard
-                  key={relatedBook.id}
-                  id={relatedBook.id}
-                  title={relatedBook.title}
-                  author={relatedBook.author}
-                  price={relatedBook.price}
-                  className="!p-2"
-                />
-              ))}
+            <div className="mt-2">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {relatedBooks.map((relatedBook) => (
+                    <CarouselItem key={relatedBook.id} className="basis-1/2 md:basis-1/3 lg:basis-1/4">
+                      <BookCard
+                        id={relatedBook.id}
+                        title={relatedBook.title}
+                        author={relatedBook.author}
+                        price={relatedBook.price}
+                        className="!p-2"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
           </AccordionContent>
         </AccordionItem>
