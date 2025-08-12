@@ -30,10 +30,8 @@ export function SearchBar({ className }: SearchBarProps) {
                 }
         };
 
-        // Simulate search results - in a real app, this would be an API call
         useEffect(() => {
                 if (searchQuery.trim()) {
-                        // Mock search results
                         const mockResults: SearchResult[] = [
                                 {
                                         id: "1",
@@ -62,7 +60,6 @@ export function SearchBar({ className }: SearchBarProps) {
                 }
         }, [searchQuery]);
 
-        // Close search when clicking outside
         useEffect(() => {
                 const handleClickOutside = (e: MouseEvent) => {
                         if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -93,9 +90,9 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                 value={searchQuery}
                                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                         />
-                                                        <Button 
+                                                        <Button
                                                                 type="button"
-                                                                variant="ghost" 
+                                                                variant="ghost"
                                                                 size="icon"
                                                                 className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6"
                                                                 onClick={() => setSearchQuery("")}
@@ -108,7 +105,6 @@ export function SearchBar({ className }: SearchBarProps) {
                                                 </div>
                                         </form>
 
-                                        {/* Search Results Section */}
                                         {searchResults.length > 0 && (
                                                 <div className="border-t border-border mt-2 max-h-60 overflow-y-auto">
                                                         {searchResults.map((result) => (
@@ -147,8 +143,8 @@ export function SearchBar({ className }: SearchBarProps) {
                                         )}
                                 </div>
                         ) : null}
-                        <Button 
-                                variant="ghost" 
+                        <Button
+                                variant="ghost"
                                 size="icon"
                                 onClick={() => isSearchOpen ? closeSearch() : openSearch()}
                                 aria-label="Search"
