@@ -136,7 +136,7 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                                 }
                                                                         }}
                                                                 >
-                                                                        View all results for "{searchQuery}"
+                                                                        View all results for &quot;{searchQuery}&quot;
                                                                 </button>
                                                         </div>
                                                 </div>

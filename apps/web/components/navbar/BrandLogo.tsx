@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
 
 export function BrandLogo() {
         return (
