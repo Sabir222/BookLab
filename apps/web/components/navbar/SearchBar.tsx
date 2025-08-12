@@ -8,9 +8,17 @@ interface SearchBarProps {
         className?: string;
 }
 
+interface SearchResult {
+        id: string;
+        title: string;
+        author: string;
+        coverImage?: string;
+}
+
 export function SearchBar({ className }: SearchBarProps) {
         const [searchOpen, setSearchOpen] = useState(false);
         const [searchQuery, setSearchQuery] = useState("");
+        const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
         const searchRef = useRef<HTMLDivElement>(null);
 
         const handleSearch = (e: React.FormEvent) => {
@@ -19,6 +27,38 @@ export function SearchBar({ className }: SearchBarProps) {
                         window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
                 }
         };
+
+        // Simulate search results - in a real app, this would be an API call
+        useEffect(() => {
+                if (searchQuery.trim()) {
+                        // Mock search results
+                        const mockResults: SearchResult[] = [
+                                {
+                                        id: "1",
+                                        title: "The Great Gatsby",
+                                        author: "F. Scott Fitzgerald"
+                                },
+                                {
+                                        id: "2",
+                                        title: "To Kill a Mockingbird",
+                                        author: "Harper Lee"
+                                },
+                                {
+                                        id: "3",
+                                        title: "1984",
+                                        author: "George Orwell"
+                                },
+                                {
+                                        id: "4",
+                                        title: "Pride and Prejudice",
+                                        author: "Jane Austen"
+                                }
+                        ];
+                        setSearchResults(mockResults);
+                } else {
+                        setSearchResults([]);
+                }
+        }, [searchQuery]);
 
         // Close search when clicking outside
         useEffect(() => {
@@ -39,10 +79,10 @@ export function SearchBar({ className }: SearchBarProps) {
         return (
                 <div ref={searchRef} className={`relative ${className || ''}`}>
                         {searchOpen ? (
-                                <div className="fixed left-1/2 top-20 w-[90vw] -translate-x-1/2 md:w-[70vw] lg:w-[60vw] max-w-2xl p-3 bg-background border border-border rounded-lg shadow-xl z-50">
+                                <div className="fixed left-1/2 top-20 w-[90vw] -translate-x-1/2 md:w-[70vw] lg:w-[60vw] max-w-2xl bg-background border border-border rounded-lg shadow-xl z-50">
                                         <form onSubmit={handleSearch}>
-                                                <div className="relative">
-                                                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                                <div className="relative p-3">
+                                                        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                                         <input
                                                                 autoFocus
                                                                 type="text"
@@ -55,16 +95,52 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                 type="button"
                                                                 variant="ghost" 
                                                                 size="icon"
-                                                                className="absolute right-1 top-1/2 -translate-y-1/2 h-6 w-6"
-                                                                onClick={() => setSearchOpen(false)}
+                                                                className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6"
+                                                                onClick={() => setSearchQuery("")}
                                                         >
                                                                 <X className="h-4 w-4" />
                                                         </Button>
                                                 </div>
-                                                <div className="mt-2 text-xs text-muted-foreground">
+                                                <div className="text-xs text-muted-foreground px-3 pb-3">
                                                         Search by title, author, ISBN, or genre
                                                 </div>
                                         </form>
+
+                                        {/* Search Results Section */}
+                                        {searchResults.length > 0 && (
+                                                <div className="border-t border-border mt-2 max-h-60 overflow-y-auto">
+                                                        {searchResults.map((result) => (
+                                                                <div
+                                                                        key={result.id}
+                                                                        className="px-4 py-3 hover:bg-accent cursor-pointer flex items-center gap-3"
+                                                                        onClick={() => {
+                                                                                window.location.href = `/book/${result.id}`;
+                                                                        }}
+                                                                >
+                                                                        <div className="bg-muted border border-border rounded w-10 h-10 flex items-center justify-center">
+                                                                                <span className="text-xs text-muted-foreground">📚</span>
+                                                                        </div>
+                                                                        <div>
+                                                                                <div className="font-medium text-sm">{result.title}</div>
+                                                                                <div className="text-xs text-muted-foreground">{result.author}</div>
+                                                                        </div>
+                                                                </div>
+                                                        ))}
+                                                        <div className="px-4 py-2 text-center border-t border-border bg-muted/50">
+                                                                <button
+                                                                        className="text-xs text-primary hover:underline"
+                                                                        onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                if (searchQuery.trim()) {
+                                                                                        window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                                                                                }
+                                                                        }}
+                                                                >
+                                                                        View all results for `{searchQuery}`
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                        )}
                                 </div>
                         ) : null}
                         <Button 
