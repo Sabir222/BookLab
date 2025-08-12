@@ -27,7 +27,6 @@ export function BookHeader({ book }: BookHeaderProps) {
         </div>
       </div>
 
-      {/* Right Column - Book Information */}
       <div>
         <div>
           <h1 className="text-3xl font-bold text-primary">{book.title}</h1>
@@ -62,7 +61,7 @@ export function BookHeader({ book }: BookHeaderProps) {
               </span>
             )}
           </div>
-          
+
           <div className="mt-2">
             {book.inStock ? (
               <p className="text-green-600 font-medium">

@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/navbar/Navbar";
 import { BookHeader } from "@/components/books/BookHeader";
 import { BookAccordion } from "@/components/books/BookAccordion";
 
@@ -79,7 +78,6 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   if (!book) {
     return (
       <div className="min-h-screen bg-background">
-        <Navbar />
         <div className="pt-20">
           <div className="mx-auto max-w-6xl transition-all duration-300 px-6 lg:px-12 py-8">
             <div className="text-center py-12">
@@ -94,7 +92,6 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="pt-20">
         <div className="mx-auto max-w-6xl transition-all duration-300 px-6 lg:px-12 py-8">
           <BookHeader book={book} />
