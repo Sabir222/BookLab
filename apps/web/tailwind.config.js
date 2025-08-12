@@ -8,13 +8,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#2f2c2b",   // Dark gray
-        secondary: "#b14446", // Dark red
-        accent: "#ece8e2",    // Light beige
-        muted: "#c2c0bb",     // Soft gray
-        highlight: "#a2895e", // Gold
-      }
+        primary: "#2f2c2b",
+        secondary: "#b14446",
+        accent: "#ece8e2",
+        muted: "#c2c0bb",
+        highlight: "#a2895e",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+    require('@tailwindcss/line-clamp'),
+  ],
 };
