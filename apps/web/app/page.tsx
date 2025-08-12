@@ -13,10 +13,10 @@ export default function Home() {
                 <main className="min-h-screen bg-background">
                         <HeroSection />
                         <div className="py-8">
-                                <PopularBooksSection />
-                                <BestSellersSection />
-                                <NewReleasesSection />
                                 <TrendingNowSection />
+                                <NewReleasesSection />
+                                <BestSellersSection />
+                                <PopularBooksSection />
                                 <FantasySciFiSection />
                                 <AuthorsSection />
                         </div>

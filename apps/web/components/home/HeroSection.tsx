@@ -2,10 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 export function HeroSection() {
         return (
-                <section className="w-full py-6 lg:mt-20" style={{ backgroundColor: "#113E21" }}>
+                <section className="w-full py-6 lg:mt-12" style={{ backgroundColor: "#113E21" }}>
                         <div className="container mx-auto px-4">
                                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                                         <div className="flex flex-col justify-center text-white">
@@ -29,8 +30,13 @@ export function HeroSection() {
 
                                         <div className="flex justify-center">
                                                 <div className="relative w-full max-w-md">
-                                                        <div className="bg-white/10 border-2 border-white/20 rounded-xl w-full h-64 flex items-center justify-center">
-                                                                <span className="text-6xl text-white">📚</span>
+                                                        <div className="bg-white/10 border-2 border-white/20 rounded-xl w-full h-64 flex items-center justify-center overflow-hidden">
+                                                                <Image
+                                                                        src="/books.png"
+                                                                        alt="Books collection"
+                                                                        fill
+                                                                        className="object-cover"
+                                                                />
                                                         </div>
                                                 </div>
                                         </div>

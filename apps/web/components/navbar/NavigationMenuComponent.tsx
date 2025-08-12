@@ -52,10 +52,10 @@ export function NavigationMenuComponent() {
         <NavigationMenuList>
           {bookCategories.map((category) => (
             <NavigationMenuItem key={category.title}>
-              <NavigationMenuTrigger className="font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
+              <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
                 {category.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
                 <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px]">
                   {dropdownSections.map((section) => (
                     <li key={section.title} className="row-span-3">
