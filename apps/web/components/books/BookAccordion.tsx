@@ -156,10 +156,12 @@ export function BookAccordion({ book }: BookAccordionProps) {
                                         </AccordionTrigger>
                                         <AccordionContent>
                                                 <div className="mt-2">
-                                                        <BookCarousel 
-                                                          title="" 
-                                                          books={relatedBooks} 
-                                                        />
+                                                        <div className="container mx-auto px-4">
+                                                                <BookCarousel 
+                                                                  title="" 
+                                                                  books={relatedBooks} 
+                                                                />
+                                                        </div>
                                                 </div>
                                         </AccordionContent>
                                 </AccordionItem>
@@ -170,10 +172,12 @@ export function BookAccordion({ book }: BookAccordionProps) {
                                         </AccordionTrigger>
                                         <AccordionContent>
                                                 <div className="mt-2">
-                                                        <BookCarousel 
-                                                          title="" 
-                                                          books={relatedBooks} 
-                                                        />
+                                                        <div className="container mx-auto px-4">
+                                                                <BookCarousel 
+                                                                  title="" 
+                                                                  books={relatedBooks} 
+                                                                />
+                                                        </div>
                                                 </div>
                                         </AccordionContent>
                                 </AccordionItem>

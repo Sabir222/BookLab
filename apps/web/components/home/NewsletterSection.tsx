@@ -31,18 +31,18 @@ export function NewsletterSection() {
       <div className="container mx-auto px-4">
         <div 
           className="rounded-2xl p-8 md:p-12 text-center"
-          style={{ backgroundColor: "#113E21" }}
+          style={{ backgroundColor: "#11243E" }}
         >
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
               Join Our Newsletter
             </h2>
-            <p className="text-green-100 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
               Subscribe to get exclusive offers, new book recommendations, and reading tips delivered straight to your inbox.
             </p>
             
             {isSubscribed ? (
-              <div className="bg-green-500/20 border border-green-400 rounded-lg py-3 px-4 text-green-100 max-w-md mx-auto">
+              <div className="bg-blue-500/20 border border-blue-400 rounded-lg py-3 px-4 text-blue-100 max-w-md mx-auto">
                 <p>Thank you for subscribing! Check your email for confirmation.</p>
               </div>
             ) : (
@@ -53,19 +53,19 @@ export function NewsletterSection() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="flex-grow bg-white/10 border-white/20 text-white placeholder:text-green-200 focus-visible:ring-white"
+                  className="flex-grow bg-white/10 border-white/20 text-white placeholder:text-blue-200 focus-visible:ring-white"
                 />
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="bg-white text-green-900 hover:bg-green-100 font-medium"
+                  className="bg-white text-blue-900 hover:bg-blue-100 font-medium"
                 >
                   {isSubmitting ? "Subscribing..." : "Subscribe"}
                 </Button>
               </form>
             )}
             
-            <p className="text-green-200 text-sm mt-4">
+            <p className="text-blue-200 text-sm mt-4">
               We respect your privacy. Unsubscribe at any time.
             </p>
           </div>
