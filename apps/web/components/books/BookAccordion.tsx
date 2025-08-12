@@ -7,6 +7,7 @@ import {
         AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BookCarousel } from "@/components/BookCarousel";
+import { Book } from "@/types";
 
 interface BookAccordionProps {
         book: {
@@ -23,15 +24,15 @@ interface BookAccordionProps {
                         title: string;
                         author: string;
                         price: number;
-                        rating?: number;
-                        reviewCount?: number;
+                        rating: number;
+                        reviewCount: number;
                 }>;
         };
 }
 
 export function BookAccordion({ book }: BookAccordionProps) {
         // Mock related books data with rating and reviewCount for BookCarousel
-        const relatedBooks = (book.relatedBooks || [
+        const relatedBooks: Book[] = (book.relatedBooks || [
                 {
                         id: "3",
                         title: "The Catcher in the Rye",

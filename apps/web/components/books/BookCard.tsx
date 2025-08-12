@@ -90,10 +90,7 @@ export function BookCard({
           </Button>
           <WishlistButton 
             isWishlisted={isFavorite}
-            onClick={(e) => {
-              e.preventDefault();
-              onToggleFavorite?.(id);
-            }}
+            onClick={() => onToggleFavorite?.(id)}
             className="h-8 w-8"
           />
         </div>
