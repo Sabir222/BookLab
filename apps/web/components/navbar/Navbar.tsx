@@ -1,6 +1,5 @@
 "use client";
 import { Menu } from "lucide-react";
-import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
@@ -8,9 +7,11 @@ import { UserMenu } from "./UserMenu";
 import { MobileMenu } from "./MobileMenu";
 import { BrandLogo } from "./BrandLogo";
 import { NavLinks } from "./NavLinks";
+import { useNavbarStore } from "./navbarStore";
+import { useState, useEffect } from "react";
 
 export const Navbar = () => {
-        const [menuState, setMenuState] = useState(false);
+        const { isMenuOpen, openMenu, closeMenu } = useNavbarStore();
         const [isScrolled, setIsScrolled] = useState(false);
 
         const navItems = [
@@ -59,7 +60,7 @@ export const Navbar = () => {
                                                         variant="ghost" 
                                                         size="icon"
                                                         className="lg:hidden hover:bg-accent"
-                                                        onClick={() => setMenuState(!menuState)}
+                                                        onClick={() => isMenuOpen ? closeMenu() : openMenu()}
                                                 >
                                                         <Menu className="h-5 w-5" />
                                                         <span className="sr-only">Toggle menu</span>
@@ -69,8 +70,8 @@ export const Navbar = () => {
                         </div>
 
                         {/* Mobile Menu */}
-                        {menuState && (
-                                <MobileMenu navItems={navItems} onClose={() => setMenuState(false)} />
+                        {isMenuOpen && (
+                                <MobileMenu navItems={navItems} onClose={closeMenu} />
                         )}
                 </header>
         );

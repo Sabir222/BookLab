@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Bookmark, User } from "lucide-react";
+import { useNavbarStore } from "./navbarStore";
 
 interface MobileMenuProps {
         navItems: { name: string; href: string }[];
@@ -10,6 +11,13 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
+        const { closeMenu } = useNavbarStore();
+        
+        const handleClose = () => {
+                onClose();
+                closeMenu();
+        };
+
         return (
                 <div className="lg:hidden bg-accent/90 rounded-2xl border backdrop-blur-lg mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out">
                         <div
@@ -21,7 +29,7 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
                                                         key={index}
                                                         href={item.href}
                                                         className="px-3 py-3 text-base font-medium text-primary/80 hover:text-secondary hover:bg-accent rounded-md"
-                                                        onClick={onClose}
+                                                        onClick={handleClose}
                                                 >
                                                         {item.name}
                                                 </Link>

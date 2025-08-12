@@ -3,6 +3,7 @@ import { Search, X } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
+import { useNavbarStore } from "./navbarStore";
 
 interface SearchBarProps {
         className?: string;
@@ -16,7 +17,7 @@ interface SearchResult {
 }
 
 export function SearchBar({ className }: SearchBarProps) {
-        const [searchOpen, setSearchOpen] = useState(false);
+        const { isSearchOpen, openSearch, closeSearch } = useNavbarStore();
         const [searchQuery, setSearchQuery] = useState("");
         const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
         const searchRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,7 @@ export function SearchBar({ className }: SearchBarProps) {
         const handleSearch = (e: React.FormEvent) => {
                 e.preventDefault();
                 if (searchQuery.trim()) {
+                        closeSearch();
                         window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
                 }
         };
@@ -64,21 +66,21 @@ export function SearchBar({ className }: SearchBarProps) {
         useEffect(() => {
                 const handleClickOutside = (e: MouseEvent) => {
                         if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-                                setSearchOpen(false);
+                                closeSearch();
                         }
                 };
 
-                if (searchOpen) {
+                if (isSearchOpen) {
                         document.addEventListener('mousedown', handleClickOutside);
                 }
                 return () => {
                         document.removeEventListener('mousedown', handleClickOutside);
                 };
-        }, [searchOpen]);
+        }, [isSearchOpen, closeSearch]);
 
         return (
                 <div ref={searchRef} className={`relative ${className || ''}`}>
-                        {searchOpen ? (
+                        {isSearchOpen ? (
                                 <div className="fixed left-1/2 top-20 w-[90vw] -translate-x-1/2 md:w-[70vw] lg:w-[60vw] max-w-2xl bg-background border border-border rounded-lg shadow-xl z-50">
                                         <form onSubmit={handleSearch}>
                                                 <div className="relative p-3">
@@ -114,6 +116,7 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                         key={result.id}
                                                                         className="px-4 py-3 hover:bg-accent cursor-pointer flex items-center gap-3"
                                                                         onClick={() => {
+                                                                                closeSearch();
                                                                                 window.location.href = `/book/${result.id}`;
                                                                         }}
                                                                 >
@@ -132,11 +135,12 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                         onClick={(e) => {
                                                                                 e.preventDefault();
                                                                                 if (searchQuery.trim()) {
+                                                                                        closeSearch();
                                                                                         window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
                                                                                 }
                                                                         }}
                                                                 >
-                                                                        View all results for `{searchQuery}`
+                                                                        View all results for "{searchQuery}"
                                                                 </button>
                                                         </div>
                                                 </div>
@@ -146,7 +150,7 @@ export function SearchBar({ className }: SearchBarProps) {
                         <Button 
                                 variant="ghost" 
                                 size="icon"
-                                onClick={() => setSearchOpen(!searchOpen)}
+                                onClick={() => isSearchOpen ? closeSearch() : openSearch()}
                                 aria-label="Search"
                                 className="hover:bg-accent"
                         >
