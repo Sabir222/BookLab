@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LikeButton } from "@/components/books/LikeButton";
+import { WishlistButton } from "@/components/books/LikeButton";
 
 interface BookHeaderProps {
   book: {
@@ -27,6 +27,7 @@ export function BookHeader({ book }: BookHeaderProps) {
         </div>
       </div>
 
+      {/* Right Column - Book Information */}
       <div>
         <div>
           <h1 className="text-3xl font-bold text-primary">{book.title}</h1>
@@ -61,7 +62,7 @@ export function BookHeader({ book }: BookHeaderProps) {
               </span>
             )}
           </div>
-
+          
           <div className="mt-2">
             {book.inStock ? (
               <p className="text-green-600 font-medium">
@@ -90,7 +91,7 @@ export function BookHeader({ book }: BookHeaderProps) {
           <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 flex-1 max-w-xs">
             Add to Cart
           </Button>
-          <LikeButton />
+          <WishlistButton />
         </div>
 
         <div className="mt-4 text-sm text-muted-foreground">

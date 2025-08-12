@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LikeButton } from "@/components/books/LikeButton";
+import { WishlistButton } from "@/components/books/LikeButton";
 
 interface BookCardProps {
         id: string;
@@ -23,7 +23,7 @@ export function BookCard({ id, title, author, price, className = "" }: BookCardP
                         </Link>
                         <div className="flex gap-2 mt-4">
                                 <Button className="flex-1" size="sm">Add to Cart</Button>
-                                <LikeButton className="h-8 w-8" />
+                                <WishlistButton className="h-8 w-8" />
                         </div>
                 </div>
         );
