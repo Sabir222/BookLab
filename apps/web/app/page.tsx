@@ -1,5 +1,4 @@
 "use client";
-
 import { HeroSection } from "@/components/home/HeroSection";
 import { MangaPromoSection } from "@/components/home/MangaPromoSection";
 import { PopularBooksSection } from "@/components/home/PopularBooksSection";
