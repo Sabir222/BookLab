@@ -1,6 +1,7 @@
 "use client";
 
 import { HeroSection } from "@/components/home/HeroSection";
+import { MangaPromoSection } from "@/components/home/MangaPromoSection";
 import { PopularBooksSection } from "@/components/home/PopularBooksSection";
 import { BestSellersSection } from "@/components/home/BestSellersSection";
 import { NewReleasesSection } from "@/components/home/NewReleasesSection";
@@ -16,6 +17,7 @@ export default function Home() {
                                 <TrendingNowSection />
                                 <NewReleasesSection />
                                 <BestSellersSection />
+                                <MangaPromoSection />
                                 <PopularBooksSection />
                                 <FantasySciFiSection />
                                 <AuthorsSection />
