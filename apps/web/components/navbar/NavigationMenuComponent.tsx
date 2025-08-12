@@ -12,35 +12,34 @@ import Link from "next/link";
 
 const bookCategories = [
   { title: "Book Categories" },
-  { title: "Fiction" },
-  { title: "Non-Fiction" },
-  { title: "History" },
-  { title: "Popular Genres" },
 ];
 
 const dropdownSections = [
   {
-    title: "New Arrivals",
+    title: "Main Categories",
     items: [
-      { title: "Latest Fantasy Releases", href: "/new/fantasy" },
-      { title: "New Mystery Thrillers", href: "/new/mystery" },
-      { title: "Hot Nonfiction Picks", href: "/new/nonfiction" },
+      { title: "Fiction", href: "/category/fiction" },
+      { title: "Non-Fiction", href: "/category/non-fiction" },
+      { title: "Children Books", href: "/category/children-books" },
+      { title: "Kids", href: "/category/kids" },
+      { title: "Comics", href: "/category/comics" },
+      { title: "Manga", href: "/category/manga" },
     ]
   },
   {
-    title: "Top Categories / Genres",
+    title: "Special Categories",
+    items: [
+      { title: "Education", href: "/category/education" },
+      { title: "Lifestyle & Hobbies", href: "/category/lifestyle-hobbies" },
+      { title: "All Categories", href: "/category" },
+    ]
+  },
+  {
+    title: "Popular Genres",
     items: [
       { title: "Bestsellers", href: "/bestsellers" },
       { title: "Award-Winning Books", href: "/awards" },
       { title: "Trending on BookTok", href: "/trending" },
-    ]
-  },
-  {
-    title: "Kids & Teens (Discover Section)",
-    items: [
-      { title: "Children's Picture Books", href: "/kids/picture-books" },
-      { title: "Middle Grade Adventures", href: "/kids/middle-grade" },
-      { title: "Teen Fantasy & Romance", href: "/teens/fantasy-romance" },
     ]
   }
 ];
@@ -63,7 +62,7 @@ export function NavigationMenuComponent() {
                         <div className="flex h-full w-full flex-col">
                           <h3 className={cn(
                             "text-sm font-medium",
-                            section.title.includes("Discover")
+                            section.title.includes("Popular")
                               ? "text-primary font-bold"
                               : "text-secondary"
                           )}>
