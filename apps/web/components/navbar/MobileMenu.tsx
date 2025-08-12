@@ -60,7 +60,7 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
         };
 
         return (
-                <div className="lg:hidden bg-accent/90 rounded-2xl border backdrop-blur-lg mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out">
+                <div className="lg:hidden bg-accent/90 rounded-2xl border backdrop-blur-sm mx-2 mt-2 animate-in slide-in-from-top-2 duration-600 ease-out max-h-[80vh] overflow-y-auto">
                         <div
                                 className="container px-4 py-4"
                         >
