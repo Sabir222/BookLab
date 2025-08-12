@@ -19,7 +19,7 @@ interface BookCarouselProps {
 export function BookCarousel({ title, books, onToggleFavorite }: BookCarouselProps) {
   return (
     <section className="w-full py-6">
-      <div className="container">
+      <div className="container mx-auto px-4">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
           <a href="#" className="text-sm font-medium text-primary hover:underline">
@@ -27,29 +27,32 @@ export function BookCarousel({ title, books, onToggleFavorite }: BookCarouselPro
           </a>
         </div>
         
-        <Carousel
-          opts={{
-            align: "start",
-            slidesToScroll: "auto",
-          }}
-          className="w-full"
-        >
-          <CarouselContent>
-            {books.map((book) => (
-              <CarouselItem 
-                key={book.id} 
-                className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-              >
-                <BookCard 
-                  {...book} 
-                  onToggleFavorite={onToggleFavorite}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <div className="relative">
+          <Carousel
+            opts={{
+              align: "start",
+              slidesToScroll: 1,
+              dragFree: false,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {books.map((book) => (
+                <CarouselItem 
+                  key={book.id} 
+                  className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                >
+                  <BookCard 
+                    {...book} 
+                    onToggleFavorite={onToggleFavorite}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
+          </Carousel>
+        </div>
       </div>
     </section>
   );
