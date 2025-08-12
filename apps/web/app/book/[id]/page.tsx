@@ -78,12 +78,10 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   if (!book) {
     return (
       <div className="min-h-screen bg-background">
-        <div className="pt-20">
-          <div className="mx-auto max-w-6xl transition-all duration-300 px-6 lg:px-12 py-8">
-            <div className="text-center py-12">
-              <h1 className="text-2xl font-bold text-primary">Book not found</h1>
-              <p className="text-muted-foreground mt-2">The book you're looking for doesn't exist.</p>
-            </div>
+        <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12 py-8">
+          <div className="text-center py-12">
+            <h1 className="text-2xl font-bold text-primary">Book not found</h1>
+            <p className="text-muted-foreground mt-2">The book you're looking for doesn't exist.</p>
           </div>
         </div>
       </div>
@@ -92,21 +90,21 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="pt-20">
-        <div className="mx-auto max-w-6xl transition-all duration-300 px-6 lg:px-12 py-8">
-          <BookHeader book={book} />
-          
-          {/* About Section */}
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-primary">About</h2>
-            <p className="mt-4 text-muted-foreground">
-              {book.description}
-            </p>
-          </div>
-          
-          {/* Accordion Sections */}
-          <BookAccordion book={book} />
-        </div>
+      <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12 py-8">
+        <BookHeader book={book} />
+      </div>
+      
+      {/* About Section */}
+      <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12 mt-12">
+        <h2 className="text-2xl font-bold text-primary">About</h2>
+        <p className="mt-4 text-muted-foreground">
+          {book.description}
+        </p>
+      </div>
+      
+      {/* Accordion Sections */}
+      <div className="max-w-6xl mx-auto transition-all duration-300 px-6 lg:px-12">
+        <BookAccordion book={book} />
       </div>
     </div>
   );

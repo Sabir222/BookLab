@@ -5,7 +5,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main className="pt-20 min-h-screen">
+      <main className="min-h-screen pt-20">
         {children}
       </main>
       <Footer />
