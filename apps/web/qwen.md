@@ -2,7 +2,7 @@
 
 use tailwindcss
 shadcn ui
-pnpm
+use pnpm to install packages
 pnpm dlx shadcn@latest add shadcn \*component-name\*
 typescript tsx
 check theme.md for theme referense and check already made component so you get insipration how we made the theme
