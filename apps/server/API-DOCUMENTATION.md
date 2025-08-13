@@ -828,6 +828,136 @@ curl -X DELETE "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-42661417
   -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN"
 ```
 
+## Newsletter Endpoints
+
+### 30. Subscribe to Newsletter
+**POST** `/api/newsletter/subscribe`
+
+Subscribe an email address to the newsletter.
+
+#### Request
+- **Body Parameters**:
+  - `email` (string, required): Email address to subscribe
+
+#### Response
+- **201 Created**: Successfully subscribed to newsletter
+- **400 Bad Request**: Invalid email format or missing email
+- **409 Conflict**: Email already subscribed
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/newsletter/subscribe" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "subscriber@example.com"
+  }'
+```
+
+### 31. Unsubscribe from Newsletter
+**POST** `/api/newsletter/unsubscribe`
+
+Unsubscribe an email address from the newsletter.
+
+#### Request
+- **Body Parameters**:
+  - `email` (string, required): Email address to unsubscribe
+
+#### Response
+- **200 OK**: Successfully unsubscribed from newsletter
+- **400 Bad Request**: Invalid email format or missing email
+- **404 Not Found**: Email not found in subscribers
+- **409 Conflict**: Email already unsubscribed
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/newsletter/unsubscribe" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "subscriber@example.com"
+  }'
+```
+
+## Wishlist Endpoints
+
+### 32. Add Book to Wishlist
+**POST** `/api/wishlist/add`
+
+Add a book to the authenticated user's wishlist.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+- **Body Parameters**:
+  - `book_id` (string, required): UUID of the book to add
+
+#### Response
+- **201 Created**: Book added to wishlist successfully
+- **400 Bad Request**: Invalid book ID format or missing book ID
+- **401 Unauthorized**: Not authenticated
+- **404 Not Found**: Book not found
+- **409 Conflict**: Book already in wishlist
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/wishlist/add" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "book_id": "123e4567-e89b-12d3-a456-426614174000"
+  }'
+```
+
+### 33. Remove Book from Wishlist
+**POST** `/api/wishlist/remove`
+
+Remove a book from the authenticated user's wishlist.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+- **Body Parameters**:
+  - `book_id` (string, required): UUID of the book to remove
+
+#### Response
+- **200 OK**: Book removed from wishlist successfully
+- **400 Bad Request**: Invalid book ID format or missing book ID
+- **401 Unauthorized**: Not authenticated
+- **404 Not Found**: Book not in wishlist
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X POST "http://localhost:4000/api/wishlist/remove" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "book_id": "123e4567-e89b-12d3-a456-426614174000"
+  }'
+```
+
+### 34. Get User's Wishlist
+**GET** `/api/wishlist/`
+
+Retrieve all books in the authenticated user's wishlist.
+
+#### Request
+- **Headers**:
+  - `Authorization` (string, required): Bearer token
+
+#### Response
+- **200 OK**: Returns user's wishlist
+- **401 Unauthorized**: Not authenticated
+- **500 Internal Server Error**: Server error
+
+#### Example
+```bash
+curl -X GET "http://localhost:4000/api/wishlist/" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
 ## Common Response Formats
 
 ### Success Response
@@ -879,6 +1009,16 @@ curl -X DELETE "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-42661417
 - `LIST_USERS_ERROR`: Error listing users
 - `ADMIN_UPDATE_USER_ERROR`: Error updating user (admin)
 - `ADMIN_DELETE_USER_ERROR`: Error deleting user (admin)
+- `MISSING_EMAIL`: Email is required for newsletter subscription
+- `INVALID_EMAIL`: Invalid email format
+- `ALREADY_SUBSCRIBED`: Email is already subscribed to the newsletter
+- `EMAIL_NOT_FOUND`: Email not found in newsletter subscribers
+- `ALREADY_UNSUBSCRIBED`: Email is already unsubscribed from the newsletter
+- `MISSING_BOOK_ID`: Book ID is required for wishlist operations
+- `INVALID_BOOK_ID`: Invalid book ID format
+- `BOOK_ALREADY_IN_WISHLIST`: Book is already in the user's wishlist
+- `BOOK_NOT_IN_WISHLIST`: Book is not in the user's wishlist
+- `REMOVE_FROM_WISHLIST_FAILED`: Failed to remove book from wishlist
 
 ## Rate Limiting
 

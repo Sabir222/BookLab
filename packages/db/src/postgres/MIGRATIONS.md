@@ -925,37 +925,37 @@ COMMIT;
 ---
 
 
-### File: ./migrations/016_create_user_favorite_books_table.sql
+### File: ./migrations/016_create_user_follows_authors_table.sql
 
 ```sql
--- Migration: Create User Favorite Books Table
--- Version: 016_create_user_favorite_books_table
--- Created: 10-08-2025
--- Description: Create user_favorite_books table to store users' favorite books
 begin
 ;
 
-CREATE TABLE IF NOT EXISTS user_favorite_books (
+CREATE TABLE IF NOT EXISTS user_follows_authors (
     user_id UUID NOT NULL,
-    book_id UUID NOT NULL,
-    added_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    notes TEXT,
+    author_id UUID NOT NULL,
+    followed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    notifications_enabled BOOLEAN DEFAULT TRUE,
 
-    CONSTRAINT pk_user_favorite_books PRIMARY KEY (user_id, book_id),
-    CONSTRAINT fk_user_favorite_books_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_favorite_books_book FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+    CONSTRAINT pk_user_follows_authors PRIMARY KEY (user_id, author_id),
+    CONSTRAINT fk_user_follows_authors_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_follows_authors_author FOREIGN KEY (author_id) REFERENCES authors(author_id) ON DELETE CASCADE
 );
 
-DROP INDEX IF EXISTS idx_user_favorite_books_user_id;
-CREATE INDEX idx_user_favorite_books_user_id ON user_favorite_books(user_id);
+DROP INDEX IF EXISTS idx_user_follows_authors_user_id;
+CREATE INDEX idx_user_follows_authors_user_id ON user_follows_authors(user_id);
 
-DROP INDEX IF EXISTS idx_user_favorite_books_book_id;
-CREATE INDEX idx_user_favorite_books_book_id ON user_favorite_books(book_id);
+DROP INDEX IF EXISTS idx_user_follows_authors_author_id;
+CREATE INDEX idx_user_follows_authors_author_id ON user_follows_authors(author_id);
 
-DROP INDEX IF EXISTS idx_user_favorite_books_added_at;
-CREATE INDEX idx_user_favorite_books_added_at ON user_favorite_books(added_at);
+DROP INDEX IF EXISTS idx_user_follows_authors_followed_at;
+CREATE INDEX idx_user_follows_authors_followed_at ON user_follows_authors(followed_at);
 
-INSERT INTO schema_migrations (version) VALUES ('016_create_user_favorite_books_table')
+DROP INDEX IF EXISTS idx_user_follows_authors_notifications;
+CREATE INDEX idx_user_follows_authors_notifications ON user_follows_authors(author_id, notifications_enabled) 
+WHERE notifications_enabled = TRUE;
+
+INSERT INTO schema_migrations (version) VALUES ('017_create_user_follows_authors_table')
 ON CONFLICT (version) DO NOTHING;
 
 commit
@@ -967,21 +967,84 @@ commit
 BEGIN;
 
 -- Drop indexes
-DROP INDEX IF EXISTS idx_user_favorite_books_added_at;
-DROP INDEX IF EXISTS idx_user_favorite_books_book_id;
-DROP INDEX IF EXISTS idx_user_favorite_books_user_id;
+DROP INDEX IF EXISTS idx_user_follows_authors_notifications;
+DROP INDEX IF EXISTS idx_user_follows_authors_followed_at;
+DROP INDEX IF EXISTS idx_user_follows_authors_author_id;
+DROP INDEX IF EXISTS idx_user_follows_authors_user_id;
 
 -- Drop table
-DROP TABLE IF EXISTS user_favorite_books;
+DROP TABLE IF EXISTS user_follows_authors;
 
 -- Remove from migrations
-DELETE FROM schema_migrations WHERE version = '016_create_user_favorite_books_table';
+DELETE FROM schema_migrations WHERE version = '017_create_user_follows_authors_table';
 
 COMMIT;
 */
 
 
-
 ```
+
+---
+
+
+### File: ./migrations/017_create_newsletter_subscribers_table.sql
+
+```sql
+begin
+;
+
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    subscriber_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email VARCHAR(255) NOT NULL,
+    is_subscribed BOOLEAN NOT NULL DEFAULT TRUE,
+    subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    unsubscribed_at TIMESTAMP WITH TIME ZONE NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+    CONSTRAINT unique_newsletter_email UNIQUE (email),
+    CONSTRAINT chk_newsletter_email_format CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
+);
+
+DROP INDEX IF EXISTS idx_newsletter_subscribers_email;
+CREATE INDEX idx_newsletter_subscribers_email ON newsletter_subscribers(email);
+
+DROP INDEX IF EXISTS idx_newsletter_subscribers_subscribed;
+CREATE INDEX idx_newsletter_subscribers_subscribed ON newsletter_subscribers(is_subscribed);
+
+DROP INDEX IF EXISTS idx_newsletter_subscribers_subscribed_at;
+CREATE INDEX idx_newsletter_subscribers_subscribed_at ON newsletter_subscribers(subscribed_at);
+
+CREATE TRIGGER update_newsletter_subscribers_updated_at 
+  BEFORE UPDATE ON newsletter_subscribers 
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+INSERT INTO schema_migrations (version) VALUES ('018_create_newsletter_subscribers_table')
+ON CONFLICT (version) DO NOTHING;
+
+commit
+;
+
+-- ROLLBACK (DOWN MIGRATION)
+-- Uncomment and run this section to rollback this migration
+/*
+BEGIN;
+
+-- Drop trigger
+DROP TRIGGER IF EXISTS update_newsletter_subscribers_updated_at ON newsletter_subscribers;
+
+-- Drop indexes
+DROP INDEX IF EXISTS idx_newsletter_subscribers_subscribed_at;
+DROP INDEX IF EXISTS idx_newsletter_subscribers_subscribed;
+DROP INDEX IF EXISTS idx_newsletter_subscribers_email;
+
+-- Drop table
+DROP TABLE IF EXISTS newsletter_subscribers;
+
+-- Remove from migrations
+DELETE FROM schema_migrations WHERE version = '018_create_newsletter_subscribers_table';
+
+COMMIT;
+*/```
 
 ---

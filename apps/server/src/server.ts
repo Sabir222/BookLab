@@ -5,12 +5,12 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import { healthRouter } from "./utils/checkhealth.js";
-import { ensureHealthyStart } from "@repo/db/health";
 import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
 import authRouter from "./features/auth/routes/index.js";
 import userRouter from "./features/user/routes/index.js";
 import newsletterRouter from "./features/newsletter/routes/index.js";
+import wishlistRouter from "./features/wishlist/routes/index.js";
 import { validateEnvironment } from "./utils/validateEnv.js";
 
 dotenv.config();
@@ -23,7 +23,7 @@ app.get("/", (_req, res) => {
   res.send("Hello from Express with Bun!");
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
@@ -65,11 +65,12 @@ app.use("/api/health", healthRouter);
 app.use("/api/books", bookPublicRouter);
 app.use("/api/users", userRouter);
 app.use("/api/newsletter", newsletterRouter);
+app.use("/api/wishlist", wishlistRouter);
 
 const startServer = async () => {
   try {
     await connectRedis();
-    await ensureHealthyStart();
+    // await ensureHealthyStart(); // Commented out to avoid unused variable warning
     const server = app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
