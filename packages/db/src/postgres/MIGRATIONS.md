@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS users (
     credits INT NOT NULL DEFAULT 0,
     loyalty_points INT NOT NULL DEFAULT 0,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
-    role VARCHAR(50) NOT NULL DEFAULT 'user',
+    role user_role NOT NULL DEFAULT 'user',
     last_login TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
@@ -76,8 +76,7 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT unique_username UNIQUE (username),
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT check_credits_non_negative CHECK (credits >= 0),
-    CONSTRAINT check_loyalty_points_non_negative CHECK (loyalty_points >= 0),
-    CONSTRAINT check_valid_role CHECK (role IN ('user', 'admin', 'moderator'))
+    CONSTRAINT check_loyalty_points_non_negative CHECK (loyalty_points >= 0)
 );
 
 DROP INDEX IF EXISTS idx_users_email;
@@ -461,6 +460,9 @@ CREATE TABLE IF NOT EXISTS  books (
     page_count INTEGER,
     language CHAR(3),
     cover_image_url TEXT,
+    cover_image_small_url TEXT,
+    cover_image_medium_url TEXT,
+    cover_image_large_url TEXT,
     edition VARCHAR(50),
     book_format book_format,
     book_condition VARCHAR(20) DEFAULT 'new',
