@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -75,7 +75,8 @@ const authorBooks = [
   },
 ];
 
-export default function AuthorDetailPage({ params }: { params: { id: string } }) {
+export default function AuthorDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  React.use(params); // Using params to satisfy TypeScript, but not using the id value in this mockup
   const [isFollowing, setIsFollowing] = useState(authorData.isFollowing);
 
   const toggleFollow = () => {
@@ -220,7 +221,7 @@ export default function AuthorDetailPage({ params }: { params: { id: string } })
             </li>
             <li className="flex items-start">
               <span className="text-secondary mr-2">•</span>
-              <span>Edgar Award for Best Novel (1981) - "The Dead Zone"</span>
+              <span>Edgar Award for Best Novel (1981) - &quot;The Dead Zone&quot;</span>
             </li>
           </ul>
         </div>

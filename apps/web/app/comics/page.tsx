@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Zap, Users, Star, Shield } from "lucide-react";
+import { BookOpen, Zap, Star, Shield } from "lucide-react";
 import Link from "next/link";
 
 export default function ComicsPage() {
@@ -81,7 +81,7 @@ export default function ComicsPage() {
           </div>
           <h2 className="text-3xl font-bold mb-4">Comic Store Expansion Coming Soon</h2>
           <p className="text-lg text-muted-foreground mb-6">
-            We're expanding our comic book selection with rare editions, variant covers, 
+            We&apos;re expanding our comic book selection with rare editions, variant covers, 
             and exclusive merchandise from your favorite publishers and creators.
           </p>
           <Badge variant="secondary" className="text-lg py-1 px-4">
@@ -107,7 +107,7 @@ export default function ComicsPage() {
         <Card>
           <CardHeader>
             <Star className="h-10 w-10 text-secondary mb-4" />
-            <CardTitle>Collector's Items</CardTitle>
+            <CardTitle>Collector&apos;s Items</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Tablet, Smartphone, Battery, Sun, Download } from "lucide-react";
+import { BookOpen, Tablet, Battery, Sun } from "lucide-react";
 import Link from "next/link";
 
 export default function EreadersPage() {
@@ -52,7 +52,7 @@ export default function EreadersPage() {
           </div>
           <h2 className="text-3xl font-bold mb-4">Ereader Store Coming Soon</h2>
           <p className="text-lg text-muted-foreground mb-6">
-            We're working hard to bring you the best selection of ereaders and accessories. 
+            We&apos;re working hard to bring you the best selection of ereaders and accessories. 
             Our digital bookstore will feature the latest devices from Kindle, Kobo, Nook, and more.
           </p>
           <Badge variant="secondary" className="text-lg py-1 px-4">

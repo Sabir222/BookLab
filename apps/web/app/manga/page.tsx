@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Heart, Users, Star, Zap } from "lucide-react";
+import { BookOpen, Heart, Star, Zap } from "lucide-react";
 import Link from "next/link";
 
 export default function MangaPage() {
@@ -82,7 +82,7 @@ export default function MangaPage() {
           </div>
           <h2 className="text-3xl font-bold mb-4">Expanded Manga Store Coming Soon</h2>
           <p className="text-lg text-muted-foreground mb-6">
-            We're working on an enhanced manga shopping experience with exclusive editions, 
+            We&apos;re working on an enhanced manga shopping experience with exclusive editions, 
             limited releases, and a wider selection of publishers from Japan and beyond.
           </p>
           <Badge variant="secondary" className="text-lg py-1 px-4">
@@ -112,7 +112,7 @@ export default function MangaPage() {
           </CardHeader>
           <CardContent>
             <CardDescription>
-              Stay up to date with the newest chapters and volumes as soon as they're available.
+              Stay up to date with the newest chapters and volumes as soon as they&apos;re available.
             </CardDescription>
           </CardContent>
         </Card>

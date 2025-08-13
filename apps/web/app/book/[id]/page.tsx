@@ -80,7 +80,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
                                 <div className="container mx-auto px-4 py-8">
                                         <div className="text-center py-12">
                                                 <h1 className="text-2xl font-bold text-primary">Book not found</h1>
-                                                <p className="text-muted-foreground mt-2">The book you're looking for doesn't exist.</p>
+                                                <p className="text-muted-foreground mt-2">The book you&apos;re looking for doesn&apos;t exist.</p>
                                         </div>
                                 </div>
                         </div>
