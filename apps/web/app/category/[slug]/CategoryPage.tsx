@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BookCard } from "@/components/books/BookCard";
 import { BookFilters } from "@/components/books/BookFilters";
 import { BookResultsHeader } from "@/components/books/BookResultsHeader";
@@ -369,6 +369,7 @@ const slugToCategoryMap: Record<string, string> = {
 };
 
 export function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = React.use(params);
   const [categoryName, setCategoryName] = useState("Category");
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50]);
