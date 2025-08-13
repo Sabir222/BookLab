@@ -1,0 +1,22 @@
+INSERT INTO categories (category_name, description, is_active)
+VALUES
+('Fiction', 'General fiction including literary, contemporary, and commercial works', true),
+('Fantasy', 'Fantasy literature including high fantasy, urban fantasy, and epic fantasy', true),
+('Science Fiction', 'Science fiction novels and stories', true),
+('Mystery', 'Mystery and detective fiction', true),
+('Romance', 'Romance novels and stories', true),
+('Thriller', 'Thriller and suspense fiction', true),
+('Historical Fiction', 'Fiction set in historical periods', true),
+('Young Adult', 'Books primarily aimed at young adult readers', true),
+('Adult', 'Books primarily aimed at adult readers', true),
+('Literary Fiction', 'Literary works with artistic merit and complex themes', true),
+('Contemporary Fiction', 'Modern fiction dealing with current issues', true),
+('Dystopian Fiction', 'Fiction set in oppressive or post-apocalyptic societies', true),
+('Paranormal', 'Fiction involving supernatural elements', true),
+('Horror', 'Horror fiction designed to frighten and disturb', true),
+('Biography', 'Biographical works about real people', true),
+('Memoir', 'Personal memoirs and autobiographical works', true),
+('Non-Fiction', 'General non-fiction works', true),
+('Self-Help', 'Books offering advice on personal improvement', true),
+('History', 'Historical works and accounts', true),
+('Science', 'Scientific works and popular science books', true);
