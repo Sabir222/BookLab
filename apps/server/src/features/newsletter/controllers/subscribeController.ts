@@ -93,10 +93,10 @@ export const subscribeController = async (
     res.status(201).json({
       message: "Successfully subscribed to newsletter",
       subscriber: {
-        subscriber_id: subscriber.subscriber_id,
-        email: subscriber.email,
-        is_subscribed: subscriber.is_subscribed,
-        subscribed_at: subscriber.subscribed_at,
+        subscriber_id: subscriber!.subscriber_id,
+        email: subscriber!.email,
+        is_subscribed: subscriber!.is_subscribed,
+        subscribed_at: subscriber!.subscribed_at,
       },
     });
   } catch (error) {

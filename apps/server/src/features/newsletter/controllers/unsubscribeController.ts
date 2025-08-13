@@ -96,10 +96,10 @@ export const unsubscribeController = async (
     res.status(200).json({
       message: "Successfully unsubscribed from newsletter",
       subscriber: {
-        subscriber_id: subscriber.subscriber_id,
-        email: subscriber.email,
-        is_subscribed: subscriber.is_subscribed,
-        unsubscribed_at: subscriber.unsubscribed_at,
+        subscriber_id: subscriber!.subscriber_id,
+        email: subscriber!.email,
+        is_subscribed: subscriber!.is_subscribed,
+        unsubscribed_at: subscriber!.unsubscribed_at,
       },
     });
   } catch (error) {

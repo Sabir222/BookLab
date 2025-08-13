@@ -9,7 +9,7 @@ vi.mock("@repo/db/postgres", () => ({
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Request, Response } from "express";
-import { subscribeController } from "../subscribeController.js";
+import { subscribeController } from "../controllers/subscribeController.js";
 
 describe("subscribeController", () => {
   let mockRequest: Partial<Request>;
