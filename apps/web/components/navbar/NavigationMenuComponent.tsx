@@ -10,11 +10,14 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-const bookCategories = [
+const navigationItems = [
   { title: "Book Categories" },
+  { title: "Comics" },
+  { title: "Manga" },
+  { title: "Ereaders" },
 ];
 
-const dropdownSections = [
+const bookCategories = [
   {
     title: "Main Categories",
     items: [
@@ -22,8 +25,6 @@ const dropdownSections = [
       { title: "Non-Fiction", href: "/category/non-fiction" },
       { title: "Children Books", href: "/category/children-books" },
       { title: "Kids", href: "/category/kids" },
-      { title: "Comics", href: "/category/comics" },
-      { title: "Manga", href: "/category/manga" },
     ]
   },
   {
@@ -44,19 +45,107 @@ const dropdownSections = [
   }
 ];
 
+const comicsCategories = [
+  {
+    title: "Publishers",
+    items: [
+      { title: "Marvel", href: "/category/comics/marvel" },
+      { title: "DC Comics", href: "/category/comics/dc" },
+      { title: "Image Comics", href: "/category/comics/image" },
+      { title: "Dark Horse", href: "/category/comics/dark-horse" },
+      { title: "IDW Publishing", href: "/category/comics/idw" },
+    ]
+  },
+  {
+    title: "Genres",
+    items: [
+      { title: "Superhero", href: "/category/comics/genres/superhero" },
+      { title: "Fantasy", href: "/category/comics/genres/fantasy" },
+      { title: "Sci-Fi", href: "/category/comics/genres/sci-fi" },
+      { title: "Horror", href: "/category/comics/genres/horror" },
+      { title: "Manga Style", href: "/category/comics/genres/manga-style" },
+    ]
+  },
+  {
+    title: "Popular Series",
+    items: [
+      { title: "Spider-Man", href: "/category/comics/series/spider-man" },
+      { title: "Batman", href: "/category/comics/series/batman" },
+      { title: "X-Men", href: "/category/comics/series/x-men" },
+      { title: "Avengers", href: "/category/comics/series/avengers" },
+      { title: "Watchmen", href: "/category/comics/series/watchmen" },
+    ]
+  }
+];
+
+const mangaCategories = [
+  {
+    title: "Genres",
+    items: [
+      { title: "Shonen", href: "/category/manga/genres/shonen" },
+      { title: "Shojo", href: "/category/manga/genres/shojo" },
+      { title: "Seinen", href: "/category/manga/genres/seinen" },
+      { title: "Josei", href: "/category/manga/genres/josei" },
+      { title: "Kodomo", href: "/category/manga/genres/kodomo" },
+    ]
+  },
+  {
+    title: "Popular Titles",
+    items: [
+      { title: "One Piece", href: "/category/manga/titles/one-piece" },
+      { title: "Naruto", href: "/category/manga/titles/naruto" },
+      { title: "Demon Slayer", href: "/category/manga/titles/demon-slayer" },
+      { title: "Attack on Titan", href: "/category/manga/titles/attack-on-titan" },
+      { title: "My Hero Academia", href: "/category/manga/titles/my-hero-academia" },
+    ]
+  },
+  {
+    title: "Publishers",
+    items: [
+      { title: "Shueisha", href: "/category/manga/publishers/shueisha" },
+      { title: "Kodansha", href: "/category/manga/publishers/kodansha" },
+      { title: "Viz Media", href: "/category/manga/publishers/viz-media" },
+      { title: "Dark Horse", href: "/category/manga/publishers/dark-horse" },
+      { title: "Seven Seas", href: "/category/manga/publishers/seven-seas" },
+    ]
+  }
+];
+
+const ereaderCategories = [
+  {
+    title: "Ereader Devices",
+    items: [
+      { title: "Kindle", href: "/category/ereaders/kindle" },
+      { title: "Kobo", href: "/category/ereaders/kobo" },
+      { title: "Nook", href: "/category/ereaders/nook" },
+      { title: "iPad", href: "/category/ereaders/ipad" },
+      { title: "Android Tablets", href: "/category/ereaders/android-tablets" },
+    ]
+  },
+  {
+    title: "Ereader Accessories",
+    items: [
+      { title: "Cases", href: "/category/ereaders/accessories/cases" },
+      { title: "Screen Protectors", href: "/category/ereaders/accessories/screen-protectors" },
+      { title: "Chargers", href: "/category/ereaders/accessories/chargers" },
+    ]
+  }
+];
+
 export function NavigationMenuComponent() {
   return (
     <div className="border-t border-border/50 pt-2">
       <NavigationMenu className="w-full">
         <NavigationMenuList>
-          {bookCategories.map((category) => (
+          {/* Book Categories */}
+          {navigationItems.filter(item => item.title === "Book Categories").map((category) => (
             <NavigationMenuItem key={category.title}>
               <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
                 {category.title}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
-                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px]">
-                  {dropdownSections.map((section) => (
+                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] sm:grid-cols-3">
+                  {bookCategories.map((section) => (
                     <li key={section.title} className="row-span-3">
                       <NavigationMenuLink asChild>
                         <div className="flex h-full w-full flex-col">
@@ -66,6 +155,114 @@ export function NavigationMenuComponent() {
                               ? "text-primary font-bold"
                               : "text-secondary"
                           )}>
+                            {section.title}
+                          </h3>
+                          <ul className="mt-2 space-y-2">
+                            {section.items.map((item) => (
+                              <li key={item.title}>
+                                <Link
+                                  href={item.href}
+                                  className="block rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-secondary transition-colors"
+                                >
+                                  {item.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
+
+          {/* Comics */}
+          {navigationItems.filter(item => item.title === "Comics").map((category) => (
+            <NavigationMenuItem key={category.title}>
+              <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
+                {category.title}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
+                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] sm:grid-cols-3">
+                  {comicsCategories.map((section) => (
+                    <li key={section.title} className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <div className="flex h-full w-full flex-col">
+                          <h3 className="text-sm font-medium text-secondary">
+                            {section.title}
+                          </h3>
+                          <ul className="mt-2 space-y-2">
+                            {section.items.map((item) => (
+                              <li key={item.title}>
+                                <Link
+                                  href={item.href}
+                                  className="block rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-secondary transition-colors"
+                                >
+                                  {item.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
+
+          {/* Manga */}
+          {navigationItems.filter(item => item.title === "Manga").map((category) => (
+            <NavigationMenuItem key={category.title}>
+              <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
+                {category.title}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
+                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] sm:grid-cols-3">
+                  {mangaCategories.map((section) => (
+                    <li key={section.title} className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <div className="flex h-full w-full flex-col">
+                          <h3 className="text-sm font-medium text-secondary">
+                            {section.title}
+                          </h3>
+                          <ul className="mt-2 space-y-2">
+                            {section.items.map((item) => (
+                              <li key={item.title}>
+                                <Link
+                                  href={item.href}
+                                  className="block rounded-md p-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-secondary transition-colors"
+                                >
+                                  {item.title}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </NavigationMenuLink>
+                    </li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
+
+          {/* Ereaders */}
+          {navigationItems.filter(item => item.title === "Ereaders").map((category) => (
+            <NavigationMenuItem key={category.title}>
+              <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
+                {category.title}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[400px] sm:grid-cols-2">
+                  {ereaderCategories.map((section) => (
+                    <li key={section.title} className="row-span-1">
+                      <NavigationMenuLink asChild>
+                        <div className="flex h-full w-full flex-col">
+                          <h3 className="text-sm font-medium text-secondary">
                             {section.title}
                           </h3>
                           <ul className="mt-2 space-y-2">
