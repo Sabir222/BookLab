@@ -1,0 +1,1766 @@
+[
+  {
+    "title": "Never Let Me Go",
+    "author": "Kazuo Ishiguro",
+    "publication_year": 2005,
+    "isbn13": "9781400078776",
+    "publisher": "Faber and Faber",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13160732-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13160732-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13160732-L.jpg"
+    }
+  },
+  {
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "publication_year": 2012,
+    "isbn13": "9780307588371",
+    "publisher": "Crown Publishing Group",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11568078-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11568078-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11568078-L.jpg"
+    }
+  },
+  {
+    "title": "The Glass Castle",
+    "author": "Jeannette Walls",
+    "publication_year": 2005,
+    "isbn13": "9780743247542",
+    "publisher": "Scribner",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12648199-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12648199-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12648199-L.jpg"
+    }
+  },
+  {
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "publication_year": 2006,
+    "isbn13": "9780307387899",
+    "publisher": "Alfred A. Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9557220-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9557220-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9557220-L.jpg"
+    }
+  },
+  {
+    "title": "Americanah",
+    "author": "Chimamanda Ngozi Adichie",
+    "publication_year": 2013,
+    "isbn13": "9780307455925",
+    "publisher": "Alfred A. Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11325624-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11325624-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11325624-L.jpg"
+    }
+  },
+  {
+    "title": "My Brilliant Friend",
+    "author": "Elena Ferrante",
+    "publication_year": 2012,
+    "isbn13": "9781609450786",
+    "publisher": "Europa Editions",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14351056-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14351056-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14351056-L.jpg"
+    }
+  },
+  {
+    "title": "The Warmth of Other Suns",
+    "author": "Isabel Wilkerson",
+    "publication_year": 2010,
+    "isbn13": "9780679444329",
+    "publisher": "Random House",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14951258-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14951258-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14951258-L.jpg"
+    }
+  },
+  {
+    "title": "Wolf Hall",
+    "author": "Hilary Mantel",
+    "publication_year": 2009,
+    "isbn13": "9780312429980",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/6466510-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/6466510-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/6466510-L.jpg"
+    }
+  },
+  {
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "publication_year": 2011,
+    "isbn13": "9780385534635",
+    "publisher": "Doubleday",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8750523-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8750523-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8750523-L.jpg"
+    }
+  },
+  {
+    "title": "The Underground Railroad",
+    "author": "Colson Whitehead",
+    "publication_year": 2016,
+    "isbn13": "9780385542364",
+    "publisher": "Doubleday",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7899016-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7899016-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7899016-L.jpg"
+    }
+  },
+  {
+    "title": "Normal People",
+    "author": "Sally Rooney",
+    "publication_year": 2018,
+    "isbn13": "9781984822178",
+    "publisher": "Hogarth",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8794265-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8794265-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8794265-L.jpg"
+    }
+  },
+  {
+    "title": "The Goldfinch",
+    "author": "Donna Tartt",
+    "publication_year": 2013,
+    "isbn13": "9780316055444",
+    "publisher": "Little, Brown and Company",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9159185-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9159185-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9159185-L.jpg"
+    }
+  },
+  {
+    "title": "The Testaments",
+    "author": "Margaret Atwood",
+    "publication_year": 2019,
+    "isbn13": "9780385543781",
+    "publisher": "Nan A. Talese",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12366818-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12366818-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12366818-L.jpg"
+    }
+  },
+  {
+    "title": "Lincoln in the Bardo",
+    "author": "George Saunders",
+    "publication_year": 2017,
+    "isbn13": "9780812995343",
+    "publisher": "Random House",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7909378-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7909378-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7909378-L.jpg"
+    }
+  },
+  {
+    "title": "Lessons in Chemistry",
+    "author": "Bonnie Garmus",
+    "publication_year": 2022,
+    "isbn13": "9780385547345",
+    "publisher": "Doubleday",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13011465-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13011465-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13011465-L.jpg"
+    }
+  },
+  {
+    "title": "Project Hail Mary",
+    "author": "Andy Weir",
+    "publication_year": 2021,
+    "isbn13": "9780593135204",
+    "publisher": "Ballantine Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12455001-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12455001-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12455001-L.jpg"
+    }
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2022,
+    "isbn13": "9780593321201",
+    "publisher": "Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12816990-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12816990-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12816990-L.jpg"
+    }
+  },
+  {
+    "title": "Klara and the Sun",
+    "author": "Kazuo Ishiguro",
+    "publication_year": 2021,
+    "isbn13": "9780593318171",
+    "publisher": "Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10673548-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10673548-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10673548-L.jpg"
+    }
+  },
+  {
+    "title": "The Overstory",
+    "author": "Richard Powers",
+    "publication_year": 2018,
+    "isbn13": "9780393356687",
+    "publisher": "W. W. Norton & Company",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8809047-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8809047-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8809047-L.jpg"
+    }
+  },
+  {
+    "title": "Small Things Like These",
+    "author": "Claire Keegan",
+    "publication_year": 2021,
+    "isbn13": "9780802158741",
+    "publisher": "Grove Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/15096821-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/15096821-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/15096821-L.jpg"
+    }
+  },
+  {
+    "title": "Trust",
+    "author": "Hernan Diaz",
+    "publication_year": 2022,
+    "isbn13": "9780593420317",
+    "publisher": "Riverhead Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12742248-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12742248-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12742248-L.jpg"
+    }
+  },
+  {
+    "title": "Demon Copperhead",
+    "author": "Barbara Kingsolver",
+    "publication_year": 2022,
+    "isbn13": "9780063251922",
+    "publisher": "Harper",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14817076-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14817076-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14817076-L.jpg"
+    }
+  },
+  {
+    "title": "Sea of Tranquility",
+    "author": "Emily St. John Mandel",
+    "publication_year": 2022,
+    "isbn13": "9780593321447",
+    "publisher": "Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11642160-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11642160-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11642160-L.jpg"
+    }
+  },
+  {
+    "title": "Fourth Wing",
+    "author": "Rebecca Yarros",
+    "publication_year": 2023,
+    "isbn13": "9781649374042",
+    "publisher": "Entangled: Red Tower Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14605482-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14605482-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14605482-L.jpg"
+    }
+  },
+  {
+    "title": "Iron Flame",
+    "author": "Rebecca Yarros",
+    "publication_year": 2023,
+    "isbn13": "9781649374172",
+    "publisher": "Entangled: Red Tower Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14611581-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14611581-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14611581-L.jpg"
+    }
+  },
+  {
+    "title": "Spare",
+    "author": "Prince Harry",
+    "publication_year": 2023,
+    "isbn13": "9780593593806",
+    "publisher": "Random House",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14630116-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14630116-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14630116-L.jpg"
+    }
+  },
+  {
+    "title": "The Covenant of Water",
+    "author": "Abraham Verghese",
+    "publication_year": 2023,
+    "isbn13": "9780802162175",
+    "publisher": "Grove Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13190092-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13190092-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13190092-L.jpg"
+    }
+  },
+  {
+    "title": "Happy Place",
+    "author": "Emily Henry",
+    "publication_year": 2023,
+    "isbn13": "9780593441275",
+    "publisher": "Berkley",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13233403-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13233403-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13233403-L.jpg"
+    }
+  },
+  {
+    "title": "Book Lovers",
+    "author": "Emily Henry",
+    "publication_year": 2022,
+    "isbn13": "9780593334836",
+    "publisher": "Berkley",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12738706-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12738706-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12738706-L.jpg"
+    }
+  },
+  {
+    "title": "Malibu Rising",
+    "author": "Taylor Jenkins Reid",
+    "publication_year": 2021,
+    "isbn13": "9781524798659",
+    "publisher": "Ballantine Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11205514-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11205514-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11205514-L.jpg"
+    }
+  },
+  {
+    "title": "Carrie Soto Is Back",
+    "author": "Taylor Jenkins Reid",
+    "publication_year": 2022,
+    "isbn13": "9780593158685",
+    "publisher": "Ballantine Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12900643-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12900643-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12900643-L.jpg"
+    }
+  },
+  {
+    "title": "It Ends with Us",
+    "author": "Colleen Hoover",
+    "publication_year": 2016,
+    "isbn13": "9781501110368",
+    "publisher": "Atria Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/15069202-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/15069202-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/15069202-L.jpg"
+    }
+  },
+  {
+    "title": "It Starts with Us",
+    "author": "Colleen Hoover",
+    "publication_year": 2022,
+    "isbn13": "9781668001226",
+    "publisher": "Atria Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13145647-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13145647-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13145647-L.jpg"
+    }
+  },
+  {
+    "title": "Verity",
+    "author": "Colleen Hoover",
+    "publication_year": 2018,
+    "isbn13": "9781791392796",
+    "publisher": "Independently published",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8747160-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8747160-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8747160-L.jpg"
+    }
+  },
+  {
+    "title": "Reminders of Him",
+    "author": "Colleen Hoover",
+    "publication_year": 2022,
+    "isbn13": "9781542025607",
+    "publisher": "Montlake",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12589197-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12589197-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12589197-L.jpg"
+    }
+  },
+  {
+    "title": "Lessons",
+    "author": "Ian McEwan",
+    "publication_year": 2022,
+    "isbn13": "9780593535202",
+    "publisher": "Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12901899-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12901899-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12901899-L.jpg"
+    }
+  },
+  {
+    "title": "Birnam Wood",
+    "author": "Eleanor Catton",
+    "publication_year": 2023,
+    "isbn13": "9780374110338",
+    "publisher": "Farrar, Straus and Giroux",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13328050-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13328050-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13328050-L.jpg"
+    }
+  },
+  {
+    "title": "Before We Were Strangers",
+    "author": "Renée Carlino",
+    "publication_year": 2015,
+    "isbn13": "9781501105777",
+    "publisher": "Atria Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14851813-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14851813-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14851813-L.jpg"
+    }
+  },
+  {
+    "title": "All the Light We Cannot See",
+    "author": "Anthony Doerr",
+    "publication_year": 2014,
+    "isbn13": "9781501173219",
+    "publisher": "Scribner",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14559676-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14559676-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14559676-L.jpg"
+    }
+  },
+  {
+    "title": "The Midnight Library",
+    "author": "Matt Haig",
+    "publication_year": 2020,
+    "isbn13": "9780525559474",
+    "publisher": "Viking",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10313767-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10313767-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10313767-L.jpg"
+    }
+  },
+  {
+    "title": "Where the Crawdads Sing",
+    "author": "Delia Owens",
+    "publication_year": 2018,
+    "isbn13": "9780735219106",
+    "publisher": "G.P. Putnam's Sons",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10671924-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10671924-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10671924-L.jpg"
+    }
+  },
+  {
+    "title": "Circe",
+    "author": "Madeline Miller",
+    "publication_year": 2018,
+    "isbn13": "9780316556347",
+    "publisher": "Little, Brown and Company",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8283869-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8283869-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8283869-L.jpg"
+    }
+  },
+  {
+    "title": "The Song of Achilles",
+    "author": "Madeline Miller",
+    "publication_year": 2011,
+    "isbn13": "9780062060624",
+    "publisher": "Ecco",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/15100283-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/15100283-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/15100283-L.jpg"
+    }
+  },
+  {
+    "title": "The House in the Cerulean Sea",
+    "author": "TJ Klune",
+    "publication_year": 2020,
+    "isbn13": "9781250217288",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9312772-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9312772-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9312772-L.jpg"
+    }
+  },
+  {
+    "title": "Under the Whispering Door",
+    "author": "TJ Klune",
+    "publication_year": 2021,
+    "isbn13": "9781250217394",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11943757-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11943757-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11943757-L.jpg"
+    }
+  },
+  {
+    "title": "Shatter Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2011,
+    "isbn13": "9780062085504",
+    "publisher": "HarperCollins",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10509689-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10509689-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10509689-L.jpg"
+    }
+  },
+  {
+    "title": "Ignite Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2014,
+    "isbn13": "9780062085573",
+    "publisher": "HarperCollins",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7272906-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7272906-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7272906-L.jpg"
+    }
+  },
+  {
+    "title": "Restore Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2018,
+    "isbn13": "9780062676375",
+    "publisher": "HarperCollins",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8797404-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8797404-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8797404-L.jpg"
+    }
+  },
+  {
+    "title": "Defy Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2019,
+    "isbn13": "9780062676399",
+    "publisher": "HarperCollins",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8791330-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8791330-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8791330-L.jpg"
+    }
+  },
+  {
+    "title": "Imagine Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2020,
+    "isbn13": "9780062676429",
+    "publisher": "HarperCollins",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9363194-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9363194-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9363194-L.jpg"
+    }
+  },
+  {
+    "title": "Children of Blood and Bone",
+    "author": "Tomi Adeyemi",
+    "publication_year": 2018,
+    "isbn13": "9781250170972",
+    "publisher": "Henry Holt Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8572526-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8572526-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8572526-L.jpg"
+    }
+  },
+  {
+    "title": "Children of Virtue and Vengeance",
+    "author": "Tomi Adeyemi",
+    "publication_year": 2019,
+    "isbn13": "9781250170996",
+    "publisher": "Henry Holt Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9190319-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9190319-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9190319-L.jpg"
+    }
+  },
+  {
+    "title": "House of Earth and Blood",
+    "author": "Sarah J. Maas",
+    "publication_year": 2020,
+    "isbn13": "9781635574043",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13316191-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13316191-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13316191-L.jpg"
+    }
+  },
+  {
+    "title": "House of Sky and Breath",
+    "author": "Sarah J. Maas",
+    "publication_year": 2022,
+    "isbn13": "9781635574074",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13316186-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13316186-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13316186-L.jpg"
+    }
+  },
+  {
+    "title": "Throne of Glass",
+    "author": "Sarah J. Maas",
+    "publication_year": 2012,
+    "isbn13": "9781619630345",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14331115-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14331115-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14331115-L.jpg"
+    }
+  },
+  {
+    "title": "Crown of Midnight",
+    "author": "Sarah J. Maas",
+    "publication_year": 2013,
+    "isbn13": "9781619630628",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13313685-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13313685-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13313685-L.jpg"
+    }
+  },
+  {
+    "title": "Heir of Fire",
+    "author": "Sarah J. Maas",
+    "publication_year": 2014,
+    "isbn13": "9781619630659",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13313416-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13313416-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13313416-L.jpg"
+    }
+  },
+  {
+    "title": "Queen of Shadows",
+    "author": "Sarah J. Maas",
+    "publication_year": 2015,
+    "isbn13": "9781619636040",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13312739-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13312739-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13312739-L.jpg"
+    }
+  },
+  {
+    "title": "Empire of Storms",
+    "author": "Sarah J. Maas",
+    "publication_year": 2016,
+    "isbn13": "9781619636071",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13314620-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13314620-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13314620-L.jpg"
+    }
+  },
+  {
+    "title": "Tower of Dawn",
+    "author": "Sarah J. Maas",
+    "publication_year": 2017,
+    "isbn13": "9781619636101",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13316180-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13316180-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13316180-L.jpg"
+    }
+  },
+  {
+    "title": "Kingdom of Ash",
+    "author": "Sarah J. Maas",
+    "publication_year": 2018,
+    "isbn13": "9781619636118",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13316181-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13316181-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13316181-L.jpg"
+    }
+  },
+  {
+    "title": "A Court of Thorns and Roses",
+    "author": "Sarah J. Maas",
+    "publication_year": 2015,
+    "isbn13": "9781619635180",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14346851-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14346851-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14346851-L.jpg"
+    }
+  },
+  {
+    "title": "A Court of Mist and Fury",
+    "author": "Sarah J. Maas",
+    "publication_year": 2016,
+    "isbn13": "9781619634466",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14315081-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14315081-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14315081-L.jpg"
+    }
+  },
+  {
+    "title": "A Court of Wings and Ruin",
+    "author": "Sarah J. Maas",
+    "publication_year": 2017,
+    "isbn13": "9781619634480",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14859521-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14859521-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14859521-L.jpg"
+    }
+  },
+  {
+    "title": "A Court of Silver Flames",
+    "author": "Sarah J. Maas",
+    "publication_year": 2021,
+    "isbn13": "9781681196282",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13316176-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13316176-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13316176-L.jpg"
+    }
+  },
+  {
+    "title": "Legendborn",
+    "author": "Tracy Deonn",
+    "publication_year": 2020,
+    "isbn13": "9781534441606",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10323535-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10323535-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10323535-L.jpg"
+    }
+  },
+  {
+    "title": "Bloodmarked",
+    "author": "Tracy Deonn",
+    "publication_year": 2022,
+    "isbn13": "9781534441637",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13106031-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13106031-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13106031-L.jpg"
+    }
+  },
+  {
+    "title": "Chain of Gold",
+    "author": "Cassandra Clare",
+    "publication_year": 2020,
+    "isbn13": "9781481431873",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13151811-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13151811-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13151811-L.jpg"
+    }
+  },
+  {
+    "title": "Chain of Iron",
+    "author": "Cassandra Clare",
+    "publication_year": 2021,
+    "isbn13": "9781481431903",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13151808-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13151808-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13151808-L.jpg"
+    }
+  },
+  {
+    "title": "Lady Midnight",
+    "author": "Cassandra Clare",
+    "publication_year": 2016,
+    "isbn13": "9781442468351",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8470221-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8470221-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8470221-L.jpg"
+    }
+  },
+  {
+    "title": "Lord of Shadows",
+    "author": "Cassandra Clare",
+    "publication_year": 2017,
+    "isbn13": "9781442468405",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13151787-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13151787-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13151787-L.jpg"
+    }
+  },
+  {
+    "title": "Queen of Air and Darkness",
+    "author": "Cassandra Clare",
+    "publication_year": 2018,
+    "isbn13": "9781442468436",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13348104-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13348104-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13348104-L.jpg"
+    }
+  },
+  {
+    "title": "City of Bones",
+    "author": "Cassandra Clare",
+    "publication_year": 2007,
+    "isbn13": "9781416914280",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14812842-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14812842-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14812842-L.jpg"
+    }
+  },
+  {
+    "title": "City of Ashes",
+    "author": "Cassandra Clare",
+    "publication_year": 2008,
+    "isbn13": "9781416914297",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/1787130-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/1787130-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/1787130-L.jpg"
+    }
+  },
+  {
+    "title": "City of Glass",
+    "author": "Cassandra Clare",
+    "publication_year": 2009,
+    "isbn13": "9781416972259",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/6458969-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/6458969-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/6458969-L.jpg"
+    }
+  },
+  {
+    "title": "City of Fallen Angels",
+    "author": "Cassandra Clare",
+    "publication_year": 2011,
+    "isbn13": "9781442403543",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14649562-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14649562-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14649562-L.jpg"
+    }
+  },
+  {
+    "title": "City of Lost Souls",
+    "author": "Cassandra Clare",
+    "publication_year": 2012,
+    "isbn13": "9781442416864",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8200902-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8200902-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8200902-L.jpg"
+    }
+  },
+  {
+    "title": "City of Heavenly Fire",
+    "author": "Cassandra Clare",
+    "publication_year": 2014,
+    "isbn13": "9781442416895",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13151206-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13151206-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13151206-L.jpg"
+    }
+  },
+  {
+    "title": "Clockwork Angel",
+    "author": "Cassandra Clare",
+    "publication_year": 2010,
+    "isbn13": "9781416975861",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13149905-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13149905-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13149905-L.jpg"
+    }
+  },
+  {
+    "title": "Clockwork Princess",
+    "author": "Cassandra Clare",
+    "publication_year": 2013,
+    "isbn13": "9781442421790",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8748026-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8748026-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8748026-L.jpg"
+    }
+  },
+  {
+    "title": "Chain of Gold",
+    "author": "Cassandra Clare",
+    "publication_year": 2020,
+    "isbn13": "9781481431873",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13151811-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13151811-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13151811-L.jpg"
+    }
+  },
+  {
+    "title": "The Atlas Six",
+    "author": "Olivie Blake",
+    "publication_year": 2022,
+    "isbn13": "9781250854513",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12070994-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12070994-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12070994-L.jpg"
+    }
+  },
+  {
+    "title": "Lightlark",
+    "author": "Alex Aster",
+    "publication_year": 2022,
+    "isbn13": "9781419760860",
+    "publisher": "Amulet Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12917631-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12917631-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12917631-L.jpg"
+    }
+  },
+  {
+    "title": "Nightbane",
+    "author": "Alex Aster",
+    "publication_year": 2024,
+    "isbn13": "9781419765148",
+    "publisher": "Amulet Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14782914-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14782914-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14782914-L.jpg"
+    }
+  },
+  {
+    "title": "Iron Widow",
+    "author": "Xiran Jay Zhao",
+    "publication_year": 2021,
+    "isbn13": "9780735269934",
+    "publisher": "Penguin Teen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11945085-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11945085-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11945085-L.jpg"
+    }
+  },
+  {
+    "title": "He Who Drowned the World",
+    "author": "Shelley Parker-Chan",
+    "publication_year": 2023,
+    "isbn13": "9781250621825",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14410129-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14410129-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14410129-L.jpg"
+    }
+  },
+  {
+    "title": "She Who Became the Sun",
+    "author": "Shelley Parker-Chan",
+    "publication_year": 2021,
+    "isbn13": "9781250621801",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10709176-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10709176-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10709176-L.jpg"
+    }
+  },
+  {
+    "title": "The Priory of the Orange Tree",
+    "author": "Samantha Shannon",
+    "publication_year": 2019,
+    "isbn13": "9781635570298",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10093837-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10093837-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10093837-L.jpg"
+    }
+  },
+  {
+    "title": "A Day of Fallen Night",
+    "author": "Samantha Shannon",
+    "publication_year": 2023,
+    "isbn13": "9781635577921",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12986849-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12986849-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12986849-L.jpg"
+    }
+  },
+  {
+    "title": "Babel",
+    "author": "R.F. Kuang",
+    "publication_year": 2022,
+    "isbn13": "9780063021426",
+    "publisher": "Harper Voyager",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14573249-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14573249-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14573249-L.jpg"
+    }
+  },
+  {
+    "title": "Yellowface",
+    "author": "R.F. Kuang",
+    "publication_year": 2023,
+    "isbn13": "9780063250833",
+    "publisher": "William Morrow",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13195421-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13195421-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13195421-L.jpg"
+    }
+  },
+  {
+    "title": "The Poppy War",
+    "author": "R.F. Kuang",
+    "publication_year": 2018,
+    "isbn13": "9780062662569",
+    "publisher": "Harper Voyager",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11946352-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11946352-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11946352-L.jpg"
+    }
+  },
+  {
+    "title": "The Dragon Republic",
+    "author": "R.F. Kuang",
+    "publication_year": 2019,
+    "isbn13": "9780062662637",
+    "publisher": "Harper Voyager",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8539487-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8539487-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8539487-L.jpg"
+    }
+  },
+  {
+    "title": "The Burning God",
+    "author": "R.F. Kuang",
+    "publication_year": 2020,
+    "isbn13": "9780062662620",
+    "publisher": "Harper Voyager",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10329759-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10329759-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10329759-L.jpg"
+    }
+  },
+  {
+    "title": "Six of Crows",
+    "author": "Leigh Bardugo",
+    "publication_year": 2015,
+    "isbn13": "9781627792127",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14813307-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14813307-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14813307-L.jpg"
+    }
+  },
+  {
+    "title": "Crooked Kingdom",
+    "author": "Leigh Bardugo",
+    "publication_year": 2016,
+    "isbn13": "9781627792134",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12667428-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12667428-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12667428-L.jpg"
+    }
+  },
+  {
+    "title": "King of Scars",
+    "author": "Leigh Bardugo",
+    "publication_year": 2019,
+    "isbn13": "9781250142283",
+    "publisher": "Imprint",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14633940-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14633940-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14633940-L.jpg"
+    }
+  },
+  {
+    "title": "Rule of Wolves",
+    "author": "Leigh Bardugo",
+    "publication_year": 2021,
+    "isbn13": "9781250800817",
+    "publisher": "Imprint",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11253161-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11253161-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11253161-L.jpg"
+    }
+  },
+  {
+    "title": "Shadow and Bone",
+    "author": "Leigh Bardugo",
+    "publication_year": 2012,
+    "isbn13": "9780805094596",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7382175-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7382175-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7382175-L.jpg"
+    }
+  },
+  {
+    "title": "Siege and Storm",
+    "author": "Leigh Bardugo",
+    "publication_year": 2013,
+    "isbn13": "9780805094602",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14855521-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14855521-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14855521-L.jpg"
+    }
+  },
+  {
+    "title": "Ruin and Rising",
+    "author": "Leigh Bardugo",
+    "publication_year": 2014,
+    "isbn13": "9780805094619",
+    "publisher": "Henry Holt and Co.",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7383188-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7383188-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7383188-L.jpg"
+    }
+  },
+  {
+    "title": "Empire of the Vampire",
+    "author": "Jay Kristoff",
+    "publication_year": 2021,
+    "isbn13": "9781250245281",
+    "publisher": "St. Martin's Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10659062-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10659062-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10659062-L.jpg"
+    }
+  },
+  {
+    "title": "Darkdawn",
+    "author": "Jay Kristoff",
+    "publication_year": 2019,
+    "isbn13": "9781250073051",
+    "publisher": "St. Martin's Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12179726-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12179726-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12179726-L.jpg"
+    }
+  },
+  {
+    "title": "Godsgrave",
+    "author": "Jay Kristoff",
+    "publication_year": 2017,
+    "isbn13": "9781250073037",
+    "publisher": "St. Martin's Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8536674-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8536674-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8536674-L.jpg"
+    }
+  },
+  {
+    "title": "Nevernight",
+    "author": "Jay Kristoff",
+    "publication_year": 2016,
+    "isbn13": "9781250073020",
+    "publisher": "St. Martin's Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10085980-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10085980-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10085980-L.jpg"
+    }
+  },
+  {
+    "title": "Aurora Rising",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2019,
+    "isbn13": "9781524720964",
+    "publisher": "Knopf Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8807574-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8807574-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8807574-L.jpg"
+    }
+  },
+  {
+    "title": "Aurora Burning",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2020,
+    "isbn13": "9781524720971",
+    "publisher": "Knopf Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8807620-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8807620-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8807620-L.jpg"
+    }
+  },
+  {
+    "title": "Aurora’s End",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2021,
+    "isbn13": "9781524720988",
+    "publisher": "Knopf Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8621717-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8621717-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8621717-L.jpg"
+    }
+  },
+  {
+    "title": "Illuminae",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2015,
+    "isbn13": "9780553499117",
+    "publisher": "Knopf Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/11882491-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/11882491-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/11882491-L.jpg"
+    }
+  },
+  {
+    "title": "Obsidio",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2018,
+    "isbn13": "9780553499186",
+    "publisher": "Knopf Books for Young Readers",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8738063-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8738063-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8738063-L.jpg"
+    }
+  },
+  {
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "publication_year": 2008,
+    "isbn13": "9780439023481",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14552116-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14552116-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14552116-L.jpg"
+    }
+  },
+  {
+    "title": "Catching Fire",
+    "author": "Suzanne Collins",
+    "publication_year": 2009,
+    "isbn13": "9780439023498",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14649869-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14649869-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14649869-L.jpg"
+    }
+  },
+  {
+    "title": "Mockingjay",
+    "author": "Suzanne Collins",
+    "publication_year": 2010,
+    "isbn13": "9780439023511",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12646459-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12646459-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12646459-L.jpg"
+    }
+  },
+  {
+    "title": "The Ballad of Songbirds and Snakes",
+    "author": "Suzanne Collins",
+    "publication_year": 2020,
+    "isbn13": "9781338635171",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10242930-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10242930-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10242930-L.jpg"
+    }
+  },
+  {
+    "title": "Insurgent",
+    "author": "Veronica Roth",
+    "publication_year": 2012,
+    "isbn13": "9780062024046",
+    "publisher": "Katherine Tegen Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14831780-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14831780-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14831780-L.jpg"
+    }
+  },
+  {
+    "title": "Allegiant",
+    "author": "Veronica Roth",
+    "publication_year": 2013,
+    "isbn13": "9780062024060",
+    "publisher": "Katherine Tegen Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/7276393-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/7276393-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/7276393-L.jpg"
+    }
+  },
+  {
+    "title": "Four: A Divergent Collection",
+    "author": "Veronica Roth",
+    "publication_year": 2014,
+    "isbn13": "9780062285683",
+    "publisher": "Katherine Tegen Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10835991-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10835991-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10835991-L.jpg"
+    }
+  },
+  {
+    "title": "Caraval",
+    "author": "Stephanie Garber",
+    "publication_year": 2017,
+    "isbn13": "9781250095251",
+    "publisher": "Flatiron Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/15097013-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/15097013-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/15097013-L.jpg"
+    }
+  },
+  {
+    "title": "Legendary",
+    "author": "Stephanie Garber",
+    "publication_year": 2018,
+    "isbn13": "9781250095312",
+    "publisher": "Flatiron Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/9242465-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/9242465-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/9242465-L.jpg"
+    }
+  },
+  {
+    "title": "Finale",
+    "author": "Stephanie Garber",
+    "publication_year": 2019,
+    "isbn13": "9781250157669",
+    "publisher": "Flatiron Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8802288-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8802288-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8802288-L.jpg"
+    }
+  },
+  {
+    "title": "Once Upon a Broken Heart",
+    "author": "Stephanie Garber",
+    "publication_year": 2021,
+    "isbn13": "9781250268396",
+    "publisher": "Flatiron Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/15076298-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/15076298-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/15076298-L.jpg"
+    }
+  },
+  {
+    "title": "Red Queen",
+    "author": "Victoria Aveyard",
+    "publication_year": 2015,
+    "isbn13": "9780062310637",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13320815-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13320815-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13320815-L.jpg"
+    }
+  },
+  {
+    "title": "Glass Sword",
+    "author": "Victoria Aveyard",
+    "publication_year": 2016,
+    "isbn13": "9780062310668",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13320939-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13320939-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13320939-L.jpg"
+    }
+  },
+  {
+    "title": "King’s Cage",
+    "author": "Victoria Aveyard",
+    "publication_year": 2017,
+    "isbn13": "9780062310699",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8565980-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8565980-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8565980-L.jpg"
+    }
+  },
+  {
+    "title": "War Storm",
+    "author": "Victoria Aveyard",
+    "publication_year": 2018,
+    "isbn13": "9780062310712",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8738692-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8738692-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8738692-L.jpg"
+    }
+  },
+  {
+    "title": "Realm Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2021,
+    "isbn13": "9780062872623",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13320975-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13320975-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13320975-L.jpg"
+    }
+  },
+  {
+    "title": "Blade Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2022,
+    "isbn13": "9780062872647",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13652443-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13652443-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13652443-L.jpg"
+    }
+  },
+  {
+    "title": "Fate Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2023,
+    "isbn13": "9780062872661",
+    "publisher": "HarperTeen",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13323647-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13323647-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13323647-L.jpg"
+    }
+  },
+  {
+    "title": "The Serpent and the Wings of Night",
+    "author": "Carissa Broadbent",
+    "publication_year": 2022,
+    "isbn13": "9781957779003",
+    "publisher": "Independently Published",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13451855-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13451855-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13451855-L.jpg"
+    }
+  },
+  {
+    "title": "The Ashes and the Star-Cursed King",
+    "author": "Carissa Broadbent",
+    "publication_year": 2023,
+    "isbn13": "9781957779027",
+    "publisher": "Independently Published",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13836874-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13836874-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13836874-L.jpg"
+    }
+  },
+  {
+    "title": "The Songbird and the Heart of Stone",
+    "author": "Carissa Broadbent",
+    "publication_year": 2024,
+    "isbn13": "9781957779041",
+    "publisher": "Independently Published",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13764916-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13764916-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13764916-L.jpg"
+    }
+  },
+  {
+    "title": "The Stardust Thief",
+    "author": "Chelsea Abdullah",
+    "publication_year": 2022,
+    "isbn13": "9780316368865",
+    "publisher": "Orbit",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13515766-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13515766-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13515766-L.jpg"
+    }
+  },
+  {
+    "title": "The Invisible Life of Addie LaRue",
+    "author": "V.E. Schwab",
+    "publication_year": 2020,
+    "isbn13": "9780765387561",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10092261-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10092261-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10092261-L.jpg"
+    }
+  },
+  {
+    "title": "Vengeful",
+    "author": "V.E. Schwab",
+    "publication_year": 2018,
+    "isbn13": "9780765379610",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14668091-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14668091-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14668091-L.jpg"
+    }
+  },
+  {
+    "title": "A Gathering of Shadows",
+    "author": "V.E. Schwab",
+    "publication_year": 2016,
+    "isbn13": "9780765379535",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14440932-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14440932-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14440932-L.jpg"
+    }
+  },
+  {
+    "title": "A Conjuring of Light",
+    "author": "V.E. Schwab",
+    "publication_year": 2017,
+    "isbn13": "9780765379559",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8599785-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8599785-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8599785-L.jpg"
+    }
+  },
+  {
+    "title": "This Savage Song",
+    "author": "V.E. Schwab",
+    "publication_year": 2016,
+    "isbn13": "9780765376718",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8289187-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8289187-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8289187-L.jpg"
+    }
+  },
+  {
+    "title": "Our Dark Duet",
+    "author": "V.E. Schwab",
+    "publication_year": 2017,
+    "isbn13": "9780765376732",
+    "publisher": "Scholastic Press",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/13237797-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/13237797-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/13237797-L.jpg"
+    }
+  },
+  {
+    "title": "The Atlas Six: Illustrated Edition",
+    "author": "Olivie Blake",
+    "publication_year": 2023,
+    "isbn13": "9781250854568",
+    "publisher": "Tor Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14410497-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14410497-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14410497-L.jpg"
+    }
+  },
+  {
+    "title": "A Day of Fallen Night",
+    "author": "Samantha Shannon",
+    "publication_year": 2023,
+    "isbn13": "9781635577921",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12986849-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12986849-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12986849-L.jpg"
+    }
+  },
+  {
+    "title": "Crescent City: House of Sky and Breath",
+    "author": "Sarah J. Maas",
+    "publication_year": 2022,
+    "isbn13": "9781635574104",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14576237-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14576237-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14576237-L.jpg"
+    }
+  },
+  {
+    "title": "Heir of Fire: Collector’s Edition",
+    "author": "Sarah J. Maas",
+    "publication_year": 2023,
+    "isbn13": "9781635574111",
+    "publisher": "Bloomsbury Publishing",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8908430-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8908430-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8908430-L.jpg"
+    }
+  },
+  {
+    "title": "The Shadows Between Us",
+    "author": "Tricia Levenseller",
+    "publication_year": 2019,
+    "isbn13": "9781250142276",
+    "publisher": "Feiwel & Friends",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/12667431-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/12667431-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/12667431-L.jpg"
+    }
+  },
+  {
+    "title": "The Rose and the Dagger",
+    "author": "Renée Ahdieh",
+    "publication_year": 2016,
+    "isbn13": "9780553538212",
+    "publisher": "Putnam Juvenile",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10220115-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10220115-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10220115-L.jpg"
+    }
+  },
+  {
+    "title": "The Wrath and the Dawn",
+    "author": "Renée Ahdieh",
+    "publication_year": 2015,
+    "isbn13": "9780553535181",
+    "publisher": "Putnam Juvenile",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/8858222-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/8858222-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/8858222-L.jpg"
+    }
+  },
+  {
+    "title": "Serpent & Dove",
+    "author": "Shelby Mahurin",
+    "publication_year": 2019,
+    "isbn13": "9781534444959",
+    "publisher": "Margaret K. McElderry Books",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/10493501-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/10493501-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/10493501-L.jpg"
+    }
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Collector’s Edition",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2023,
+    "isbn13": "9780593321218",
+    "publisher": "Knopf",
+    "covers": {
+      "small": "https://covers.openlibrary.org/b/id/14403563-S.jpg",
+      "medium": "https://covers.openlibrary.org/b/id/14403563-M.jpg",
+      "large": "https://covers.openlibrary.org/b/id/14403563-L.jpg"
+    }
+  }
+]
