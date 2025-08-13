@@ -10,6 +10,7 @@ import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
 import authRouter from "./features/auth/routes/index.js";
 import userRouter from "./features/user/routes/index.js";
+import newsletterRouter from "./features/newsletter/routes/index.js";
 import { validateEnvironment } from "./utils/validateEnv.js";
 
 dotenv.config();
@@ -63,6 +64,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/health", healthRouter);
 app.use("/api/books", bookPublicRouter);
 app.use("/api/users", userRouter);
+app.use("/api/newsletter", newsletterRouter);
 
 const startServer = async () => {
   try {
