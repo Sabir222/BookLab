@@ -5,7 +5,6 @@ import { BookCard } from "@/components/books/BookCard";
 import { BookFilters } from "@/components/books/BookFilters";
 import { BookResultsHeader } from "@/components/books/BookResultsHeader";
 import { EmptyBookResults } from "@/components/books/EmptyBookResults";
-import { Button } from "@/components/ui/button";
 
 const mockBooks = [
   {
