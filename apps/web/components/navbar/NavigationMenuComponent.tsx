@@ -184,16 +184,14 @@ export function NavigationMenuComponent() {
               <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
                 {category.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
-                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] sm:grid-cols-3">
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {comicsCategories.map((section) => (
-                    <li key={section.title} className="row-span-3">
+                    <li key={section.title}>
                       <NavigationMenuLink asChild>
-                        <div className="flex h-full w-full flex-col">
-                          <h3 className="text-sm font-medium text-secondary">
-                            {section.title}
-                          </h3>
-                          <ul className="mt-2 space-y-2">
+                        <div className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">{section.title}</div>
+                          <ul className="mt-2 space-y-1">
                             {section.items.map((item) => (
                               <li key={item.title}>
                                 <Link
@@ -209,6 +207,18 @@ export function NavigationMenuComponent() {
                       </NavigationMenuLink>
                     </li>
                   ))}
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <div className="flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                        <Link href="/comics">
+                          <div className="mb-2 mt-4 text-lg font-medium">{category.title} Collection</div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Explore our collection of superhero comics, indie hits, and graphic novels.
+                          </p>
+                        </Link>
+                      </div>
+                    </NavigationMenuLink>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -220,16 +230,14 @@ export function NavigationMenuComponent() {
               <NavigationMenuTrigger className="bg-transparent font-medium text-sm hover:text-secondary data-[state=open]:text-secondary">
                 {category.title}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
-                <ul className="grid w-[600px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] sm:grid-cols-3">
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {mangaCategories.map((section) => (
-                    <li key={section.title} className="row-span-3">
+                    <li key={section.title}>
                       <NavigationMenuLink asChild>
-                        <div className="flex h-full w-full flex-col">
-                          <h3 className="text-sm font-medium text-secondary">
-                            {section.title}
-                          </h3>
-                          <ul className="mt-2 space-y-2">
+                        <div className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">{section.title}</div>
+                          <ul className="mt-2 space-y-1">
                             {section.items.map((item) => (
                               <li key={item.title}>
                                 <Link
@@ -245,6 +253,18 @@ export function NavigationMenuComponent() {
                       </NavigationMenuLink>
                     </li>
                   ))}
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <div className="flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                        <Link href="/manga">
+                          <div className="mb-2 mt-4 text-lg font-medium">{category.title} Collection</div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Discover Japanese comics across all genres from action to romance.
+                          </p>
+                        </Link>
+                      </div>
+                    </NavigationMenuLink>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -257,7 +277,7 @@ export function NavigationMenuComponent() {
                 {category.title}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="backdrop-blur-sm bg-accent/80 border border-border">
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[400px] sm:grid-cols-2">
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[500px]">
                   {ereaderCategories.map((section) => (
                     <li key={section.title} className="row-span-1">
                       <NavigationMenuLink asChild>
@@ -281,6 +301,18 @@ export function NavigationMenuComponent() {
                       </NavigationMenuLink>
                     </li>
                   ))}
+                  <li className="row-span-2">
+                    <NavigationMenuLink asChild>
+                      <div className="flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                        <Link href="/ereaders">
+                          <div className="mb-2 mt-4 text-lg font-medium">{category.title} Store</div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            Shop the latest ereaders and accessories for your digital reading.
+                          </p>
+                        </Link>
+                      </div>
+                    </NavigationMenuLink>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
