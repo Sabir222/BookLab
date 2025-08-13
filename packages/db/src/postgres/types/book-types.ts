@@ -24,6 +24,9 @@ export type Book = {
   pageCount?: number | null;
   language?: string | null;
   coverImageUrl?: string | null;
+  coverImageSmallUrl?: string | null;
+  coverImageMediumUrl?: string | null;
+  coverImageLargeUrl?: string | null;
   edition?: string | null;
   bookCondition?: string | null;
   dimensions?: string | null;

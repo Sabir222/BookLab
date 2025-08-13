@@ -480,6 +480,9 @@ export const bookQueries = {
     pageCount?: number | null;
     language?: string | null;
     coverImageUrl?: string | null;
+    coverImageSmallUrl?: string | null;
+    coverImageMediumUrl?: string | null;
+    coverImageLargeUrl?: string | null;
     edition?: string | null;
     bookFormat: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
     bookCondition?: string | null;
@@ -508,14 +511,15 @@ export const bookQueries = {
     const result = await db.query(
       `INSERT INTO books (
         title, subtitle, description, isbn_13, isbn_10, publication_date, published_year,
-        page_count, language, cover_image_url, edition, book_format, book_condition,
+        page_count, language, cover_image_url, cover_image_small_url, cover_image_medium_url, cover_image_large_url,
+        edition, book_format, book_condition,
         dimensions, weight_grams, for_sale, for_rent, price_sale, price_rent_daily,
         price_rent_weekly, price_rent_monthly, stock_quantity, reserved_quantity,
         is_active, average_rating, total_ratings, total_reviews, publisher_id, owner_id,
         primary_category_id, search_keywords, slug, created_by, last_modified_by
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17,
-        $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34
+        $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37
       ) RETURNING *`,
       [
         bookData.title,
@@ -528,6 +532,9 @@ export const bookQueries = {
         bookData.pageCount,
         bookData.language,
         bookData.coverImageUrl,
+        bookData.coverImageSmallUrl,
+        bookData.coverImageMediumUrl,
+        bookData.coverImageLargeUrl,
         bookData.edition,
         bookData.bookFormat,
         bookData.bookCondition,
@@ -570,6 +577,9 @@ export const bookQueries = {
       pageCount?: number | null;
       language?: string | null;
       coverImageUrl?: string | null;
+      coverImageSmallUrl?: string | null;
+      coverImageMediumUrl?: string | null;
+      coverImageLargeUrl?: string | null;
       edition?: string | null;
       bookFormat?: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
       bookCondition?: string | null;
@@ -610,6 +620,9 @@ export const bookQueries = {
       pageCount: "page_count",
       language: "language",
       coverImageUrl: "cover_image_url",
+      coverImageSmallUrl: "cover_image_small_url",
+      coverImageMediumUrl: "cover_image_medium_url",
+      coverImageLargeUrl: "cover_image_large_url",
       edition: "edition",
       bookFormat: "book_format",
       bookCondition: "book_condition",
