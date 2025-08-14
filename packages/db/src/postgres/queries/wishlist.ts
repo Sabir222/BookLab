@@ -2,8 +2,8 @@ import { db } from "../client.js";
 import {
   type UserWishlistItem,
   type CreateUserWishlistItemData,
-} from "../types/wishlist-types.js";
-import { type Book } from "../types/book-types.js";
+  type Book,
+} from "@repo/types/types";
 
 export const wishlistQueries = {
   async addItemToWishlist(
@@ -41,7 +41,9 @@ export const wishlistQueries = {
     return result.rows;
   },
 
-  async getUserWishlistWithBooks(userId: string): Promise<(UserWishlistItem & Book)[]> {
+  async getUserWishlistWithBooks(
+    userId: string,
+  ): Promise<(UserWishlistItem & Book)[]> {
     const result = await db.query(
       `SELECT uw.*, b.* 
        FROM user_wishlist uw
@@ -77,3 +79,4 @@ export const wishlistQueries = {
     return (result.rowCount ?? 0) > 0;
   },
 };
+

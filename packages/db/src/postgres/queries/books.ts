@@ -1,5 +1,5 @@
 import { db } from "../client.js";
-import { type Book } from "../types/book-types.js";
+import { type Book } from "@repo/types/types";
 
 const parseBooks = (rows: unknown[]): Book[] => rows as Book[];
 
