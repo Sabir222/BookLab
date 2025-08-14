@@ -1,22 +1,46 @@
 "use server";
 
-const login = async (previousState: unknown, formData: FormData) => {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  console.log("Login attempt with email:", email);
-  if (!email || !password) {
-    return { message: "Please provide email and password" };
-  }
-  await wait(3000);
-  return {
-    message: `Welcome back, ${email}! You have successfully logged in.`,
-  };
+export type LoginResponse = {
+  message: string;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+  } | null;
+  accessToken: string;
 };
 
-const wait = (duration: number) => {
-  return new Promise((res) => {
-    setTimeout(res, duration);
-  });
+const login = async (_previousState: unknown, formData: FormData) => {
+  const username = formData.get("username") as string;
+  const password = formData.get("password") as string;
+
+  if (!username || !password) {
+    throw new Error("Login Informations Required");
+  }
+
+  try {
+    const res = await fetch("http://localhost:4000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to login!");
+    }
+
+    const data: LoginResponse = await res.json();
+
+    return data;
+  } catch (error: any) {
+    console.error(error.message);
+    return {
+      message: error.message,
+      user: null,
+      accessToken: "",
+    } as LoginResponse;
+  }
 };
 
 export default login;

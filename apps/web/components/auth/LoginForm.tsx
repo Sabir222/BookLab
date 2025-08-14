@@ -12,11 +12,11 @@ import { useActionState, useState } from "react"
 
 export function LoginForm() {
         const [data, action, isPending] = useActionState(login, undefined)
-        const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+        const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
 
         const handleSubmit = (formData: FormData) => {
                 const values = {
-                        email: formData.get("email") as string,
+                        username: formData.get("username") as string,
                         password: formData.get("password") as string,
                         remember: formData.get("remember") === "on",
                 }
@@ -31,7 +31,7 @@ export function LoginForm() {
                                 }
                         }
                         setErrors({
-                                email: fieldErrors.email,
+                                username: fieldErrors.username,
                                 password: fieldErrors.password,
                         })
                         return
@@ -42,7 +42,8 @@ export function LoginForm() {
         }
         return (
                 <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-                        {data?.message}
+                        {data?.message && <p className="text-green-600">{data.message}</p>}
+                        {data?.user && <p>Welcome, {data.user.email}</p>}
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                 <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-secondary/5 blur-3xl"></div>
                                 <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-highlight/5 blur-3xl"></div>
@@ -70,19 +71,19 @@ export function LoginForm() {
                                 <CardContent className="px-6 pb-4">
                                         <form action={handleSubmit} className="space-y-5">
                                                 <div className="space-y-2">
-                                                        <Label htmlFor="email" className="text-primary font-medium">
-                                                                Email Address
+                                                        <Label htmlFor="username" className="text-primary font-medium">
+                                                                Username
                                                         </Label>
                                                         <div className="relative">
                                                                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                                 <Input
-                                                                        id="email"
-                                                                        type="email"
-                                                                        name="email"
-                                                                        placeholder="reader@booklab.com"
+                                                                        id="username"
+                                                                        name="username"
+                                                                        value="testuser3"
+                                                                        placeholder="johnDoeReader"
                                                                         className="pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary"
                                                                 />
-                                                                <p className="text-red-800">{errors.email}</p>
+                                                                <p className="text-red-800">{errors.username}</p>
                                                         </div>
                                                 </div>
 
@@ -99,6 +100,7 @@ export function LoginForm() {
                                                                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                                                 <Input
                                                                         id="password"
+                                                                        value="TestPassword10!"
                                                                         name="password"
                                                                         type="password"
                                                                         placeholder="••••••••"

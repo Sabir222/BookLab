@@ -1,3 +1,5 @@
+import { User } from "@repo/types/types";
+
 export interface Book {
   id: string;
   title: string;
@@ -15,3 +17,8 @@ export interface Book {
   isbn?: string;
   publisher?: string;
 }
+
+export type ProfileUser = Omit<
+  User,
+  "password_hash" | "created_at" | "updated_at"
+>;
