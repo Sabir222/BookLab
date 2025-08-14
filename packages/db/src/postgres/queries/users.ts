@@ -3,7 +3,7 @@ import {
   type User,
   type CreateUserData,
   type UpdateUserData,
-} from "../types/user-types.js";
+} from "@repo/types/types";
 
 export const userQueries = {
   async findById(userId: string): Promise<User | null> {

@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
-import { bookQueries, type Book } from "@repo/db/postgres";
+import { bookQueries } from "@repo/db/postgres";
+import { type Book } from "@repo/types/types";
 import {
   getCache,
   setCache,
@@ -525,7 +526,7 @@ const updateBook = async (req: Request, res: Response): Promise<Response> => {
     const { id: bookId } = req.params;
     const bookData = req.body;
     const book = await bookQueries.update(bookId, bookData);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -534,7 +535,7 @@ const updateBook = async (req: Request, res: Response): Promise<Response> => {
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -552,7 +553,7 @@ const deleteBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
     const deleted = await bookQueries.delete(bookId);
-    
+
     if (!deleted) {
       return handleError(
         res,
@@ -561,10 +562,10 @@ const deleteBook = async (req: Request, res: Response): Promise<Response> => {
         "BOOK_NOT_FOUND",
       );
     }
-    
-    return sendResponse(res, 200, { 
-      success: true, 
-      message: `Book '${bookId}' deleted successfully` 
+
+    return sendResponse(res, 200, {
+      success: true,
+      message: `Book '${bookId}' deleted successfully`,
     });
   } catch (error) {
     return handleError(
@@ -586,7 +587,7 @@ const softDeleteBook = async (
     const { id: bookId } = req.params;
     const { deletedBy } = req.body;
     const book = await bookQueries.softDelete(bookId, deletedBy);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -595,7 +596,7 @@ const softDeleteBook = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -613,7 +614,7 @@ const restoreBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
     const book = await bookQueries.restore(bookId);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -622,7 +623,7 @@ const restoreBook = async (req: Request, res: Response): Promise<Response> => {
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -660,7 +661,7 @@ const getBookBySlug = async (
   try {
     const { slug } = req.params;
     const book = await bookQueries.findBySlug(slug);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -669,7 +670,7 @@ const getBookBySlug = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -690,8 +691,12 @@ const updateBookStock = async (
   try {
     const { id: bookId } = req.params;
     const { newStock, reservedQuantity } = req.body;
-    const book = await bookQueries.updateStock(bookId, newStock, reservedQuantity);
-    
+    const book = await bookQueries.updateStock(
+      bookId,
+      newStock,
+      reservedQuantity,
+    );
+
     if (!book) {
       return handleError(
         res,
@@ -700,7 +705,7 @@ const updateBookStock = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -722,7 +727,7 @@ const addToBookStock = async (
     const { id: bookId } = req.params;
     const { quantity } = req.body;
     const book = await bookQueries.addToStock(bookId, quantity);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -731,7 +736,7 @@ const addToBookStock = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -750,7 +755,7 @@ const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
     const { id: bookId } = req.params;
     const { quantity } = req.body;
     const book = await bookQueries.reserveBooks(bookId, quantity);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -759,7 +764,7 @@ const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -781,7 +786,7 @@ const releaseReservedBooks = async (
     const { id: bookId } = req.params;
     const { quantity } = req.body;
     const book = await bookQueries.releaseReservedBooks(bookId, quantity);
-    
+
     if (!book) {
       return handleError(
         res,
@@ -790,7 +795,7 @@ const releaseReservedBooks = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -811,8 +816,12 @@ const updateBookRatings = async (
   try {
     const { id: bookId } = req.params;
     const { averageRating, totalRatings } = req.body;
-    const book = await bookQueries.updateRatings(bookId, averageRating, totalRatings);
-    
+    const book = await bookQueries.updateRatings(
+      bookId,
+      averageRating,
+      totalRatings,
+    );
+
     if (!book) {
       return handleError(
         res,
@@ -821,7 +830,7 @@ const updateBookRatings = async (
         "BOOK_NOT_FOUND",
       );
     }
-    
+
     return sendResponse(res, 200, { success: true, data: { book } });
   } catch (error) {
     return handleError(
@@ -857,3 +866,4 @@ export const bookPublicActionsController = {
   releaseReservedBooks,
   updateBookRatings,
 };
+

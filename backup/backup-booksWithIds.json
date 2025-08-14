@@ -1,0 +1,1910 @@
+[
+  {
+    "title": "Atonement",
+    "author": "Ian McEwan",
+    "publication_year": 2001,
+    "isbn13": "9780375701808",
+    "publisher": "Jonathan Cape",
+    "author_id": "8c1d8787-8c81-4958-bdae-5895ae480734",
+    "publisher_id": "0e069c1f-6471-4ab4-bd23-e379216385f3"
+  },
+  {
+    "title": "Never Let Me Go",
+    "author": "Kazuo Ishiguro",
+    "publication_year": 2005,
+    "isbn13": "9781400078776",
+    "publisher": "Faber and Faber",
+    "author_id": "17e30d58-e5bc-46ab-9210-1b9ed83d748a",
+    "publisher_id": "6cc8abe3-5d95-4b6c-bc89-272d4608e913"
+  },
+  {
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "publication_year": 2012,
+    "isbn13": "9780307588371",
+    "publisher": "Crown Publishing Group",
+    "author_id": "33b98416-6575-4db6-998b-e562ab2b9856",
+    "publisher_id": "cbcfcffa-b4b8-4e64-b830-2178ce438691"
+  },
+  {
+    "title": "The Glass Castle",
+    "author": "Jeannette Walls",
+    "publication_year": 2005,
+    "isbn13": "9780743247542",
+    "publisher": "Scribner",
+    "author_id": "192656b3-cf13-4eb0-a2ad-eadbe5d8c33f",
+    "publisher_id": "523a482b-6167-4725-89da-ebd1956fb6c0"
+  },
+  {
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "publication_year": 2006,
+    "isbn13": "9780307387899",
+    "publisher": "Alfred A. Knopf",
+    "author_id": "6d916762-890d-4db5-9df0-f94cd0b39ba4",
+    "publisher_id": "f8bdc9cd-1765-4c6f-b112-61076bdd9723"
+  },
+  {
+    "title": "Cloud Atlas",
+    "author": "David Mitchell",
+    "publication_year": 2004,
+    "isbn13": "9780375728808",
+    "publisher": "Random House",
+    "author_id": "af24a389-dded-47d6-80c6-5d1c28da36ab",
+    "publisher_id": "9e3b9168-f2ad-4f15-b5d6-07c78e87a18c"
+  },
+  {
+    "title": "Americanah",
+    "author": "Chimamanda Ngozi Adichie",
+    "publication_year": 2013,
+    "isbn13": "9780307455925",
+    "publisher": "Alfred A. Knopf",
+    "author_id": "e3b26773-a16b-4382-9038-65204a0ec509",
+    "publisher_id": "f8bdc9cd-1765-4c6f-b112-61076bdd9723"
+  },
+  {
+    "title": "My Brilliant Friend",
+    "author": "Elena Ferrante",
+    "publication_year": 2012,
+    "isbn13": "9781609450786",
+    "publisher": "Europa Editions",
+    "author_id": "34976fc4-78c2-4b76-b158-1c6d15d72311",
+    "publisher_id": "5f6c2a06-5521-4ca5-9b50-83c2f7ef694c"
+  },
+  {
+    "title": "The Warmth of Other Suns",
+    "author": "Isabel Wilkerson",
+    "publication_year": 2010,
+    "isbn13": "9780679444329",
+    "publisher": "Random House",
+    "author_id": "a86db783-5b64-45f6-aade-51bdc0821373",
+    "publisher_id": "9e3b9168-f2ad-4f15-b5d6-07c78e87a18c"
+  },
+  {
+    "title": "Wolf Hall",
+    "author": "Hilary Mantel",
+    "publication_year": 2009,
+    "isbn13": "9780312429980",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "e85f415b-454d-460d-9fb6-72d0ea2dced9",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "The Night Circus",
+    "author": "Erin Morgenstern",
+    "publication_year": 2011,
+    "isbn13": "9780385534635",
+    "publisher": "Doubleday",
+    "author_id": "8f950cdf-fb07-471a-9e78-916e46e30825",
+    "publisher_id": "c97679f8-9d46-4b91-be41-80a2ec9d9443"
+  },
+  {
+    "title": "The Underground Railroad",
+    "author": "Colson Whitehead",
+    "publication_year": 2016,
+    "isbn13": "9780385542364",
+    "publisher": "Doubleday",
+    "author_id": "16ea74b0-9729-4030-a2d7-17dd63b0614f",
+    "publisher_id": "c97679f8-9d46-4b91-be41-80a2ec9d9443"
+  },
+  {
+    "title": "Normal People",
+    "author": "Sally Rooney",
+    "publication_year": 2018,
+    "isbn13": "9781984822178",
+    "publisher": "Hogarth",
+    "author_id": "ef9635d4-616e-4f8d-843c-88bd5971a737",
+    "publisher_id": "c84d921c-42b6-439b-b647-76e4f728e383"
+  },
+  {
+    "title": "The Goldfinch",
+    "author": "Donna Tartt",
+    "publication_year": 2013,
+    "isbn13": "9780316055444",
+    "publisher": "Little, Brown and Company",
+    "author_id": "e130f52b-5ea5-4cf7-953a-f6f75ffa9a43",
+    "publisher_id": "71e7d6f3-0296-47cc-9ce7-dd0a2982c19c"
+  },
+  {
+    "title": "The Testaments",
+    "author": "Margaret Atwood",
+    "publication_year": 2019,
+    "isbn13": "9780385543781",
+    "publisher": "Nan A. Talese",
+    "author_id": "9cc0412d-c506-4e4c-be82-72d123697f53",
+    "publisher_id": "253e144c-71ac-4136-a4dc-385af7ea2d98"
+  },
+  {
+    "title": "Lincoln in the Bardo",
+    "author": "George Saunders",
+    "publication_year": 2017,
+    "isbn13": "9780812995343",
+    "publisher": "Random House",
+    "author_id": "123a93f9-ff9c-4f98-a867-86c3b0cd7b97",
+    "publisher_id": "9e3b9168-f2ad-4f15-b5d6-07c78e87a18c"
+  },
+  {
+    "title": "Lessons in Chemistry",
+    "author": "Bonnie Garmus",
+    "publication_year": 2022,
+    "isbn13": "9780385547345",
+    "publisher": "Doubleday",
+    "author_id": "583d7954-f757-4964-ad1f-88709d28da44",
+    "publisher_id": "c97679f8-9d46-4b91-be41-80a2ec9d9443"
+  },
+  {
+    "title": "Project Hail Mary",
+    "author": "Andy Weir",
+    "publication_year": 2021,
+    "isbn13": "9780593135204",
+    "publisher": "Ballantine Books",
+    "author_id": "7df7c793-ff3c-4dd1-b833-a7e5fb91fbec",
+    "publisher_id": "5990bf84-ad86-4db0-826f-8860c337afb6"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2022,
+    "isbn13": "9780593321201",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Klara and the Sun",
+    "author": "Kazuo Ishiguro",
+    "publication_year": 2021,
+    "isbn13": "9780593318171",
+    "publisher": "Knopf",
+    "author_id": "17e30d58-e5bc-46ab-9210-1b9ed83d748a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "The Overstory",
+    "author": "Richard Powers",
+    "publication_year": 2018,
+    "isbn13": "9780393356687",
+    "publisher": "W. W. Norton & Company",
+    "author_id": "422e2d51-543e-4e14-be52-31a228fa49a9",
+    "publisher_id": "1332fac5-a7c1-4fb9-b54b-ecc1fee37d18"
+  },
+  {
+    "title": "Small Things Like These",
+    "author": "Claire Keegan",
+    "publication_year": 2021,
+    "isbn13": "9780802158741",
+    "publisher": "Grove Press",
+    "author_id": "5c477040-8864-41ae-b62c-ef3ea25894ae",
+    "publisher_id": "68f7df40-9d72-44ed-bf2c-0243b51ac85e"
+  },
+  {
+    "title": "Trust",
+    "author": "Hernan Diaz",
+    "publication_year": 2022,
+    "isbn13": "9780593420317",
+    "publisher": "Riverhead Books",
+    "author_id": "24764c57-3bfa-4c38-a64b-df3d85854da8",
+    "publisher_id": "532ffac6-1a2c-48bf-a369-19944ba6a23c"
+  },
+  {
+    "title": "Demon Copperhead",
+    "author": "Barbara Kingsolver",
+    "publication_year": 2022,
+    "isbn13": "9780063251922",
+    "publisher": "Harper",
+    "author_id": "2861d4c2-b8a3-4466-bedc-cafba8cbfa0d",
+    "publisher_id": "7a8f1ab6-47cd-4213-b3f9-00013324ae1d"
+  },
+  {
+    "title": "Sea of Tranquility",
+    "author": "Emily St. John Mandel",
+    "publication_year": 2022,
+    "isbn13": "9780593321447",
+    "publisher": "Knopf",
+    "author_id": "049434ef-3bfd-42cd-b670-a267c263fce6",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Fourth Wing",
+    "author": "Rebecca Yarros",
+    "publication_year": 2023,
+    "isbn13": "9781649374042",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Iron Flame",
+    "author": "Rebecca Yarros",
+    "publication_year": 2023,
+    "isbn13": "9781649374172",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Spare",
+    "author": "Prince Harry",
+    "publication_year": 2023,
+    "isbn13": "9780593593806",
+    "publisher": "Random House",
+    "author_id": "8448edf7-0f0b-4977-bd8f-04c27875bbba",
+    "publisher_id": "9e3b9168-f2ad-4f15-b5d6-07c78e87a18c"
+  },
+  {
+    "title": "The Covenant of Water",
+    "author": "Abraham Verghese",
+    "publication_year": 2023,
+    "isbn13": "9780802162175",
+    "publisher": "Grove Press",
+    "author_id": "08c1c1c5-6e88-481f-9fdb-b89f4869bd52",
+    "publisher_id": "68f7df40-9d72-44ed-bf2c-0243b51ac85e"
+  },
+  {
+    "title": "Happy Place",
+    "author": "Emily Henry",
+    "publication_year": 2023,
+    "isbn13": "9780593441275",
+    "publisher": "Berkley",
+    "author_id": "4a329487-6be0-4245-932d-178594f3fee4",
+    "publisher_id": "44212071-c4e0-4193-ba6c-104883e3e829"
+  },
+  {
+    "title": "Book Lovers",
+    "author": "Emily Henry",
+    "publication_year": 2022,
+    "isbn13": "9780593334836",
+    "publisher": "Berkley",
+    "author_id": "4a329487-6be0-4245-932d-178594f3fee4",
+    "publisher_id": "44212071-c4e0-4193-ba6c-104883e3e829"
+  },
+  {
+    "title": "Malibu Rising",
+    "author": "Taylor Jenkins Reid",
+    "publication_year": 2021,
+    "isbn13": "9781524798659",
+    "publisher": "Ballantine Books",
+    "author_id": "6ff73f1f-2d8d-437e-bfb4-6ea3e4e2fa8f",
+    "publisher_id": "5990bf84-ad86-4db0-826f-8860c337afb6"
+  },
+  {
+    "title": "Carrie Soto Is Back",
+    "author": "Taylor Jenkins Reid",
+    "publication_year": 2022,
+    "isbn13": "9780593158685",
+    "publisher": "Ballantine Books",
+    "author_id": "6ff73f1f-2d8d-437e-bfb4-6ea3e4e2fa8f",
+    "publisher_id": "5990bf84-ad86-4db0-826f-8860c337afb6"
+  },
+  {
+    "title": "The Seven Husbands of Evelyn Hugo",
+    "author": "Taylor Jenkins Reid",
+    "publication_year": 2017,
+    "isbn13": "9781501161933",
+    "publisher": "Atria Books",
+    "author_id": "6ff73f1f-2d8d-437e-bfb4-6ea3e4e2fa8f",
+    "publisher_id": "5f3f68b2-6dfc-4b4a-aafa-43849cb718eb"
+  },
+  {
+    "title": "It Ends with Us",
+    "author": "Colleen Hoover",
+    "publication_year": 2016,
+    "isbn13": "9781501110368",
+    "publisher": "Atria Books",
+    "author_id": "2924f275-3984-46b6-92c3-44d859e6ab21",
+    "publisher_id": "5f3f68b2-6dfc-4b4a-aafa-43849cb718eb"
+  },
+  {
+    "title": "It Starts with Us",
+    "author": "Colleen Hoover",
+    "publication_year": 2022,
+    "isbn13": "9781668001226",
+    "publisher": "Atria Books",
+    "author_id": "2924f275-3984-46b6-92c3-44d859e6ab21",
+    "publisher_id": "5f3f68b2-6dfc-4b4a-aafa-43849cb718eb"
+  },
+  {
+    "title": "Verity",
+    "author": "Colleen Hoover",
+    "publication_year": 2018,
+    "isbn13": "9781791392796",
+    "publisher": "Independently published",
+    "author_id": "2924f275-3984-46b6-92c3-44d859e6ab21",
+    "publisher_id": "719c186a-3163-4dab-bf0c-50581e5869de"
+  },
+  {
+    "title": "Reminders of Him",
+    "author": "Colleen Hoover",
+    "publication_year": 2022,
+    "isbn13": "9781542025607",
+    "publisher": "Montlake",
+    "author_id": "2924f275-3984-46b6-92c3-44d859e6ab21",
+    "publisher_id": "09ae2eed-d46a-436e-b80c-0954c90615ab"
+  },
+  {
+    "title": "Lessons",
+    "author": "Ian McEwan",
+    "publication_year": 2022,
+    "isbn13": "9780593535202",
+    "publisher": "Knopf",
+    "author_id": "8c1d8787-8c81-4958-bdae-5895ae480734",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Birnam Wood",
+    "author": "Eleanor Catton",
+    "publication_year": 2023,
+    "isbn13": "9780374110338",
+    "publisher": "Farrar, Straus and Giroux",
+    "author_id": "c858f63b-de43-4f83-9a49-a6209d2c8c34",
+    "publisher_id": "78f1a0ab-3f01-4e87-a06d-9f9bc0a09cc9"
+  },
+  {
+    "title": "Before We Were Strangers",
+    "author": "Renée Carlino",
+    "publication_year": 2015,
+    "isbn13": "9781501105777",
+    "publisher": "Atria Books",
+    "author_id": "2c5acc58-c5c1-4c04-974c-9be1e83c100b",
+    "publisher_id": "5f3f68b2-6dfc-4b4a-aafa-43849cb718eb"
+  },
+  {
+    "title": "All the Light We Cannot See",
+    "author": "Anthony Doerr",
+    "publication_year": 2014,
+    "isbn13": "9781501173219",
+    "publisher": "Scribner",
+    "author_id": "1abd9f60-13ec-4ef7-94b0-ccec7bda17d3",
+    "publisher_id": "523a482b-6167-4725-89da-ebd1956fb6c0"
+  },
+  {
+    "title": "The Midnight Library",
+    "author": "Matt Haig",
+    "publication_year": 2020,
+    "isbn13": "9780525559474",
+    "publisher": "Viking",
+    "author_id": "20d20c9b-b9e7-4b67-8534-cc72e9064488",
+    "publisher_id": "40f42dc9-be8b-4c97-ad7a-32024d82944d"
+  },
+  {
+    "title": "Where the Crawdads Sing",
+    "author": "Delia Owens",
+    "publication_year": 2018,
+    "isbn13": "9780735219106",
+    "publisher": "G.P. Putnam's Sons",
+    "author_id": "e2862174-3e7b-4c04-8308-73cf7abe74c4",
+    "publisher_id": "05adae35-310f-40a6-be04-ad32d24536d4"
+  },
+  {
+    "title": "Circe",
+    "author": "Madeline Miller",
+    "publication_year": 2018,
+    "isbn13": "9780316556347",
+    "publisher": "Little, Brown and Company",
+    "author_id": "e6465c60-b7d7-4161-a0c0-e7026dd50eb7",
+    "publisher_id": "71e7d6f3-0296-47cc-9ce7-dd0a2982c19c"
+  },
+  {
+    "title": "The Song of Achilles",
+    "author": "Madeline Miller",
+    "publication_year": 2011,
+    "isbn13": "9780062060624",
+    "publisher": "Ecco",
+    "author_id": "e6465c60-b7d7-4161-a0c0-e7026dd50eb7",
+    "publisher_id": "5a8207b1-a604-4f0c-b5ae-7eac9c8a0d45"
+  },
+  {
+    "title": "The House in the Cerulean Sea",
+    "author": "TJ Klune",
+    "publication_year": 2020,
+    "isbn13": "9781250217288",
+    "publisher": "Tor Books",
+    "author_id": "adad7024-9ca2-4592-8c9d-6d0cfd0c9c48",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Under the Whispering Door",
+    "author": "TJ Klune",
+    "publication_year": 2021,
+    "isbn13": "9781250217394",
+    "publisher": "Tor Books",
+    "author_id": "adad7024-9ca2-4592-8c9d-6d0cfd0c9c48",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Shatter Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2011,
+    "isbn13": "9780062085504",
+    "publisher": "HarperCollins",
+    "author_id": "922d2b3a-c3c0-4907-85d1-cfe4c513fde2",
+    "publisher_id": "bf8b3f73-ba0d-4526-8e13-f7f94069af9d"
+  },
+  {
+    "title": "Ignite Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2014,
+    "isbn13": "9780062085573",
+    "publisher": "HarperCollins",
+    "author_id": "922d2b3a-c3c0-4907-85d1-cfe4c513fde2",
+    "publisher_id": "bf8b3f73-ba0d-4526-8e13-f7f94069af9d"
+  },
+  {
+    "title": "Restore Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2018,
+    "isbn13": "9780062676375",
+    "publisher": "HarperCollins",
+    "author_id": "922d2b3a-c3c0-4907-85d1-cfe4c513fde2",
+    "publisher_id": "bf8b3f73-ba0d-4526-8e13-f7f94069af9d"
+  },
+  {
+    "title": "Defy Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2019,
+    "isbn13": "9780062676399",
+    "publisher": "HarperCollins",
+    "author_id": "922d2b3a-c3c0-4907-85d1-cfe4c513fde2",
+    "publisher_id": "bf8b3f73-ba0d-4526-8e13-f7f94069af9d"
+  },
+  {
+    "title": "Imagine Me",
+    "author": "Tahereh Mafi",
+    "publication_year": 2020,
+    "isbn13": "9780062676429",
+    "publisher": "HarperCollins",
+    "author_id": "922d2b3a-c3c0-4907-85d1-cfe4c513fde2",
+    "publisher_id": "bf8b3f73-ba0d-4526-8e13-f7f94069af9d"
+  },
+  {
+    "title": "Children of Blood and Bone",
+    "author": "Tomi Adeyemi",
+    "publication_year": 2018,
+    "isbn13": "9781250170972",
+    "publisher": "Henry Holt Books for Young Readers",
+    "author_id": "38e52690-331a-409c-9f8a-a2aeac83f6de",
+    "publisher_id": "d280cd99-266c-4fc7-a81a-42884724afe7"
+  },
+  {
+    "title": "Children of Virtue and Vengeance",
+    "author": "Tomi Adeyemi",
+    "publication_year": 2019,
+    "isbn13": "9781250170996",
+    "publisher": "Henry Holt Books for Young Readers",
+    "author_id": "38e52690-331a-409c-9f8a-a2aeac83f6de",
+    "publisher_id": "d280cd99-266c-4fc7-a81a-42884724afe7"
+  },
+  {
+    "title": "House of Earth and Blood",
+    "author": "Sarah J. Maas",
+    "publication_year": 2020,
+    "isbn13": "9781635574043",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "House of Sky and Breath",
+    "author": "Sarah J. Maas",
+    "publication_year": 2022,
+    "isbn13": "9781635574074",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Throne of Glass",
+    "author": "Sarah J. Maas",
+    "publication_year": 2012,
+    "isbn13": "9781619630345",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Crown of Midnight",
+    "author": "Sarah J. Maas",
+    "publication_year": 2013,
+    "isbn13": "9781619630628",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Heir of Fire",
+    "author": "Sarah J. Maas",
+    "publication_year": 2014,
+    "isbn13": "9781619630659",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Queen of Shadows",
+    "author": "Sarah J. Maas",
+    "publication_year": 2015,
+    "isbn13": "9781619636040",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Empire of Storms",
+    "author": "Sarah J. Maas",
+    "publication_year": 2016,
+    "isbn13": "9781619636071",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Tower of Dawn",
+    "author": "Sarah J. Maas",
+    "publication_year": 2017,
+    "isbn13": "9781619636101",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Kingdom of Ash",
+    "author": "Sarah J. Maas",
+    "publication_year": 2018,
+    "isbn13": "9781619636118",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "A Court of Thorns and Roses",
+    "author": "Sarah J. Maas",
+    "publication_year": 2015,
+    "isbn13": "9781619635180",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "A Court of Mist and Fury",
+    "author": "Sarah J. Maas",
+    "publication_year": 2016,
+    "isbn13": "9781619634466",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "A Court of Wings and Ruin",
+    "author": "Sarah J. Maas",
+    "publication_year": 2017,
+    "isbn13": "9781619634480",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "A Court of Silver Flames",
+    "author": "Sarah J. Maas",
+    "publication_year": 2021,
+    "isbn13": "9781681196282",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Legendborn",
+    "author": "Tracy Deonn",
+    "publication_year": 2020,
+    "isbn13": "9781534441606",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "0afb5eb6-8b41-44c2-8987-d8dffc31bd84",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Bloodmarked",
+    "author": "Tracy Deonn",
+    "publication_year": 2022,
+    "isbn13": "9781534441637",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "0afb5eb6-8b41-44c2-8987-d8dffc31bd84",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Chain of Gold",
+    "author": "Cassandra Clare",
+    "publication_year": 2020,
+    "isbn13": "9781481431873",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Chain of Iron",
+    "author": "Cassandra Clare",
+    "publication_year": 2021,
+    "isbn13": "9781481431903",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Chain of Thorns",
+    "author": "Cassandra Clare",
+    "publication_year": 2023,
+    "isbn13": "9781481431927",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Lady Midnight",
+    "author": "Cassandra Clare",
+    "publication_year": 2016,
+    "isbn13": "9781442468351",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Lord of Shadows",
+    "author": "Cassandra Clare",
+    "publication_year": 2017,
+    "isbn13": "9781442468405",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Queen of Air and Darkness",
+    "author": "Cassandra Clare",
+    "publication_year": 2018,
+    "isbn13": "9781442468436",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Bones",
+    "author": "Cassandra Clare",
+    "publication_year": 2007,
+    "isbn13": "9781416914280",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Ashes",
+    "author": "Cassandra Clare",
+    "publication_year": 2008,
+    "isbn13": "9781416914297",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Glass",
+    "author": "Cassandra Clare",
+    "publication_year": 2009,
+    "isbn13": "9781416972259",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Fallen Angels",
+    "author": "Cassandra Clare",
+    "publication_year": 2011,
+    "isbn13": "9781442403543",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Lost Souls",
+    "author": "Cassandra Clare",
+    "publication_year": 2012,
+    "isbn13": "9781442416864",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "City of Heavenly Fire",
+    "author": "Cassandra Clare",
+    "publication_year": 2014,
+    "isbn13": "9781442416895",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Clockwork Angel",
+    "author": "Cassandra Clare",
+    "publication_year": 2010,
+    "isbn13": "9781416975861",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Clockwork Prince",
+    "author": "Cassandra Clare",
+    "publication_year": 2011,
+    "isbn13": "9781442400887",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Clockwork Princess",
+    "author": "Cassandra Clare",
+    "publication_year": 2013,
+    "isbn13": "9781442421790",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Chain of Gold",
+    "author": "Cassandra Clare",
+    "publication_year": 2020,
+    "isbn13": "9781481431873",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "8f0685d1-54ef-46be-8781-4534abb4600b",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Fourth Wing Special Edition",
+    "author": "Rebecca Yarros",
+    "publication_year": 2024,
+    "isbn13": "9781649374394",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "The Atlas Six",
+    "author": "Olivie Blake",
+    "publication_year": 2022,
+    "isbn13": "9781250854513",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Atlas Paradox",
+    "author": "Olivie Blake",
+    "publication_year": 2022,
+    "isbn13": "9781250854544",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Lightlark",
+    "author": "Alex Aster",
+    "publication_year": 2022,
+    "isbn13": "9781419760860",
+    "publisher": "Amulet Books",
+    "author_id": "38607371-e5f5-4668-b52e-36c50b1387fc",
+    "publisher_id": "4999091f-c1b2-494b-abe2-7bd6068a7baa"
+  },
+  {
+    "title": "Nightbane",
+    "author": "Alex Aster",
+    "publication_year": 2024,
+    "isbn13": "9781419765148",
+    "publisher": "Amulet Books",
+    "author_id": "38607371-e5f5-4668-b52e-36c50b1387fc",
+    "publisher_id": "4999091f-c1b2-494b-abe2-7bd6068a7baa"
+  },
+  {
+    "title": "Iron Widow",
+    "author": "Xiran Jay Zhao",
+    "publication_year": 2021,
+    "isbn13": "9780735269934",
+    "publisher": "Penguin Teen",
+    "author_id": "03e9a63c-a17b-40f8-a6a4-30e7a7a08307",
+    "publisher_id": "72cff339-8522-4124-bba5-137043885a2b"
+  },
+  {
+    "title": "He Who Drowned the World",
+    "author": "Shelley Parker-Chan",
+    "publication_year": 2023,
+    "isbn13": "9781250621825",
+    "publisher": "Tor Books",
+    "author_id": "2943b8cf-5879-423e-8866-ab7a573977af",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "She Who Became the Sun",
+    "author": "Shelley Parker-Chan",
+    "publication_year": 2021,
+    "isbn13": "9781250621801",
+    "publisher": "Tor Books",
+    "author_id": "2943b8cf-5879-423e-8866-ab7a573977af",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Priory of the Orange Tree",
+    "author": "Samantha Shannon",
+    "publication_year": 2019,
+    "isbn13": "9781635570298",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "9b13d083-76a9-4eb0-bc54-d50bbcfe77a1",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "A Day of Fallen Night",
+    "author": "Samantha Shannon",
+    "publication_year": 2023,
+    "isbn13": "9781635577921",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "9b13d083-76a9-4eb0-bc54-d50bbcfe77a1",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Babel",
+    "author": "R.F. Kuang",
+    "publication_year": 2022,
+    "isbn13": "9780063021426",
+    "publisher": "Harper Voyager",
+    "author_id": "acf0a0bc-3e24-48c3-aadc-94fb70d81b59",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "Yellowface",
+    "author": "R.F. Kuang",
+    "publication_year": 2023,
+    "isbn13": "9780063250833",
+    "publisher": "William Morrow",
+    "author_id": "acf0a0bc-3e24-48c3-aadc-94fb70d81b59",
+    "publisher_id": "5840f49f-74fc-4bf5-b806-2bc8f0e7d06a"
+  },
+  {
+    "title": "The Poppy War",
+    "author": "R.F. Kuang",
+    "publication_year": 2018,
+    "isbn13": "9780062662569",
+    "publisher": "Harper Voyager",
+    "author_id": "acf0a0bc-3e24-48c3-aadc-94fb70d81b59",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "The Dragon Republic",
+    "author": "R.F. Kuang",
+    "publication_year": 2019,
+    "isbn13": "9780062662637",
+    "publisher": "Harper Voyager",
+    "author_id": "acf0a0bc-3e24-48c3-aadc-94fb70d81b59",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "The Burning God",
+    "author": "R.F. Kuang",
+    "publication_year": 2020,
+    "isbn13": "9780062662620",
+    "publisher": "Harper Voyager",
+    "author_id": "acf0a0bc-3e24-48c3-aadc-94fb70d81b59",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "Six of Crows",
+    "author": "Leigh Bardugo",
+    "publication_year": 2015,
+    "isbn13": "9781627792127",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "Crooked Kingdom",
+    "author": "Leigh Bardugo",
+    "publication_year": 2016,
+    "isbn13": "9781627792134",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "King of Scars",
+    "author": "Leigh Bardugo",
+    "publication_year": 2019,
+    "isbn13": "9781250142283",
+    "publisher": "Imprint",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "31936204-2f96-4afc-a137-4a3cb81505f5"
+  },
+  {
+    "title": "Rule of Wolves",
+    "author": "Leigh Bardugo",
+    "publication_year": 2021,
+    "isbn13": "9781250800817",
+    "publisher": "Imprint",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "31936204-2f96-4afc-a137-4a3cb81505f5"
+  },
+  {
+    "title": "Shadow and Bone",
+    "author": "Leigh Bardugo",
+    "publication_year": 2012,
+    "isbn13": "9780805094596",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "Siege and Storm",
+    "author": "Leigh Bardugo",
+    "publication_year": 2013,
+    "isbn13": "9780805094602",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "Ruin and Rising",
+    "author": "Leigh Bardugo",
+    "publication_year": 2014,
+    "isbn13": "9780805094619",
+    "publisher": "Henry Holt and Co.",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "2eec4c2d-7950-4693-8dbf-858e62cd8974"
+  },
+  {
+    "title": "Fourth Wing Collector’s Edition",
+    "author": "Rebecca Yarros",
+    "publication_year": 2024,
+    "isbn13": "9781649375094",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Fourth Wing Illustrated Edition",
+    "author": "Rebecca Yarros",
+    "publication_year": 2025,
+    "isbn13": "9781649375995",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Empire of the Vampire",
+    "author": "Jay Kristoff",
+    "publication_year": 2021,
+    "isbn13": "9781250245281",
+    "publisher": "St. Martin's Press",
+    "author_id": "978b2f11-7ae1-4789-acd0-de6123245e50",
+    "publisher_id": "cd80f419-3e79-44d8-8574-642f52a0f59c"
+  },
+  {
+    "title": "Darkdawn",
+    "author": "Jay Kristoff",
+    "publication_year": 2019,
+    "isbn13": "9781250073051",
+    "publisher": "St. Martin's Press",
+    "author_id": "978b2f11-7ae1-4789-acd0-de6123245e50",
+    "publisher_id": "cd80f419-3e79-44d8-8574-642f52a0f59c"
+  },
+  {
+    "title": "Godsgrave",
+    "author": "Jay Kristoff",
+    "publication_year": 2017,
+    "isbn13": "9781250073037",
+    "publisher": "St. Martin's Press",
+    "author_id": "978b2f11-7ae1-4789-acd0-de6123245e50",
+    "publisher_id": "cd80f419-3e79-44d8-8574-642f52a0f59c"
+  },
+  {
+    "title": "Nevernight",
+    "author": "Jay Kristoff",
+    "publication_year": 2016,
+    "isbn13": "9781250073020",
+    "publisher": "St. Martin's Press",
+    "author_id": "978b2f11-7ae1-4789-acd0-de6123245e50",
+    "publisher_id": "cd80f419-3e79-44d8-8574-642f52a0f59c"
+  },
+  {
+    "title": "Aurora Rising",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2019,
+    "isbn13": "9781524720964",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "Aurora Burning",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2020,
+    "isbn13": "9781524720971",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "Aurora’s End",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2021,
+    "isbn13": "9781524720988",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "Illuminae",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2015,
+    "isbn13": "9780553499117",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "Gemina",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2016,
+    "isbn13": "9780553499155",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "Obsidio",
+    "author": "Amie Kaufman & Jay Kristoff",
+    "publication_year": 2018,
+    "isbn13": "9780553499186",
+    "publisher": "Knopf Books for Young Readers",
+    "author_id": "97d433a0-f6e7-43e2-966e-b91c4a99da00",
+    "publisher_id": "af928f25-509f-4015-b815-b633dea5f357"
+  },
+  {
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "publication_year": 2008,
+    "isbn13": "9780439023481",
+    "publisher": "Scholastic Press",
+    "author_id": "e108d16c-46b2-4cfd-b799-7a79445e5a61",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "Catching Fire",
+    "author": "Suzanne Collins",
+    "publication_year": 2009,
+    "isbn13": "9780439023498",
+    "publisher": "Scholastic Press",
+    "author_id": "e108d16c-46b2-4cfd-b799-7a79445e5a61",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "Mockingjay",
+    "author": "Suzanne Collins",
+    "publication_year": 2010,
+    "isbn13": "9780439023511",
+    "publisher": "Scholastic Press",
+    "author_id": "e108d16c-46b2-4cfd-b799-7a79445e5a61",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "The Ballad of Songbirds and Snakes",
+    "author": "Suzanne Collins",
+    "publication_year": 2020,
+    "isbn13": "9781338635171",
+    "publisher": "Scholastic Press",
+    "author_id": "e108d16c-46b2-4cfd-b799-7a79445e5a61",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "Divergent",
+    "author": "Veronica Roth",
+    "publication_year": 2011,
+    "isbn13": "9780062024039",
+    "publisher": "Katherine Tegen Books",
+    "author_id": "4cacc93e-d483-4138-bbd4-64d89e756318",
+    "publisher_id": "922ddf81-81c2-46a6-ba3a-b4224472f0b6"
+  },
+  {
+    "title": "Insurgent",
+    "author": "Veronica Roth",
+    "publication_year": 2012,
+    "isbn13": "9780062024046",
+    "publisher": "Katherine Tegen Books",
+    "author_id": "4cacc93e-d483-4138-bbd4-64d89e756318",
+    "publisher_id": "922ddf81-81c2-46a6-ba3a-b4224472f0b6"
+  },
+  {
+    "title": "Allegiant",
+    "author": "Veronica Roth",
+    "publication_year": 2013,
+    "isbn13": "9780062024060",
+    "publisher": "Katherine Tegen Books",
+    "author_id": "4cacc93e-d483-4138-bbd4-64d89e756318",
+    "publisher_id": "922ddf81-81c2-46a6-ba3a-b4224472f0b6"
+  },
+  {
+    "title": "Four: A Divergent Collection",
+    "author": "Veronica Roth",
+    "publication_year": 2014,
+    "isbn13": "9780062285683",
+    "publisher": "Katherine Tegen Books",
+    "author_id": "4cacc93e-d483-4138-bbd4-64d89e756318",
+    "publisher_id": "922ddf81-81c2-46a6-ba3a-b4224472f0b6"
+  },
+  {
+    "title": "Caraval",
+    "author": "Stephanie Garber",
+    "publication_year": 2017,
+    "isbn13": "9781250095251",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "Legendary",
+    "author": "Stephanie Garber",
+    "publication_year": 2018,
+    "isbn13": "9781250095312",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "Finale",
+    "author": "Stephanie Garber",
+    "publication_year": 2019,
+    "isbn13": "9781250157669",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "Once Upon a Broken Heart",
+    "author": "Stephanie Garber",
+    "publication_year": 2021,
+    "isbn13": "9781250268396",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "The Ballad of Never After",
+    "author": "Stephanie Garber",
+    "publication_year": 2022,
+    "isbn13": "9781250268419",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "A Curse for True Love",
+    "author": "Stephanie Garber",
+    "publication_year": 2023,
+    "isbn13": "9781250882233",
+    "publisher": "Flatiron Books",
+    "author_id": "2afe1dc7-84fc-4993-950f-7940eed81576",
+    "publisher_id": "d2bb1253-e21d-46ed-a7d9-749ba217b1a7"
+  },
+  {
+    "title": "Red Queen",
+    "author": "Victoria Aveyard",
+    "publication_year": 2015,
+    "isbn13": "9780062310637",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "Glass Sword",
+    "author": "Victoria Aveyard",
+    "publication_year": 2016,
+    "isbn13": "9780062310668",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "King’s Cage",
+    "author": "Victoria Aveyard",
+    "publication_year": 2017,
+    "isbn13": "9780062310699",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "War Storm",
+    "author": "Victoria Aveyard",
+    "publication_year": 2018,
+    "isbn13": "9780062310712",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "Realm Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2021,
+    "isbn13": "9780062872623",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "Blade Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2022,
+    "isbn13": "9780062872647",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "Fate Breaker",
+    "author": "Victoria Aveyard",
+    "publication_year": 2023,
+    "isbn13": "9780062872661",
+    "publisher": "HarperTeen",
+    "author_id": "b5853a8d-d7a3-4429-a9c2-89ed6bbf06fa",
+    "publisher_id": "bc50e447-cfeb-407e-be14-3c3b4ab810ca"
+  },
+  {
+    "title": "Throne of Glass Collector’s Edition",
+    "author": "Sarah J. Maas",
+    "publication_year": 2023,
+    "isbn13": "9781639732395",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Crescent City: House of Flame and Shadow",
+    "author": "Sarah J. Maas",
+    "publication_year": 2024,
+    "isbn13": "9781635574098",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "King of Battle and Blood",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2021,
+    "isbn13": "9781728234915",
+    "publisher": "Sourcebooks Casablanca",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "0ce79e10-d210-46e5-bdf0-51e4c505d650"
+  },
+  {
+    "title": "Queen of Myth and Monsters",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2022,
+    "isbn13": "9781728270159",
+    "publisher": "Sourcebooks Casablanca",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "0ce79e10-d210-46e5-bdf0-51e4c505d650"
+  },
+  {
+    "title": "Wings of Pescatore",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2024,
+    "isbn13": "9781728293523",
+    "publisher": "Sourcebooks Casablanca",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "0ce79e10-d210-46e5-bdf0-51e4c505d650"
+  },
+  {
+    "title": "A Touch of Darkness",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2019,
+    "isbn13": "9781070369986",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "A Touch of Ruin",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2020,
+    "isbn13": "9781070369979",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "A Touch of Malice",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2021,
+    "isbn13": "9781070369962",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "A Game of Fate",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2021,
+    "isbn13": "9781070369955",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "A Game of Retribution",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2022,
+    "isbn13": "9781070369948",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "A Game of Gods",
+    "author": "Scarlett St. Clair",
+    "publication_year": 2023,
+    "isbn13": "9781070369931",
+    "publisher": "Independently Published",
+    "author_id": "0c1ef33c-cd8f-4cdf-ab97-58e470e1d566",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "The Serpent and the Wings of Night",
+    "author": "Carissa Broadbent",
+    "publication_year": 2022,
+    "isbn13": "9781957779003",
+    "publisher": "Independently Published",
+    "author_id": "26904ab5-fe40-4360-8833-95dded87f122",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "The Ashes and the Star-Cursed King",
+    "author": "Carissa Broadbent",
+    "publication_year": 2023,
+    "isbn13": "9781957779027",
+    "publisher": "Independently Published",
+    "author_id": "26904ab5-fe40-4360-8833-95dded87f122",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "The Songbird and the Heart of Stone",
+    "author": "Carissa Broadbent",
+    "publication_year": 2024,
+    "isbn13": "9781957779041",
+    "publisher": "Independently Published",
+    "author_id": "26904ab5-fe40-4360-8833-95dded87f122",
+    "publisher_id": "9987e79f-f22a-4ded-804e-c1ab3a3b8f66"
+  },
+  {
+    "title": "Daughter of the Moon Goddess",
+    "author": "Sue Lynn Tan",
+    "publication_year": 2022,
+    "isbn13": "9780063031315",
+    "publisher": "Harper Voyager",
+    "author_id": "d9fc514c-e4e5-4b59-ac0e-559320ae2da8",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "Heart of the Sun Warrior",
+    "author": "Sue Lynn Tan",
+    "publication_year": 2022,
+    "isbn13": "9780063031346",
+    "publisher": "Harper Voyager",
+    "author_id": "d9fc514c-e4e5-4b59-ac0e-559320ae2da8",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "The Stardust Thief",
+    "author": "Chelsea Abdullah",
+    "publication_year": 2022,
+    "isbn13": "9780316368865",
+    "publisher": "Orbit",
+    "author_id": "5922e7c9-971a-4a45-8701-c817fd3df4b8",
+    "publisher_id": "04771d06-dd9e-4677-80ad-efda827c58a8"
+  },
+  {
+    "title": "The Ashfire King",
+    "author": "Chelsea Abdullah",
+    "publication_year": 2024,
+    "isbn13": "9780316368896",
+    "publisher": "Orbit",
+    "author_id": "5922e7c9-971a-4a45-8701-c817fd3df4b8",
+    "publisher_id": "04771d06-dd9e-4677-80ad-efda827c58a8"
+  },
+  {
+    "title": "The Invisible Life of Addie LaRue",
+    "author": "V.E. Schwab",
+    "publication_year": 2020,
+    "isbn13": "9780765387561",
+    "publisher": "Tor Books",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Vicious",
+    "author": "V.E. Schwab",
+    "publication_year": 2013,
+    "isbn13": "9780765332030",
+    "publisher": "Tor Books",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Vengeful",
+    "author": "V.E. Schwab",
+    "publication_year": 2018,
+    "isbn13": "9780765379610",
+    "publisher": "Tor Books",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "A Gathering of Shadows",
+    "author": "V.E. Schwab",
+    "publication_year": 2016,
+    "isbn13": "9780765379535",
+    "publisher": "Tor Books",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "A Conjuring of Light",
+    "author": "V.E. Schwab",
+    "publication_year": 2017,
+    "isbn13": "9780765379559",
+    "publisher": "Tor Books",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "City of Ghosts",
+    "author": "V.E. Schwab",
+    "publication_year": 2018,
+    "isbn13": "9780765380203",
+    "publisher": "Scholastic Press",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "This Savage Song",
+    "author": "V.E. Schwab",
+    "publication_year": 2016,
+    "isbn13": "9780765376718",
+    "publisher": "Scholastic Press",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "Our Dark Duet",
+    "author": "V.E. Schwab",
+    "publication_year": 2017,
+    "isbn13": "9780765376732",
+    "publisher": "Scholastic Press",
+    "author_id": "af2dbca6-cea3-4a42-ac4c-78bcdf74c595",
+    "publisher_id": "7bd2bcf2-bd87-4ee4-b1a5-b1faf3d039dc"
+  },
+  {
+    "title": "The Atlas Six: Illustrated Edition",
+    "author": "Olivie Blake",
+    "publication_year": 2023,
+    "isbn13": "9781250854568",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Atlas Paradox: Illustrated Edition",
+    "author": "Olivie Blake",
+    "publication_year": 2023,
+    "isbn13": "9781250854605",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Hell Bent",
+    "author": "Leigh Bardugo",
+    "publication_year": 2023,
+    "isbn13": "9781250800855",
+    "publisher": "Imprint",
+    "author_id": "187141b5-07e2-4f89-87c2-686f4645d027",
+    "publisher_id": "31936204-2f96-4afc-a137-4a3cb81505f5"
+  },
+  {
+    "title": "Neon Gods",
+    "author": "Katee Robert",
+    "publication_year": 2022,
+    "isbn13": "9781635762038",
+    "publisher": "Atria/Emily Bestler Books",
+    "author_id": "010e96f5-2eec-4851-8825-69e23c607972",
+    "publisher_id": "493d2817-0bd2-48b2-ae0b-f773d56bc0e8"
+  },
+  {
+    "title": "Vicious Gods",
+    "author": "Katee Robert",
+    "publication_year": 2023,
+    "isbn13": "9781635762939",
+    "publisher": "Atria/Emily Bestler Books",
+    "author_id": "010e96f5-2eec-4851-8825-69e23c607972",
+    "publisher_id": "493d2817-0bd2-48b2-ae0b-f773d56bc0e8"
+  },
+  {
+    "title": "Devil’s Bargain",
+    "author": "Katee Robert",
+    "publication_year": 2021,
+    "isbn13": "9781635761222",
+    "publisher": "Atria/Emily Bestler Books",
+    "author_id": "010e96f5-2eec-4851-8825-69e23c607972",
+    "publisher_id": "493d2817-0bd2-48b2-ae0b-f773d56bc0e8"
+  },
+  {
+    "title": "Lightlark: Illustrated Edition",
+    "author": "Alex Aster",
+    "publication_year": 2024,
+    "isbn13": "9781419760884",
+    "publisher": "Amulet Books",
+    "author_id": "38607371-e5f5-4668-b52e-36c50b1387fc",
+    "publisher_id": "4999091f-c1b2-494b-abe2-7bd6068a7baa"
+  },
+  {
+    "title": "Brightly Burning",
+    "author": "Alex Aster",
+    "publication_year": 2025,
+    "isbn13": "9781419760891",
+    "publisher": "Amulet Books",
+    "author_id": "38607371-e5f5-4668-b52e-36c50b1387fc",
+    "publisher_id": "4999091f-c1b2-494b-abe2-7bd6068a7baa"
+  },
+  {
+    "title": "The Midnight Bargain",
+    "author": "C.L. Polk",
+    "publication_year": 2020,
+    "isbn13": "9780765396906",
+    "publisher": "Tor Books",
+    "author_id": "72dacd8f-913a-4dfe-8ba4-23c30cd2b86a",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Midnight Queen",
+    "author": "C.L. Polk",
+    "publication_year": 2022,
+    "isbn13": "9781250766165",
+    "publisher": "Tor Books",
+    "author_id": "72dacd8f-913a-4dfe-8ba4-23c30cd2b86a",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Midnight Crown",
+    "author": "C.L. Polk",
+    "publication_year": 2023,
+    "isbn13": "9781250766189",
+    "publisher": "Tor Books",
+    "author_id": "72dacd8f-913a-4dfe-8ba4-23c30cd2b86a",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Book Eaters",
+    "author": "Sunyi Dean",
+    "publication_year": 2022,
+    "isbn13": "9780593420997",
+    "publisher": "Del Rey",
+    "author_id": "648129a5-9a31-4403-a5c6-9ab3fbc4819d",
+    "publisher_id": "0b2ad991-2a40-4f3d-82da-ce606f035a2f"
+  },
+  {
+    "title": "A Day of Fallen Night",
+    "author": "Samantha Shannon",
+    "publication_year": 2023,
+    "isbn13": "9781635577921",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "9b13d083-76a9-4eb0-bc54-d50bbcfe77a1",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "The Priory of the Orange Tree: Illustrated Edition",
+    "author": "Samantha Shannon",
+    "publication_year": 2023,
+    "isbn13": "9781635577938",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "9b13d083-76a9-4eb0-bc54-d50bbcfe77a1",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Crescent City: House of Earth and Blood",
+    "author": "Sarah J. Maas",
+    "publication_year": 2020,
+    "isbn13": "9781635574098",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Crescent City: House of Sky and Breath",
+    "author": "Sarah J. Maas",
+    "publication_year": 2022,
+    "isbn13": "9781635574104",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "Heir of Fire: Collector’s Edition",
+    "author": "Sarah J. Maas",
+    "publication_year": 2023,
+    "isbn13": "9781635574111",
+    "publisher": "Bloomsbury Publishing",
+    "author_id": "a4df4e9c-75dc-49c9-919e-6389ea874930",
+    "publisher_id": "e3ecb4b1-7ba3-4822-b47a-3fad1af16f3f"
+  },
+  {
+    "title": "The Shadows Between Us",
+    "author": "Tricia Levenseller",
+    "publication_year": 2019,
+    "isbn13": "9781250142276",
+    "publisher": "Feiwel & Friends",
+    "author_id": "fe54be00-636a-41c6-9913-d4430d1bdd26",
+    "publisher_id": "fd9d3bfd-714e-4831-bf9f-097e9762eeea"
+  },
+  {
+    "title": "The Rose and the Dagger",
+    "author": "Renée Ahdieh",
+    "publication_year": 2016,
+    "isbn13": "9780553538212",
+    "publisher": "Putnam Juvenile",
+    "author_id": "89f491c5-1946-4daa-9d79-a705ebe8841c",
+    "publisher_id": "ed2756ad-2be8-4067-8ce6-3a92472fa451"
+  },
+  {
+    "title": "The Wrath and the Dawn",
+    "author": "Renée Ahdieh",
+    "publication_year": 2015,
+    "isbn13": "9780553535181",
+    "publisher": "Putnam Juvenile",
+    "author_id": "89f491c5-1946-4daa-9d79-a705ebe8841c",
+    "publisher_id": "ed2756ad-2be8-4067-8ce6-3a92472fa451"
+  },
+  {
+    "title": "Flame in the Mist",
+    "author": "Renée Ahdieh",
+    "publication_year": 2017,
+    "isbn13": "9780553538610",
+    "publisher": "Putnam Juvenile",
+    "author_id": "89f491c5-1946-4daa-9d79-a705ebe8841c",
+    "publisher_id": "ed2756ad-2be8-4067-8ce6-3a92472fa451"
+  },
+  {
+    "title": "Smoke in the Sun",
+    "author": "Renée Ahdieh",
+    "publication_year": 2018,
+    "isbn13": "9780525582680",
+    "publisher": "Putnam Juvenile",
+    "author_id": "89f491c5-1946-4daa-9d79-a705ebe8841c",
+    "publisher_id": "ed2756ad-2be8-4067-8ce6-3a92472fa451"
+  },
+  {
+    "title": "Serpent & Dove",
+    "author": "Shelby Mahurin",
+    "publication_year": 2019,
+    "isbn13": "9781534444959",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "678b82bb-371e-4f64-a2b0-b096f6fd6778",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Blood & Honey",
+    "author": "Shelby Mahurin",
+    "publication_year": 2020,
+    "isbn13": "9781534444980",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "678b82bb-371e-4f64-a2b0-b096f6fd6778",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Gods & Monsters",
+    "author": "Shelby Mahurin",
+    "publication_year": 2021,
+    "isbn13": "9781534445000",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "678b82bb-371e-4f64-a2b0-b096f6fd6778",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Wicked Saints",
+    "author": "Emily A. Duncan",
+    "publication_year": 2019,
+    "isbn13": "9781534446847",
+    "publisher": "Margaret K. McElderry Books",
+    "author_id": "179db473-b60f-496d-8866-ac0043307965",
+    "publisher_id": "b67bb5fb-3cb1-4fa6-956f-8200e85b3357"
+  },
+  {
+    "title": "Ruin of Kings",
+    "author": "Jenn Lyons",
+    "publication_year": 2019,
+    "isbn13": "9780062876458",
+    "publisher": "Harper Voyager",
+    "author_id": "a118cb08-257b-4d38-92bd-4576c9acefd9",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "Fury of Dragons",
+    "author": "Jenn Lyons",
+    "publication_year": 2020,
+    "isbn13": "9780062876489",
+    "publisher": "Harper Voyager",
+    "author_id": "a118cb08-257b-4d38-92bd-4576c9acefd9",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "The Ruin of Kings: Collector’s Edition",
+    "author": "Jenn Lyons",
+    "publication_year": 2023,
+    "isbn13": "9780062876496",
+    "publisher": "Harper Voyager",
+    "author_id": "a118cb08-257b-4d38-92bd-4576c9acefd9",
+    "publisher_id": "62331508-2749-43c5-b1c4-01f7f303f573"
+  },
+  {
+    "title": "The Atlas Six: Collector’s Edition",
+    "author": "Olivie Blake",
+    "publication_year": 2023,
+    "isbn13": "9781250854575",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "The Atlas Paradox: Collector’s Edition",
+    "author": "Olivie Blake",
+    "publication_year": 2023,
+    "isbn13": "9781250854612",
+    "publisher": "Tor Books",
+    "author_id": "7da5d3c9-7d33-4cd1-ba15-58d1f888bafa",
+    "publisher_id": "39cffc68-98ad-4d84-8685-d30f39112e33"
+  },
+  {
+    "title": "Fourth Wing Deluxe Edition",
+    "author": "Rebecca Yarros",
+    "publication_year": 2025,
+    "isbn13": "9781649376015",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Iron Flame Deluxe Edition",
+    "author": "Rebecca Yarros",
+    "publication_year": 2025,
+    "isbn13": "9781649376039",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Collector’s Edition",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2023,
+    "isbn13": "9780593321218",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Illustrated Edition",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2024,
+    "isbn13": "9780593321225",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Lessons: Collector’s Edition",
+    "author": "Ian McEwan",
+    "publication_year": 2023,
+    "isbn13": "9780593535219",
+    "publisher": "Knopf",
+    "author_id": "8c1d8787-8c81-4958-bdae-5895ae480734",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Lessons: Illustrated Edition",
+    "author": "Ian McEwan",
+    "publication_year": 2024,
+    "isbn13": "9780593535226",
+    "publisher": "Knopf",
+    "author_id": "8c1d8787-8c81-4958-bdae-5895ae480734",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Special Edition",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2025,
+    "isbn13": "9780593321232",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Sea of Tranquility: Collector’s Edition",
+    "author": "Emily St. John Mandel",
+    "publication_year": 2024,
+    "isbn13": "9780593321454",
+    "publisher": "Knopf",
+    "author_id": "049434ef-3bfd-42cd-b670-a267c263fce6",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Sea of Tranquility: Illustrated Edition",
+    "author": "Emily St. John Mandel",
+    "publication_year": 2025,
+    "isbn13": "9780593321461",
+    "publisher": "Knopf",
+    "author_id": "049434ef-3bfd-42cd-b670-a267c263fce6",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Deluxe Edition",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2025,
+    "isbn13": "9780593321249",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Fourth Wing Collector’s Box Set",
+    "author": "Rebecca Yarros",
+    "publication_year": 2025,
+    "isbn13": "9781649376057",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Iron Flame Collector’s Box Set",
+    "author": "Rebecca Yarros",
+    "publication_year": 2025,
+    "isbn13": "9781649376071",
+    "publisher": "Entangled: Red Tower Books",
+    "author_id": "52c876dd-c156-4adc-bc57-457dd8a01a05",
+    "publisher_id": "0a32b125-0ebf-4b50-8ede-5444767da747"
+  },
+  {
+    "title": "Tomorrow, and Tomorrow, and Tomorrow: Collector’s Box Set",
+    "author": "Gabrielle Zevin",
+    "publication_year": 2025,
+    "isbn13": "9780593321256",
+    "publisher": "Knopf",
+    "author_id": "10954eaf-7fc2-4bc0-a82c-b4dd4257df4a",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  },
+  {
+    "title": "Lessons: Collector’s Box Set",
+    "author": "Ian McEwan",
+    "publication_year": 2025,
+    "isbn13": "9780593535233",
+    "publisher": "Knopf",
+    "author_id": "8c1d8787-8c81-4958-bdae-5895ae480734",
+    "publisher_id": "6288b7ef-ec1e-4ab3-b189-8894502b4684"
+  }
+]

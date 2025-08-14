@@ -26,6 +26,7 @@
     "clean": "rm -rf dist",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
+    "db:seed-one": "tsx scripts/seed-one.ts",
     "db:seed-transactional": "tsx scripts/seed-transactional.ts",
     "db:setup": "bun db:migrate && bun db:seed"
   },
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "@types/pg": "^8.15.5",
+    "@repo/types": "workspace:*",
     "dotenv": "^17.2.1",
     "pg": "^8.16.3",
     "redis": "^5.7.0"

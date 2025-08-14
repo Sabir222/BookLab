@@ -3,7 +3,7 @@ import {
   type NewsletterSubscriber,
   type CreateNewsletterSubscriberData,
   type UpdateNewsletterSubscriberData,
-} from "../types/newsletter-types.js";
+} from "@repo/types/types";
 
 export const newsletterQueries = {
   async findByEmail(email: string): Promise<NewsletterSubscriber | null> {
@@ -81,3 +81,4 @@ export const newsletterQueries = {
     return parseInt(result.rows[0].count, 10);
   },
 };
+
