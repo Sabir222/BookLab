@@ -1,7 +1,6 @@
 import { type Book } from "@repo/types/types"
 import { BookCard } from "@/components/books/BookCard";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type Books = Book[];
 
@@ -22,7 +21,7 @@ async function fetchBooks() {
 }
 
 function BookCardSkeleton() {
-  return <BookCard id="" title="" author="" price={0} isLoading={true} />;
+  return <BookCard book={undefined as any} isLoading={true} />;
 }
 
 function BookGridSkeleton() {
@@ -43,15 +42,7 @@ async function BookList() {
       {books.map((book, index) => (
         <BookCard
           key={book.book_id || index}
-          id={book.book_id}
-          title={book.title}
-          author={"Messi"}
-          price={56}
-          rating={4}
-          reviewCount={888}
-          originalPrice={59}
-          category={"fiction"}
-          imageUrl={book.cover_image_large_url}
+          book={book}
         />
       ))}
     </div>
