@@ -81,3 +81,4 @@ export const newsletterQueries = {
     return parseInt(result.rows[0].count, 10);
   },
 };
+

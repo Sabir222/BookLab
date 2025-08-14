@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@types/pg": "^8.15.5",
+    "@repo/types": "workspace:*",
     "dotenv": "^17.2.1",
     "pg": "^8.16.3",
     "redis": "^5.7.0"

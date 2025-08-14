@@ -16,3 +16,4 @@ export type UpdateNewsletterSubscriberData = {
   is_subscribed?: boolean;
   unsubscribed_at?: Date | null;
 };
+
