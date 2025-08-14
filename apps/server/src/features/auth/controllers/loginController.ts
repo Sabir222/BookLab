@@ -1,4 +1,5 @@
-import { userQueries, type User } from "@repo/db/postgres";
+import { userQueries } from "@repo/db/postgres";
+import { type User } from "@repo/types/types";
 import { comparerPassword } from "../../../utils/hashPassword.js";
 import { type Request, type Response } from "express";
 import type { JWTPayload } from "../../../utils/generateToken.js";
