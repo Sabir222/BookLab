@@ -30,50 +30,48 @@ export type UpdateNewsletterSubscriberData = {
 };
 // books type
 export type Book = {
-  // Required fields
-  bookId: string;
+  book_id: string;
   title: string;
-  bookFormat: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
-  forRent: boolean;
-  priceSale: number;
-  stockQuantity: number;
-  reservedQuantity: number;
+  subtitle: string | null;
+  description: string | null;
+  isbn_13: string | null;
+  isbn_10: string | null;
+  publication_date: string | null;
+  published_year: number | null;
+  page_count: number | null;
+  language: string | null;
+  cover_image_url: string | null;
+  cover_image_small_url: string | null;
+  cover_image_medium_url: string | null;
+  cover_image_large_url: string | null;
+  edition: string | null;
+  book_format: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
+  book_condition: string | null;
+  dimensions: string | null;
+  weight_grams: number | null;
+  for_sale: boolean;
+  for_rent: boolean;
+  price_sale: string; // Note: string, not number
+  price_rent_daily: string | null;
+  price_rent_weekly: string | null;
+  price_rent_monthly: string | null;
+  stock_quantity: number;
+  reserved_quantity: number;
+  is_active: boolean;
+  average_rating: string | null; // Note: string, not number
+  total_ratings: number;
+  total_reviews: number;
+  publisher_id: string | null;
+  owner_id: string | null;
+  primary_category_id: string | null;
   slug: string;
-  // Optional fields
-  isActive?: boolean;
-  forSale?: boolean;
-  totalRatings?: number;
-  totalReviews?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  subtitle?: string | null;
-  description?: string | null;
-  isbn13?: string | null;
-  isbn10?: string | null;
-  publicationDate?: string | null;
-  publishedYear?: number | null;
-  pageCount?: number | null;
-  language?: string | null;
-  coverImageUrl?: string | null;
-  coverImageSmallUrl?: string | null;
-  coverImageMediumUrl?: string | null;
-  coverImageLargeUrl?: string | null;
-  edition?: string | null;
-  bookCondition?: string | null;
-  dimensions?: string | null;
-  weightGrams?: number | null;
-  priceRentDaily?: number | null;
-  priceRentWeekly?: number | null;
-  priceRentMonthly?: number | null;
-  averageRating?: number | null;
-  publisherId?: string | null;
-  ownerId?: string | null;
-  primaryCategoryId?: string | null;
-  searchKeywords?: string[] | null;
-  createdBy?: string | null;
-  lastModifiedBy?: string | null;
-  deletedAt?: string | null;
-  deletedBy?: string | null;
+  search_keywords: string[];
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  last_modified_by: string;
+  deleted_at: string | null;
+  deleted_by: string | null;
 };
 // User types
 export type User = {
