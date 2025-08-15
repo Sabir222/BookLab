@@ -1,4 +1,4 @@
-"use server";
+import fetchWithRefresh from "@/lib/fetchWithRefresh";
 
 export type LoginResponse = {
   message: string;
@@ -14,17 +14,20 @@ const login = async (_previousState: unknown, formData: FormData) => {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
+  console.log("this run here ");
   if (!username || !password) {
     throw new Error("Login Informations Required");
   }
-
   try {
-    const res = await fetch("http://localhost:4000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ username, password }),
-    });
+    const res = await fetchWithRefresh(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+      },
+    );
 
     if (!res.ok) {
       throw new Error("Failed to login!");
