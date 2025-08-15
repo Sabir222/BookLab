@@ -22,8 +22,6 @@ export const authenticate = async (
     const accessTokenName =
       process.env.ACCESS_TOKEN_COOKIE_NAME || "accessToken";
     let token = req.cookies[accessTokenName];
-
-    // If not in cookies, check Authorization header
     if (!token && req.headers.authorization) {
       const authHeader = req.headers.authorization;
       if (authHeader.startsWith("Bearer ")) {

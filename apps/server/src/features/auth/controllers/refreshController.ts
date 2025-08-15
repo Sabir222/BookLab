@@ -7,7 +7,10 @@ const refreshController = async (req: Request, res: Response) => {
     const refreshTokenName =
       process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
     const refreshToken = req.cookies[refreshTokenName];
-
+    console.log(req.cookies);
+    console.log(
+      `Yoo someone just used refresh controller mr white what the fuck refresh toekn = ${refreshToken}`,
+    );
     if (!refreshToken) {
       return res.status(400).json({
         success: false,
@@ -42,7 +45,6 @@ const refreshController = async (req: Request, res: Response) => {
     const jwtSecret = process.env.JWT_SECRET as string;
     const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET as string;
 
-    // Include user info in the token payload
     const tokenPayload = {
       id: user.user_id,
       email: user.email,
