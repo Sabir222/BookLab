@@ -13,7 +13,14 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
-      "env": ["PORT", "CORS_ORIGIN", "HOST", "SCHEME", "SESSION_SECRET"]
+      "env": [
+        "PORT",
+        "API_BASE_URL",
+        "CORS_ORIGIN",
+        "HOST",
+        "SCHEME",
+        "SESSION_SECRET"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
