@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -76,7 +76,7 @@ const authorBooks = [
 ];
 
 export default function AuthorDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  React.use(params); // Using params to satisfy TypeScript, but not using the id value in this mockup
+  // Using params to satisfy TypeScript, but not using the id value in this mockup
   const [isFollowing, setIsFollowing] = useState(authorData.isFollowing);
 
   const toggleFollow = () => {

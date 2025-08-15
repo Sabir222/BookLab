@@ -84,17 +84,7 @@ export default function BooksPage() {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [sortBy, setSortBy] = useState("relevance");
 
-  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
-
   const [filteredBooks, setFilteredBooks] = useState(mockBooks);
-
-  useEffect(() => {
-    const initialFavorites: Record<string, boolean> = {};
-    mockBooks.forEach(book => {
-      initialFavorites[book.id] = book.isFavorite;
-    });
-    setFavorites(initialFavorites);
-  }, []);
 
   useEffect(() => {
     let result = [...mockBooks];
@@ -158,14 +148,6 @@ export default function BooksPage() {
     setFilteredBooks(result);
   }, [searchQuery, priceRange, selectedCategories, selectedRatings, inStockOnly, onSaleOnly, sortBy]);
 
-  // Handle favorite toggle
-  const handleToggleFavorite = (id: string) => {
-    setFavorites(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
   // Clear all filters
   const clearFilters = () => {
     setSearchQuery("");
@@ -228,16 +210,50 @@ export default function BooksPage() {
               {filteredBooks.map((book) => (
                 <BookCard
                   key={book.id}
-                  id={book.id}
-                  title={book.title}
-                  author={book.author}
-                  price={book.price}
-                  originalPrice={book.originalPrice}
-                  rating={book.rating}
-                  reviewCount={book.reviewCount}
-                  category={book.category}
-                  isFavorite={favorites[book.id] || false}
-                  onToggleFavorite={handleToggleFavorite}
+                  book={{
+                    book_id: book.id,
+                    title: book.title,
+                    subtitle: null,
+                    description: "",
+                    isbn_13: "",
+                    isbn_10: "",
+                    publication_date: "",
+                    published_year: null,
+                    page_count: null,
+                    language: "",
+                    cover_image_url: "",
+                    cover_image_small_url: "",
+                    cover_image_medium_url: "",
+                    cover_image_large_url: "",
+                    edition: null,
+                    book_format: "paperback",
+                    book_condition: null,
+                    dimensions: "",
+                    weight_grams: null,
+                    for_sale: true,
+                    for_rent: false,
+                    price_sale: book.price.toString(),
+                    price_rent_daily: null,
+                    price_rent_weekly: null,
+                    price_rent_monthly: null,
+                    stock_quantity: 10,
+                    reserved_quantity: 0,
+                    is_active: true,
+                    average_rating: book.rating?.toString() || "0",
+                    total_ratings: book.reviewCount || 0,
+                    total_reviews: 0,
+                    publisher_id: null,
+                    owner_id: null,
+                    primary_category_id: null,
+                    slug: "",
+                    search_keywords: [],
+                    created_at: "",
+                    updated_at: "",
+                    created_by: "",
+                    last_modified_by: "",
+                    deleted_at: null,
+                    deleted_by: null,
+                  }}
                 />
               ))}
             </div>

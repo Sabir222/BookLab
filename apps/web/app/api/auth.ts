@@ -36,10 +36,10 @@ const login = async (_previousState: unknown, formData: FormData) => {
     const data: LoginResponse = await res.json();
 
     return data;
-  } catch (error: any) {
-    console.error(error.message);
+  } catch (error: unknown) {
+    console.error((error as Error).message);
     return {
-      message: error.message,
+      message: (error as Error).message,
       user: null,
       accessToken: "",
     } as LoginResponse;

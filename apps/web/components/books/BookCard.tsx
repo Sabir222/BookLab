@@ -11,7 +11,7 @@ import { useState } from "react";
 import { type Book } from "@repo/types/types";
 
 interface BookCardProps {
-        book: Book;
+        book?: Book;
         isLoading?: boolean;
 }
 
@@ -22,7 +22,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                 setFavorite((prev) => !prev);
         };
 
-        const rating = !isLoading && book.average_rating
+        const rating = !isLoading && book?.average_rating
                 ? parseFloat(book.average_rating)
                 : 0;
 
@@ -33,7 +33,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                 <div className="relative flex-shrink-0">
                                         {isLoading ? (
                                                 <Skeleton className="w-full h-[220px] rounded-xl bg-gray-300" />
-                                        ) : book.cover_image_large_url ? (
+                                        ) : book?.cover_image_large_url ? (
                                                 <Link href={`/book/${book.book_id}`}>
                                                         <div className="relative w-full h-[220px]">
                                                                 <Image
@@ -69,7 +69,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                         </div>
                                                         <Skeleton className="h-4 w-12 mt-1 bg-gray-300" />
                                                 </>
-                                        ) : (
+                                        ) : book ? (
                                                 <>
                                                         <h3 className="line-clamp-2 text-sm font-semibold leading-tight">
                                                                 <Link href={`/book/${book.book_id}`} className="hover:text-primary">
@@ -94,7 +94,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                                 ${parseFloat(book.price_sale).toFixed(2)}
                                                         </span>
                                                 </>
-                                        )}
+                                        ) : null}
                                 </div>
 
                                 <div className="mt-2 flex gap-2 flex-shrink-0">
@@ -103,7 +103,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                         <Skeleton className="flex-1 h-8 bg-gray-300" /> {/* Add to cart */}
                                                         <Skeleton className="h-8 w-8 rounded-full bg-gray-300" /> {/* Wishlist */}
                                                 </>
-                                        ) : (
+                                        ) : book ? (
                                                 <>
                                                         <Button className="flex-1 h-8 text-xs" size="sm">
                                                                 Add to Cart
@@ -114,7 +114,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                                 className="h-8 w-8"
                                                         />
                                                 </>
-                                        )}
+                                        ) : null}
                                 </div>
 
                         </CardContent>
