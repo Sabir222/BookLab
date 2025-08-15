@@ -15,14 +15,14 @@ async function fetchBooks() {
                 const data = await response.json();
                 books = data.data.books.slice(0, 20);
                 console.log("book cover", books[0]?.cover_image_large_url);
-        } catch (e) {
+        } catch (e: unknown) {
                 console.error(e);
         }
         return books;
 }
 
 function BookCardSkeleton() {
-        return <BookCard book={undefined as any} isLoading={true} />;
+        return <BookCard isLoading={true} />;
 }
 
 function BookGridSkeleton() {
