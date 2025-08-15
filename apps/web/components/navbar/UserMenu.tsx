@@ -22,7 +22,7 @@ export function UserMenu() {
                                 <span className="sr-only">Account</span>
                         </Button>
                         <Button className="hidden lg:flex bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm cursor-pointer">
-                                Sign In
+                                Login
                         </Button>
                 </div>
         );

@@ -64,7 +64,7 @@ export function LoginForm() {
                                         </div>
                                         <CardTitle className="text-2xl font-serif font-bold text-primary">Welcome Back</CardTitle>
                                         <CardDescription className="text-muted-foreground">
-                                                Sign in to continue your literary journey
+                                                Login to continue your literary journey
                                         </CardDescription>
                                 </CardHeader>
 
@@ -122,7 +122,7 @@ export function LoginForm() {
                                                 </div>
 
                                                 <Button disabled={isPending} className="w-full py-5 bg-secondary hover:bg-secondary/90 text-accent font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
-                                                        Sign In to Library
+                                                        Login to Library
                                                 </Button>
                                         </form>
                                 </CardContent>
@@ -143,7 +143,7 @@ export function LoginForm() {
                                 <CardFooter className="p-6 pt-4">
                                         <Button variant="outline" className="w-full py-5 border-border hover:bg-muted/50 rounded-lg">
                                                 <Github className="mr-2 h-5 w-5" />
-                                                Sign in with GitHub
+                                                Login with GitHub
                                         </Button>
                                 </CardFooter>
 

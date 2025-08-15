@@ -33,11 +33,11 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                 <div className="relative flex-shrink-0">
                                         {isLoading ? (
                                                 <Skeleton className="w-full h-[220px] rounded-xl bg-gray-300" />
-                                        ) : book?.cover_image_large_url ? (
+                                        ) : book?.cover_image_medium_url ? (
                                                 <Link href={`/book/${book.book_id}`}>
                                                         <div className="relative w-full h-[220px]">
                                                                 <Image
-                                                                        src={book.cover_image_large_url}
+                                                                        src={book.cover_image_medium_url}
                                                                         alt={book.title}
                                                                         fill
                                                                         className="object-cover rounded-xl"

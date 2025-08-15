@@ -18,11 +18,12 @@ export const metadata: Metadata = {
         description: "A bookstore for buying and renting books",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
         children,
 }: Readonly<{
         children: React.ReactNode;
 }>) {
+
         return (
                 <html lang="en" suppressHydrationWarning>
                         <body

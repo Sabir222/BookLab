@@ -265,7 +265,7 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
 
         <div className="mt-4 flex flex-col gap-2">
           <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm w-full">
-            Sign In
+            Login
           </Button>
         </div>
       </div>

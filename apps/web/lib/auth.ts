@@ -1,16 +1,17 @@
 import { cookies } from "next/headers";
+import fetchWithRefresh from "./fetchWithRefresh";
 
 export async function getServerAuth() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("booklab_access_token")?.value;
-    console.log(accessToken);
 
     if (!accessToken) {
+      console.log("No access token found!");
       return null;
     }
 
-    const res = await fetch(
+    const res = await fetchWithRefresh(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/me`,
       {
         headers: {

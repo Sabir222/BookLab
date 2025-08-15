@@ -1,6 +1,9 @@
 import { type Request, type Response } from "express";
 
 const meController = async (req: Request, res: Response) => {
+  console.log(
+    "Yoooo mr white someone just use me controller yoo what the heck",
+  );
   try {
     const user = req.user!;
     return res.status(200).json({
