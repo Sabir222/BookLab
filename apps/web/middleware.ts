@@ -1,14 +1,46 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+function isTokenExpiringSoon(
+  token: string,
+  bufferMinutes: number = 5,
+): boolean {
+  try {
+    const tokenParts = token.split(".");
+    if (tokenParts.length !== 3 || !tokenParts[1]) {
+      return true;
+    }
+
+    const payload = JSON.parse(
+      Buffer.from(tokenParts[1]!, "base64").toString("utf-8"),
+    );
+
+    if (!payload.exp) return true;
+
+    const expirationTime = payload.exp * 1000;
+    const bufferTime = bufferMinutes * 60 * 1000;
+    const currentTime = Date.now();
+
+    return expirationTime - currentTime <= bufferTime;
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return true;
+  }
+}
+
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("booklab_access_token")?.value;
   const refreshToken = request.cookies.get("booklab_refresh_token")?.value;
 
-  // If no access token but we have a refresh token, try to refresh
-  if (!accessToken && refreshToken) {
+  if (!refreshToken) {
+    return NextResponse.next();
+  }
+
+  const shouldRefresh = !accessToken || isTokenExpiringSoon(accessToken);
+
+  if (shouldRefresh) {
     console.log(
-      "🔄 No access token found in middleware, attempting refresh...",
+      "🔄 Access token missing or expiring soon, attempting refresh...",
     );
 
     try {
@@ -24,19 +56,11 @@ export async function middleware(request: NextRequest) {
       );
 
       if (refreshRes.ok) {
-        console.log("✅ Token refreshed successfully in middleware");
-
-        // Create response that continues to the requested page
         const response = NextResponse.next();
-
-        // Get the Set-Cookie header from refresh response
         const setCookieHeader = refreshRes.headers.get("set-cookie");
+
         if (setCookieHeader) {
-          console.log("🍪 Setting new cookies from middleware");
-
-          // Parse cookies and set them in the response
           const cookieStrings = setCookieHeader.split(/,(?=\s*\w+\s*=)/);
-
           cookieStrings.forEach((cookieString) => {
             const trimmed = cookieString.trim();
             if (
@@ -47,21 +71,18 @@ export async function middleware(request: NextRequest) {
             }
           });
         }
-
         return response;
       } else {
         console.log(
           "❌ Token refresh failed in middleware, redirecting to login",
         );
-        // Clear invalid refresh token and redirect to login
         const response = NextResponse.redirect(new URL("/login", request.url));
         response.cookies.delete("booklab_refresh_token");
         response.cookies.delete("booklab_access_token");
         return response;
       }
     } catch (error) {
-      console.error("❌ Error in middleware refresh:", error);
-      // On error, continue but log it
+      console.error("Error in middleware refresh:", error);
       return NextResponse.next();
     }
   }
