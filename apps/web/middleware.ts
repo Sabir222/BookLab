@@ -32,14 +32,14 @@ function isTokenExpiringSoon(
       console.log(
         `Token expiring soon — expires in ${Math.round(
           timeLeft / 1000,
-        )}s (buffer: ${bufferMinutes}m)`,
+        )}s (buffer: ${bufferMinutes}m) ✓`,
       );
       return true;
     } else {
       console.log(
         `Token still valid — expires in ${Math.round(
           timeLeft / 1000,
-        )}s (buffer: ${bufferMinutes}m)`,
+        )}s (buffer: ${bufferMinutes}m) ✓`,
       );
       return false;
     }
@@ -65,10 +65,10 @@ async function performTokenRefresh(
     );
 
     if (refreshRes.ok) {
-      console.log("Token refreshed successfully in middleware");
+      console.log("Token refreshed successfully in middleware ✓");
       return refreshRes;
     } else {
-      console.log("Token refresh failed in middleware");
+      console.log("Token refresh failed in middleware ✗");
       return null;
     }
   } catch (error) {
@@ -83,7 +83,7 @@ async function refreshTokenWithLock(
   const lockKey = `refresh_${refreshToken}`;
 
   if (refreshLocks.has(lockKey)) {
-    console.log("Refresh already in progress, waiting...");
+    console.log("Refresh already in progress, waiting... ✓");
     await refreshLocks.get(lockKey);
     return null; // Return null to indicate we waited for another refresh
   }
@@ -114,7 +114,7 @@ export async function middleware(request: NextRequest) {
 
   if (shouldRefresh) {
     console.log(
-      " Access token missing or expiring soon, attempting refresh...",
+      " Access token missing or expiring soon, attempting refresh... ✓",
     );
 
     const refreshRes = await refreshTokenWithLock(refreshToken);
@@ -124,7 +124,7 @@ export async function middleware(request: NextRequest) {
       const setCookieHeader = refreshRes.headers.get("set-cookie");
 
       if (setCookieHeader) {
-        console.log(" Setting new cookies from middleware");
+        console.log(" Setting new cookies from middleware ✓");
         const cookieStrings = setCookieHeader.split(/,(?=\s*\w+\s*=)/);
         cookieStrings.forEach((cookieString) => {
           const trimmed = cookieString.trim();
@@ -138,10 +138,10 @@ export async function middleware(request: NextRequest) {
       }
       return response;
     } else if (refreshRes === null && refreshLocks.size > 0) {
-      console.log(" Refresh completed by another request, continuing...");
+      console.log(" Refresh completed by another request, continuing... ✓");
       return NextResponse.next();
     } else {
-      console.log(" Token refresh failed, redirecting to login");
+      console.log(" Token refresh failed, redirecting to login ✗");
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("booklab_refresh_token");
       response.cookies.delete("booklab_access_token");

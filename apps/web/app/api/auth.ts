@@ -14,7 +14,7 @@ const login = async (_previousState: unknown, formData: FormData) => {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
 
-  console.log("this run here ");
+  console.log("this run here ✓");
   if (!username || !password) {
     throw new Error("Login Informations Required");
   }
