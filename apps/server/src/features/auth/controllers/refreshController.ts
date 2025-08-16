@@ -7,10 +7,6 @@ const refreshController = async (req: Request, res: Response) => {
     const refreshTokenName =
       process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
     const refreshToken = req.cookies[refreshTokenName];
-    console.log(req.cookies);
-    console.log(
-      `Yoo someone just used refresh controller mr white what the fuck refresh toekn = ${refreshToken}`,
-    );
     if (!refreshToken) {
       return res.status(400).json({
         success: false,
