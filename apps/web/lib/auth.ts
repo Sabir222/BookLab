@@ -4,7 +4,7 @@ import { ProfileUser } from "@/types";
 
 export interface AuthApiResponse {
   success: boolean;
-  user?: ProfileUser;
+  data?: { user: ProfileUser };
 }
 export async function getServerAuth(): Promise<ProfileUser | null> {
   try {
@@ -31,9 +31,10 @@ export async function getServerAuth(): Promise<ProfileUser | null> {
     }
 
     const data: AuthApiResponse = await res.json();
+    const { success, data: AuthData } = data;
 
-    if (data.success && data.user) {
-      return data.user;
+    if (success && AuthData) {
+      return AuthData.user;
     }
 
     return null;
