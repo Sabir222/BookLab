@@ -1,6 +1,5 @@
 "use client";
 import { Menu } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
 import { UserActions } from "./UserActions";
@@ -12,7 +11,7 @@ import { useNavbarStore } from "./navbarStore";
 import { useState, useEffect } from "react";
 
 export const Navbar = () => {
-        const { user, isMenuOpen, openMenu, closeMenu } = useNavbarStore();
+        const { isMenuOpen, openMenu, closeMenu } = useNavbarStore();
         const [isScrolled, setIsScrolled] = useState(false);
 
 

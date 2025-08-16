@@ -3,6 +3,7 @@ import { BookCard } from "@/components/books/BookCard";
 import { Suspense } from "react";
 import { getServerAuth } from "@/lib/auth";
 import fetchWithRefresh from "@/lib/fetchWithRefresh";
+import { UserGreeting } from "../greetingTest";
 
 type Books = Book[];
 
@@ -39,17 +40,10 @@ async function BookList() {
         const authResponse = await getServerAuth();
         const books = await fetchBooks();
 
-        const user = authResponse;
         return (
                 <div>
                         <div className="mb-6">
-                                {user ? (
-                                        <p className="text-lg font-medium">
-                                                Hello, {user.username}!
-                                        </p>
-                                ) : (
-                                        <p className="text-lg">Welcome, Guest!</p>
-                                )}
+                                <UserGreeting />
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">

@@ -8,16 +8,23 @@ export type LoginResponse = {
     email: string;
   } | null;
   accessToken: string;
+  error?: string; // Add this optional error property
 };
 
 const login = async (_previousState: unknown, formData: FormData) => {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
-
   console.log("this run here ✓");
+
   if (!username || !password) {
-    throw new Error("Login Informations Required");
+    return {
+      message: "",
+      user: null,
+      accessToken: "",
+      error: "Login Information Required", // Return error instead of throwing
+    } as LoginResponse;
   }
+
   try {
     const res = await fetchWithRefresh(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
@@ -30,18 +37,22 @@ const login = async (_previousState: unknown, formData: FormData) => {
     );
 
     if (!res.ok) {
-      throw new Error("Failed to login!");
+      return {
+        message: "",
+        user: null,
+        accessToken: "",
+        error: `Failed to login: ${res.status}`,
+      } as LoginResponse;
     }
 
     const data: LoginResponse = await res.json();
-
     return data;
   } catch (error: unknown) {
-    console.error((error as Error).message);
     return {
-      message: (error as Error).message,
+      message: "",
       user: null,
       accessToken: "",
+      error: (error as Error).message,
     } as LoginResponse;
   }
 };

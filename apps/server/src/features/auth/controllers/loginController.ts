@@ -22,17 +22,6 @@ type LoginRequestBody = {
   password: string;
 };
 
-/**
- * Authenticates a user by checking the provided username and password.
- * Throws an error if the user is not found or if the password is incorrect.
- *
- * @param {string} username - The username of the user.
- * @param {string} password - The password of the user.
- * @returns {Promise<{ id: string; username: string; email: string }>} - Returns user data if authentication is successful.
- *
- * @throws {LoginError} - If user not found or password is incorrect.
- */
-
 const authenticateUser = async (username: string, password: string) => {
   //TODO: make this to work if user want to login with email too
   const user: User | null = await userQueries.findByUsername(username);
