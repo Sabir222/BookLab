@@ -7,25 +7,24 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { loginSchema } from "@/lib/schemas/auth"
 import { BookOpenText, Library, Lock, Mail, Github } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useActionState, useState, useEffect } from "react"
 import { toast } from "sonner"
 
 export function LoginForm() {
         const [data, action, isPending] = useActionState(login, undefined)
         const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
-        const router = useRouter()
-
-        // Handle successful login response
         useEffect(() => {
                 if (data?.message && data?.user) {
                         toast.success("Login successful")
-                        router.back()
+                        window.history.back()
+                        setTimeout(() => {
+                                window.location.reload()
+                        }, 100)
                 }
                 if (data?.error) {
                         toast.error(data.error)
                 }
-        }, [data, router])
+        }, [data])
 
         const handleSubmit = async (formData: FormData) => {
                 const values = {

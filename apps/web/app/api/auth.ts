@@ -8,7 +8,7 @@ export type LoginResponse = {
     email: string;
   } | null;
   accessToken: string;
-  error?: string; // Add this optional error property
+  error?: string;
 };
 
 const login = async (_previousState: unknown, formData: FormData) => {
@@ -21,7 +21,7 @@ const login = async (_previousState: unknown, formData: FormData) => {
       message: "",
       user: null,
       accessToken: "",
-      error: "Login Information Required", // Return error instead of throwing
+      error: "Login Information Required",
     } as LoginResponse;
   }
 
@@ -46,6 +46,7 @@ const login = async (_previousState: unknown, formData: FormData) => {
     }
 
     const data: LoginResponse = await res.json();
+    console.log(data.user);
     return data;
   } catch (error: unknown) {
     return {
