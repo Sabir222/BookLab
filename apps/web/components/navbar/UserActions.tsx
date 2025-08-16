@@ -44,6 +44,9 @@ export function UserActions() {
                                                 <User className="h-5 w-5" />
                                                 <span className="sr-only">Account</span>
                                         </Button>
+                                        <Button onClick={() => router.push("/signup")} className="hidden lg:flex bg-primary text-primary-foreground hover:bg-primary/90 font-medium text-sm cursor-pointer">
+                                                Sign Up
+                                        </Button>
                                         <Button onClick={() => router.push("/login")} className="hidden lg:flex bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm cursor-pointer">
                                                 Login
                                         </Button>

@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Bookmark, User, ChevronDown, ChevronRight, LogOut } from "lucide-react";
@@ -137,10 +138,18 @@ interface MobileMenuProps {
 export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
         const { closeMenu, user } = useNavbarStore();
         const [openCategory, setOpenCategory] = useState<string | null>(null);
+        const router = useRouter();
+        const path = usePathname();
 
         const handleClose = () => {
                 onClose();
                 closeMenu();
+        };
+
+        const handleLogout = async () => {
+                useNavbarStore.getState().logout();
+                router.push(path);
+                handleClose();
         };
 
         const toggleCategory = (title: string) => {
@@ -267,7 +276,7 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
                                                                 </Avatar>
                                                                 <span className="ml-2 text-sm">{user.username}</span>
                                                         </div>
-                                                        <Button variant="ghost" size="icon" className="hover:cursor-pointer">
+                                                        <Button variant="ghost" size="icon" className="hover:cursor-pointer" onClick={handleLogout}>
                                                                 <LogOut className="h-5 w-5" />
                                                         </Button>
                                                 </div>
@@ -289,12 +298,26 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
                                                         View Profile
                                                 </Button>
                                         ) : (
-                                                <Button 
-                                                        className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm w-full"
-                                                        onClick={handleClose}
-                                                >
-                                                        Login
-                                                </Button>
+                                                <div className="flex gap-2 w-full">
+                                                        <Button 
+                                                                className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium text-sm flex-1"
+                                                                onClick={() => {
+                                                                        handleClose();
+                                                                        router.push("/signup");
+                                                                }}
+                                                        >
+                                                                Sign Up
+                                                        </Button>
+                                                        <Button 
+                                                                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm flex-1"
+                                                                onClick={() => {
+                                                                        handleClose();
+                                                                        router.push("/login");
+                                                                }}
+                                                        >
+                                                                Login
+                                                        </Button>
+                                                </div>
                                         )}
                                 </div>
                         </div>
