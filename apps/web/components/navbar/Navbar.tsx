@@ -3,7 +3,7 @@ import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
-import { UserMenu } from "./UserMenu";
+import { UserActions } from "./UserActions";
 import { MobileMenu } from "./MobileMenu";
 import { BrandLogo } from "./BrandLogo";
 import { NavLinks } from "./NavLinks";
@@ -45,7 +45,7 @@ export const Navbar = () => {
 
                                         <div className="flex items-center gap-2">
                                                 <SearchBar />
-                                                <UserMenu />
+                                                <UserActions />
                                                 <Button
                                                         variant="ghost"
                                                         size="icon"

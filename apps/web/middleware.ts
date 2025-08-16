@@ -1,21 +1,22 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtDecode } from "jwt-decode";
 
 const refreshLocks = new Map<string, Promise<boolean>>();
-
-interface JWTPayload {
-  exp?: number;
-  iat?: number;
-  [key: string]: any;
-}
 
 function isTokenExpiringSoon(
   token: string,
   bufferMinutes: number = 5,
 ): boolean {
   try {
-    const payload = jwtDecode<JWTPayload>(token);
+    const tokenParts = token.split(".");
+    if (tokenParts.length !== 3 || !tokenParts[1]) {
+      console.warn("Token format invalid — treating as expiring soon");
+      return true;
+    }
+
+    const payload = JSON.parse(
+      Buffer.from(tokenParts[1]!, "base64").toString("utf-8"),
+    );
 
     if (!payload.exp) {
       console.warn("Token has no 'exp' field — treating as expiring soon");
@@ -29,7 +30,7 @@ function isTokenExpiringSoon(
 
     if (timeLeft <= bufferTime) {
       console.log(
-        ` Token expiring soon — expires in ${Math.round(
+        `Token expiring soon — expires in ${Math.round(
           timeLeft / 1000,
         )}s (buffer: ${bufferMinutes}m)`,
       );
@@ -112,7 +113,9 @@ export async function middleware(request: NextRequest) {
   const shouldRefresh = !accessToken || isTokenExpiringSoon(accessToken);
 
   if (shouldRefresh) {
-    console.log("Access token missing or expiring soon, attempting refresh...");
+    console.log(
+      " Access token missing or expiring soon, attempting refresh...",
+    );
 
     const refreshRes = await refreshTokenWithLock(refreshToken);
 
@@ -121,7 +124,7 @@ export async function middleware(request: NextRequest) {
       const setCookieHeader = refreshRes.headers.get("set-cookie");
 
       if (setCookieHeader) {
-        console.log("Setting new cookies from middleware");
+        console.log(" Setting new cookies from middleware");
         const cookieStrings = setCookieHeader.split(/,(?=\s*\w+\s*=)/);
         cookieStrings.forEach((cookieString) => {
           const trimmed = cookieString.trim();
@@ -135,11 +138,10 @@ export async function middleware(request: NextRequest) {
       }
       return response;
     } else if (refreshRes === null && refreshLocks.size > 0) {
-      console.log("🔓 Refresh completed by another request, continuing...");
+      console.log(" Refresh completed by another request, continuing...");
       return NextResponse.next();
     } else {
-      // Refresh failed, redirect to login
-      console.log("❌ Token refresh failed, redirecting to login");
+      console.log(" Token refresh failed, redirecting to login");
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("booklab_refresh_token");
       response.cookies.delete("booklab_access_token");

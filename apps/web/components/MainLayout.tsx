@@ -5,7 +5,6 @@ import { getServerAuth } from "@/lib/auth";
 import { AuthHydrator } from "./AuthHydrator";
 
 export async function MainLayout({ children }: { children: React.ReactNode }) {
-
         const user = await getServerAuth()
         return (
                 <>

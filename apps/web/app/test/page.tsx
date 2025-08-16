@@ -2,13 +2,14 @@ import { type Book } from "@repo/types/types"
 import { BookCard } from "@/components/books/BookCard";
 import { Suspense } from "react";
 import { getServerAuth } from "@/lib/auth";
+import fetchWithRefresh from "@/lib/fetchWithRefresh";
 
 type Books = Book[];
 
 async function fetchBooks() {
         let books: Books = [];
         try {
-                const response = await fetch("http://localhost:4000/api/books");
+                const response = await fetchWithRefresh("http://localhost:4000/api/books");
                 if (!response.ok) {
                         throw new Error(`HTTP error ${response.status}`);
                 }
@@ -38,14 +39,13 @@ async function BookList() {
         const authResponse = await getServerAuth();
         const books = await fetchBooks();
 
-        const user = authResponse?.data?.user;
-
+        const user = authResponse;
         return (
                 <div>
                         <div className="mb-6">
                                 {user ? (
                                         <p className="text-lg font-medium">
-                                                Hello, {user.username || user.email}!
+                                                Hello, {user.username}!
                                         </p>
                                 ) : (
                                         <p className="text-lg">Welcome, Guest!</p>

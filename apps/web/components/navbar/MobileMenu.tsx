@@ -2,9 +2,10 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { Bookmark, User, ChevronDown, ChevronRight } from "lucide-react";
+import { Bookmark, User, ChevronDown, ChevronRight, LogOut } from "lucide-react";
 import { useNavbarStore } from "./navbarStore";
 import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navigationItems = [
         { title: "Book Categories" },
@@ -134,7 +135,7 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
-        const { closeMenu } = useNavbarStore();
+        const { closeMenu, user } = useNavbarStore();
         const [openCategory, setOpenCategory] = useState<string | null>(null);
 
         const handleClose = () => {
@@ -257,16 +258,44 @@ export function MobileMenu({ navItems, onClose }: MobileMenuProps) {
                                                 <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-secondary text-[0.6rem] text-secondary-foreground flex items-center justify-center">5</span>
                                         </Button>
 
-                                        <Button variant="ghost" size="icon" className="relative flex-1 hover:cursor-pointer">
-                                                <User className="h-5 w-5" />
-                                                <span className="ml-2">Account</span>
-                                        </Button>
+                                        {user ? (
+                                                <div className="flex items-center justify-between flex-1">
+                                                        <div className="flex items-center">
+                                                                <Avatar className="h-6 w-6">
+                                                                        <AvatarImage src={user.profile_image_url || ""} alt={user.username} />
+                                                                        <AvatarFallback>{user.username?.charAt(0)}</AvatarFallback>
+                                                                </Avatar>
+                                                                <span className="ml-2 text-sm">{user.username}</span>
+                                                        </div>
+                                                        <Button variant="ghost" size="icon" className="hover:cursor-pointer">
+                                                                <LogOut className="h-5 w-5" />
+                                                        </Button>
+                                                </div>
+                                        ) : (
+                                                <Button variant="ghost" size="icon" className="relative flex-1 hover:cursor-pointer">
+                                                        <User className="h-5 w-5" />
+                                                        <span className="ml-2">Account</span>
+                                                </Button>
+                                        )}
                                 </div>
 
                                 <div className="mt-4 flex flex-col gap-2">
-                                        <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm w-full">
-                                                Login
-                                        </Button>
+                                        {user ? (
+                                                <Button 
+                                                        variant="outline" 
+                                                        className="font-medium text-sm w-full"
+                                                        onClick={handleClose}
+                                                >
+                                                        View Profile
+                                                </Button>
+                                        ) : (
+                                                <Button 
+                                                        className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium text-sm w-full"
+                                                        onClick={handleClose}
+                                                >
+                                                        Login
+                                                </Button>
+                                        )}
                                 </div>
                         </div>
                 </div>

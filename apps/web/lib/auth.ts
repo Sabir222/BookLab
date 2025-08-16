@@ -10,7 +10,6 @@ export async function getServerAuth(): Promise<ProfileUser | null> {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("booklab_access_token")?.value;
-
     if (!accessToken) {
       console.log("No access token found!");
       return null;
