@@ -12,8 +12,9 @@ import { useNavbarStore } from "./navbarStore";
 import { useState, useEffect } from "react";
 
 export const Navbar = () => {
-        const { isMenuOpen, openMenu, closeMenu } = useNavbarStore();
+        const { user, isMenuOpen, openMenu, closeMenu } = useNavbarStore();
         const [isScrolled, setIsScrolled] = useState(false);
+
 
         const navItems = [
                 { name: "Books", href: "/books" },
@@ -67,4 +68,4 @@ export const Navbar = () => {
                         )}
                 </header>
         );
-};;;;;;;
+};

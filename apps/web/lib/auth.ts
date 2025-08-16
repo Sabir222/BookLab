@@ -1,7 +1,12 @@
 import { cookies } from "next/headers";
 import fetchWithRefresh from "./fetchWithRefresh";
+import { ProfileUser } from "@/types";
 
-export async function getServerAuth() {
+export interface AuthApiResponse {
+  success: boolean;
+  user?: ProfileUser;
+}
+export async function getServerAuth(): Promise<ProfileUser | null> {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("booklab_access_token")?.value;
@@ -26,10 +31,10 @@ export async function getServerAuth() {
       return null;
     }
 
-    const data = await res.json();
+    const data: AuthApiResponse = await res.json();
 
-    if (data.success) {
-      return data;
+    if (data.success && data.user) {
+      return data.user;
     }
 
     return null;

@@ -18,7 +18,15 @@ export interface Book {
   publisher?: string;
 }
 
-export type ProfileUser = Omit<
+export type ProfileUser = Pick<
   User,
-  "password_hash" | "created_at" | "updated_at"
+  | "user_id"
+  | "username"
+  | "email"
+  | "profile_image_url"
+  | "credits"
+  | "loyalty_points"
+  | "is_verified"
+  | "role"
+  | "last_login"
 >;
