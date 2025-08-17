@@ -59,7 +59,6 @@ const getBookById = async (req: Request, res: Response): Promise<Response> => {
 const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
   const { limit } = req.query;
   const bookLimit = limit ? parseInt(limit as string, 10) : 50;
-  console.log("Yoo someone just used ou books controller yoooo");
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
     return handleError(
       res,

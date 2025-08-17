@@ -1,9 +1,8 @@
 "use client";
 import { Menu } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { SearchBar } from "./SearchBar";
-import { UserMenu } from "./UserMenu";
+import { UserActions } from "./UserActions";
 import { MobileMenu } from "./MobileMenu";
 import { BrandLogo } from "./BrandLogo";
 import { NavLinks } from "./NavLinks";
@@ -14,6 +13,7 @@ import { useState, useEffect } from "react";
 export const Navbar = () => {
         const { isMenuOpen, openMenu, closeMenu } = useNavbarStore();
         const [isScrolled, setIsScrolled] = useState(false);
+
 
         const navItems = [
                 { name: "Books", href: "/books" },
@@ -44,7 +44,7 @@ export const Navbar = () => {
 
                                         <div className="flex items-center gap-2">
                                                 <SearchBar />
-                                                <UserMenu />
+                                                <UserActions />
                                                 <Button
                                                         variant="ghost"
                                                         size="icon"
@@ -67,4 +67,4 @@ export const Navbar = () => {
                         )}
                 </header>
         );
-};;;;;;;
+};

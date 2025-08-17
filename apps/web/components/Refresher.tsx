@@ -11,7 +11,7 @@ export default function TokenRefresher() {
                         lastRefresh.current = Date.now();
                 };
 
-                console.log("refresher runned!!");
+                console.log("refresher runned!! ✓");
 
                 refresh();
 

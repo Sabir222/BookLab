@@ -1,13 +1,17 @@
 import { cookies } from "next/headers";
 import fetchWithRefresh from "./fetchWithRefresh";
+import { ProfileUser } from "@/types";
 
-export async function getServerAuth() {
+export interface AuthApiResponse {
+  success: boolean;
+  data?: { user: ProfileUser };
+}
+export async function getServerAuth(): Promise<ProfileUser | null> {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("booklab_access_token")?.value;
-
     if (!accessToken) {
-      console.log("No access token found!");
+      console.log("No access token found! ✗");
       return null;
     }
 
@@ -26,10 +30,11 @@ export async function getServerAuth() {
       return null;
     }
 
-    const data = await res.json();
+    const data: AuthApiResponse = await res.json();
+    const { success, data: AuthData } = data;
 
-    if (data.success) {
-      return data;
+    if (success && AuthData) {
+      return AuthData.user;
     }
 
     return null;

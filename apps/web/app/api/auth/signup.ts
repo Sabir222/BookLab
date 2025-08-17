@@ -1,6 +1,6 @@
 import fetchWithRefresh from "@/lib/fetchWithRefresh";
 
-export type LoginResponse = {
+export type SignupResponse = {
   message: string;
   user: {
     id: string;
@@ -11,42 +11,42 @@ export type LoginResponse = {
   error?: string;
 };
 
-const login = async (_previousState: unknown, formData: FormData) => {
+const signup = async (_previousState: unknown, formData: FormData) => {
   const username = formData.get("username") as string;
+  const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  console.log("this run here ✓");
 
-  if (!username || !password) {
+  if (!username || !email || !password) {
     return {
       message: "",
       user: null,
       accessToken: "",
-      error: "Login Information Required",
-    } as LoginResponse;
+      error: "All fields are required",
+    } as SignupResponse;
   }
 
   try {
     const res = await fetchWithRefresh(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/signup`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password }),
       },
     );
 
     if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
       return {
         message: "",
         user: null,
         accessToken: "",
-        error: `Failed to login: ${res.status}`,
-      } as LoginResponse;
+        error: errorData.message || `Failed to signup: ${res.status}`,
+      } as SignupResponse;
     }
 
-    const data: LoginResponse = await res.json();
-    console.log(data.user);
+    const data: SignupResponse = await res.json();
     return data;
   } catch (error: unknown) {
     return {
@@ -54,8 +54,8 @@ const login = async (_previousState: unknown, formData: FormData) => {
       user: null,
       accessToken: "",
       error: (error as Error).message,
-    } as LoginResponse;
+    } as SignupResponse;
   }
 };
 
-export default login;
+export default signup;
