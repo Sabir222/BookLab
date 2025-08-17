@@ -1,19 +1,15 @@
 "use client";
-import { User, ShoppingCart, Bookmark, LogOut } from "lucide-react";
+import { User, ShoppingCart, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavbarStore } from "./navbarStore";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname, useRouter } from "next/navigation";
+import { ProfileDropDown } from "@/components/ProfileDropDown";
+import { useNavbarStore } from "./navbarStore";
 
 export function UserActions() {
-        const { user, logout } = useNavbarStore();
+        const { user } = useNavbarStore();
         const router = useRouter()
         const path = usePathname()
 
-        const handleLogout = async () => {
-                logout();
-                router.push(path);
-        };
         return (
                 <div className="flex items-center gap-2">
                         <Button variant="ghost" size="icon" className="relative hidden lg:flex hover:bg-accent cursor-pointer">
@@ -29,14 +25,7 @@ export function UserActions() {
 
                         {user ? (
                                 <div className="hidden lg:flex items-center gap-2">
-                                        <Avatar className="h-8 w-8">
-                                                <AvatarImage src={user.profile_image_url || ""} alt={user.username} />
-                                                <AvatarFallback>{user.username?.charAt(0).toUpperCase()}</AvatarFallback>
-                                        </Avatar>
-                                        <Button onClick={handleLogout} variant="ghost" size="icon" className="hover:bg-accent cursor-pointer">
-                                                <LogOut className="h-5 w-5" />
-                                                <span className="sr-only">Logout</span>
-                                        </Button>
+                                        <ProfileDropDown />
                                 </div>
                         ) : (
                                 <>
