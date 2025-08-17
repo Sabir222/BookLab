@@ -28,7 +28,6 @@ const ProfilePage = () => {
     profile_image_url: "",
   });
 
-  // Password change dialog state
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -59,11 +58,11 @@ const ProfilePage = () => {
   }, [user]);
 
   // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user, router]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push("/login");
+  //   }
+  // }, [user, router]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -167,7 +166,7 @@ const ProfilePage = () => {
     // In a real application, you would send the password change request to your API
     toast.success("Password changed successfully!");
     setIsChangePasswordOpen(false);
-    
+
     // Reset form
     setPasswordData({
       oldPassword: "",
@@ -186,11 +185,11 @@ const ProfilePage = () => {
     // In a real application, you would send the account deletion request to your API
     toast.success("Account deleted successfully");
     setIsDeleteAccountOpen(false);
-    
+
     // Reset form
     setDeleteConfirmation("");
     setAccountPassword("");
-    
+
     // Log out user
     useNavbarStore.getState().logout();
     router.push("/");
@@ -262,8 +261,8 @@ const ProfilePage = () => {
                     Last Login
                   </span>
                   <span className="font-medium text-sm">
-                    {user.last_login 
-                      ? new Date(user.last_login).toLocaleDateString() 
+                    {user.last_login
+                      ? new Date(user.last_login).toLocaleDateString()
                       : "Unknown"}
                   </span>
                 </div>
@@ -283,7 +282,7 @@ const ProfilePage = () => {
                 Settings
               </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="profile">
               <Card className="bg-accent/50 border-border/50">
                 <CardHeader>
@@ -308,7 +307,7 @@ const ProfilePage = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="email" className="text-secondary">Email</Label>
                       <div className="relative">
@@ -324,7 +323,7 @@ const ProfilePage = () => {
                         />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label className="text-secondary">Profile Picture</Label>
                       <div className="flex items-center gap-4">
@@ -348,9 +347,9 @@ const ProfilePage = () => {
                     </div>
                   </CardContent>
                   <CardFooter className="border-t border-border/50 px-6 py-4">
-                    <Button 
-                      type="submit" 
-                      disabled={isUploading} 
+                    <Button
+                      type="submit"
+                      disabled={isUploading}
                       className="ml-auto bg-secondary text-secondary-foreground hover:bg-secondary/90"
                     >
                       {isUploading ? (
@@ -369,7 +368,7 @@ const ProfilePage = () => {
                 </form>
               </Card>
             </TabsContent>
-            
+
             <TabsContent value="settings">
               <Card className="bg-accent/50 border-border/50">
                 <CardHeader>
@@ -488,16 +487,16 @@ const ProfilePage = () => {
                           </div>
                         </div>
                         <DialogFooter>
-                          <Button 
-                            type="button" 
-                            variant="outline" 
+                          <Button
+                            type="button"
+                            variant="outline"
                             onClick={() => setIsChangePasswordOpen(false)}
                             className="border-border hover:bg-accent"
                           >
                             Cancel
                           </Button>
-                          <Button 
-                            type="button" 
+                          <Button
+                            type="button"
                             onClick={handleChangePassword}
                             className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
                           >
@@ -507,9 +506,9 @@ const ProfilePage = () => {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  
+
                   <Separator className="bg-border/50" />
-                  
+
                   <div className="rounded-lg border border-border/50 p-4 bg-background">
                     <div className="flex items-center mb-3">
                       <Bell className="h-5 w-5 text-secondary mr-2" />
@@ -521,9 +520,9 @@ const ProfilePage = () => {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm">Email Notifications</span>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
+                        <Button
+                          variant="outline"
+                          size="sm"
                           className="border-border hover:bg-accent"
                         >
                           Enabled
@@ -531,9 +530,9 @@ const ProfilePage = () => {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-sm">SMS Notifications</span>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
+                        <Button
+                          variant="outline"
+                          size="sm"
                           className="border-border hover:bg-accent"
                         >
                           Disabled
@@ -541,9 +540,9 @@ const ProfilePage = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <Separator className="bg-border/50" />
-                  
+
                   <div className="rounded-lg border border-destructive/50 p-4 bg-background">
                     <div className="flex items-center mb-3">
                       <Trash2 className="h-5 w-5 text-destructive mr-2" />
@@ -599,16 +598,16 @@ const ProfilePage = () => {
                           </div>
                         </div>
                         <DialogFooter>
-                          <Button 
-                            type="button" 
-                            variant="outline" 
+                          <Button
+                            type="button"
+                            variant="outline"
                             onClick={() => setIsDeleteAccountOpen(false)}
                             className="border-border hover:bg-accent"
                           >
                             Cancel
                           </Button>
-                          <Button 
-                            type="button" 
+                          <Button
+                            type="button"
                             variant="destructive"
                             onClick={handleDeleteAccount}
                           >

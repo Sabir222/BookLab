@@ -60,7 +60,7 @@ export function LoginForm() {
         }
 
         return (
-                <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
+                <div className="mt-[-60] min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
                                 <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-secondary/5 blur-3xl"></div>
                                 <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-highlight/5 blur-3xl"></div>
