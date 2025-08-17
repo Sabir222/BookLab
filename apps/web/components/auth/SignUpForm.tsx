@@ -1,13 +1,68 @@
 "use client"
-
+import signup from "@/app/api/auth/signup"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { signupSchema } from "@/lib/schemas/authSchema"
 import { Bookmark, Library, User, Lock, Mail, Github } from "lucide-react"
+import { useActionState, useState, useEffect } from "react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export function SignUpForm() {
+  const [data, action, isPending] = useActionState(signup, undefined)
+  const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string; confirmPassword?: string; terms?: string }>({});
+  const router = useRouter()
+
+  useEffect(() => {
+    if (data?.message && data?.user) {
+      toast.success("Account created successfully!")
+      // Redirect to home page after successful signup
+      router.push("/")
+      // Refresh the page to update the auth state
+      setTimeout(() => {
+        window.location.reload()
+      }, 100)
+    }
+    if (data?.error) {
+      toast.error(data.error)
+    }
+  }, [data, router])
+
+  const handleSubmit = async (formData: FormData) => {
+    const values = {
+      username: formData.get("username") as string,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+      confirmPassword: formData.get("confirmPassword") as string,
+      terms: formData.get("terms") === "on",
+    }
+
+    const result = signupSchema.safeParse(values)
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {}
+      for (const issue of result.error.issues) {
+        const fieldName = issue.path[0] as string
+        if (!fieldErrors[fieldName]) {
+          fieldErrors[fieldName] = issue.message
+        }
+      }
+      setErrors({
+        username: fieldErrors.username,
+        email: fieldErrors.email,
+        password: fieldErrors.password,
+        confirmPassword: fieldErrors.confirmPassword,
+        terms: fieldErrors.terms,
+      })
+      return
+    }
+
+    setErrors({})
+    return action(formData)
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
       {/* Decorative book elements */}
@@ -15,15 +70,15 @@ export function SignUpForm() {
         <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-secondary/5 blur-3xl"></div>
         <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-highlight/5 blur-3xl"></div>
       </div>
-      
+
       <div className="absolute top-10 right-10 opacity-10">
         <Bookmark className="h-24 w-24 text-secondary" />
       </div>
-      
+
       <div className="absolute bottom-10 left-10 opacity-10">
         <Library className="h-24 w-24 text-secondary" />
       </div>
-      
+
       <Card className="w-full max-w-md bg-card border-border shadow-xl rounded-2xl overflow-hidden backdrop-blur-sm bg-opacity-90 relative z-10">
         <CardHeader className="text-center pb-4 pt-8">
           <div className="mx-auto bg-secondary/10 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-4">
@@ -34,9 +89,9 @@ export function SignUpForm() {
             Create your personal reading sanctuary
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent className="px-6 pb-4">
-          <form className="space-y-5">
+          <form action={handleSubmit} className="space-y-5">
             <div className="space-y-2">
               <Label htmlFor="username" className="text-primary font-medium">
                 Username
@@ -45,12 +100,20 @@ export function SignUpForm() {
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="username"
+                  name="username"
                   placeholder="booklover2023"
-                  className="pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary"
+                  className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.username ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                  aria-describedby={errors.username ? "username-error" : undefined}
+                  aria-invalid={!!errors.username}
                 />
+                {errors.username && (
+                  <p id="username-error" className="text-red-600 text-sm mt-1" role="alert">
+                    {errors.username}
+                  </p>
+                )}
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="email" className="text-primary font-medium">
                 Email Address
@@ -59,13 +122,21 @@ export function SignUpForm() {
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="reader@booklab.com"
-                  className="pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary"
+                  className={` placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                  aria-invalid={!!errors.email}
                 />
+                {errors.email && (
+                  <p id="email-error" className="text-red-600 text-sm mt-1" role="alert">
+                    {errors.email}
+                  </p>
+                )}
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password" className="text-primary font-medium">
                 Password
@@ -74,13 +145,20 @@ export function SignUpForm() {
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
+                  name="password"
                   type="password"
-                  placeholder="••••••••"
-                  className="pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary"
+                  className={`pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                  aria-describedby={errors.password ? "password-error" : undefined}
+                  aria-invalid={!!errors.password}
                 />
+                {errors.password && (
+                  <p id="password-error" className="text-red-600 text-sm mt-1" role="alert">
+                    {errors.password}
+                  </p>
+                )}
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="confirmPassword" className="text-primary font-medium">
                 Confirm Password
@@ -89,13 +167,20 @@ export function SignUpForm() {
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
+                  name="confirmPassword"
                   type="password"
-                  placeholder="••••••••"
-                  className="pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary"
+                  className={`pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
+                  aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
+                  aria-invalid={!!errors.confirmPassword}
                 />
+                {errors.confirmPassword && (
+                  <p id="confirmPassword-error" className="text-red-600 text-sm mt-1" role="alert">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <div className="flex items-start">
                 <div className="flex items-center h-5 mt-1">
@@ -104,11 +189,11 @@ export function SignUpForm() {
                     aria-describedby="terms-description"
                     name="terms"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-border text-secondary focus:ring-secondary"
+                    className={`h-4 w-4 rounded border-border text-secondary focus:ring-secondary ${errors.terms ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}`}
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <Label htmlFor="terms" className="text-muted-foreground">
+                  <Label htmlFor="terms" className={`text-muted-foreground ${errors.terms ? 'text-red-600' : ''}`}>
                     I agree to the{" "}
                     <a href="#" className="text-secondary font-medium hover:underline">
                       Terms of Service
@@ -121,16 +206,24 @@ export function SignUpForm() {
                   <p id="terms-description" className="text-muted-foreground/70 mt-1">
                     I confirm that I am at least 13 years old.
                   </p>
+                  {errors.terms && (
+                    <p id="terms-error" className="text-red-600 text-sm mt-1" role="alert">
+                      {errors.terms}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
-            
-            <Button className="w-full py-5 bg-secondary hover:bg-secondary/90 text-accent font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
-              Create Reading Nook
+
+            <Button
+              disabled={isPending}
+              className="w-full py-5 bg-secondary hover:bg-secondary/90 text-accent font-medium rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:transform-none"
+            >
+              {isPending ? "Creating Account..." : "Create Reading Nook"}
             </Button>
           </form>
         </CardContent>
-        
+
         <div className="px-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -143,14 +236,14 @@ export function SignUpForm() {
             </div>
           </div>
         </div>
-        
+
         <CardFooter className="p-6 pt-4">
-          <Button variant="outline" className="w-full py-5 border-border hover:bg-muted/50 rounded-lg">
+          <Button variant="outline" className="w-full py-5 border-border hover:bg-muted/50 rounded-lg" disabled={isPending}>
             <Github className="mr-2 h-5 w-5" />
             Sign up with GitHub
           </Button>
         </CardFooter>
-        
+
         <div className="text-center pb-8 px-6">
           <p className="text-sm text-muted-foreground">
             Already have a library card?{" "}

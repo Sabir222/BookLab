@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { loginSchema } from "@/lib/schemas/auth"
+import { loginSchema } from "@/lib/schemas/authSchema"
 import { BookOpenText, Library, Lock, Mail, Github } from "lucide-react"
 import { useActionState, useState, useEffect } from "react"
 import { toast } from "sonner"
@@ -91,7 +91,7 @@ export function LoginForm() {
                                                                         id="username"
                                                                         name="username"
                                                                         placeholder="Enter your username"
-                                                                        className={`pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.username ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.username ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
                                                                                 }`}
                                                                         aria-describedby={errors.username ? "username-error" : undefined}
                                                                         aria-invalid={!!errors.username}
@@ -120,7 +120,7 @@ export function LoginForm() {
                                                                         name="password"
                                                                         type="password"
                                                                         placeholder="Enter your password"
-                                                                        className={`pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
                                                                                 }`}
                                                                         aria-describedby={errors.password ? "password-error" : undefined}
                                                                         aria-invalid={!!errors.password}
