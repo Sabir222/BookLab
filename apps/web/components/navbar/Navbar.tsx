@@ -9,12 +9,16 @@ import { NavLinks } from "./NavLinks";
 import { NavigationMenuComponent } from "./NavigationMenuComponent";
 import { useNavbarStore } from "./navbarStore";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
         const { isMenuOpen, openMenu, closeMenu } = useNavbarStore();
         const [isScrolled, setIsScrolled] = useState(false);
+        const pathname = usePathname();
 
 
+        const hiddenPaths = ["/signup", "/login"]
+        const shouldHide = hiddenPaths.includes(pathname)
         const navItems = [
                 { name: "Books", href: "/books" },
                 { name: "Authors", href: "/authors" },
@@ -30,6 +34,10 @@ export const Navbar = () => {
                 return () => window.removeEventListener("scroll", handleScroll);
         }, []);
 
+        console.log(`should hide ${pathname} ? ${shouldHide}`)
+        if (shouldHide) {
+                return null;
+        }
         return (
                 <header className="fixed z-20 w-full px-2 group">
                         <div
