@@ -6,13 +6,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { loginSchema } from "@/lib/schemas/authSchema"
-import { BookOpenText, Library, Lock, Mail, Github } from "lucide-react"
+import { BookOpenText, Library, Lock, Mail, Github, Eye, EyeOff } from "lucide-react"
 import { useActionState, useState, useEffect } from "react"
 import { toast } from "sonner"
 
 export function LoginForm() {
         const [data, action, isPending] = useActionState(login, undefined)
         const [errors, setErrors] = useState<{ username?: string; password?: string }>({});
+        const [showPassword, setShowPassword] = useState(false);
+
         useEffect(() => {
                 if (data?.message && data?.user) {
                         toast.success("Login successful")
@@ -51,6 +53,10 @@ export function LoginForm() {
 
                 setErrors({})
                 return action(formData)
+        }
+
+        const togglePasswordVisibility = () => {
+                setShowPassword(!showPassword)
         }
 
         return (
@@ -118,13 +124,26 @@ export function LoginForm() {
                                                                 <Input
                                                                         id="password"
                                                                         name="password"
-                                                                        type="password"
+                                                                        type={showPassword ? "text" : "password"}
                                                                         placeholder="Enter your password"
-                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary pr-10 ${errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''
                                                                                 }`}
                                                                         aria-describedby={errors.password ? "password-error" : undefined}
                                                                         aria-invalid={!!errors.password}
                                                                 />
+                                                                <Button
+                                                                        type="button"
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                                        onClick={togglePasswordVisibility}
+                                                                >
+                                                                        {showPassword ? (
+                                                                                <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                                        ) : (
+                                                                                <Eye className="h-4 w-4 text-muted-foreground" />
+                                                                        )}
+                                                                </Button>
                                                         </div>
                                                         {errors.password && (
                                                                 <p id="password-error" className="text-red-400 text-sm" role="alert">

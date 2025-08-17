@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { signupSchema } from "@/lib/schemas/authSchema"
-import { Bookmark, Library, User, Lock, Mail, Github } from "lucide-react"
+import { Bookmark, Library, User, Lock, Mail, Github, Eye, EyeOff } from "lucide-react"
 import { useActionState, useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -15,6 +15,10 @@ export function SignUpForm() {
         const [data, action, isPending] = useActionState(signup, undefined)
         const [errors, setErrors] = useState<{ username?: string; email?: string; password?: string; confirmPassword?: string; terms?: string }>({});
         const router = useRouter()
+        const [showPasswords, setShowPasswords] = useState({
+                password: false,
+                confirmPassword: false
+        });
 
         useEffect(() => {
                 if (data?.message && data?.user) {
@@ -61,6 +65,13 @@ export function SignUpForm() {
 
                 setErrors({})
                 return action(formData)
+        }
+
+        const togglePasswordVisibility = (field: "password" | "confirmPassword") => {
+                setShowPasswords(prev => ({
+                        ...prev,
+                        [field]: !prev[field]
+                }))
         }
 
         return (
@@ -146,12 +157,25 @@ export function SignUpForm() {
                                                                 <Input
                                                                         id="password"
                                                                         name="password"
-                                                                        type="password"
+                                                                        type={showPasswords.password ? "text" : "password"}
                                                                         placeholder="Password"
-                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''}`}
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary pr-10 ${errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''}`}
                                                                         aria-describedby={errors.password ? "password-error" : undefined}
                                                                         aria-invalid={!!errors.password}
                                                                 />
+                                                                <Button
+                                                                        type="button"
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                                        onClick={() => togglePasswordVisibility("password")}
+                                                                >
+                                                                        {showPasswords.password ? (
+                                                                                <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                                        ) : (
+                                                                                <Eye className="h-4 w-4 text-muted-foreground" />
+                                                                        )}
+                                                                </Button>
                                                         </div>
                                                         {errors.password && (
                                                                 <p id="password-error" className="text-red-400 text-sm" role="alert">
@@ -169,12 +193,25 @@ export function SignUpForm() {
                                                                 <Input
                                                                         id="confirmPassword"
                                                                         name="confirmPassword"
-                                                                        type="password"
-                                                                        placeholder="Cofirm Password"
-                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.confirmPassword ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''}`}
+                                                                        type={showPasswords.confirmPassword ? "text" : "password"}
+                                                                        placeholder="Confirm Password"
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary pr-10 ${errors.confirmPassword ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''}`}
                                                                         aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
                                                                         aria-invalid={!!errors.confirmPassword}
                                                                 />
+                                                                <Button
+                                                                        type="button"
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                                                        onClick={() => togglePasswordVisibility("confirmPassword")}
+                                                                >
+                                                                        {showPasswords.confirmPassword ? (
+                                                                                <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                                                        ) : (
+                                                                                <Eye className="h-4 w-4 text-muted-foreground" />
+                                                                        )}
+                                                                </Button>
                                                         </div>
                                                         {errors.confirmPassword && (
                                                                 <p id="confirmPassword-error" className="text-red-400 text-sm" role="alert">

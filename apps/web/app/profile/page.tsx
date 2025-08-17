@@ -12,7 +12,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Camera, User, Mail, CreditCard, Trophy, Calendar, Save, Upload, Shield, Bell, Trash2, Lock } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Camera, User, Mail, CreditCard, Trophy, Calendar, Save, Upload, Shield, Bell, Trash2, Lock, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 
 const ProfilePage = () => {
@@ -26,6 +27,24 @@ const ProfilePage = () => {
     email: "",
     profile_image_url: "",
   });
+
+  // Password change dialog state
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [passwordData, setPasswordData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: ""
+  });
+  const [showPasswords, setShowPasswords] = useState({
+    old: false,
+    new: false,
+    confirm: false
+  });
+
+  // Account deletion dialog state
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
+  const [accountPassword, setAccountPassword] = useState("");
 
   // Initialize form data with user info
   useEffect(() => {
@@ -86,6 +105,30 @@ const ProfilePage = () => {
     }));
   };
 
+  const handlePasswordInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleDeleteAccountInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "confirmation") {
+      setDeleteConfirmation(value);
+    } else if (name === "password") {
+      setAccountPassword(value);
+    }
+  };
+
+  const togglePasswordVisibility = (field: "old" | "new" | "confirm") => {
+    setShowPasswords(prev => ({
+      ...prev,
+      [field]: !prev[field]
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsUploading(true);
@@ -109,17 +152,48 @@ const ProfilePage = () => {
     }
   };
 
-  const handleDeleteAccount = () => {
-    toast("Account deletion", {
-      description: "In a real application, this would delete your account",
-      action: {
-        label: "Confirm",
-        onClick: () => {
-          toast.success("Account deleted successfully");
-          // In a real app, you would call your API to delete the account
-        }
-      }
+  const handleChangePassword = () => {
+    // Validate passwords
+    if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    if (passwordData.newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    // In a real application, you would send the password change request to your API
+    toast.success("Password changed successfully!");
+    setIsChangePasswordOpen(false);
+    
+    // Reset form
+    setPasswordData({
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: ""
     });
+  };
+
+  const handleDeleteAccount = () => {
+    // Validate confirmation text
+    if (deleteConfirmation !== "DELETE MY ACCOUNT") {
+      toast.error("Please type 'DELETE MY ACCOUNT' to confirm");
+      return;
+    }
+
+    // In a real application, you would send the account deletion request to your API
+    toast.success("Account deleted successfully");
+    setIsDeleteAccountOpen(false);
+    
+    // Reset form
+    setDeleteConfirmation("");
+    setAccountPassword("");
+    
+    // Log out user
+    useNavbarStore.getState().logout();
+    router.push("/");
   };
 
   if (!user) {
@@ -313,10 +387,125 @@ const ProfilePage = () => {
                     <p className="text-sm text-muted-foreground mb-4">
                       Manage your password and security preferences
                     </p>
-                    <Button variant="outline" className="border-border hover:bg-accent">
-                      <Lock className="h-4 w-4 mr-2" />
-                      Change Password
-                    </Button>
+                    <Dialog open={isChangePasswordOpen} onOpenChange={setIsChangePasswordOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="border-border hover:bg-accent">
+                          <Lock className="h-4 w-4 mr-2" />
+                          Change Password
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px] bg-background border-border">
+                        <DialogHeader>
+                          <DialogTitle>Change Password</DialogTitle>
+                          <DialogDescription>
+                            Enter your current password and a new password to update your account security.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="oldPassword" className="text-right">
+                              Current
+                            </Label>
+                            <div className="col-span-3 relative">
+                              <Input
+                                id="oldPassword"
+                                name="oldPassword"
+                                type={showPasswords.old ? "text" : "password"}
+                                value={passwordData.oldPassword}
+                                onChange={handlePasswordInputChange}
+                                className="pr-10 bg-background border-border"
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                onClick={() => togglePasswordVisibility("old")}
+                              >
+                                {showPasswords.old ? (
+                                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                ) : (
+                                  <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="newPassword" className="text-right">
+                              New
+                            </Label>
+                            <div className="col-span-3 relative">
+                              <Input
+                                id="newPassword"
+                                name="newPassword"
+                                type={showPasswords.new ? "text" : "password"}
+                                value={passwordData.newPassword}
+                                onChange={handlePasswordInputChange}
+                                className="pr-10 bg-background border-border"
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                onClick={() => togglePasswordVisibility("new")}
+                              >
+                                {showPasswords.new ? (
+                                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                ) : (
+                                  <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="confirmNewPassword" className="text-right">
+                              Confirm
+                            </Label>
+                            <div className="col-span-3 relative">
+                              <Input
+                                id="confirmNewPassword"
+                                name="confirmNewPassword"
+                                type={showPasswords.confirm ? "text" : "password"}
+                                value={passwordData.confirmNewPassword}
+                                onChange={handlePasswordInputChange}
+                                className="pr-10 bg-background border-border"
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                onClick={() => togglePasswordVisibility("confirm")}
+                              >
+                                {showPasswords.confirm ? (
+                                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                                ) : (
+                                  <Eye className="h-4 w-4 text-muted-foreground" />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setIsChangePasswordOpen(false)}
+                            className="border-border hover:bg-accent"
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            type="button" 
+                            onClick={handleChangePassword}
+                            className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                          >
+                            Change Password
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   
                   <Separator className="bg-border/50" />
@@ -361,14 +550,73 @@ const ProfilePage = () => {
                       <h3 className="font-medium text-destructive">Danger Zone</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Permanently delete your account and all associated data
+                      Permanently delete your account and all associated data. This action cannot be undone.
                     </p>
-                    <Button 
-                      variant="destructive" 
-                      onClick={handleDeleteAccount}
-                    >
-                      Delete Account
-                    </Button>
+                    <Dialog open={isDeleteAccountOpen} onOpenChange={setIsDeleteAccountOpen}>
+                      <DialogTrigger asChild>
+                        <Button variant="destructive">
+                          Delete Account
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px] bg-background border-border">
+                        <DialogHeader>
+                          <DialogTitle>Delete Account</DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. This will permanently delete your account and remove all data.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="deleteConfirmation" className="text-right">
+                              Confirm
+                            </Label>
+                            <div className="col-span-3">
+                              <Input
+                                id="deleteConfirmation"
+                                name="confirmation"
+                                value={deleteConfirmation}
+                                onChange={handleDeleteAccountInputChange}
+                                placeholder="Type DELETE MY ACCOUNT"
+                                className="bg-background border-border"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="accountPassword" className="text-right">
+                              Password
+                            </Label>
+                            <div className="col-span-3">
+                              <Input
+                                id="accountPassword"
+                                name="password"
+                                type="password"
+                                value={accountPassword}
+                                onChange={handleDeleteAccountInputChange}
+                                placeholder="Enter your password"
+                                className="bg-background border-border"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            onClick={() => setIsDeleteAccountOpen(false)}
+                            className="border-border hover:bg-accent"
+                          >
+                            Cancel
+                          </Button>
+                          <Button 
+                            type="button" 
+                            variant="destructive"
+                            onClick={handleDeleteAccount}
+                          >
+                            Delete Account
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </CardContent>
               </Card>
