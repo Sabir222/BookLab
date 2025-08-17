@@ -17,7 +17,7 @@ export const Navbar = () => {
         const pathname = usePathname();
 
 
-        const hiddenPaths = ["/signup", "/login"]
+        const hiddenPaths = ["/dashboard", "/signup", "/login"]
         const shouldHide = hiddenPaths.includes(pathname)
         const navItems = [
                 { name: "Books", href: "/books" },

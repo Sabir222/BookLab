@@ -484,7 +484,7 @@ export const bookQueries = {
     coverImageMediumUrl?: string | null;
     coverImageLargeUrl?: string | null;
     edition?: string | null;
-    bookFormat: "hardcover" | "paperback" | "ebook" | "audiobook" | "other";
+    bookFormat: "hardcover" | "paperback" | "ebook" | "audiobook";
     bookCondition?: string | null;
     dimensions?: string | null;
     weightGrams?: number | null;

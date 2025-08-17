@@ -10,7 +10,7 @@ export async function MainLayout({ children }: { children: React.ReactNode }) {
                 <>
                         <Navbar />
                         <AuthHydrator user={user} />
-                        <main className="min-h-screen pt-30">
+                        <main className="min-h-screen">
                                 {children}
                         </main>
                         <NewsletterSection />
