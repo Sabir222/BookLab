@@ -85,7 +85,7 @@ async function refreshTokenWithLock(
   if (refreshLocks.has(lockKey)) {
     console.log("Refresh already in progress, waiting... ✓");
     await refreshLocks.get(lockKey);
-    return null; // Return null to indicate we waited for another refresh
+    return null;
   }
 
   const refreshPromise = performTokenRefresh(refreshToken);
@@ -153,15 +153,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - login, signup (auth pages)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|login|signup).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|login|signup).*)"],
 };

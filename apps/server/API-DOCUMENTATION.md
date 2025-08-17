@@ -9,22 +9,26 @@ All endpoints are relative to: `http://localhost:4000/api`
 ## Authentication Endpoints
 
 ### 1. Sign Up
+
 **POST** `/api/auth/signup`
 
 Create a new user account.
 
 #### Request
+
 - **Body Parameters**:
   - `email` (string, required): User's email address
   - `username` (string, required): Desired username
   - `password` (string, required): Password (min 8 characters)
 
 #### Response
+
 - **201 Created**: Returns user information and auth tokens
 - **400 Bad Request**: Invalid request data
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/auth/signup" \
   -H "Content-Type: application/json" \
@@ -36,22 +40,26 @@ curl -X POST "http://localhost:4000/api/auth/signup" \
 ```
 
 ### 2. Login
+
 **POST** `/api/auth/login`
 
 Authenticate a user and receive access tokens.
 
 #### Request
+
 - **Body Parameters**:
   - `email` (string, required): User's email address
   - `password` (string, required): User's password
 
 #### Response
+
 - **200 OK**: Returns user information and auth tokens
 - **400 Bad Request**: Invalid credentials
 - **401 Unauthorized**: Authentication failed
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/auth/login" \
   -H "Content-Type: application/json" \
@@ -62,60 +70,72 @@ curl -X POST "http://localhost:4000/api/auth/login" \
 ```
 
 ### 3. Get Current User
+
 **GET** `/api/auth/me`
 
 Retrieve information about the currently authenticated user.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 
 #### Response
+
 - **200 OK**: Returns current user information
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/auth/me" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ### 4. Logout
+
 **GET** `/api/auth/logout`
 
 Invalidate the current user's session.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 
 #### Response
+
 - **200 OK**: Successfully logged out
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/auth/logout" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ### 5. Refresh Token
+
 **GET** `/api/auth/refresh`
 
 Refresh the authentication tokens.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer refresh token
 
 #### Response
+
 - **200 OK**: Returns new access and refresh tokens
 - **401 Unauthorized**: Invalid or expired refresh token
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
@@ -124,165 +144,199 @@ curl -X GET "http://localhost:4000/api/auth/refresh" \
 ## Public Book Endpoints
 
 ### 1. Get Book by ID
+
 **GET** `/api/books/:id`
 
 Retrieve a specific book by its unique ID.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 
 #### Response
+
 - **200 OK**: Returns the book details
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000"
 ```
 
 ### 2. Get All Books
+
 **GET** `/api/books/`
 
 Retrieve a list of all books with optional limit.
 
 #### Request
+
 - **Query Parameters**:
   - `limit` (integer, optional): Number of books to return (1-100, default: 50)
 
 #### Response
+
 - **200 OK**: Returns array of books
 - **400 Bad Request**: Invalid limit parameter
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/?limit=20"
 ```
 
 ### 3. Search Books by Name
+
 **GET** `/api/books/search`
 
 Search for books by title using fuzzy matching.
 
 #### Request
+
 - **Query Parameters**:
   - `q` (string, required): Search query
 
 #### Response
+
 - **200 OK**: Returns matching books
 - **400 Bad Request**: Missing or invalid search query
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/search?q=harry%20potter"
 ```
 
 ### 4. Search Books by Author
+
 **GET** `/api/books/search/author`
 
 Search for books by author name using fuzzy matching.
 
 #### Request
+
 - **Query Parameters**:
   - `q` (string, required): Author search query
 
 #### Response
+
 - **200 OK**: Returns books by matching authors
 - **400 Bad Request**: Missing or invalid author search query
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/search/author?q=tolkien"
 ```
 
 ### 5. Search Books by Category
+
 **GET** `/api/books/search/category`
 
 Search for books by category name using fuzzy matching.
 
 #### Request
+
 - **Query Parameters**:
   - `q` (string, required): Category search query
 
 #### Response
+
 - **200 OK**: Returns books in matching categories
 - **400 Bad Request**: Missing or invalid category search query
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/search/category?q=fiction"
 ```
 
 ### 6. Search Books by ISBN
+
 **GET** `/api/books/search/isbn`
 
 Search for books by ISBN using fuzzy matching.
 
 #### Request
+
 - **Query Parameters**:
   - `q` (string, required): ISBN search query
 
 #### Response
+
 - **200 OK**: Returns books with matching ISBNs
 - **400 Bad Request**: Missing or invalid ISBN search query
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/search/isbn?q=9780545010221"
 ```
 
 ### 7. Get New Releases
+
 **GET** `/api/books/new-releases`
 
 Retrieve recently released books.
 
 #### Request
+
 - **Query Parameters**:
   - `days` (integer, optional): Number of days to look back (1-365, default: 30)
   - `limit` (integer, optional): Number of books to return (1-100, default: 20)
 
 #### Response
+
 - **200 OK**: Returns new release books
 - **400 Bad Request**: Invalid days or limit parameter
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/new-releases?days=30&limit=10"
 ```
 
 ### 8. Get Related Books
+
 **GET** `/api/books/:id/related`
 
 Retrieve books related to a specific book based on categories.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the reference book
 
 #### Response
+
 - **200 OK**: Returns related books
 - **400 Bad Request**: Missing book ID
 - **404 Not Found**: Reference book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/related"
 ```
 
 ### 9. Filter Books
+
 **GET** `/api/books/filter`
 
 Filter books based on multiple criteria.
 
 #### Request
+
 - **Query Parameters**:
   - `title` (string, optional): Filter by title
   - `authorName` (string, optional): Filter by author name
@@ -301,48 +355,58 @@ Filter books based on multiple criteria.
   - `offset` (integer, optional): Pagination offset (>= 0, default: 0)
 
 #### Response
+
 - **200 OK**: Returns filtered books
 - **400 Bad Request**: Invalid filter parameters
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/filter?categoryName=fiction&minRating=4&limit=10"
 ```
 
 ### 10. Get Book by Slug
+
 **GET** `/api/books/slug/:slug`
 
 Retrieve a specific book by its slug.
 
 #### Request
+
 - **Path Parameters**:
   - `slug` (string, required): Unique slug of the book
 
 #### Response
+
 - **200 OK**: Returns the book details
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/slug/harry-potter-and-the-philosophers-stone"
 ```
 
 ### 11. Check if Book Exists
+
 **GET** `/api/books/:id/exists`
 
 Check if a book with the given ID exists.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 
 #### Response
+
 - **200 OK**: Returns existence status
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/exists"
 ```
@@ -350,14 +414,16 @@ curl -X GET "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-42661417400
 ## Book Management Endpoints
 
 ### 12. Create Book
+
 **POST** `/api/books/`
 
 Create a new book.
 
 #### Request
+
 - **Body Parameters**:
   - `title` (string, required): Book title
-  - `bookFormat` (string, required): Format (hardcover, paperback, ebook, audiobook, other)
+  - `bookFormat` (string, required): Format (hardcover, paperback, ebook, audiobook)
   - `forSale` (boolean, required): Available for sale
   - `forRent` (boolean, required): Available for rent
   - `priceSale` (number, required): Sale price
@@ -366,11 +432,13 @@ Create a new book.
   - Other optional fields as defined in the Book type
 
 #### Response
+
 - **201 Created**: Returns the created book
 - **400 Bad Request**: Invalid request data
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/books/" \
   -H "Content-Type: application/json" \
@@ -386,23 +454,27 @@ curl -X POST "http://localhost:4000/api/books/" \
 ```
 
 ### 13. Update Book
+
 **PUT** `/api/books/:id`
 
 Update an existing book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
   - Any book fields that need to be updated
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PUT "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000" \
   -H "Content-Type: application/json" \
@@ -413,43 +485,51 @@ curl -X PUT "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-42661417400
 ```
 
 ### 14. Delete Book
+
 **DELETE** `/api/books/:id`
 
 Permanently delete a book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 
 #### Response
+
 - **200 OK**: Book deleted successfully
 - **400 Bad Request**: Invalid book ID
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X DELETE "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000"
 ```
 
 ### 15. Soft Delete Book
+
 **PATCH** `/api/books/:id/soft-delete`
 
 Mark a book as deleted without removing it from the database.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
   - `deletedBy` (string, optional): UUID of the user who deleted the book
 
 #### Response
+
 - **200 OK**: Returns the soft-deleted book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/soft-delete" \
   -H "Content-Type: application/json" \
@@ -459,31 +539,37 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ```
 
 ### 16. Restore Book
+
 **PATCH** `/api/books/:id/restore`
 
 Restore a soft-deleted book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 
 #### Response
+
 - **200 OK**: Returns the restored book
 - **400 Bad Request**: Invalid book ID
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/restore"
 ```
 
 ### 17. Update Book Stock
+
 **PATCH** `/api/books/:id/stock`
 
 Update the stock quantity of a book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
@@ -491,12 +577,14 @@ Update the stock quantity of a book.
   - `reservedQuantity` (integer, optional): New reserved quantity
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/stock" \
   -H "Content-Type: application/json" \
@@ -507,23 +595,27 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ```
 
 ### 18. Add to Book Stock
+
 **PATCH** `/api/books/:id/stock/add`
 
 Increase the stock quantity of a book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
   - `quantity` (integer, required): Quantity to add (>= 1)
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/stock/add" \
   -H "Content-Type: application/json" \
@@ -533,23 +625,27 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ```
 
 ### 19. Reserve Books
+
 **PATCH** `/api/books/:id/stock/reserve`
 
 Reserve a quantity of books.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
   - `quantity` (integer, required): Quantity to reserve (>= 1)
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/stock/reserve" \
   -H "Content-Type: application/json" \
@@ -559,23 +655,27 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ```
 
 ### 20. Release Reserved Books
+
 **PATCH** `/api/books/:id/stock/release`
 
 Release a quantity of reserved books.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
   - `quantity` (integer, required): Quantity to release (>= 1)
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/stock/release" \
   -H "Content-Type: application/json" \
@@ -585,11 +685,13 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ```
 
 ### 21. Update Book Ratings
+
 **PATCH** `/api/books/:id/ratings`
 
 Update the ratings of a book.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the book
 - **Body Parameters**:
@@ -597,12 +699,14 @@ Update the ratings of a book.
   - `totalRatings` (integer, required): New total ratings count (>= 0)
 
 #### Response
+
 - **200 OK**: Returns the updated book
 - **400 Bad Request**: Invalid request data
 - **404 Not Found**: Book not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174000/ratings" \
   -H "Content-Type: application/json" \
@@ -615,50 +719,60 @@ curl -X PATCH "http://localhost:4000/api/books/123e4567-e89b-12d3-a456-426614174
 ## User Management Endpoints
 
 ### 22. Get User by ID
+
 **GET** `/api/users/:id`
 
 Retrieve a user's public profile by their ID.
 
 #### Request
+
 - **Path Parameters**:
   - `id` (string, required): UUID of the user
 
 #### Response
+
 - **200 OK**: Returns the user's public profile
 - **404 Not Found**: User not found
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000"
 ```
 
 ### 23. Get Current User Profile
+
 **GET** `/api/users/me`
 
 Retrieve the current authenticated user's profile.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 
 #### Response
+
 - **200 OK**: Returns the current user's profile
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/users/me" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ### 24. Update User Profile
+
 **PUT** `/api/users/me`
 
 Update the current user's profile information.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 - **Body Parameters**:
@@ -667,12 +781,14 @@ Update the current user's profile information.
   - `profileImageUrl` (string, optional): URL to profile image
 
 #### Response
+
 - **200 OK**: Returns the updated user profile
 - **400 Bad Request**: Invalid request data
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PUT "http://localhost:4000/api/users/me" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
@@ -684,11 +800,13 @@ curl -X PUT "http://localhost:4000/api/users/me" \
 ```
 
 ### 25. Change Password
+
 **PUT** `/api/users/me/password`
 
 Change the current user's password.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 - **Body Parameters**:
@@ -697,12 +815,14 @@ Change the current user's password.
   - `confirmNewPassword` (string, required): Confirmation of new password
 
 #### Response
+
 - **200 OK**: Password updated successfully
 - **400 Bad Request**: Invalid request data or password mismatch
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PUT "http://localhost:4000/api/users/me/password" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
@@ -715,23 +835,27 @@ curl -X PUT "http://localhost:4000/api/users/me/password" \
 ```
 
 ### 26. Delete User Account
+
 **DELETE** `/api/users/me`
 
 Delete the current user's account.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 - **Body Parameters**:
   - `password` (string, required): Current password for confirmation
 
 #### Response
+
 - **200 OK**: Account deleted successfully
 - **400 Bad Request**: Invalid password
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X DELETE "http://localhost:4000/api/users/me" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
@@ -742,11 +866,13 @@ curl -X DELETE "http://localhost:4000/api/users/me" \
 ```
 
 ### 27. List Users (Admin)
+
 **GET** `/api/users/`
 
 List all users (admin only).
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token (admin)
 - **Query Parameters**:
@@ -755,23 +881,27 @@ List all users (admin only).
   - `role` (string, optional): Filter by user role
 
 #### Response
+
 - **200 OK**: Returns list of users
 - **401 Unauthorized**: Not authenticated
 - **403 Forbidden**: Insufficient permissions
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/users/?limit=20&offset=0" \
   -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN"
 ```
 
 ### 28. Admin Update User
+
 **PUT** `/api/users/:id`
 
 Update any user's information (admin only).
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token (admin)
 - **Path Parameters**:
@@ -786,6 +916,7 @@ Update any user's information (admin only).
   - `loyaltyPoints` (number, optional): User loyalty points
 
 #### Response
+
 - **200 OK**: Returns the updated user profile
 - **400 Bad Request**: Invalid request data
 - **401 Unauthorized**: Not authenticated
@@ -794,6 +925,7 @@ Update any user's information (admin only).
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X PUT "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000" \
   -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN" \
@@ -805,17 +937,20 @@ curl -X PUT "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-42661417400
 ```
 
 ### 29. Admin Delete User
+
 **DELETE** `/api/users/:id`
 
 Delete any user's account (admin only).
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token (admin)
 - **Path Parameters**:
   - `id` (string, required): UUID of the user to delete
 
 #### Response
+
 - **200 OK**: User deleted successfully
 - **401 Unauthorized**: Not authenticated
 - **403 Forbidden**: Insufficient permissions
@@ -823,6 +958,7 @@ Delete any user's account (admin only).
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X DELETE "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-426614174000" \
   -H "Authorization: Bearer YOUR_ADMIN_ACCESS_TOKEN"
@@ -831,21 +967,25 @@ curl -X DELETE "http://localhost:4000/api/users/123e4567-e89b-12d3-a456-42661417
 ## Newsletter Endpoints
 
 ### 30. Subscribe to Newsletter
+
 **POST** `/api/newsletter/subscribe`
 
 Subscribe an email address to the newsletter.
 
 #### Request
+
 - **Body Parameters**:
   - `email` (string, required): Email address to subscribe
 
 #### Response
+
 - **201 Created**: Successfully subscribed to newsletter
 - **400 Bad Request**: Invalid email format or missing email
 - **409 Conflict**: Email already subscribed
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/newsletter/subscribe" \
   -H "Content-Type: application/json" \
@@ -855,15 +995,18 @@ curl -X POST "http://localhost:4000/api/newsletter/subscribe" \
 ```
 
 ### 31. Unsubscribe from Newsletter
+
 **POST** `/api/newsletter/unsubscribe`
 
 Unsubscribe an email address from the newsletter.
 
 #### Request
+
 - **Body Parameters**:
   - `email` (string, required): Email address to unsubscribe
 
 #### Response
+
 - **200 OK**: Successfully unsubscribed from newsletter
 - **400 Bad Request**: Invalid email format or missing email
 - **404 Not Found**: Email not found in subscribers
@@ -871,6 +1014,7 @@ Unsubscribe an email address from the newsletter.
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/newsletter/unsubscribe" \
   -H "Content-Type: application/json" \
@@ -882,17 +1026,20 @@ curl -X POST "http://localhost:4000/api/newsletter/unsubscribe" \
 ## Wishlist Endpoints
 
 ### 32. Add Book to Wishlist
+
 **POST** `/api/wishlist/add`
 
 Add a book to the authenticated user's wishlist.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 - **Body Parameters**:
   - `book_id` (string, required): UUID of the book to add
 
 #### Response
+
 - **201 Created**: Book added to wishlist successfully
 - **400 Bad Request**: Invalid book ID format or missing book ID
 - **401 Unauthorized**: Not authenticated
@@ -901,6 +1048,7 @@ Add a book to the authenticated user's wishlist.
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/wishlist/add" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
@@ -911,17 +1059,20 @@ curl -X POST "http://localhost:4000/api/wishlist/add" \
 ```
 
 ### 33. Remove Book from Wishlist
+
 **POST** `/api/wishlist/remove`
 
 Remove a book from the authenticated user's wishlist.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 - **Body Parameters**:
   - `book_id` (string, required): UUID of the book to remove
 
 #### Response
+
 - **200 OK**: Book removed from wishlist successfully
 - **400 Bad Request**: Invalid book ID format or missing book ID
 - **401 Unauthorized**: Not authenticated
@@ -929,6 +1080,7 @@ Remove a book from the authenticated user's wishlist.
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X POST "http://localhost:4000/api/wishlist/remove" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
@@ -939,20 +1091,24 @@ curl -X POST "http://localhost:4000/api/wishlist/remove" \
 ```
 
 ### 34. Get User's Wishlist
+
 **GET** `/api/wishlist/`
 
 Retrieve all books in the authenticated user's wishlist.
 
 #### Request
+
 - **Headers**:
   - `Authorization` (string, required): Bearer token
 
 #### Response
+
 - **200 OK**: Returns user's wishlist
 - **401 Unauthorized**: Not authenticated
 - **500 Internal Server Error**: Server error
 
 #### Example
+
 ```bash
 curl -X GET "http://localhost:4000/api/wishlist/" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
@@ -961,6 +1117,7 @@ curl -X GET "http://localhost:4000/api/wishlist/" \
 ## Common Response Formats
 
 ### Success Response
+
 ```json
 {
   "success": true,
@@ -969,6 +1126,7 @@ curl -X GET "http://localhost:4000/api/wishlist/" \
 ```
 
 ### Error Response
+
 ```json
 {
   "success": false,
@@ -1023,3 +1181,4 @@ curl -X GET "http://localhost:4000/api/wishlist/" \
 ## Rate Limiting
 
 All endpoints are subject to rate limiting to prevent abuse. Excessive requests may result in temporary blocking.
+
