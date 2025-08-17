@@ -86,22 +86,22 @@ export function LoginForm() {
                                                                 Username
                                                         </Label>
                                                         <div className="relative">
-                                                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                                                                 <Input
                                                                         id="username"
                                                                         name="username"
                                                                         placeholder="Enter your username"
-                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.username ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.username ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''
                                                                                 }`}
                                                                         aria-describedby={errors.username ? "username-error" : undefined}
                                                                         aria-invalid={!!errors.username}
                                                                 />
-                                                                {errors.username && (
-                                                                        <p id="username-error" className="text-red-600 text-sm mt-1" role="alert">
-                                                                                {errors.username}
-                                                                        </p>
-                                                                )}
                                                         </div>
+                                                        {errors.username && (
+                                                                <p id="username-error" className="text-red-400 text-sm" role="alert">
+                                                                        {errors.username}
+                                                                </p>
+                                                        )}
                                                 </div>
 
                                                 <div className="space-y-2">
@@ -114,23 +114,23 @@ export function LoginForm() {
                                                                 </a>
                                                         </div>
                                                         <div className="relative">
-                                                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                                                                 <Input
                                                                         id="password"
                                                                         name="password"
                                                                         type="password"
                                                                         placeholder="Enter your password"
-                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
+                                                                        className={`placeholder:text-gray-400 pl-10 py-5 bg-background border-border focus:border-secondary focus:ring-1 focus:ring-secondary ${errors.password ? 'border-red-400 focus:border-red-400 focus:ring-red-400' : ''
                                                                                 }`}
                                                                         aria-describedby={errors.password ? "password-error" : undefined}
                                                                         aria-invalid={!!errors.password}
                                                                 />
-                                                                {errors.password && (
-                                                                        <p id="password-error" className="text-red-600 text-sm mt-1" role="alert">
-                                                                                {errors.password}
-                                                                        </p>
-                                                                )}
                                                         </div>
+                                                        {errors.password && (
+                                                                <p id="password-error" className="text-red-400 text-sm" role="alert">
+                                                                        {errors.password}
+                                                                </p>
+                                                        )}
                                                 </div>
 
                                                 <div className="flex items-center space-x-2">
