@@ -1,0 +1,72 @@
+admins
+
+ 520fbff8-cd1e-4b14-a795-435d84e84c84 | rime       | admin
+ ae56df41-0f6a-4214-b054-0d887be48d2b | imam       | admin
+ 489e54e3-043d-4e2d-97a2-100ad4e2fec9 | sabir      | admin
+
+my categories
+             category_id              |   category_name    
+--------------------------------------+--------------------
+ 9afa3511-0ba6-4c66-b2f2-169c6815d139 | Fiction
+ 0ed7950e-5e69-4aac-b67d-d426d8ead6fe | Non-Fiction
+ 17739b35-27cb-41af-bb8d-d996f3519ee7 | Science Fiction
+ 43f85820-0294-49e4-953c-ea119f2eb8f9 | Fantasy
+ df3f99de-178a-4afb-8d5b-1e4b1baa42c2 | Mystery
+ 84484d09-8b66-4ea7-9edc-106fd13ffd73 | Romance
+ ec0889c4-d73c-4fd6-bdc1-2019b30354f4 | Biography
+ 9d63c60f-7d13-44cb-9c19-441065e52970 | History
+ 6f658bbf-f7ec-4e3c-a308-14508f6f0227 | Science
+ 16d30dff-9a95-4782-b291-6f8b94de161f | Self-Help
+ 7d26a24b-ae3b-49bb-9548-1018a5c2fee3 | Comics
+ 7714415f-2a2c-4c93-b573-c8636f2c43f1 | Kids
+ 976f1dbf-8f7e-47b1-963e-1248dc8878da | Literary Fiction
+ 0b4c28ac-7736-4224-96af-e0fbe31bfd1b | Thriller
+ 6a151e20-73d9-45e0-94bf-be7a0f73f4cf | Horror
+ 7a6b9d3b-dece-4c9b-bb09-9353b2162b4a | Memoir
+ 3e0912eb-37da-4b7a-b2a1-957ce7880335 | Essays
+ 12a94927-a872-4f85-bb9c-18d1bd716733 | Travel
+ fa7e1059-7a33-4976-8bbd-2e6189548642 | Space Opera
+ 2fdbc5bc-8d2d-44ff-a310-dd8935be5f92 | Cyberpunk
+ 7c78a105-695c-4a82-b99a-b4d0fdcb1915 | High Fantasy
+ 48505004-1f42-4e63-8239-97f58d28695f | Urban Fantasy
+ 4eead143-9d1a-4833-983b-dc4db5423996 | Paranormal Romance
+ e7a732e2-8fa5-404f-ad92-c6a8e74e4fd5 | Manga
+ d93f78b4-ac63-42e7-9948-eeaf37454f94 | Picture Books
+ 813e9cc2-5251-49d4-bee0-a85fd21934f7 | Early Readers
+(26 rows)
+
+my genres
+               genre_id               |      genre_name      
+--------------------------------------+----------------------
+ f250adc5-8454-4ed3-81ff-dbde4c78bd1f | Adventure
+ 66eb7658-e0ec-42f2-81e5-dbf2fae92a7a | Comics
+ bf3da532-c2f1-412f-9ec1-00bef471b602 | Dystopian
+ 5c1074cd-d714-4d26-9612-e3b7cd658012 | Epic Fantasy
+ fa20b252-7783-4d1b-ad94-32105fe66f65 | Historical Fiction
+ e88a4263-f077-4766-bcdf-1b7c585d211b | Horror
+ 805dcfc3-1e6a-438a-99dc-ba561122d404 | Humor
+ e1ab905f-081f-4a7d-af4e-deabbd543583 | Magical Realism
+ d593ca2c-74ac-404a-af1b-52f38f7f325b | Manga
+ 1e2f9b36-f664-4981-89a4-181aaee35eec | Noir
+ 9ae1fac3-0fd2-475e-bdfb-a916296450f1 | Romance
+ 68e2ff8f-6716-4de9-99cf-990050bc8f92 | Science Fiction
+ 90923e17-feac-40d3-b71a-765b15dbc600 | Steampunk
+ 202f2f51-ada8-430d-82e0-69c842374693 | Superhero
+ d9f01075-d55c-4023-ba92-8dc49a70f976 | Urban Fantasy
+ 266310e8-0287-41e8-b5b0-fd0e237d438f | Young Adult
+ a7010a6c-d6e8-4003-887f-f6298c65c147 | Zombie Apocalypse
+ 19c3f489-1c50-442f-886d-0c12b920843f | Hard Science Fiction
+ 24b6f710-3aef-4366-946b-e96c4ab9cee2 | Space Opera
+ 281180bb-22f5-4d70-ad6e-1ef83ac4075f | Space Western
+ e24133c2-7389-4025-ac73-f115f2d4dd26 | Time Travel Romance
+ a0482b48-0021-4379-9f87-f33fdea112d5 | Dark Fantasy
+ 11210297-4c99-4591-91af-523b7a12cdb3 | Gothic Fiction
+ 01d76067-7374-4d66-98a8-1dbb54b9b23a | Shonen
+ 8cf9b6ad-3de3-4950-ac39-b7b21f29840e | Shojo
+ c0c8c831-40d8-4e4d-8034-bb0ab8b4c682 | Seinen
+ 2e0259ae-254f-4378-9761-53e3a3797cf0 | Josei
+ 34a002a9-a810-408e-abe7-f3c6dca0283f | Superhero Comics
+ 62162227-45f3-444c-84b2-facde7d49fa1 | Indie Comics
+ e2e54289-a55d-401a-a341-77e5b08023e0 | Coming-of-Age
+(30 rows)
+
