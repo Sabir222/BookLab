@@ -14,6 +14,7 @@ vi.mock("@repo/db/postgres", () => ({
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { Request, Response } from "express";
 import { addToWishlistController } from "../controllers/addToWishlistController.js";
+import { bookQueries, wishlistQueries } from "@repo/db/postgres";
 
 describe("addToWishlistController", () => {
   let mockRequest: Partial<Request>;
@@ -56,7 +57,6 @@ describe("addToWishlistController", () => {
     };
 
     // Mock the dependencies
-    const { bookQueries, wishlistQueries } = await import("@repo/db/postgres");
     (bookQueries.findById as any).mockResolvedValue({ book_id: "book123" });
     (wishlistQueries.isBookInUserWishlist as any).mockResolvedValue(false);
     (wishlistQueries.addItemToWishlist as any).mockResolvedValue(mockWishlistItem);
@@ -106,7 +106,6 @@ describe("addToWishlistController", () => {
   });
 
   it("should return 404 error when book is not found", async () => {
-    const { bookQueries } = await import("@repo/db/postgres");
     (bookQueries.findById as any).mockResolvedValue(null);
 
     mockRequest.body = {
@@ -125,7 +124,6 @@ describe("addToWishlistController", () => {
   });
 
   it("should return 409 error when book is already in wishlist", async () => {
-    const { bookQueries, wishlistQueries } = await import("@repo/db/postgres");
     (bookQueries.findById as any).mockResolvedValue({ book_id: "book123" });
     (wishlistQueries.isBookInUserWishlist as any).mockResolvedValue(true);
 
@@ -162,7 +160,6 @@ describe("addToWishlistController", () => {
   });
 
   it("should return 500 error when an unexpected error occurs", async () => {
-    const { bookQueries } = await import("@repo/db/postgres");
     (bookQueries.findById as any).mockRejectedValue(
       new Error("Database error"),
     );

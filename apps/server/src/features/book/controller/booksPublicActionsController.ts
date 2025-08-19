@@ -7,29 +7,9 @@ import {
   getRedisClient,
   type RedisClientType,
 } from "@repo/db/redis";
+import { sendSuccess, sendError, sendCreated, createPaginationMeta } from "../../../utils/responseHandler.js";
 
 const CACHE_TTL = 60;
-
-const sendResponse = (
-  res: Response,
-  status: number,
-  payload: Record<string, unknown>,
-) => res.status(status).json(payload);
-
-const handleError = (
-  res: Response,
-  status: number,
-  message: string,
-  code: string,
-  log?: unknown,
-) => {
-  if (log) console.error(message, log);
-  return sendResponse(res, status, {
-    success: false,
-    error: message,
-    code,
-  });
-};
 
 const getBookById = async (req: Request, res: Response): Promise<Response> => {
   const { id: bookId } = req.params;
@@ -37,22 +17,12 @@ const getBookById = async (req: Request, res: Response): Promise<Response> => {
   try {
     const book = await bookQueries.findById(bookId);
     if (!book) {
-      return handleError(
-        res,
-        404,
-        `Book '${bookId}' not found`,
-        "BOOK_NOT_FOUND",
-      );
+      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
     }
-    return sendResponse(res, 200, { success: true, data: { book } });
+    return sendSuccess(res, { book });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to get book",
-      "INTERNAL_SERVER_ERROR",
-      error,
-    );
+    console.error("Failed to get book:", error);
+    return sendError(res, "Failed to get book", "INTERNAL_SERVER_ERROR", 500);
   }
 };
 
@@ -60,11 +30,11 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
   const { limit } = req.query;
   const bookLimit = limit ? parseInt(limit as string, 10) : 50;
   if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
-    return handleError(
+    return sendError(
       res,
-      400,
       "Invalid limit parameter (1-100)",
       "INVALID_LIMIT",
+      400,
     );
   }
 
@@ -75,28 +45,15 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendResponse(res, 200, {
-        success: true,
-        data: { books: cached },
-        meta: { cached: true },
-      });
+      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
     }
 
     const books = await bookQueries.findBooks(bookLimit);
     setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
-    return sendResponse(res, 200, {
-      success: true,
-      data: { books },
-      meta: { cached: false },
-    });
+    return sendSuccess(res, { books }, undefined, 200, { cached: false });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to get books",
-      "INTERNAL_SERVER_ERROR",
-      error,
-    );
+    console.error("Failed to get books:", error);
+    return sendError(res, "Failed to get books", "INTERNAL_SERVER_ERROR", 500);
   }
 };
 
@@ -507,15 +464,10 @@ const createBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const bookData = req.body;
     const book = await bookQueries.create(bookData);
-    return sendResponse(res, 201, { success: true, data: { book } });
+    return sendCreated(res, { book });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to create book",
-      "CREATE_BOOK_ERROR",
-      error,
-    );
+    console.error("Failed to create book:", error);
+    return sendError(res, "Failed to create book", "CREATE_BOOK_ERROR", 500);
   }
 };
 
@@ -527,23 +479,13 @@ const updateBook = async (req: Request, res: Response): Promise<Response> => {
     const book = await bookQueries.update(bookId, bookData);
 
     if (!book) {
-      return handleError(
-        res,
-        404,
-        `Book '${bookId}' not found`,
-        "BOOK_NOT_FOUND",
-      );
+      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
     }
 
-    return sendResponse(res, 200, { success: true, data: { book } });
+    return sendSuccess(res, { book });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to update book",
-      "UPDATE_BOOK_ERROR",
-      error,
-    );
+    console.error("Failed to update book:", error);
+    return sendError(res, "Failed to update book", "UPDATE_BOOK_ERROR", 500);
   }
 };
 
@@ -554,26 +496,13 @@ const deleteBook = async (req: Request, res: Response): Promise<Response> => {
     const deleted = await bookQueries.delete(bookId);
 
     if (!deleted) {
-      return handleError(
-        res,
-        404,
-        `Book '${bookId}' not found`,
-        "BOOK_NOT_FOUND",
-      );
+      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
     }
 
-    return sendResponse(res, 200, {
-      success: true,
-      message: `Book '${bookId}' deleted successfully`,
-    });
+    return sendSuccess(res, null, `Book '${bookId}' deleted successfully`);
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to delete book",
-      "DELETE_BOOK_ERROR",
-      error,
-    );
+    console.error("Failed to delete book:", error);
+    return sendError(res, "Failed to delete book", "DELETE_BOOK_ERROR", 500);
   }
 };
 

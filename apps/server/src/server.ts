@@ -4,6 +4,7 @@ import cors, { type CorsOptions } from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import swaggerUi from "swagger-ui-express";
 import { healthRouter } from "./utils/checkhealth.js";
 import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
@@ -12,6 +13,7 @@ import userRouter from "./features/user/routes/index.js";
 import newsletterRouter from "./features/newsletter/routes/index.js";
 import wishlistRouter from "./features/wishlist/routes/index.js";
 import { validateEnvironment } from "./utils/validateEnv.js";
+import swaggerDocument from "./docs/swagger.json" with { type: "json" };
 
 dotenv.config();
 
@@ -59,6 +61,9 @@ app.use(
   }),
 );
 
+// Swagger UI documentation route
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/health", healthRouter);
@@ -74,6 +79,7 @@ const startServer = async () => {
     const server = app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+      console.log(`Swagger UI available at http://localhost:${PORT}/api/docs`);
     });
 
     server.on("error", (error: NodeJS.ErrnoException) => {

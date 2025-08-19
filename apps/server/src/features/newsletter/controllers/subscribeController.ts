@@ -1,5 +1,6 @@
 import { type Request, type Response } from "express";
 import { newsletterQueries } from "@repo/db/postgres";
+import { sendCreated, sendError, sendSuccess } from "../../../utils/responseHandler.js";
 
 class NewsletterError extends Error {
   constructor(
@@ -69,20 +70,14 @@ export const subscribeController = async (
     const { email }: SubscribeRequestBody = req.body;
 
     if (!email) {
-      res.status(400).json({
-        error: "Email is required",
-        code: "MISSING_EMAIL",
-      });
+      sendError(res, "Email is required", "MISSING_EMAIL", 400);
       return;
     }
 
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      res.status(400).json({
-        error: "Invalid email format",
-        code: "INVALID_EMAIL",
-      });
+      sendError(res, "Invalid email format", "INVALID_EMAIL", 400);
       return;
     }
 
@@ -90,29 +85,22 @@ export const subscribeController = async (
 
     console.log(`Email subscribed to newsletter: ${email}`);
 
-    res.status(201).json({
-      message: "Successfully subscribed to newsletter",
+    sendCreated(res, {
       subscriber: {
         subscriber_id: subscriber!.subscriber_id,
         email: subscriber!.email,
         is_subscribed: subscriber!.is_subscribed,
         subscribed_at: subscriber!.subscribed_at,
       },
-    });
+    }, "Successfully subscribed to newsletter");
   } catch (error) {
     console.error("Newsletter subscription error:", error);
 
     if (error instanceof NewsletterError) {
-      res.status(error.statusCode).json({
-        error: error.message,
-        code: error.code,
-      });
+      sendError(res, error.message, error.code || "NEWSLETTER_ERROR", error.statusCode);
       return;
     }
 
-    res.status(500).json({
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };

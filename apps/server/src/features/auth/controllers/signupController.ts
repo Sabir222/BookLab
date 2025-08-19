@@ -5,6 +5,7 @@ import type { JWTPayload } from "../../../utils/generateToken.js";
 import generateToken from "../../../utils/generateToken.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
 import { CreateUserData, User } from "@repo/types/types";
+import { sendCreated, sendError } from "../../../utils/responseHandler.js";
 
 class SignUpError extends Error {
   constructor(
@@ -86,10 +87,7 @@ export const signUpController = async (
     const { email, username, password }: SignUpRequestBody = req.body;
 
     if (!email || !username || !password) {
-      res.status(400).json({
-        error: "Data missing try again please!",
-        code: "MISSING_FIELDS",
-      });
+      sendError(res, "Data missing try again please!", "MISSING_FIELDS", 400);
       return;
     }
 
@@ -111,29 +109,22 @@ export const signUpController = async (
       `User successfully registered: ${email} (ID: ${newUser.user_id})`,
     );
 
-    res.status(201).json({
-      message: "User created successfully",
+    sendCreated(res, {
       user: {
         id: newUser.user_id,
         username: newUser.username,
         email: newUser.email,
       },
       accessToken,
-    });
+    }, "User created successfully");
   } catch (error) {
     console.error("SignUp error:", error);
 
     if (error instanceof SignUpError) {
-      res.status(error.statusCode).json({
-        error: error.message,
-        code: error.code,
-      });
+      sendError(res, error.message, error.code || "SIGNUP_ERROR", error.statusCode);
       return;
     }
 
-    res.status(500).json({
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };

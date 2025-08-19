@@ -1,5 +1,6 @@
 import { type Request, type Response } from "express";
 import { wishlistQueries, bookQueries } from "@repo/db/postgres";
+import { sendCreated, sendError } from "../../../utils/responseHandler.js";
 
 class WishlistError extends Error {
   constructor(
@@ -70,22 +71,14 @@ export const addToWishlistController = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({
-        success: false,
-        error: "Authentication required",
-        code: "UNAUTHORIZED",
-      });
+      sendError(res, "Authentication required", "UNAUTHORIZED", 401);
       return;
     }
 
     const { book_id }: AddToWishlistRequestBody = req.body;
 
     if (!book_id) {
-      res.status(400).json({
-        success: false,
-        error: "Book ID is required",
-        code: "MISSING_BOOK_ID",
-      });
+      sendError(res, "Book ID is required", "MISSING_BOOK_ID", 400);
       return;
     }
 
@@ -93,11 +86,7 @@ export const addToWishlistController = async (
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(book_id)) {
-      res.status(400).json({
-        success: false,
-        error: "Invalid book ID format",
-        code: "INVALID_BOOK_ID",
-      });
+      sendError(res, "Invalid book ID format", "INVALID_BOOK_ID", 400);
       return;
     }
 
@@ -107,33 +96,21 @@ export const addToWishlistController = async (
       `Book ${book_id} added to wishlist for user ${userId}`,
     );
 
-    res.status(201).json({
-      success: true,
-      message: "Book added to wishlist successfully",
-      data: {
-        wishlist_item: {
-          user_id: wishlistItem.user_id,
-          book_id: wishlistItem.book_id,
-          added_at: wishlistItem.added_at,
-        },
+    sendCreated(res, {
+      wishlist_item: {
+        user_id: wishlistItem.user_id,
+        book_id: wishlistItem.book_id,
+        added_at: wishlistItem.added_at,
       },
-    });
+    }, "Book added to wishlist successfully");
   } catch (error) {
     console.error("Add to wishlist error:", error);
 
     if (error instanceof WishlistError) {
-      res.status(error.statusCode).json({
-        success: false,
-        error: error.message,
-        code: error.code,
-      });
+      sendError(res, error.message, error.code || "WISHLIST_ERROR", error.statusCode);
       return;
     }
 
-    res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
