@@ -21,7 +21,6 @@ export const setCache = async (
   }
 };
 
-// Overloaded function signatures for better type safety
 export async function getCache<T = string>(
   client: RedisClientType,
   key: string,
@@ -97,7 +96,6 @@ export const incrementCache = async (
   try {
     const result = await client.incrBy(key, increment);
     if (ttlSeconds && result === increment) {
-      // Only set TTL if this is a new key (first increment)
       await client.expire(key, ttlSeconds);
     }
     return result;
@@ -240,7 +238,7 @@ export const setSession = async (
   client: RedisClientType,
   sessionId: string,
   sessionData: object,
-  ttlSeconds = 3600, // 1 hour default
+  ttlSeconds = 3600,
 ): Promise<void> => {
   try {
     const key = `session:${sessionId}`;
@@ -327,7 +325,6 @@ export const checkRateLimit = async (
       };
     }
 
-    // Add current request
     await client.zAdd(key, { score: now, value: `${now}-${Math.random()}` });
     await client.expire(key, windowSeconds);
 

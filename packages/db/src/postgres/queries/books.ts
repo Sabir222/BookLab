@@ -453,7 +453,6 @@ export const bookQueries = {
 
     query += joins.join("\n") + "\n";
 
-    // Add WHERE conditions
     if (whereConditions.length > 0) {
       query += "WHERE " + whereConditions.join(" AND ") + "\n";
     }

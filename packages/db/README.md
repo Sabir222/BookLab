@@ -1,62 +1,47 @@
-```sql
-1. users           ← No dependencies
-2. authors         ← No dependencies
-3. publishers      ← No dependencies
-4. categories      ← Self-referencing (can be empty initially)
-5. genres          ← Self-referencing (can be empty initially)
-6. book_series     ← No dependencies
-7. books           ← References: users, publishers, categories
-8. book_authors    ← References: books, authors
-9. book_categories ← References: books, categories
-10. book_genres    ← References: books, genres
-11. book_series_entries ← References: books, book_series
-12. book_reviews   ← References: books, users
+# Database Package
+
+This package handles database connections and operations for BookLab, supporting both PostgreSQL and Redis.
+
+## Features
+
+- PostgreSQL connection pooling
+- Redis client management
+- Database migrations
+- Health checks for both databases
+- Seeding scripts
+
+## Setup
+
+1. Copy `.env.example` to `.env` and configure your database credentials
+2. Run `bun db:setup` to run migrations and seed the database
+
+## Environment Variables
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_NAME=your_database
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=your_redis_password
 ```
 
-## Users Table Relationships:
+## Scripts
 
-- **users → books (as owner)** — One user owns many books
-- **users → books (as creator)** — One user creates many book records
-- **users → books (as modifier)** — One user modifies many books
-- **users → books (as deleter)** — One user deletes many books
-- **users → book_reviews** — One user writes many reviews
+- `bun db:migrate` - Run database migrations
+- `bun db:seed` - Seed the database with sample data
+- `bun db:seed-one` - Seed a single entity
+- `bun db:seed-transactional` - Seed data in a transaction
+- `bun db:setup` - Run migrations and seed (recommended for initial setup)
 
-## Books Table Relationships:
+## Exports
 
-- **publishers → books** — One publisher publishes many books
-- **categories → books (primary)** — One category is primary for many books
-- **books → book_reviews** — One book receives many reviews
-- **books ↔ authors (via book_authors)** — Many-to-many
-- **books ↔ categories (via book_categories)** — Many-to-many
-- **books ↔ genres (via book_genres)** — Many-to-many
-- **books ↔ book_series (via book_series_entries)** — Many-to-many
+- `@repo/db/postgres` - PostgreSQL client and utilities
+- `@repo/db/redis` - Redis client and utilities
+- `@repo/db/health` - Health check functions
 
-## Self-Referencing Relationships:
+## Health Checks
 
-- **categories → categories** (parent-child hierarchy)
-- **genres → genres** (parent-child hierarchy)
-
-### self-referencing table example:
-
-```text
-Fiction (parent_category_id: NULL)
-├── Mystery & Thriller (parent_category_id: Fiction ID)
-├── Romance (parent_category_id: Fiction ID)
-├── Science Fiction & Fantasy (parent_category_id: Fiction ID)
-│ ├── Epic Fantasy (parent_category_id: Science Fiction & Fantasy ID)
-│ ├── Space Opera (parent_category_id: Science Fiction & Fantasy ID)
-│ └── Urban Fantasy (parent_category_id: Science Fiction & Fantasy ID)
-└── Historical Fiction (parent_category_id: Fiction ID)
-```
-
-### Database-Docker:
-
-```bash
-docker run --name booklab-db \
- -e POSTGRES_USER=sabir \
- -e POSTGRES_PASSWORD=pw \
- -e POSTGRES_DB=booklab_db \
- -p 5432:5432 \
- -v booklab_pgdata:/var/lib/postgresql/data \
- -d postgres
-```
+The package provides comprehensive health checking for both PostgreSQL and Redis connections, with detailed status reporting.
