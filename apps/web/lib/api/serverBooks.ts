@@ -3,9 +3,16 @@ import { ApiResponse } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001";
 
-// Extended Book type with author information
+// Extended Book type with authors array
 export interface BookWithAuthor extends Book {
   author_name?: string;
+  authors?: Array<{
+    author_id: string;
+    first_name?: string;
+    last_name: string;
+    role?: string;
+    order_index?: number;
+  }>;
 }
 
 export const serverBookApi = {

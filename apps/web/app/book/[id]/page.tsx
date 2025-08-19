@@ -14,6 +14,14 @@ const formatRating = (ratingString: string | null): number => {
   return parseFloat(ratingString || "0") || 0;
 };
 
+const formatAuthors = (authors: Array<{ first_name?: string; last_name: string }> | undefined): string => {
+  if (!authors || authors.length === 0) return "Unknown Author";
+  
+  return authors
+    .map(author => `${author.first_name ? `${author.first_name} ${author.last_name}` : author.last_name}`)
+    .join(", ");
+};
+
 export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
@@ -29,6 +37,10 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
   const discountPercentage = hasDiscount && originalPrice
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
+
+  // Extract authors from the book object if they exist
+  const authors = 'authors' in book ? book.authors : undefined;
+  const authorName = authors ? formatAuthors(authors) : (book.author_name || "Unknown Author");
 
   return (
     <div className="pt-30 min-h-screen bg-background">
@@ -55,7 +67,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
           <div className="md:w-2/3">
             <h1 className="text-3xl font-bold text-primary">{book.title}</h1>
             <p className="text-xl text-muted-foreground mt-2">
-              {book.author_name || "Unknown Author"}
+              {authorName}
             </p>
 
             <div className="flex items-center mt-4">

@@ -9,6 +9,13 @@ const API_BASE_URL =
 
 export interface BookWithAuthor extends Book {
   author_name?: string;
+  authors?: Array<{
+    author_id: string;
+    first_name?: string;
+    last_name: string;
+    role?: string;
+    order_index?: number;
+  }>;
 }
 
 export const bookApi = {
