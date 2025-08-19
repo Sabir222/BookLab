@@ -1,140 +1,174 @@
-import { BookHeader } from "@/components/books/BookHeader";
 import { BookAccordion } from "@/components/books/BookAccordion";
+import { serverBookApi } from "@/lib/api/serverBooks";
+import type { BookWithAuthor } from "@/lib/api/serverBooks";
+import { notFound } from "next/navigation";
+import { BookImage } from "@/components/books/BookImage";
+import { Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-type MockBook = {
-  id: string;
-  title: string;
-  author: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-  rating: number;
-  pages: number;
-  publishedYear: number;
-  publisher: string;
-  genre: string;
-  isbn: string;
-  dimensions: string;
-  weight: string;
-  language: string;
-  coverImage: string;
-  inStock: boolean;
-  stockCount: number;
-  format: string;
-  category: string;
-  isBestseller?: boolean;
-  isAwardWinner?: boolean;
-  reviews: Array<{
-    id: string;
-    author: string;
-    rating: number;
-    comment: string;
-    date: string;
-  }>;
+const formatPrice = (priceString: string): number => {
+  return parseFloat(priceString) || 0;
 };
 
-const getBookById = (id: string): MockBook | null => {
-  const books: Record<string, MockBook> = {
-    "1": {
-      id: "1",
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      description: "A classic American novel set in the summer of 1922, following the story of Jay Gatsby and his obsession with the beautiful Daisy Buchanan. The novel explores themes of wealth, love, the American Dream, and the decline of social values in the 1920s.",
-      price: 12.99,
-      originalPrice: 15.99,
-      rating: 4.2,
-      pages: 180,
-      publishedYear: 1925,
-      publisher: "Scribner",
-      genre: "Classic Literature",
-      isbn: "978-0-7432-7356-5",
-      dimensions: "5.5 x 0.5 x 8.2 inches",
-      weight: "0.3 pounds",
-      language: "English",
-      coverImage: "/placeholder-book-cover.jpg",
-      inStock: true,
-      stockCount: 25,
-      format: "Paperback",
-      category: "Fiction",
-      isBestseller: true,
-      reviews: [
-        {
-          id: "1",
-          author: "Alice Johnson",
-          rating: 5,
-          comment: "A masterpiece of American literature. Fitzgerald&#39;s prose is absolutely beautiful.",
-          date: "2023-05-15"
-        },
-        {
-          id: "2",
-          author: "Bob Smith",
-          rating: 4,
-          comment: "Great story but requires some patience to get through.",
-          date: "2023-03-22"
-        }
-      ]
-    },
-    "2": {
-      id: "2",
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      description: "A gripping tale of racial injustice and childhood innocence in the American South. The story follows young Scout Finch as her father, attorney Atticus Finch, defends a Black man falsely accused of rape.",
-      price: 14.99,
-      rating: 4.5,
-      pages: 376,
-      publishedYear: 1960,
-      publisher: "J.B. Lippincott & Co.",
-      genre: "Fiction",
-      isbn: "978-0-06-112008-4",
-      dimensions: "6.2 x 1.5 x 9.3 inches",
-      weight: "0.8 pounds",
-      language: "English",
-      coverImage: "/placeholder-book-cover.jpg",
-      inStock: true,
-      stockCount: 18,
-      format: "Hardcover",
-      category: "Classic Literature",
-      isAwardWinner: true,
-      reviews: []
-    }
-  };
-
-  return books[id] || null;
+const formatRating = (ratingString: string | null): number => {
+  return parseFloat(ratingString || "0") || 0;
 };
 
 export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const book = getBookById(id);
+
+  const book = await serverBookApi.getBookById(id);
 
   if (!book) {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-12">
-            <h1 className="text-2xl font-bold text-primary">Book not found</h1>
-            <p className="text-muted-foreground mt-2">The book you&apos;re looking for doesn&apos;t exist.</p>
+    notFound();
+  }
+
+  const price = formatPrice(book.price_sale);
+  const originalPrice = book.price_rent_daily ? formatPrice(book.price_rent_daily) : null;
+  const hasDiscount = originalPrice && originalPrice > price;
+  const discountPercentage = hasDiscount && originalPrice
+    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+    : 0;
+
+  return (
+    <div className="pt-30 min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="md:w-1/3 flex justify-center">
+            <div className="relative w-full max-w-sm">
+              {book.cover_image_large_url ? (
+                <BookImage
+                  src={book.cover_image_large_url}
+                  alt={book.title}
+                  width={300}
+                  height={450}
+                  className="rounded-lg shadow-lg object-cover"
+                />
+              ) : (
+                <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-[450px] flex items-center justify-center">
+                  <span className="text-6xl">📚</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="md:w-2/3">
+            <h1 className="text-3xl font-bold text-primary">{book.title}</h1>
+            <p className="text-xl text-muted-foreground mt-2">
+              {book.author_name || "Unknown Author"}
+            </p>
+
+            <div className="flex items-center mt-4">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-5 w-5 ${i < Math.floor(formatRating(book.average_rating)) ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
+                  />
+                ))}
+              </div>
+              <span className="ml-2 text-muted-foreground">
+                {formatRating(book.average_rating).toFixed(1)} ({book.total_ratings} ratings)
+              </span>
+            </div>
+
+            <div className="mt-6">
+              <div className="flex items-baseline gap-3">
+                <span className="text-3xl font-bold text-primary">${price.toFixed(2)}</span>
+                {hasDiscount && (
+                  <>
+                    <span className="text-xl text-muted-foreground line-through">${originalPrice?.toFixed(2)}</span>
+                    <span className="bg-red-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                      {discountPercentage}% OFF
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-4">
+              {book.stock_quantity > 0 ? (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  In Stock ({book.stock_quantity} available)
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                  Out of Stock
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-4 mt-8">
+              <Button size="lg" className="px-8" disabled={book.stock_quantity === 0}>
+                {book.stock_quantity > 0 ? "Add to Cart" : "Out of Stock"}
+              </Button>
+              <Button variant="outline" size="lg" className="px-8">
+                Add to Wishlist
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+              <div>
+                <h3 className="font-semibold text-primary">Format</h3>
+                <p className="text-muted-foreground capitalize">{book.book_format}</p>
+              </div>
+
+              {book.page_count && (
+                <div>
+                  <h3 className="font-semibold text-primary">Pages</h3>
+                  <p className="text-muted-foreground">{book.page_count}</p>
+                </div>
+              )}
+
+              {book.isbn_13 && (
+                <div>
+                  <h3 className="font-semibold text-primary">ISBN-13</h3>
+                  <p className="text-muted-foreground">{book.isbn_13}</p>
+                </div>
+              )}
+
+              {book.isbn_10 && (
+                <div>
+                  <h3 className="font-semibold text-primary">ISBN-10</h3>
+                  <p className="text-muted-foreground">{book.isbn_10}</p>
+                </div>
+              )}
+
+              {book.publication_date && (
+                <div>
+                  <h3 className="font-semibold text-primary">Publication Date</h3>
+                  <p className="text-muted-foreground">{new Date(book.publication_date).toLocaleDateString()}</p>
+                </div>
+              )}
+
+              {book.publisher_id && (
+                <div>
+                  <h3 className="font-semibold text-primary">Publisher</h3>
+                  <p className="text-muted-foreground">Unknown Publisher</p>
+                </div>
+              )}
+
+              {book.language && (
+                <div>
+                  <h3 className="font-semibold text-primary">Language</h3>
+                  <p className="text-muted-foreground capitalize">{book.language}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    );
-  }
 
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <BookHeader book={book} />
-      </div>
+      {book.description && (
+        <div className="container mx-auto px-4 mt-12">
+          <h2 className="text-2xl font-bold text-primary">Description</h2>
+          <p className="mt-4 text-muted-foreground whitespace-pre-line">
+            {book.description}
+          </p>
+        </div>
+      )}
 
-      {/* About Section */}
       <div className="container mx-auto px-4 mt-12">
-        <h2 className="text-2xl font-bold text-primary">About</h2>
-        <p className="mt-4 text-muted-foreground">
-          {book.description}
-        </p>
-      </div>
-
-      {/* Accordion Sections */}
-      <div className="container mx-auto px-4">
         <BookAccordion book={book} />
       </div>
     </div>

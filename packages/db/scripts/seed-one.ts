@@ -10,10 +10,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 async function seedSingleFile(fileName: string) {
   const seedsDir = path.join(__dirname, "../src/postgres/seeds");
   const seedPath = path.join(seedsDir, fileName);
-  
+
   try {
     console.log(`Seeding database with file: ${fileName}...`);
-    
+
     // Check if the seeds directory exists
     if (!fs.existsSync(seedsDir)) {
       throw new Error(`Seeds directory not found: ${seedsDir}`);
@@ -25,19 +25,19 @@ async function seedSingleFile(fileName: string) {
     }
 
     // Check if the file is a .sql file
-    if (!fileName.endsWith('.sql')) {
+    if (!fileName.endsWith(".sql")) {
       throw new Error(`File must be a .sql file: ${fileName}`);
     }
 
     console.log(`Seeding ${fileName}...`);
-    
+
     try {
       const seedSql = fs.readFileSync(seedPath, "utf8");
-      
+
       // Extract only the INSERT statements for the books table
       const booksInsertRegex = /INSERT INTO books \([^)]*\) VALUES [\s\S]*?;/g;
       const booksInsertMatches = seedSql.match(booksInsertRegex);
-      
+
       if (booksInsertMatches) {
         for (const insertStatement of booksInsertMatches) {
           await db.query(insertStatement);
@@ -48,9 +48,12 @@ async function seedSingleFile(fileName: string) {
       }
     } catch (fileError: any) {
       console.error(`Error seeding ${fileName}:`, fileError.message);
-      throw new Error(`Seeding failed for file ${fileName}: ${fileError.message}`, { cause: fileError });
+      throw new Error(
+        `Seeding failed for file ${fileName}: ${fileError.message}`,
+        { cause: fileError },
+      );
     }
-    
+
     console.log("Database seeded successfully!");
   } catch (error: any) {
     console.error("Seeding failed:", error.message);
@@ -71,3 +74,4 @@ if (args.length === 0) {
 
 const fileName = args[0];
 seedSingleFile(fileName);
+

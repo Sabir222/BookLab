@@ -99,6 +99,37 @@ const getBooksByName = async (
   }
 };
 
+const searchBooksWithAuthors = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const { q } = req.query;
+  if (!q || typeof q !== "string" || !q.trim()) {
+    return sendError(res, "Invalid search query", "INVALID_SEARCH_QUERY", 400);
+  }
+
+  const normalizedQuery = q.trim();
+  const cacheKey = `books:search-with-authors:${normalizedQuery.toLowerCase()}`;
+  let redis: RedisClientType | null = null;
+
+  try {
+    redis = getRedisClient();
+    const cached = await getCache<(Book & { author_name?: string })[]>(redis, cacheKey, true);
+    if (cached) {
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
+    }
+
+    const books = await bookQueries.searchBooksWithAuthors(normalizedQuery);
+    setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+    return sendSuccess(res, { books }, undefined, 200, { cached: false });
+  } catch (error) {
+    console.error("Search with authors failed:", error);
+    return sendError(res, "Search failed", "SEARCH_ERROR", 500);
+  }
+};
+
 const getBooksByAuthor = async (
   req: Request,
   res: Response,
@@ -747,5 +778,6 @@ export const bookPublicActionsController = {
   reserveBooks,
   releaseReservedBooks,
   updateBookRatings,
+  searchBooksWithAuthors,
 };
 

@@ -6,23 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MiniBookCard } from "@/components/books/MiniBookCard";
 import { useNavbarStore } from "./navbarStore";
+import type { Book, ApiResponse, SearchResponse, SimpleBook } from "@/types";
 
 interface SearchBarProps {
         className?: string;
 }
 
-interface SearchResult {
-        id: string;
-        title: string;
-        author: string;
-        coverImage?: string;
-}
-
 export function SearchBar({ className }: SearchBarProps) {
         const { isSearchOpen, openSearch, closeSearch } = useNavbarStore();
         const [searchQuery, setSearchQuery] = useState("");
-        const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+        const [searchResults, setSearchResults] = useState<SimpleBook[]>([]);
+        const [isLoading, setIsLoading] = useState(false);
         const searchRef = useRef<HTMLDivElement>(null);
+        const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
         const handleSearch = (e: React.FormEvent) => {
                 e.preventDefault();
@@ -32,34 +28,57 @@ export function SearchBar({ className }: SearchBarProps) {
                 }
         };
 
+        const fetchSearchResults = async (query: string) => {
+                if (!query.trim()) {
+                        setSearchResults([]);
+                        return;
+                }
+
+                setIsLoading(true);
+                try {
+                        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+                        const response = await fetch(
+                                `${API_BASE_URL}/api/books/search-with-authors?q=${encodeURIComponent(query)}`
+                        );
+                        const result: ApiResponse<SearchResponse> = await response.json();
+
+                        if (result.success && result.data?.books) {
+                                const results: SimpleBook[] = result.data.books.slice(0, 8).map((book: Book & { author_name?: string }) => ({
+                                        id: book.book_id,
+                                        title: book.title,
+                                        author: book.author_name || "Unknown Author",
+                                        coverImage: book.cover_image_small_url || book.cover_image_medium_url || undefined
+                                }));
+                                setSearchResults(results);
+                        } else {
+                                setSearchResults([]);
+                        }
+                } catch (error) {
+                        console.error("Search error:", error);
+                        setSearchResults([]);
+                } finally {
+                        setIsLoading(false);
+                }
+        };
+
         useEffect(() => {
+                if (debounceTimer.current) {
+                        clearTimeout(debounceTimer.current);
+                }
+
                 if (searchQuery.trim()) {
-                        const mockResults: SearchResult[] = [
-                                {
-                                        id: "1",
-                                        title: "The Great Gatsby",
-                                        author: "F. Scott Fitzgerald"
-                                },
-                                {
-                                        id: "2",
-                                        title: "To Kill a Mockingbird",
-                                        author: "Harper Lee"
-                                },
-                                {
-                                        id: "3",
-                                        title: "1984",
-                                        author: "George Orwell"
-                                },
-                                {
-                                        id: "4",
-                                        title: "Pride and Prejudice",
-                                        author: "Jane Austen"
-                                }
-                        ];
-                        setSearchResults(mockResults);
+                        debounceTimer.current = setTimeout(() => {
+                                fetchSearchResults(searchQuery);
+                        }, 300); // 300ms debounce
                 } else {
                         setSearchResults([]);
                 }
+
+                return () => {
+                        if (debounceTimer.current) {
+                                clearTimeout(debounceTimer.current);
+                        }
+                };
         }, [searchQuery]);
 
         useEffect(() => {
@@ -106,12 +125,13 @@ export function SearchBar({ className }: SearchBarProps) {
 
                                         {searchResults.length > 0 && (
                                                 <div className="border-t border-border max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-accent scrollbar-track-background scrollbar-thumb-rounded-full">
-                                                        {searchResults.map((result, index) => (
-                                                                <div key={result.id}>
+                                                        {searchResults.map((book, index) => (
+                                                                <div key={book.id}>
                                                                         <MiniBookCard
-                                                                                id={result.id}
-                                                                                title={result.title}
-                                                                                author={result.author}
+                                                                                id={book.id}
+                                                                                title={book.title}
+                                                                                author={book.author}
+                                                                                coverImage={book.coverImage}
                                                                         />
                                                                         {index < searchResults.length - 1 && <Separator className="my-0" />}
                                                                 </div>
@@ -130,6 +150,12 @@ export function SearchBar({ className }: SearchBarProps) {
                                                                         View all results
                                                                 </button>
                                                         </div>
+                                                </div>
+                                        )}
+
+                                        {isLoading && searchQuery.trim() && (
+                                                <div className="border-t border-border py-3 text-center">
+                                                        <p className="text-sm text-muted-foreground">Searching...</p>
                                                 </div>
                                         )}
                                 </div>
