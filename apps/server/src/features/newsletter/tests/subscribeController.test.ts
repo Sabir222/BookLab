@@ -73,6 +73,7 @@ describe("subscribeController", () => {
 
     expect(status).toHaveBeenCalledWith(400);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Email is required",
       code: "MISSING_EMAIL",
     });
@@ -87,6 +88,7 @@ describe("subscribeController", () => {
 
     expect(status).toHaveBeenCalledWith(400);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Invalid email format",
       code: "INVALID_EMAIL",
     });
@@ -115,6 +117,7 @@ describe("subscribeController", () => {
     expect(newsletterQueries.findByEmail).toHaveBeenCalledWith("existing@example.com");
     expect(status).toHaveBeenCalledWith(409);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Email is already subscribed to the newsletter",
       code: "ALREADY_SUBSCRIBED",
     });
@@ -170,6 +173,7 @@ describe("subscribeController", () => {
 
     expect(status).toHaveBeenCalledWith(500);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Internal server error",
       code: "INTERNAL_ERROR",
     });

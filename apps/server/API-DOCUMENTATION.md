@@ -6,6 +6,32 @@ This document provides detailed information about all available API endpoints fo
 
 All endpoints are relative to: `http://localhost:4000/api`
 
+## Common Response Format
+
+All API responses follow a consistent format:
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "Optional success message",
+  "data": {...},
+  "meta": {...}
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "code": "ERROR_CODE",
+  "message": "Optional additional message"
+}
+```
+
 ## Authentication Endpoints
 
 ### 1. Sign Up
@@ -25,6 +51,7 @@ Create a new user account.
 
 - **201 Created**: Returns user information and auth tokens
 - **400 Bad Request**: Invalid request data
+- **409 Conflict**: Email or username already exists
 - **500 Internal Server Error**: Server error
 
 #### Example
@@ -95,7 +122,7 @@ curl -X GET "http://localhost:4000/api/auth/me" \
 
 ### 4. Logout
 
-**GET** `/api/auth/logout`
+**POST** `/api/auth/logout`
 
 Invalidate the current user's session.
 
@@ -113,13 +140,13 @@ Invalidate the current user's session.
 #### Example
 
 ```bash
-curl -X GET "http://localhost:4000/api/auth/logout" \
+curl -X POST "http://localhost:4000/api/auth/logout" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 ### 5. Refresh Token
 
-**GET** `/api/auth/refresh`
+**POST** `/api/auth/refresh`
 
 Refresh the authentication tokens.
 
@@ -137,7 +164,7 @@ Refresh the authentication tokens.
 #### Example
 
 ```bash
-curl -X GET "http://localhost:4000/api/auth/refresh" \
+curl -X POST "http://localhost:4000/api/auth/refresh" \
   -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
 ```
 
@@ -1114,27 +1141,6 @@ curl -X GET "http://localhost:4000/api/wishlist/" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-## Common Response Formats
-
-### Success Response
-
-```json
-{
-  "success": true,
-  "data": {...}
-}
-```
-
-### Error Response
-
-```json
-{
-  "success": false,
-  "error": "Error message",
-  "code": "ERROR_CODE"
-}
-```
-
 ## Error Codes
 
 - `BOOK_NOT_FOUND`: The requested book was not found
@@ -1181,4 +1187,3 @@ curl -X GET "http://localhost:4000/api/wishlist/" \
 ## Rate Limiting
 
 All endpoints are subject to rate limiting to prevent abuse. Excessive requests may result in temporary blocking.
-

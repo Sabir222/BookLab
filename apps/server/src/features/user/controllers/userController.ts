@@ -1,27 +1,7 @@
 import type { Request, Response } from "express";
 import { userQueries } from "@repo/db/postgres";
 import { hashPassword, comparerPassword } from "../../../utils/hashPassword.js";
-
-const sendResponse = (
-  res: Response,
-  status: number,
-  payload: Record<string, unknown>,
-) => res.status(status).json(payload);
-
-const handleError = (
-  res: Response,
-  status: number,
-  message: string,
-  code: string,
-  log?: unknown,
-) => {
-  if (log) console.error(message, log);
-  return sendResponse(res, status, {
-    success: false,
-    error: message,
-    code,
-  });
-};
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 export const getCurrentUser = async (
   req: Request,
@@ -30,27 +10,19 @@ export const getCurrentUser = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
+      return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
     }
 
     const user = await userQueries.findById(userId);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const { hashed_password, ...publicUser } = user;
-    return sendResponse(res, 200, {
-      success: true,
-      data: { user: publicUser },
-    });
+    return sendSuccess(res, { user: publicUser });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to get user profile",
-      "GET_USER_ERROR",
-      error,
-    );
+    console.error("Failed to get user profile:", error);
+    return sendError(res, "Failed to get user profile", "GET_USER_ERROR", 500);
   }
 };
 

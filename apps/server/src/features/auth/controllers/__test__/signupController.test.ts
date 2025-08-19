@@ -114,6 +114,7 @@ describe("signUpController", () => {
 
     expect(status).toHaveBeenCalledWith(400);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Data missing try again please!",
       code: "MISSING_FIELDS",
     });
@@ -140,6 +141,7 @@ describe("signUpController", () => {
     expect(userQueries.findByEmail).toHaveBeenCalledWith("existing@example.com");
     expect(status).toHaveBeenCalledWith(409);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "User with this email already exists",
       code: "EMAIL_EXISTS",
     });
@@ -170,6 +172,7 @@ describe("signUpController", () => {
     expect(userQueries.findByUsername).toHaveBeenCalledWith("existinguser");
     expect(status).toHaveBeenCalledWith(409);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "User with this username already exists",
       code: "USERNAME_EXISTS",
     });
@@ -190,6 +193,7 @@ describe("signUpController", () => {
 
     expect(status).toHaveBeenCalledWith(500);
     expect(jsonResponse).toHaveBeenCalledWith({
+      success: false,
       error: "Internal server error",
       code: "INTERNAL_ERROR",
     });
