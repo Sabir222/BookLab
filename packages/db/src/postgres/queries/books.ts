@@ -4,15 +4,209 @@ import { type Book } from "@repo/types/types";
 const parseBooks = (rows: unknown[]): Book[] => rows as Book[];
 
 export const bookQueries = {
-  async findById(bookId: string): Promise<Book | null> {
+  async findById(bookId: string): Promise<
+    | (Book & {
+        authors?: Array<{
+          author_id: string;
+          first_name?: string;
+          last_name: string;
+          role?: string;
+          order_index?: number;
+        }>;
+      })
+    | null
+  > {
     const result = await db.query(
-      "SELECT * FROM books WHERE book_id = $1 LIMIT 1",
+      `SELECT b.*, 
+     COALESCE(
+       json_agg(
+         json_build_object(
+           'author_id', a.author_id,
+           'first_name', a.first_name,
+           'last_name', a.last_name,
+           'role', ba.role,
+           'order_index', ba.order_index
+         ) ORDER BY ba.order_index
+       ) FILTER (WHERE a.author_id IS NOT NULL), 
+       '[]'::json
+     ) as authors
+     FROM books b
+     LEFT JOIN book_authors ba ON b.book_id = ba.book_id
+     LEFT JOIN authors a ON ba.author_id = a.author_id
+     WHERE b.book_id = $1
+     GROUP BY b.book_id
+     LIMIT 1`,
       [bookId],
     );
-    return result.rows[0] ? (result.rows[0] as Book) : null;
+
+    return result.rows[0] ? result.rows[0] : null;
   },
 
-  async findBookWithAuthors(bookId: string): Promise<(Book & { author_name?: string }) | null> {
+  async findBooksByName(
+    title: string,
+    limit = 10,
+  ): Promise<
+    (Book & {
+      authors?: Array<{
+        author_id: string;
+        first_name?: string;
+        last_name: string;
+        role?: string;
+        order_index?: number;
+      }>;
+    })[]
+  > {
+    const cleanQuery = title.trim().toLowerCase();
+    const queryWords = cleanQuery
+      .split(/\s+/)
+      .filter((word) => word.length > 0);
+
+    const result = await db.query(
+      `
+  WITH search_input AS (
+    SELECT 
+      $1::text AS original_query,
+      $3::text AS clean_query,
+      $4::text[] AS query_words
+  ),
+  scored_books AS (
+    SELECT 
+      b.*,
+      COALESCE(
+        json_agg(
+          json_build_object(
+            'author_id', a.author_id,
+            'first_name', a.first_name,
+            'last_name', a.last_name,
+            'role', ba.role,
+            'order_index', ba.order_index
+          ) ORDER BY ba.order_index
+        ) FILTER (WHERE a.author_id IS NOT NULL), 
+        '[]'::json
+      ) as authors,
+      GREATEST(
+        CASE 
+          WHEN LOWER(b.title) = si.clean_query THEN 1.0
+          WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
+          WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
+          ELSE 0
+        END,
+        CASE 
+          WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
+          WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
+          ELSE 0
+        END,
+        CASE 
+          WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
+          WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
+          WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
+          ELSE 0
+        END,
+        GREATEST(
+          COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
+          COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
+          COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
+          (
+            SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
+            FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+            CROSS JOIN unnest(si.query_words) AS query_word
+            WHERE similarity(word_from_title, query_word) > 0.3
+          ),
+          CASE 
+            WHEN LENGTH(si.clean_query) <= 15 THEN
+              GREATEST(
+                CASE 
+                  WHEN levenshtein(LOWER(b.title), si.clean_query) <= 3 THEN 0.6
+                  WHEN levenshtein(LOWER(b.title), si.clean_query) <= 5 THEN 0.4
+                  ELSE 0
+                END,
+                CASE 
+                  WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 3 THEN 0.55
+                  WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 5 THEN 0.35
+                  ELSE 0
+                END
+              )
+            ELSE 0
+          END
+        ),
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM unnest(si.query_words) AS word
+            WHERE LOWER(b.title) LIKE '%' || word || '%'
+              OR LOWER(b.subtitle) LIKE '%' || word || '%'
+          ) THEN 0.5
+          ELSE 0
+        END,
+        GREATEST(
+          CASE WHEN LOWER(b.title) % si.clean_query THEN 
+            similarity(LOWER(b.title), si.clean_query) * 0.4
+          ELSE 0 END,
+          CASE WHEN LOWER(b.subtitle) % si.clean_query THEN 
+            similarity(LOWER(b.subtitle), si.clean_query) * 0.35
+          ELSE 0 END,
+          (
+            SELECT COALESCE(MAX(
+              CASE WHEN word_from_title % query_word THEN
+                similarity(word_from_title, query_word) * 0.3
+              ELSE 0 END
+            ), 0)
+            FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+            CROSS JOIN unnest(si.query_words) AS query_word
+          )
+        )
+      ) AS similarity_score,
+      CASE 
+        WHEN LENGTH(b.title) <= 50 THEN 0.05
+        ELSE 0
+      END AS length_bonus
+    FROM books b
+    LEFT JOIN book_authors ba ON b.book_id = ba.book_id
+    LEFT JOIN authors a ON ba.author_id = a.author_id
+    CROSS JOIN search_input si
+    WHERE b.is_active = true
+      AND (
+        LOWER(b.title) LIKE '%' || si.clean_query || '%'
+        OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
+        OR LOWER(b.title) % si.clean_query
+        OR LOWER(b.subtitle) % si.clean_query
+        OR COALESCE(similarity(LOWER(b.title), si.clean_query), 0) > 0.2
+        OR COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) > 0.2
+        OR (LENGTH(si.clean_query) <= 15 AND (
+          levenshtein(LOWER(b.title), si.clean_query) <= 5
+          OR levenshtein(LOWER(b.subtitle), si.clean_query) <= 5
+        ))
+        OR EXISTS (
+          SELECT 1 FROM unnest(si.query_words) AS word
+          WHERE word != '' AND (
+            LOWER(b.title) LIKE '%' || word || '%'
+            OR LOWER(b.subtitle) LIKE '%' || word || '%'
+            OR EXISTS (
+              SELECT 1 FROM unnest(string_to_array(LOWER(b.title), ' ')) AS title_word
+              WHERE similarity(title_word, word) > 0.3 OR title_word % word
+            )
+          )
+        )
+      )
+    GROUP BY b.book_id, si.clean_query, si.query_words
+  )
+  SELECT *
+  FROM scored_books
+  WHERE (similarity_score + length_bonus) >= 0.08
+  ORDER BY 
+    (similarity_score + length_bonus) DESC,
+    LENGTH(title) ASC,
+    title ASC
+  LIMIT $2
+  `,
+      [title, limit, cleanQuery, queryWords],
+    );
+
+    return result.rows;
+  },
+
+  async findBookWithAuthors(
+    bookId: string,
+  ): Promise<(Book & { author_name?: string }) | null> {
     const result = await db.query(
       `SELECT b.*, 
        STRING_AGG(CONCAT(COALESCE(a.first_name, ''), ' ', a.last_name), ', ' ORDER BY ba.order_index) as author_name
@@ -24,9 +218,9 @@ export const bookQueries = {
        LIMIT 1`,
       [bookId],
     );
-    
+
     if (!result.rows[0]) return null;
-    
+
     const book = result.rows[0] as Book & { author_name?: string };
     return book;
   },
@@ -39,141 +233,144 @@ export const bookQueries = {
     return parseBooks(result.rows);
   },
 
-  async findBooksByName(title: string, limit = 10): Promise<Book[]> {
-    const cleanQuery = title.trim().toLowerCase();
-    const queryWords = cleanQuery
-      .split(/\s+/)
-      .filter((word) => word.length > 0);
-
-    const result = await db.query(
-      `
-    WITH search_input AS (
-      SELECT 
-        $1::text AS original_query,
-        $3::text AS clean_query,
-        $4::text[] AS query_words
-    ),
-    scored_books AS (
-      SELECT 
-        b.*,
-        GREATEST(
-          CASE 
-            WHEN LOWER(b.title) = si.clean_query THEN 1.0
-            WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
-            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
-            ELSE 0
-          END,
-          CASE 
-            WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
-            WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
-            ELSE 0
-          END,
-          CASE 
-            WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
-            WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
-            WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
-            ELSE 0
-          END,
-          GREATEST(
-            COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
-            COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
-            COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
-            (
-              SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
-              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
-              CROSS JOIN unnest(si.query_words) AS query_word
-              WHERE similarity(word_from_title, query_word) > 0.3
-            ),
-            CASE 
-              WHEN LENGTH(si.clean_query) <= 15 THEN
-                GREATEST(
-                  CASE 
-                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 3 THEN 0.6
-                    WHEN levenshtein(LOWER(b.title), si.clean_query) <= 5 THEN 0.4
-                    ELSE 0
-                  END,
-                  CASE 
-                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 3 THEN 0.55
-                    WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 5 THEN 0.35
-                    ELSE 0
-                  END
-                )
-              ELSE 0
-            END
-          ),
-          CASE 
-            WHEN EXISTS (
-              SELECT 1 FROM unnest(si.query_words) AS word
-              WHERE LOWER(b.title) LIKE '%' || word || '%'
-                OR LOWER(b.subtitle) LIKE '%' || word || '%'
-            ) THEN 0.5
-            ELSE 0
-          END,
-          GREATEST(
-            CASE WHEN LOWER(b.title) % si.clean_query THEN 
-              similarity(LOWER(b.title), si.clean_query) * 0.4
-            ELSE 0 END,
-            CASE WHEN LOWER(b.subtitle) % si.clean_query THEN 
-              similarity(LOWER(b.subtitle), si.clean_query) * 0.35
-            ELSE 0 END,
-            (
-              SELECT COALESCE(MAX(
-                CASE WHEN word_from_title % query_word THEN
-                  similarity(word_from_title, query_word) * 0.3
-                ELSE 0 END
-              ), 0)
-              FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
-              CROSS JOIN unnest(si.query_words) AS query_word
-            )
-          )
-        ) AS similarity_score,
-        CASE 
-          WHEN LENGTH(b.title) <= 50 THEN 0.05
-          ELSE 0
-        END AS length_bonus
-      FROM books b
-      CROSS JOIN search_input si
-      WHERE b.is_active = true
-        AND (
-          LOWER(b.title) LIKE '%' || si.clean_query || '%'
-          OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
-          OR LOWER(b.title) % si.clean_query
-          OR LOWER(b.subtitle) % si.clean_query
-          OR COALESCE(similarity(LOWER(b.title), si.clean_query), 0) > 0.2
-          OR COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) > 0.2
-          OR (LENGTH(si.clean_query) <= 15 AND (
-            levenshtein(LOWER(b.title), si.clean_query) <= 5
-            OR levenshtein(LOWER(b.subtitle), si.clean_query) <= 5
-          ))
-          OR EXISTS (
-            SELECT 1 FROM unnest(si.query_words) AS word
-            WHERE word != '' AND (
-              LOWER(b.title) LIKE '%' || word || '%'
-              OR LOWER(b.subtitle) LIKE '%' || word || '%'
-              OR EXISTS (
-                SELECT 1 FROM unnest(string_to_array(LOWER(b.title), ' ')) AS title_word
-                WHERE similarity(title_word, word) > 0.3 OR title_word % word
-              )
-            )
-          )
-        )
-    )
-    SELECT *
-    FROM scored_books
-    WHERE (similarity_score + length_bonus) >= 0.08
-    ORDER BY 
-      (similarity_score + length_bonus) DESC,
-      LENGTH(title) ASC,
-      title ASC
-    LIMIT $2
-    `,
-      [title, limit, cleanQuery, queryWords],
-    );
-
-    return parseBooks(result.rows);
-  },
-
-  async searchBooksWithAuthors(query: string, limit = 10): Promise<(Book & { author_name?: string })[]> {
+  // async findBooksByName(title: string, limit = 10): Promise<Book[]> {
+  //   const cleanQuery = title.trim().toLowerCase();
+  //   const queryWords = cleanQuery
+  //     .split(/\s+/)
+  //     .filter((word) => word.length > 0);
+  //
+  //   const result = await db.query(
+  //     `
+  //   WITH search_input AS (
+  //     SELECT
+  //       $1::text AS original_query,
+  //       $3::text AS clean_query,
+  //       $4::text[] AS query_words
+  //   ),
+  //   scored_books AS (
+  //     SELECT
+  //       b.*,
+  //       GREATEST(
+  //         CASE
+  //           WHEN LOWER(b.title) = si.clean_query THEN 1.0
+  //           WHEN LOWER(b.subtitle) = si.clean_query THEN 0.95
+  //           WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) = si.clean_query THEN 0.9
+  //           ELSE 0
+  //         END,
+  //         CASE
+  //           WHEN LOWER(b.title) LIKE si.clean_query || '%' THEN 0.85
+  //           WHEN LOWER(b.subtitle) LIKE si.clean_query || '%' THEN 0.8
+  //           ELSE 0
+  //         END,
+  //         CASE
+  //           WHEN LOWER(b.title) LIKE '%' || si.clean_query || '%' THEN 0.75
+  //           WHEN LOWER(b.subtitle) LIKE '%' || si.clean_query || '%' THEN 0.7
+  //           WHEN LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')) LIKE '%' || si.clean_query || '%' THEN 0.65
+  //           ELSE 0
+  //         END,
+  //         GREATEST(
+  //           COALESCE(similarity(LOWER(b.title), si.clean_query), 0) * 0.8,
+  //           COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) * 0.75,
+  //           COALESCE(similarity(LOWER(COALESCE(b.title, '') || ' ' || COALESCE(b.subtitle, '')), si.clean_query), 0) * 0.7,
+  //           (
+  //             SELECT COALESCE(MAX(similarity(word_from_title, query_word)), 0) * 0.65
+  //             FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+  //             CROSS JOIN unnest(si.query_words) AS query_word
+  //             WHERE similarity(word_from_title, query_word) > 0.3
+  //           ),
+  //           CASE
+  //             WHEN LENGTH(si.clean_query) <= 15 THEN
+  //               GREATEST(
+  //                 CASE
+  //                   WHEN levenshtein(LOWER(b.title), si.clean_query) <= 3 THEN 0.6
+  //                   WHEN levenshtein(LOWER(b.title), si.clean_query) <= 5 THEN 0.4
+  //                   ELSE 0
+  //                 END,
+  //                 CASE
+  //                   WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 3 THEN 0.55
+  //                   WHEN levenshtein(LOWER(b.subtitle), si.clean_query) <= 5 THEN 0.35
+  //                   ELSE 0
+  //                 END
+  //               )
+  //             ELSE 0
+  //           END
+  //         ),
+  //         CASE
+  //           WHEN EXISTS (
+  //             SELECT 1 FROM unnest(si.query_words) AS word
+  //             WHERE LOWER(b.title) LIKE '%' || word || '%'
+  //               OR LOWER(b.subtitle) LIKE '%' || word || '%'
+  //           ) THEN 0.5
+  //           ELSE 0
+  //         END,
+  //         GREATEST(
+  //           CASE WHEN LOWER(b.title) % si.clean_query THEN
+  //             similarity(LOWER(b.title), si.clean_query) * 0.4
+  //           ELSE 0 END,
+  //           CASE WHEN LOWER(b.subtitle) % si.clean_query THEN
+  //             similarity(LOWER(b.subtitle), si.clean_query) * 0.35
+  //           ELSE 0 END,
+  //           (
+  //             SELECT COALESCE(MAX(
+  //               CASE WHEN word_from_title % query_word THEN
+  //                 similarity(word_from_title, query_word) * 0.3
+  //               ELSE 0 END
+  //             ), 0)
+  //             FROM unnest(string_to_array(LOWER(b.title), ' ')) AS word_from_title
+  //             CROSS JOIN unnest(si.query_words) AS query_word
+  //           )
+  //         )
+  //       ) AS similarity_score,
+  //       CASE
+  //         WHEN LENGTH(b.title) <= 50 THEN 0.05
+  //         ELSE 0
+  //       END AS length_bonus
+  //     FROM books b
+  //     CROSS JOIN search_input si
+  //     WHERE b.is_active = true
+  //       AND (
+  //         LOWER(b.title) LIKE '%' || si.clean_query || '%'
+  //         OR LOWER(b.subtitle) LIKE '%' || si.clean_query || '%'
+  //         OR LOWER(b.title) % si.clean_query
+  //         OR LOWER(b.subtitle) % si.clean_query
+  //         OR COALESCE(similarity(LOWER(b.title), si.clean_query), 0) > 0.2
+  //         OR COALESCE(similarity(LOWER(b.subtitle), si.clean_query), 0) > 0.2
+  //         OR (LENGTH(si.clean_query) <= 15 AND (
+  //           levenshtein(LOWER(b.title), si.clean_query) <= 5
+  //           OR levenshtein(LOWER(b.subtitle), si.clean_query) <= 5
+  //         ))
+  //         OR EXISTS (
+  //           SELECT 1 FROM unnest(si.query_words) AS word
+  //           WHERE word != '' AND (
+  //             LOWER(b.title) LIKE '%' || word || '%'
+  //             OR LOWER(b.subtitle) LIKE '%' || word || '%'
+  //             OR EXISTS (
+  //               SELECT 1 FROM unnest(string_to_array(LOWER(b.title), ' ')) AS title_word
+  //               WHERE similarity(title_word, word) > 0.3 OR title_word % word
+  //             )
+  //           )
+  //         )
+  //       )
+  //   )
+  //   SELECT *
+  //   FROM scored_books
+  //   WHERE (similarity_score + length_bonus) >= 0.08
+  //   ORDER BY
+  //     (similarity_score + length_bonus) DESC,
+  //     LENGTH(title) ASC,
+  //     title ASC
+  //   LIMIT $2
+  //   `,
+  //     [title, limit, cleanQuery, queryWords],
+  //   );
+  //
+  //   return parseBooks(result.rows);
+  // },
+  //
+  async searchBooksWithAuthors(
+    query: string,
+    limit = 10,
+  ): Promise<(Book & { author_name?: string })[]> {
     const cleanQuery = query.trim().toLowerCase();
     const queryWords = cleanQuery
       .split(/\s+/)
