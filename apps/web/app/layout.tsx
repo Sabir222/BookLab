@@ -30,6 +30,9 @@ export default async function RootLayout({
                         <body
                                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
                         >
+                                <div className="bg-yellow-500 text-black text-center py-2 px-4 font-bold">
+                                        ⚠️ This frontend is only 40% complete and is for backend testing purposes only ⚠️
+                                </div>
                                 <MainLayout>{children}</MainLayout>
                                 <Toaster richColors />
                         </body>
