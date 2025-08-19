@@ -41,5 +41,5 @@ export interface ApiResponse<T = unknown> {
 }
 
 export interface SearchResponse {
-  books: Book[];
+  books: (Book & { author_name?: string })[];
 }

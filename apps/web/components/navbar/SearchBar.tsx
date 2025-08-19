@@ -38,7 +38,7 @@ export function SearchBar({ className }: SearchBarProps) {
                 try {
                         const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
                         const response = await fetch(
-                                `${API_BASE_URL}/api/books/search?q=${encodeURIComponent(query)}`
+                                `${API_BASE_URL}/api/books/search-with-authors?q=${encodeURIComponent(query)}`
                         );
                         const result: ApiResponse<SearchResponse> = await response.json();
 
