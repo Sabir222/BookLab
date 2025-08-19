@@ -151,4 +151,3 @@ bookPublicRouter.patch(
 );
 
 export default bookPublicRouter;
-

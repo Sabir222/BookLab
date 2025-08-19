@@ -1,100 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BookCarousel } from "@/components/BookCarousel";
 import { SimpleBook as Book } from "@/types";
-
-const sampleBooks: Book[] = [
-  {
-    id: "1",
-    title: "The Midnight Library",
-    author: "Matt Haig",
-    coverImage: "/placeholder-books/book-1.svg",
-    rating: 4.5,
-    reviewCount: 1245,
-    price: 12.99,
-    originalPrice: 16.99,
-    category: "Fiction",
-  },
-  {
-    id: "2",
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    coverImage: "/placeholder-books/book-2.svg",
-    rating: 4.8,
-    reviewCount: 2103,
-    price: 14.99,
-    category: "Sci-Fi",
-  },
-  {
-    id: "3",
-    title: "Klara and the Sun",
-    author: "Kazuo Ishiguro",
-    coverImage: "/placeholder-books/book-3.svg",
-    rating: 4.3,
-    reviewCount: 987,
-    price: 13.99,
-    category: "Fiction",
-  },
-  {
-    id: "4",
-    title: "The Four Winds",
-    author: "Kristin Hannah",
-    coverImage: "/placeholder-books/book-4.svg",
-    rating: 4.6,
-    reviewCount: 1562,
-    price: 15.99,
-    category: "Historical Fiction",
-  },
-  {
-    id: "5",
-    title: "The Sanatorium",
-    author: "Sarah Pearse",
-    coverImage: "/placeholder-books/book-5.svg",
-    rating: 4.1,
-    reviewCount: 876,
-    price: 14.49,
-    category: "Mystery",
-  },
-  {
-    id: "6",
-    title: "The Push",
-    author: "Ashley Audrain",
-    coverImage: "/placeholder-books/book-6.svg",
-    rating: 4.0,
-    reviewCount: 1023,
-    price: 13.49,
-    category: "Psychological Thriller",
-  },
-  {
-    id: "7",
-    title: "The Invisible Life of Addie LaRue",
-    author: "V.E. Schwab",
-    coverImage: "/placeholder-books/book-7.svg",
-    rating: 4.4,
-    reviewCount: 2109,
-    price: 16.99,
-    category: "Fantasy",
-  },
-  {
-    id: "8",
-    title: "The Last Thing He Told Me",
-    author: "Laura Dave",
-    coverImage: "/placeholder-books/book-8.svg",
-    rating: 4.2,
-    reviewCount: 1432,
-    price: 15.49,
-    category: "Mystery",
-  },
-];
+import { bookApi } from "@/lib/api/books";
 
 export function BestSellersSection() {
-  const [books] = useState<Book[]>(sampleBooks);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTopRatedBooks = async () => {
+      try {
+        const topBooks = await bookApi.getTopRatedBooks(8);
+        const simpleBooks: Book[] = topBooks.map(book => {
+          let authorName = 'Unknown Author';
+          if (book.author_name) {
+            authorName = book.author_name;
+          } else if (book.authors && book.authors.length > 0 && book.authors[0]) {
+            const firstAuthor = book.authors[0];
+            authorName = `${firstAuthor.first_name || ''} ${firstAuthor.last_name || ''}`.trim() || 'Unknown Author';
+          }
+
+          return {
+            id: book.book_id,
+            title: book.title,
+            author: authorName,
+            coverImage: book.cover_image_url || '/placeholder-books/book-1.svg',
+            rating: book.average_rating ? Number(book.average_rating) : 0,
+            reviewCount: book.total_ratings || 0,
+            price: book.price_sale ? Number(book.price_sale) : 0,
+            originalPrice: book.price_sale ? Number(book.price_sale) : 0,
+            category: 'Unknown',
+          };
+        });
+        setBooks(simpleBooks);
+      } catch (error) {
+        console.error("Failed to fetch top rated books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopRatedBooks();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/10">
+        <div className="container mx-auto px-4">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
+            <div className="flex space-x-4 overflow-hidden">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex-shrink-0 w-48">
+                  <div className="bg-gray-200 h-64 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mt-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mt-1"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/10">
       <div className="container mx-auto px-4">
-        <BookCarousel title="Best Sellers" books={books} />
+        <BookCarousel title="Top Rated Books" books={books} />
       </div>
     </section>
   );

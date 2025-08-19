@@ -227,11 +227,23 @@ export const bookQueries = {
 
   async findBooks(limit = 50): Promise<Book[]> {
     const result = await db.query(
-      "SELECT * FROM books ORDER BY title ASC LIMIT $1",
+      `SELECT * 
+     FROM books 
+     WHERE average_rating IS NOT NULL
+     ORDER BY average_rating::FLOAT DESC
+     LIMIT $1`,
       [limit],
     );
+
     return parseBooks(result.rows);
   },
+  // async findBooks(limit = 50): Promise<Book[]> {
+  //   const result = await db.query(
+  //     "SELECT * FROM books ORDER BY title ASC LIMIT $1",
+  //     [limit],
+  //   );
+  //   return parseBooks(result.rows);
+  // },
 
   // async findBooksByName(title: string, limit = 10): Promise<Book[]> {
   //   const cleanQuery = title.trim().toLowerCase();
