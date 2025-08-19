@@ -87,3 +87,42 @@ To start the production server:
 ```bash
 pnpm start
 ```
+
+## Docker Setup
+
+To run the server with Docker, use the following commands from the root of the monorepo:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Run in detached mode
+docker-compose up --build -d
+
+# Stop all services
+docker-compose down
+```
+
+The server will be available at http://localhost:4000
+
+### Environment Variables
+
+Create a `.env` file in the server directory with your configuration:
+
+```bash
+# Database
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/booklab
+
+# Redis
+REDIS_URL=redis://redis:6379
+
+# Session
+SESSION_SECRET=your-session-secret
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
+
+# JWT
+JWT_SECRET=your-jwt-secret
+JWT_EXPIRES_IN=7d
+```

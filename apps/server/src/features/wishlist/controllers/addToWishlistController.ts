@@ -34,7 +34,6 @@ const addToWishlist = async (userId: string, bookId: string) => {
     throw new WishlistError(404, "Book not found", "BOOK_NOT_FOUND");
   }
 
-  // Check if the book is already in the user's wishlist
   const isAlreadyInWishlist = await wishlistQueries.isBookInUserWishlist(
     userId,
     bookId,
@@ -47,7 +46,6 @@ const addToWishlist = async (userId: string, bookId: string) => {
     );
   }
 
-  // Add the book to the wishlist
   return await wishlistQueries.addItemToWishlist({
     user_id: userId,
     book_id: bookId,
@@ -82,7 +80,6 @@ export const addToWishlistController = async (
       return;
     }
 
-    // Validate book_id is a valid UUID format
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(book_id)) {
@@ -92,25 +89,33 @@ export const addToWishlistController = async (
 
     const wishlistItem = await addToWishlist(userId, book_id);
 
-    console.log(
-      `Book ${book_id} added to wishlist for user ${userId}`,
-    );
+    console.log(`Book ${book_id} added to wishlist for user ${userId}`);
 
-    sendCreated(res, {
-      wishlist_item: {
-        user_id: wishlistItem.user_id,
-        book_id: wishlistItem.book_id,
-        added_at: wishlistItem.added_at,
+    sendCreated(
+      res,
+      {
+        wishlist_item: {
+          user_id: wishlistItem.user_id,
+          book_id: wishlistItem.book_id,
+          added_at: wishlistItem.added_at,
+        },
       },
-    }, "Book added to wishlist successfully");
+      "Book added to wishlist successfully",
+    );
   } catch (error) {
     console.error("Add to wishlist error:", error);
 
     if (error instanceof WishlistError) {
-      sendError(res, error.message, error.code || "WISHLIST_ERROR", error.statusCode);
+      sendError(
+        res,
+        error.message,
+        error.code || "WISHLIST_ERROR",
+        error.statusCode,
+      );
       return;
     }
 
     sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
+

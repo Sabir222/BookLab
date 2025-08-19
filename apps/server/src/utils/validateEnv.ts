@@ -31,14 +31,12 @@ export function validateEnvironment(): void {
     }
   }
 
-  // Validate SESSION_SECRET length
   if (process.env.SESSION_SECRET && process.env.SESSION_SECRET.length < 32) {
     console.warn(
       "⚠️  Warning: SESSION_SECRET should be at least 32 characters long for security.",
     );
   }
 
-  // Validate PORT
   const port = process.env.PORT;
   if (
     port &&
@@ -48,7 +46,6 @@ export function validateEnvironment(): void {
     process.exit(1);
   }
 
-  // Validate cookie max ages
   const accessTokenMaxAge = process.env.ACCESS_TOKEN_COOKIE_MAX_AGE;
   if (accessTokenMaxAge && isNaN(Number(accessTokenMaxAge))) {
     console.error("ACCESS_TOKEN_COOKIE_MAX_AGE must be a valid number");
@@ -63,4 +60,3 @@ export function validateEnvironment(): void {
 
   console.log("Environment validation passed");
 }
-

@@ -1,6 +1,5 @@
 import { type Response } from "express";
 
-// Standardized response structure
 interface ApiResponse<T = unknown> {
   success: boolean;
   message?: string;
@@ -10,7 +9,6 @@ interface ApiResponse<T = unknown> {
   meta?: Record<string, unknown>;
 }
 
-// Success response helper
 export const sendSuccess = <T>(
   res: Response,
   data: T,
@@ -28,7 +26,6 @@ export const sendSuccess = <T>(
   return res.status(statusCode).json(response);
 };
 
-// Error response helper
 export const sendError = (
   res: Response,
   error: string,
@@ -46,7 +43,6 @@ export const sendError = (
   return res.status(statusCode).json(response);
 };
 
-// Specific success responses for common cases
 export const sendCreated = <T>(
   res: Response,
   data: T,
@@ -59,7 +55,6 @@ export const sendNoContent = (res: Response): Response => {
   return res.status(204).send();
 };
 
-// Pagination metadata helper
 export const createPaginationMeta = (
   limit: number,
   offset: number,
@@ -76,3 +71,4 @@ export const createPaginationMeta = (
 
   return meta;
 };
+

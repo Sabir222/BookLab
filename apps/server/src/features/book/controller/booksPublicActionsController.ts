@@ -7,7 +7,11 @@ import {
   getRedisClient,
   type RedisClientType,
 } from "@repo/db/redis";
-import { sendSuccess, sendError, sendCreated } from "../../../utils/responseHandler.js";
+import {
+  sendSuccess,
+  sendError,
+  sendCreated,
+} from "../../../utils/responseHandler.js";
 
 const CACHE_TTL = 60;
 
@@ -17,7 +21,12 @@ const getBookById = async (req: Request, res: Response): Promise<Response> => {
   try {
     const book = await bookQueries.findById(bookId);
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
     return sendSuccess(res, { book });
   } catch (error) {
@@ -45,7 +54,9 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findBooks(bookLimit);
@@ -63,12 +74,7 @@ const getBooksByName = async (
 ): Promise<Response> => {
   const { q } = req.query;
   if (!q || typeof q !== "string" || !q.trim()) {
-    return sendError(
-      res,
-      "Invalid search query",
-      "INVALID_SEARCH_QUERY",
-      400,
-    );
+    return sendError(res, "Invalid search query", "INVALID_SEARCH_QUERY", 400);
   }
 
   const normalizedQuery = q.trim();
@@ -79,7 +85,9 @@ const getBooksByName = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findBooksByName(normalizedQuery);
@@ -113,7 +121,9 @@ const getBooksByAuthor = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findBooksByAuthor(normalizedQuery);
@@ -147,7 +157,9 @@ const getBooksByCategory = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findBooksByCategory(normalizedQuery);
@@ -155,7 +167,12 @@ const getBooksByCategory = async (
     return sendSuccess(res, { books }, undefined, 200, { cached: false });
   } catch (error) {
     console.error("Category search failed:", error);
-    return sendError(res, "Category search failed", "CATEGORY_SEARCH_ERROR", 500);
+    return sendError(
+      res,
+      "Category search failed",
+      "CATEGORY_SEARCH_ERROR",
+      500,
+    );
   }
 };
 
@@ -192,7 +209,9 @@ const getNewReleases = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findNewReleases(dayLimit, bookLimit);
@@ -200,7 +219,12 @@ const getNewReleases = async (
     return sendSuccess(res, { books }, undefined, 200, { cached: false });
   } catch (error) {
     console.error("Failed to get new releases:", error);
-    return sendError(res, "Failed to get new releases", "NEW_RELEASES_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to get new releases",
+      "NEW_RELEASES_ERROR",
+      500,
+    );
   }
 };
 
@@ -226,7 +250,9 @@ const getBooksByISBN = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findBooksByISBN(normalizedQuery);
@@ -254,7 +280,9 @@ const getRelatedBooks = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const books = await bookQueries.findRelatedBooks(bookId);
@@ -262,7 +290,12 @@ const getRelatedBooks = async (
     return sendSuccess(res, { books }, undefined, 200, { cached: false });
   } catch (error) {
     console.error("Failed to get related books:", error);
-    return sendError(res, "Failed to get related books", "RELATED_BOOKS_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to get related books",
+      "RELATED_BOOKS_ERROR",
+      500,
+    );
   }
 };
 
@@ -295,7 +328,6 @@ const getFilteredBooks = async (
     : undefined;
   const parsedMaxPrice = maxPrice ? parseFloat(maxPrice as string) : undefined;
 
-  // Validate limit and offset
   if (isNaN(parsedLimit) || parsedLimit < 1 || parsedLimit > 100) {
     return sendError(
       res,
@@ -321,7 +353,9 @@ const getFilteredBooks = async (
     redis = getRedisClient();
     const cached = await getCache<Book[]>(redis, cacheKey, true);
     if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, { cached: true });
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
     }
 
     const filters: {
@@ -394,7 +428,12 @@ const updateBook = async (req: Request, res: Response): Promise<Response> => {
     const book = await bookQueries.update(bookId, bookData);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
@@ -411,7 +450,12 @@ const deleteBook = async (req: Request, res: Response): Promise<Response> => {
     const deleted = await bookQueries.delete(bookId);
 
     if (!deleted) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, null, `Book '${bookId}' deleted successfully`);
@@ -432,13 +476,23 @@ const softDeleteBook = async (
     const book = await bookQueries.softDelete(bookId, deletedBy);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to soft delete book:", error);
-    return sendError(res, "Failed to soft delete book", "SOFT_DELETE_BOOK_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to soft delete book",
+      "SOFT_DELETE_BOOK_ERROR",
+      500,
+    );
   }
 };
 
@@ -449,7 +503,12 @@ const restoreBook = async (req: Request, res: Response): Promise<Response> => {
     const book = await bookQueries.restore(bookId);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
@@ -467,7 +526,12 @@ const bookExists = async (req: Request, res: Response): Promise<Response> => {
     return sendSuccess(res, { exists });
   } catch (error) {
     console.error("Failed to check book existence:", error);
-    return sendError(res, "Failed to check book existence", "BOOK_EXISTS_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to check book existence",
+      "BOOK_EXISTS_ERROR",
+      500,
+    );
   }
 };
 
@@ -481,13 +545,23 @@ const getBookBySlug = async (
     const book = await bookQueries.findBySlug(slug);
 
     if (!book) {
-      return sendError(res, `Book with slug '${slug}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book with slug '${slug}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to get book by slug:", error);
-    return sendError(res, "Failed to get book by slug", "GET_BOOK_BY_SLUG_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to get book by slug",
+      "GET_BOOK_BY_SLUG_ERROR",
+      500,
+    );
   }
 };
 
@@ -506,13 +580,23 @@ const updateBookStock = async (
     );
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to update book stock:", error);
-    return sendError(res, "Failed to update book stock", "UPDATE_BOOK_STOCK_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to update book stock",
+      "UPDATE_BOOK_STOCK_ERROR",
+      500,
+    );
   }
 };
 
@@ -527,13 +611,23 @@ const addToBookStock = async (
     const book = await bookQueries.addToStock(bookId, quantity);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to add to book stock:", error);
-    return sendError(res, "Failed to add to book stock", "ADD_TO_BOOK_STOCK_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to add to book stock",
+      "ADD_TO_BOOK_STOCK_ERROR",
+      500,
+    );
   }
 };
 
@@ -545,13 +639,23 @@ const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
     const book = await bookQueries.reserveBooks(bookId, quantity);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to reserve books:", error);
-    return sendError(res, "Failed to reserve books", "RESERVE_BOOKS_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to reserve books",
+      "RESERVE_BOOKS_ERROR",
+      500,
+    );
   }
 };
 
@@ -566,13 +670,23 @@ const releaseReservedBooks = async (
     const book = await bookQueries.releaseReservedBooks(bookId, quantity);
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to release reserved books:", error);
-    return sendError(res, "Failed to release reserved books", "RELEASE_RESERVED_BOOKS_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to release reserved books",
+      "RELEASE_RESERVED_BOOKS_ERROR",
+      500,
+    );
   }
 };
 
@@ -591,13 +705,23 @@ const updateBookRatings = async (
     );
 
     if (!book) {
-      return sendError(res, `Book '${bookId}' not found`, "BOOK_NOT_FOUND", 404);
+      return sendError(
+        res,
+        `Book '${bookId}' not found`,
+        "BOOK_NOT_FOUND",
+        404,
+      );
     }
 
     return sendSuccess(res, { book });
   } catch (error) {
     console.error("Failed to update book ratings:", error);
-    return sendError(res, "Failed to update book ratings", "UPDATE_BOOK_RATINGS_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to update book ratings",
+      "UPDATE_BOOK_RATINGS_ERROR",
+      500,
+    );
   }
 };
 
@@ -624,3 +748,4 @@ export const bookPublicActionsController = {
   releaseReservedBooks,
   updateBookRatings,
 };
+

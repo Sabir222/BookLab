@@ -28,7 +28,6 @@ type RemoveFromWishlistRequestBody = {
  * @throws {WishlistError} - If the book is not in the user's wishlist.
  */
 const removeFromWishlist = async (userId: string, bookId: string) => {
-  // Check if the book is in the user's wishlist
   const isAlreadyInWishlist = await wishlistQueries.isBookInUserWishlist(
     userId,
     bookId,
@@ -41,7 +40,6 @@ const removeFromWishlist = async (userId: string, bookId: string) => {
     );
   }
 
-  // Remove the book from the wishlist
   const removed = await wishlistQueries.removeItemFromWishlist(userId, bookId);
   return removed;
 };
@@ -74,7 +72,6 @@ export const removeFromWishlistController = async (
       return;
     }
 
-    // Validate book_id is a valid UUID format
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(book_id)) {
@@ -85,23 +82,31 @@ export const removeFromWishlistController = async (
     const removed = await removeFromWishlist(userId, book_id);
 
     if (removed) {
-      console.log(
-        `Book ${book_id} removed from wishlist for user ${userId}`,
-      );
+      console.log(`Book ${book_id} removed from wishlist for user ${userId}`);
 
       sendSuccess(res, null, "Book removed from wishlist successfully");
     } else {
-      // This shouldn't happen due to our validation, but just in case
-      sendError(res, "Failed to remove book from wishlist", "REMOVE_FROM_WISHLIST_FAILED", 500);
+      sendError(
+        res,
+        "Failed to remove book from wishlist",
+        "REMOVE_FROM_WISHLIST_FAILED",
+        500,
+      );
     }
   } catch (error) {
     console.error("Remove from wishlist error:", error);
 
     if (error instanceof WishlistError) {
-      sendError(res, error.message, error.code || "WISHLIST_ERROR", error.statusCode);
+      sendError(
+        res,
+        error.message,
+        error.code || "WISHLIST_ERROR",
+        error.statusCode,
+      );
       return;
     }
 
     sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
+
