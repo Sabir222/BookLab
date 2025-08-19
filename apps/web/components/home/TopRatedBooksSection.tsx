@@ -5,7 +5,7 @@ import { BookCarousel } from "@/components/BookCarousel";
 import { SimpleBook as Book } from "@/types";
 import { bookApi } from "@/lib/api/books";
 
-export function BestSellersSection() {
+export function TopRatedBooksSection() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,7 @@ export function BestSellersSection() {
             id: book.book_id,
             title: book.title,
             author: authorName,
-            coverImage: book.cover_image_url || '/placeholder-books/book-1.svg',
+            coverImage: book.cover_image_medium_url || '/placeholder-book.png',
             rating: book.average_rating ? Number(book.average_rating) : 0,
             reviewCount: book.total_ratings || 0,
             price: book.price_sale ? Number(book.price_sale) : 0,

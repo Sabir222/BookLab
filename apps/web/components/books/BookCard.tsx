@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { WishlistButton } from "@/components/books/LikeButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import { type Book } from "@repo/types/types";
+import { BookWithAuthor } from "@/lib/api/books";
 
 interface BookCardProps {
-        book?: Book;
+        book?: BookWithAuthor;
         isLoading?: boolean;
 }
 
@@ -26,6 +26,12 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                 ? parseFloat(book.average_rating)
                 : 0;
 
+        const displayAuthor = !isLoading && book
+                ? book.author_name || (book.authors && book.authors.length > 0 && book.authors[0]
+                        ? `${book.authors[0].first_name || ''} ${book.authors[0].last_name || ''}`.trim()
+                        : 'Unknown Author')
+                : '';
+
         return (
                 <Card className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-300 hover:shadow-lg h-[440px] flex flex-col">
                         <CardContent className="p-3 flex flex-col h-full">
@@ -33,11 +39,11 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                 <div className="relative flex-shrink-0">
                                         {isLoading ? (
                                                 <Skeleton className="w-full h-[220px] rounded-xl bg-gray-300" />
-                                        ) : book?.cover_image_medium_url ? (
+                                        ) : book?.cover_image_large_url ? (
                                                 <Link href={`/book/${book.book_id}`}>
                                                         <div className="relative w-full h-[220px]">
                                                                 <Image
-                                                                        src={book.cover_image_medium_url}
+                                                                        src={book.cover_image_large_url}
                                                                         alt={book.title}
                                                                         fill
                                                                         className="object-cover rounded-xl"
@@ -76,13 +82,15 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                                         {book.title}
                                                                 </Link>
                                                         </h3>
-                                                        <p className="text-xs text-muted-foreground line-clamp-1">Author</p>
+                                                        <p className="text-xs text-muted-foreground line-clamp-1">
+                                                                {displayAuthor}
+                                                        </p>
                                                         <div className="flex items-center gap-1">
                                                                 <div className="flex items-center">
                                                                         {[...Array(5)].map((_, i) => (
                                                                                 <Star
                                                                                         key={i}
-                                                                                        className={`h-3 w-3 ${i < Math.floor(parseFloat(book.average_rating || "0")) ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
+                                                                                        className={`h-3 w-3 ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
                                                                                 />
                                                                         ))}
                                                                 </div>
