@@ -28,6 +28,14 @@ export function SearchBar({ className }: SearchBarProps) {
                 }
         };
 
+        const formatAuthors = (authors: Array<{ first_name?: string; last_name: string }> | undefined): string => {
+                if (!authors || authors.length === 0) return "Unknown Author";
+                
+                return authors
+                        .map(author => `${author.first_name ? `${author.first_name} ${author.last_name}` : author.last_name}`)
+                        .join(", ");
+        };
+
         const fetchSearchResults = async (query: string) => {
                 if (!query.trim()) {
                         setSearchResults([]);
@@ -43,10 +51,10 @@ export function SearchBar({ className }: SearchBarProps) {
                         const result: ApiResponse<SearchResponse> = await response.json();
 
                         if (result.success && result.data?.books) {
-                                const results: SimpleBook[] = result.data.books.slice(0, 8).map((book: Book & { author_name?: string }) => ({
+                                const results: SimpleBook[] = result.data.books.slice(0, 8).map((book: Book & { authors?: Array<{ first_name?: string; last_name: string }> }) => ({
                                         id: book.book_id,
                                         title: book.title,
-                                        author: book.author_name || "Unknown Author",
+                                        author: formatAuthors(book.authors),
                                         coverImage: book.cover_image_small_url || book.cover_image_medium_url || undefined
                                 }));
                                 setSearchResults(results);
