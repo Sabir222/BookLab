@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  server:
+    build: 
+      context: ../..
+      dockerfile: apps/server/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./.env:/usr/src/app/apps/server/.env
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: booklab
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

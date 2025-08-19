@@ -3,47 +3,24 @@
 # ====================
 PORT=4000
 CORS_ORIGIN=http://localhost:3000,http://localhost:4000
-NODE_ENV=development
-HOST=localhost
-SCHEME=http
-UID=1000
-GID=1000
+NODE_ENV=production
 
 # ===============
 # Session Secret
 # ===============
-SESSION_SECRET=1f3fd74888c842f58d507322785a4861
+SESSION_SECRET=your-session-secret
 
 # JWT Secrets
 # ===============
-# Run `openssl rand -base64 32` to generate secure secrets
-JWT_SECRET=fJq86HD1s7FlTEMd3O85AuIWL1fdrhziD6q5xvEd7fs=
-JWT_REFRESH_SECRET=DCqJ9pZa75Tz+DT3AJV+Ffcl/5ZvJ/59Ns2Lanjj3cQ=
-JWT_EXPIRES_IN=30m
-JWT_REFRESH_EXPIRES_IN=30d
-
-# =================
-# Cookie Settings
-# =================
-ACCESS_TOKEN_COOKIE_NAME=booklab_access_token
-REFRESH_TOKEN_COOKIE_NAME=booklab_refresh_token
-ACCESS_TOKEN_COOKIE_MAX_AGE=1200000   # 30 days in milliseconds
-REFRESH_TOKEN_COOKIE_MAX_AGE=604800000     # 30 minutes in milliseconds
+JWT_SECRET=your-jwt-secret
+JWT_EXPIRES_IN=7d
 
 # =================
 # PostgreSQL
 # =================
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=sabir
-DB_PASSWORD=pw
-DB_NAME=booklab_db
-DATABASE_URL=postgresql://sabir:pw@localhost:5432/booklab_db
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/booklab
 
 # ==============
 #  Redis
 # ===============
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=redispw
-REDIS_DB=0
+REDIS_URL=redis://redis:6379
