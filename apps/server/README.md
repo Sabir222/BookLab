@@ -54,7 +54,7 @@ feature/
 
 Comprehensive API documentation is available through Swagger UI. When the server is running, you can access the interactive API documentation at:
 
-- API Docs: `https://app.swaggerhub.com/apis-docs/MRSABIR4/book-lab_api/1.0.0`
+- API Docs: [Swagger](https://app.swaggerhub.com/apis-docs/MRSABIR4/book-lab_api/1.0.0)
 - Development: `http://localhost:4000/api/docs`
 
 The Swagger UI provides:
@@ -87,4 +87,3 @@ To start the production server:
 ```bash
 pnpm start
 ```
-
