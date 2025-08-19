@@ -28,10 +28,8 @@ type SubscribeRequestBody = {
  * @throws {NewsletterError} - If the email is invalid or already subscribed.
  */
 const subscribeToNewsletter = async (email: string) => {
-  // Check if subscriber already exists
   const existingSubscriber = await newsletterQueries.findByEmail(email);
 
-  // If subscriber exists and is already subscribed, throw an error
   if (existingSubscriber && existingSubscriber.is_subscribed) {
     throw new NewsletterError(
       409,
@@ -40,7 +38,6 @@ const subscribeToNewsletter = async (email: string) => {
     );
   }
 
-  // If subscriber exists but is unsubscribed, update the record
   if (existingSubscriber && !existingSubscriber.is_subscribed) {
     return await newsletterQueries.update(email, {
       is_subscribed: true,
@@ -48,7 +45,6 @@ const subscribeToNewsletter = async (email: string) => {
     });
   }
 
-  // If subscriber doesn't exist, create a new record
   return await newsletterQueries.create({ email });
 };
 
@@ -74,7 +70,6 @@ export const subscribeController = async (
       return;
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       sendError(res, "Invalid email format", "INVALID_EMAIL", 400);
@@ -85,22 +80,32 @@ export const subscribeController = async (
 
     console.log(`Email subscribed to newsletter: ${email}`);
 
-    sendCreated(res, {
-      subscriber: {
-        subscriber_id: subscriber!.subscriber_id,
-        email: subscriber!.email,
-        is_subscribed: subscriber!.is_subscribed,
-        subscribed_at: subscriber!.subscribed_at,
+    sendCreated(
+      res,
+      {
+        subscriber: {
+          subscriber_id: subscriber!.subscriber_id,
+          email: subscriber!.email,
+          is_subscribed: subscriber!.is_subscribed,
+          subscribed_at: subscriber!.subscribed_at,
+        },
       },
-    }, "Successfully subscribed to newsletter");
+      "Successfully subscribed to newsletter",
+    );
   } catch (error) {
     console.error("Newsletter subscription error:", error);
 
     if (error instanceof NewsletterError) {
-      sendError(res, error.message, error.code || "NEWSLETTER_ERROR", error.statusCode);
+      sendError(
+        res,
+        error.message,
+        error.code || "NEWSLETTER_ERROR",
+        error.statusCode,
+      );
       return;
     }
 
     sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
+

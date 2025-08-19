@@ -73,7 +73,12 @@ export const updateUserProfile = async (
     return sendSuccess(res, { user: publicUser });
   } catch (error) {
     console.error("Failed to update user profile:", error);
-    return sendError(res, "Failed to update user profile", "UPDATE_USER_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to update user profile",
+      "UPDATE_USER_ERROR",
+      500,
+    );
   }
 };
 
@@ -121,7 +126,12 @@ export const changePassword = async (
     return sendSuccess(res, null, "Password updated successfully");
   } catch (error) {
     console.error("Failed to change password:", error);
-    return sendError(res, "Failed to change password", "CHANGE_PASSWORD_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to change password",
+      "CHANGE_PASSWORD_ERROR",
+      500,
+    );
   }
 };
 
@@ -185,10 +195,8 @@ export const listUsers = async (
     const parsedLimit = parseInt(limit as string, 10);
     const parsedOffset = parseInt(offset as string, 10);
 
-    // Get all users (role filtering would need to be implemented in the database layer)
     const users = await userQueries.list(parsedLimit, parsedOffset);
 
-    // Filter by role if specified (client-side filtering since there's no DB function)
     const filteredUsers = role
       ? users.filter((user) => user.role === role)
       : users;
@@ -214,7 +222,6 @@ export const adminUpdateUser = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    // Check if user is admin
     if (!req.user || req.user.role !== "admin") {
       return sendError(
         res,
@@ -250,12 +257,16 @@ export const adminUpdateUser = async (
       return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
-    // Remove sensitive information
     const { hashed_password, ...publicUser } = user;
     return sendSuccess(res, { user: publicUser });
   } catch (error) {
     console.error("Failed to update user:", error);
-    return sendError(res, "Failed to update user", "ADMIN_UPDATE_USER_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to update user",
+      "ADMIN_UPDATE_USER_ERROR",
+      500,
+    );
   }
 };
 
@@ -264,7 +275,6 @@ export const adminDeleteUser = async (
   res: Response,
 ): Promise<Response> => {
   try {
-    // Check if user is admin
     if (!req.user || req.user.role !== "admin") {
       return sendError(
         res,
@@ -283,7 +293,6 @@ export const adminDeleteUser = async (
 
     return sendSuccess(res, null, "User deleted successfully");
   } catch (error: any) {
-    // Handle foreign key constraint violation
     if (error.code === "23503") {
       return sendError(
         res,
@@ -294,6 +303,12 @@ export const adminDeleteUser = async (
     }
 
     console.error("Failed to delete user:", error);
-    return sendError(res, "Failed to delete user", "ADMIN_DELETE_USER_ERROR", 500);
+    return sendError(
+      res,
+      "Failed to delete user",
+      "ADMIN_DELETE_USER_ERROR",
+      500,
+    );
   }
 };
+

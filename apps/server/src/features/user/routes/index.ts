@@ -1,14 +1,17 @@
 import express from "express";
 import { validate } from "../../auth/middlewares/validate.js";
-import { authenticate, authorizeAdmin } from "../../auth/middlewares/authenticate.js";
-import { 
+import {
+  authenticate,
+  authorizeAdmin,
+} from "../../auth/middlewares/authenticate.js";
+import {
   getUserByIdSchema,
   updateUserProfileSchema,
   changePasswordSchema,
   deleteUserSchema,
   listUsersSchema,
   adminUpdateUserSchema,
-  adminDeleteUserSchema
+  adminDeleteUserSchema,
 } from "../validation/userValidation.js";
 import {
   getCurrentUser,
@@ -18,23 +21,49 @@ import {
   deleteUser,
   listUsers,
   adminUpdateUser,
-  adminDeleteUser
+  adminDeleteUser,
 } from "../controllers/userController.js";
 
 const userRouter = express.Router();
 
-// Public routes
 userRouter.get("/:id", validate(getUserByIdSchema), getUserById);
 
-// Protected routes (require authentication)
 userRouter.get("/me", authenticate, getCurrentUser);
-userRouter.put("/me", authenticate, validate(updateUserProfileSchema), updateUserProfile);
-userRouter.put("/me/password", authenticate, validate(changePasswordSchema), changePassword);
+userRouter.put(
+  "/me",
+  authenticate,
+  validate(updateUserProfileSchema),
+  updateUserProfile,
+);
+userRouter.put(
+  "/me/password",
+  authenticate,
+  validate(changePasswordSchema),
+  changePassword,
+);
 userRouter.delete("/me", authenticate, validate(deleteUserSchema), deleteUser);
 
-// Admin routes (require admin authentication)
-userRouter.get("/", authenticate, authorizeAdmin, validate(listUsersSchema), listUsers);
-userRouter.put("/:id", authenticate, authorizeAdmin, validate(adminUpdateUserSchema), adminUpdateUser);
-userRouter.delete("/:id", authenticate, authorizeAdmin, validate(adminDeleteUserSchema), adminDeleteUser);
+userRouter.get(
+  "/",
+  authenticate,
+  authorizeAdmin,
+  validate(listUsersSchema),
+  listUsers,
+);
+userRouter.put(
+  "/:id",
+  authenticate,
+  authorizeAdmin,
+  validate(adminUpdateUserSchema),
+  adminUpdateUser,
+);
+userRouter.delete(
+  "/:id",
+  authenticate,
+  authorizeAdmin,
+  validate(adminDeleteUserSchema),
+  adminDeleteUser,
+);
 
 export default userRouter;
+

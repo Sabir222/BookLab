@@ -28,8 +28,11 @@ import {
 
 const bookPublicRouter = express.Router();
 
-// Search routes (more specific paths first)
-bookPublicRouter.get("/search", validate(searchBooksByNameSchema), bookPublicActionsController.getBooksByName);
+bookPublicRouter.get(
+  "/search",
+  validate(searchBooksByNameSchema),
+  bookPublicActionsController.getBooksByName,
+);
 bookPublicRouter.get(
   "/search/author",
   validate(searchBooksByAuthorSchema),
@@ -55,24 +58,93 @@ bookPublicRouter.get(
   validate(getRelatedBooksSchema),
   bookPublicActionsController.getRelatedBooks,
 );
-bookPublicRouter.get("/filter", validate(filterBooksSchema), bookPublicActionsController.getFilteredBooks);
+bookPublicRouter.get(
+  "/filter",
+  validate(filterBooksSchema),
+  bookPublicActionsController.getFilteredBooks,
+);
 
-// General routes (less specific paths last)
-bookPublicRouter.get("/", validate(getAllBooksSchema), bookPublicActionsController.getAllBooks);
-bookPublicRouter.get("/:id", validate(getBookByIdSchema), bookPublicActionsController.getBookById);
+bookPublicRouter.get(
+  "/",
+  validate(getAllBooksSchema),
+  bookPublicActionsController.getAllBooks,
+);
+bookPublicRouter.get(
+  "/:id",
+  validate(getBookByIdSchema),
+  bookPublicActionsController.getBookById,
+);
 
-// New book management routes (require authentication)
-bookPublicRouter.post("/", authenticate, validate(createBookSchema), bookPublicActionsController.createBook);
-bookPublicRouter.put("/:id", authenticate, validate(updateBookSchema), bookPublicActionsController.updateBook);
-bookPublicRouter.delete("/:id", authenticate, validate(deleteBookSchema), bookPublicActionsController.deleteBook);
-bookPublicRouter.patch("/:id/soft-delete", authenticate, validate(softDeleteBookSchema), bookPublicActionsController.softDeleteBook);
-bookPublicRouter.patch("/:id/restore", authenticate, validate(restoreBookSchema), bookPublicActionsController.restoreBook);
-bookPublicRouter.get("/:id/exists", validate(bookExistsSchema), bookPublicActionsController.bookExists);
-bookPublicRouter.get("/slug/:slug", validate(getBookBySlugSchema), bookPublicActionsController.getBookBySlug);
-bookPublicRouter.patch("/:id/stock", authenticate, validate(updateBookStockSchema), bookPublicActionsController.updateBookStock);
-bookPublicRouter.patch("/:id/stock/add", authenticate, validate(addToBookStockSchema), bookPublicActionsController.addToBookStock);
-bookPublicRouter.patch("/:id/stock/reserve", authenticate, validate(reserveBooksSchema), bookPublicActionsController.reserveBooks);
-bookPublicRouter.patch("/:id/stock/release", authenticate, validate(releaseReservedBooksSchema), bookPublicActionsController.releaseReservedBooks);
-bookPublicRouter.patch("/:id/ratings", authenticate, validate(updateBookRatingsSchema), bookPublicActionsController.updateBookRatings);
+bookPublicRouter.post(
+  "/",
+  authenticate,
+  validate(createBookSchema),
+  bookPublicActionsController.createBook,
+);
+bookPublicRouter.put(
+  "/:id",
+  authenticate,
+  validate(updateBookSchema),
+  bookPublicActionsController.updateBook,
+);
+bookPublicRouter.delete(
+  "/:id",
+  authenticate,
+  validate(deleteBookSchema),
+  bookPublicActionsController.deleteBook,
+);
+bookPublicRouter.patch(
+  "/:id/soft-delete",
+  authenticate,
+  validate(softDeleteBookSchema),
+  bookPublicActionsController.softDeleteBook,
+);
+bookPublicRouter.patch(
+  "/:id/restore",
+  authenticate,
+  validate(restoreBookSchema),
+  bookPublicActionsController.restoreBook,
+);
+bookPublicRouter.get(
+  "/:id/exists",
+  validate(bookExistsSchema),
+  bookPublicActionsController.bookExists,
+);
+bookPublicRouter.get(
+  "/slug/:slug",
+  validate(getBookBySlugSchema),
+  bookPublicActionsController.getBookBySlug,
+);
+bookPublicRouter.patch(
+  "/:id/stock",
+  authenticate,
+  validate(updateBookStockSchema),
+  bookPublicActionsController.updateBookStock,
+);
+bookPublicRouter.patch(
+  "/:id/stock/add",
+  authenticate,
+  validate(addToBookStockSchema),
+  bookPublicActionsController.addToBookStock,
+);
+bookPublicRouter.patch(
+  "/:id/stock/reserve",
+  authenticate,
+  validate(reserveBooksSchema),
+  bookPublicActionsController.reserveBooks,
+);
+bookPublicRouter.patch(
+  "/:id/stock/release",
+  authenticate,
+  validate(releaseReservedBooksSchema),
+  bookPublicActionsController.releaseReservedBooks,
+);
+bookPublicRouter.patch(
+  "/:id/ratings",
+  authenticate,
+  validate(updateBookRatingsSchema),
+  bookPublicActionsController.updateBookRatings,
+);
 
 export default bookPublicRouter;
+

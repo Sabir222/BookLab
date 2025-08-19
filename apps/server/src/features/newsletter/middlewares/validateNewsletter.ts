@@ -12,7 +12,6 @@ export const validateNewsletter = (
     return sendError(res, "Email is required", "MISSING_EMAIL", 400);
   }
 
-  // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return sendError(res, "Invalid email format", "INVALID_EMAIL", 400);
@@ -20,3 +19,4 @@ export const validateNewsletter = (
 
   next();
 };
+
