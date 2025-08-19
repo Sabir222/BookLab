@@ -1,5 +1,6 @@
 import { type NextFunction, type Request, type Response } from "express";
 import { ZodType } from "zod";
+import { sendError } from "../../../utils/responseHandler.js";
 
 /**
  * Middleware to validate request data using Zod schema.
@@ -19,7 +20,7 @@ export const validate =
         params: req.params,
       });
       return next();
-    } catch (error) {
-      return res.status(400).json(error);
+    } catch (error: any) {
+      return sendError(res, "Validation error", "VALIDATION_ERROR", 400, error.message);
     }
   };

@@ -5,6 +5,7 @@ import { type Request, type Response } from "express";
 import type { JWTPayload } from "../../../utils/generateToken.js";
 import generateToken from "../../../utils/generateToken.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 class LoginError extends Error {
   constructor(
@@ -52,7 +53,8 @@ const authenticateUser = async (username: string, password: string) => {
  * @param {Response} res - The response object to send back the result.
  * @returns {Promise<void>} - A promise that resolves when the response is sent.
  *
- * @throws {LoginError} - If authentication fails or required fields are missing*/
+ * @throws {LoginError} - If authentication fails or required fields are missing
+ */
 
 export const loginController = async (
   req: Request,
@@ -62,10 +64,7 @@ export const loginController = async (
     const { username, password }: LoginRequestBody = req.body;
 
     if (!username || !password) {
-      res.status(400).json({
-        error: "Data missing try again please!",
-        code: "MISSING_FIELDS",
-      });
+      sendError(res, "Data missing try again please!", "MISSING_FIELDS", 400);
       return;
     }
 
@@ -85,29 +84,22 @@ export const loginController = async (
       `User successfully logged in: ${user.username} (ID: ${user.id})`,
     );
 
-    res.status(200).json({
-      message: "Logged in successfully",
+    sendSuccess(res, {
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
       },
       accessToken,
-    });
+    }, "Logged in successfully");
   } catch (error) {
     console.error("Login error:", error);
 
     if (error instanceof LoginError) {
-      res.status(error.statusCode).json({
-        error: error.message,
-        code: error.code,
-      });
+      sendError(res, error.message, error.code || "LOGIN_ERROR", error.statusCode);
       return;
     }
 
-    res.status(500).json({
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };

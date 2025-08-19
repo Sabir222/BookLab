@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express";
 import { newsletterQueries } from "@repo/db/postgres";
-import { sendCreated, sendError, sendSuccess } from "../../../utils/responseHandler.js";
+import { sendCreated, sendError } from "../../../utils/responseHandler.js";
 
 class NewsletterError extends Error {
   constructor(
