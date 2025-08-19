@@ -17,8 +17,8 @@ export const Navbar = () => {
         const pathname = usePathname();
 
 
-        const hiddenPaths = ["/dashboard", "/signup", "/login"]
-        const shouldHide = hiddenPaths.includes(pathname)
+        const hiddenPaths = ["/dashboard", "/signup", "/login"];
+        const shouldHide = hiddenPaths.includes(pathname);
         const navItems = [
                 { name: "Books", href: "/books" },
                 { name: "Authors", href: "/authors" },
@@ -34,7 +34,6 @@ export const Navbar = () => {
                 return () => window.removeEventListener("scroll", handleScroll);
         }, []);
 
-        console.log(`should hide ${pathname} ? ${shouldHide}`)
         if (shouldHide) {
                 return null;
         }
