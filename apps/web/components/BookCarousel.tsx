@@ -6,7 +6,7 @@ import {
   CarouselPrevious 
 } from "@/components/ui/carousel";
 import { BookCard } from "@/components/books/BookCard";
-import { Book as MockBook } from "@/types";
+import { SimpleBook as MockBook } from "@/types";
 import { Book as RepoBook } from "@repo/types/types";
 
 interface BookCarouselProps {
@@ -47,16 +47,16 @@ export function BookCarousel({ title, books, onToggleFavorite }: BookCarouselPro
                       title: book.title,
                       subtitle: null,
                       description: book.description || "",
-                      isbn_13: book.isbn || "",
-                      isbn_10: "",
-                      publication_date: book.publishedDate || "",
+                      isbn_13: book.isbn || null,
+                      isbn_10: null,
+                      publication_date: book.publishedDate || null,
                       published_year: null,
                       page_count: book.pages || null,
                       language: "",
-                      cover_image_url: book.coverImage,
-                      cover_image_small_url: "",
-                      cover_image_medium_url: "",
-                      cover_image_large_url: book.coverImage,
+                      cover_image_url: book.coverImage || null,
+                      cover_image_small_url: null,
+                      cover_image_medium_url: null,
+                      cover_image_large_url: book.coverImage || null,
                       edition: null,
                       book_format: "paperback",
                       book_condition: null,
@@ -64,15 +64,15 @@ export function BookCarousel({ title, books, onToggleFavorite }: BookCarouselPro
                       weight_grams: null,
                       for_sale: true,
                       for_rent: false,
-                      price_sale: book.price.toString(),
+                      price_sale: book.price?.toString() || "0",
                       price_rent_daily: null,
                       price_rent_weekly: null,
                       price_rent_monthly: null,
                       stock_quantity: 10,
                       reserved_quantity: 0,
                       is_active: true,
-                      average_rating: book.rating.toString(),
-                      total_ratings: book.reviewCount,
+                      average_rating: book.rating?.toString() || "0",
+                      total_ratings: book.reviewCount || 0,
                       total_reviews: 0,
                       publisher_id: null,
                       owner_id: null,
