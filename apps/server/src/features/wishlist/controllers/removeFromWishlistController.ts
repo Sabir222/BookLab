@@ -1,5 +1,6 @@
 import { type Request, type Response } from "express";
 import { wishlistQueries } from "@repo/db/postgres";
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 class WishlistError extends Error {
   constructor(
@@ -62,22 +63,14 @@ export const removeFromWishlistController = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({
-        success: false,
-        error: "Authentication required",
-        code: "UNAUTHORIZED",
-      });
+      sendError(res, "Authentication required", "UNAUTHORIZED", 401);
       return;
     }
 
     const { book_id }: RemoveFromWishlistRequestBody = req.body;
 
     if (!book_id) {
-      res.status(400).json({
-        success: false,
-        error: "Book ID is required",
-        code: "MISSING_BOOK_ID",
-      });
+      sendError(res, "Book ID is required", "MISSING_BOOK_ID", 400);
       return;
     }
 
@@ -85,11 +78,7 @@ export const removeFromWishlistController = async (
     const uuidRegex =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(book_id)) {
-      res.status(400).json({
-        success: false,
-        error: "Invalid book ID format",
-        code: "INVALID_BOOK_ID",
-      });
+      sendError(res, "Invalid book ID format", "INVALID_BOOK_ID", 400);
       return;
     }
 
@@ -100,34 +89,19 @@ export const removeFromWishlistController = async (
         `Book ${book_id} removed from wishlist for user ${userId}`,
       );
 
-      res.status(200).json({
-        success: true,
-        message: "Book removed from wishlist successfully",
-      });
+      sendSuccess(res, null, "Book removed from wishlist successfully");
     } else {
       // This shouldn't happen due to our validation, but just in case
-      res.status(500).json({
-        success: false,
-        error: "Failed to remove book from wishlist",
-        code: "REMOVE_FROM_WISHLIST_FAILED",
-      });
+      sendError(res, "Failed to remove book from wishlist", "REMOVE_FROM_WISHLIST_FAILED", 500);
     }
   } catch (error) {
     console.error("Remove from wishlist error:", error);
 
     if (error instanceof WishlistError) {
-      res.status(error.statusCode).json({
-        success: false,
-        error: error.message,
-        code: error.code,
-      });
+      sendError(res, error.message, error.code || "WISHLIST_ERROR", error.statusCode);
       return;
     }
 
-    res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };

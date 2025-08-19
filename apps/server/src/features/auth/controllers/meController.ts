@@ -1,41 +1,27 @@
 import { type Request, type Response } from "express";
 import { userQueries } from "@repo/db/postgres";
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 const meController = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
 
     if (!userId) {
-      return res.status(401).json({
-        success: false,
-        error: "Unauthorized!",
-        code: "UNAUTHORIZED",
-      });
+      return sendError(res, "Unauthorized!", "UNAUTHORIZED", 401);
     }
 
     const user = await userQueries.findById(userId);
 
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: "User not found",
-        code: "USER_NOT_FOUND",
-      });
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const { hashed_password, ...publicUser } = user;
 
-    return res.status(200).json({
-      success: true,
-      data: { user: publicUser },
-    });
+    return sendSuccess(res, { user: publicUser });
   } catch (error) {
     console.error("Error in meController:", error);
-    return res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    return sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
 

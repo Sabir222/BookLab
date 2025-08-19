@@ -1,21 +1,16 @@
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 import { userQueries } from "@repo/db/postgres";
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 const refreshController = async (req: Request, res: Response) => {
   try {
     const refreshTokenName =
       process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
     const refreshToken = req.cookies[refreshTokenName];
-    console.log(
-      `Yoo someone just used refresh controller mr white what the fuck refresh toekn = ${refreshToken}`,
-    );
+    
     if (!refreshToken) {
-      return res.status(400).json({
-        success: false,
-        error: "Refresh token is missing!",
-        code: "MISSING_REFRESH_TOKEN",
-      });
+      return sendError(res, "Refresh token is missing!", "MISSING_REFRESH_TOKEN", 400);
     }
 
     const decoded: any = jwt.verify(
@@ -25,20 +20,12 @@ const refreshController = async (req: Request, res: Response) => {
 
     if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET) {
       console.error("Missing JWT secrets in environment variables");
-      return res.status(500).json({
-        success: false,
-        error: "Server configuration error",
-        code: "SERVER_CONFIG_ERROR",
-      });
+      return sendError(res, "Server configuration error", "SERVER_CONFIG_ERROR", 500);
     }
 
     const user = await userQueries.findById(decoded.id);
     if (!user) {
-      return res.status(401).json({
-        success: false,
-        error: "User not found",
-        code: "USER_NOT_FOUND",
-      });
+      return sendError(res, "User not found", "USER_NOT_FOUND", 401);
     }
 
     const jwtSecret = process.env.JWT_SECRET as string;
@@ -72,8 +59,7 @@ const refreshController = async (req: Request, res: Response) => {
       maxAge: Number(process.env.ACCESS_TOKEN_COOKIE_MAX_AGE),
     });
 
-    return res.status(200).json({
-      success: true,
+    return sendSuccess(res, {
       access_token,
       user: {
         id: user.user_id,
@@ -83,27 +69,15 @@ const refreshController = async (req: Request, res: Response) => {
     });
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
-      return res.status(401).json({
-        success: false,
-        error: "Refresh token has expired",
-        code: "TOKEN_EXPIRED",
-      });
+      return sendError(res, "Refresh token has expired", "TOKEN_EXPIRED", 401);
     }
 
     if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(401).json({
-        success: false,
-        error: "Invalid refresh token",
-        code: "INVALID_TOKEN",
-      });
+      return sendError(res, "Invalid refresh token", "INVALID_TOKEN", 401);
     }
 
     console.error("Refresh token error:", error);
-    return res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    return sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
 

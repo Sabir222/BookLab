@@ -35,16 +35,14 @@ export const getUserById = async (
 
     const user = await userQueries.findById(userId);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const { hashed_password, email, ...publicUser } = user;
-    return sendResponse(res, 200, {
-      success: true,
-      data: { user: publicUser },
-    });
+    return sendSuccess(res, { user: publicUser });
   } catch (error) {
-    return handleError(res, 500, "Failed to get user", "GET_USER_ERROR", error);
+    console.error("Failed to get user:", error);
+    return sendError(res, "Failed to get user", "GET_USER_ERROR", 500);
   }
 };
 
@@ -55,7 +53,7 @@ export const updateUserProfile = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
+      return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
     }
 
     const { username, email, profileImageUrl } = req.body;
@@ -68,22 +66,14 @@ export const updateUserProfile = async (
 
     const user = await userQueries.update(userId, updateData);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const { hashed_password, ...publicUser } = user;
-    return sendResponse(res, 200, {
-      success: true,
-      data: { user: publicUser },
-    });
+    return sendSuccess(res, { user: publicUser });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to update user profile",
-      "UPDATE_USER_ERROR",
-      error,
-    );
+    console.error("Failed to update user profile:", error);
+    return sendError(res, "Failed to update user profile", "UPDATE_USER_ERROR", 500);
   }
 };
 
@@ -94,14 +84,14 @@ export const changePassword = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
+      return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
     }
 
     const { currentPassword, newPassword } = req.body;
 
     const user = await userQueries.findById(userId);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const isPasswordValid = comparerPassword(
@@ -109,11 +99,11 @@ export const changePassword = async (
       user.hashed_password,
     );
     if (!isPasswordValid) {
-      return handleError(
+      return sendError(
         res,
-        401,
         "Current password is incorrect",
         "INVALID_PASSWORD",
+        401,
       );
     }
 
@@ -125,21 +115,13 @@ export const changePassword = async (
     });
 
     if (!updatedUser) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
-    return sendResponse(res, 200, {
-      success: true,
-      message: "Password updated successfully",
-    });
+    return sendSuccess(res, null, "Password updated successfully");
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to change password",
-      "CHANGE_PASSWORD_ERROR",
-      error,
-    );
+    console.error("Failed to change password:", error);
+    return sendError(res, "Failed to change password", "CHANGE_PASSWORD_ERROR", 500);
   }
 };
 
@@ -150,46 +132,38 @@ export const deleteUser = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      return handleError(res, 401, "Unauthorized", "UNAUTHORIZED");
+      return sendError(res, "Unauthorized", "UNAUTHORIZED", 401);
     }
 
     const { password } = req.body;
     if (!password) {
-      return handleError(
+      return sendError(
         res,
-        400,
         "Password is required for account deletion",
         "PASSWORD_REQUIRED",
+        400,
       );
     }
 
     const user = await userQueries.findById(userId);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     const isPasswordValid = comparerPassword(password, user.hashed_password);
     if (!isPasswordValid) {
-      return handleError(res, 401, "Password is incorrect", "INVALID_PASSWORD");
+      return sendError(res, "Password is incorrect", "INVALID_PASSWORD", 401);
     }
 
     const deleted = await userQueries.delete(userId);
     if (!deleted) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
-    return sendResponse(res, 200, {
-      success: true,
-      message: "Account deleted successfully",
-    });
+    return sendSuccess(res, null, "Account deleted successfully");
   } catch (error: any) {
-    return handleError(
-      res,
-      500,
-      "Failed to delete account",
-      "DELETE_USER_ERROR",
-      error,
-    );
+    console.error("Failed to delete account:", error);
+    return sendError(res, "Failed to delete account", "DELETE_USER_ERROR", 500);
   }
 };
 
@@ -199,11 +173,11 @@ export const listUsers = async (
 ): Promise<Response> => {
   try {
     if (!req.user || req.user.role !== "admin") {
-      return handleError(
+      return sendError(
         res,
-        403,
         "Insufficient permissions",
         "INSUFFICIENT_PERMISSIONS",
+        403,
       );
     }
 
@@ -224,23 +198,14 @@ export const listUsers = async (
       return publicUser;
     });
 
-    return sendResponse(res, 200, {
-      success: true,
-      data: { users: publicUsers },
-      meta: {
-        limit: parsedLimit,
-        offset: parsedOffset,
-        total: filteredUsers.length,
-      },
+    return sendSuccess(res, { users: publicUsers }, undefined, 200, {
+      limit: parsedLimit,
+      offset: parsedOffset,
+      total: filteredUsers.length,
     });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to list users",
-      "LIST_USERS_ERROR",
-      error,
-    );
+    console.error("Failed to list users:", error);
+    return sendError(res, "Failed to list users", "LIST_USERS_ERROR", 500);
   }
 };
 
@@ -251,11 +216,11 @@ export const adminUpdateUser = async (
   try {
     // Check if user is admin
     if (!req.user || req.user.role !== "admin") {
-      return handleError(
+      return sendError(
         res,
-        403,
         "Insufficient permissions",
         "INSUFFICIENT_PERMISSIONS",
+        403,
       );
     }
 
@@ -282,23 +247,15 @@ export const adminUpdateUser = async (
 
     const user = await userQueries.update(userId, updateData);
     if (!user) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
     // Remove sensitive information
     const { hashed_password, ...publicUser } = user;
-    return sendResponse(res, 200, {
-      success: true,
-      data: { user: publicUser },
-    });
+    return sendSuccess(res, { user: publicUser });
   } catch (error) {
-    return handleError(
-      res,
-      500,
-      "Failed to update user",
-      "ADMIN_UPDATE_USER_ERROR",
-      error,
-    );
+    console.error("Failed to update user:", error);
+    return sendError(res, "Failed to update user", "ADMIN_UPDATE_USER_ERROR", 500);
   }
 };
 
@@ -309,11 +266,11 @@ export const adminDeleteUser = async (
   try {
     // Check if user is admin
     if (!req.user || req.user.role !== "admin") {
-      return handleError(
+      return sendError(
         res,
-        403,
         "Insufficient permissions",
         "INSUFFICIENT_PERMISSIONS",
+        403,
       );
     }
 
@@ -321,30 +278,22 @@ export const adminDeleteUser = async (
 
     const deleted = await userQueries.delete(userId);
     if (!deleted) {
-      return handleError(res, 404, "User not found", "USER_NOT_FOUND");
+      return sendError(res, "User not found", "USER_NOT_FOUND", 404);
     }
 
-    return sendResponse(res, 200, {
-      success: true,
-      message: "User deleted successfully",
-    });
+    return sendSuccess(res, null, "User deleted successfully");
   } catch (error: any) {
     // Handle foreign key constraint violation
     if (error.code === "23503") {
-      return handleError(
+      return sendError(
         res,
-        409,
         "Cannot delete user with associated records (reviews, etc.)",
         "USER_HAS_ASSOCIATED_RECORDS",
+        409,
       );
     }
 
-    return handleError(
-      res,
-      500,
-      "Failed to delete user",
-      "ADMIN_DELETE_USER_ERROR",
-      error,
-    );
+    console.error("Failed to delete user:", error);
+    return sendError(res, "Failed to delete user", "ADMIN_DELETE_USER_ERROR", 500);
   }
 };

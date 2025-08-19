@@ -1,5 +1,6 @@
 import { type Request, type Response } from "express";
 import { wishlistQueries } from "@repo/db/postgres";
+import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
 
 /**
  * Controller for getting the user's wishlist.
@@ -16,30 +17,18 @@ export const getWishlistController = async (
   try {
     const userId = req.user?.id;
     if (!userId) {
-      res.status(401).json({
-        success: false,
-        error: "Authentication required",
-        code: "UNAUTHORIZED",
-      });
+      sendError(res, "Authentication required", "UNAUTHORIZED", 401);
       return;
     }
 
     const wishlistItems = await wishlistQueries.getUserWishlistWithBooks(userId);
 
-    res.status(200).json({
-      success: true,
-      data: {
-        wishlist: wishlistItems,
-        count: wishlistItems.length,
-      },
+    sendSuccess(res, {
+      wishlist: wishlistItems,
+      count: wishlistItems.length,
     });
   } catch (error) {
     console.error("Get wishlist error:", error);
-
-    res.status(500).json({
-      success: false,
-      error: "Internal server error",
-      code: "INTERNAL_ERROR",
-    });
+    sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
