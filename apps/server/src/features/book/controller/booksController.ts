@@ -756,7 +756,7 @@ const updateBookRatings = async (
   }
 };
 
-export const bookPublicActionsController = {
+export const booksController = {
   getBookById,
   getAllBooks,
   getBooksByName,
