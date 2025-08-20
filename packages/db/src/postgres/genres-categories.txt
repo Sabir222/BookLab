@@ -1,5 +1,220 @@
+//books
+               book_id                |                           title                           
+--------------------------------------+-----------------------------------------------------------
+ c8950321-9395-44ce-828c-78a732f91b37 | A Conjuring of Light
+ 3b67e257-fcbb-4de4-8149-5ce9960f77b9 | A Court of Mist and Fury
+ 6ad0bc0d-310a-4cfb-bc16-5d6106f5d530 | A Court of Silver Flames
+ 94578ec4-205d-4644-aa91-7647bc2d9900 | A Court of Thorns and Roses
+ e9cb7006-e285-4530-9643-0a0a959305a0 | House of Sky and Breath
+ c3722913-0cd4-4cfb-9544-15c9b70d1f8c | Ignite Me
+ 58c809f0-4d05-4d6a-9255-f00c357a84eb | Illuminae
+ ba70c5e9-a793-4384-992c-047ea44b45c6 | Imagine Me
+ 3f197abc-a693-49d5-b0bb-406edd54c693 | Insurgent
+ b93913d0-c4af-46ca-a602-a31b06c816ec | A Court of Wings and Ruin
+ 3647650f-080a-4e5e-9f10-d73c87df3a46 | A Day of Fallen Night
+ a30177e0-30cd-4d73-8c78-0db194465e33 | A Gathering of Shadows
+ 978985ec-1759-46ee-bb14-531c9bfcc3c7 | All the Light We Cannot See
+ c64f7799-493f-4135-abd0-e12310577760 | Allegiant
+ 3c2de1cd-3496-4c54-af75-df4d7b1941f2 | Americanah
+ ec828ace-a3e6-4625-9a16-31f19d1b57e2 | Aurora Burning
+ 1ff0995a-4cd4-4ff4-bfbd-7bae9e760726 | Aurora Rising
+ 198517e6-4fd4-4b5b-aec7-ac135b050bd7 | Aurora’s End
+ 490214ac-1b2d-4e5b-97cd-e27514faed75 | Babel
+ a77d1c9f-dd91-4a7f-ba0a-d157c1f90f0f | Before We Were Strangers
+ 38b4f1ff-9177-437d-a124-c8514bfd1adf | Birnam Wood
+ 9bed5434-3be9-4a64-b32f-b749ca0cae6a | Blade Breaker
+ ac2c31ef-9d50-441a-aa08-cb387199c7ff | Bloodmarked
+ da9871b3-97d4-4bca-9f21-be4755a67c78 | Book Lovers
+ d3ea78cd-2f26-4667-8a48-35a045d4e58d | Caraval
+ edf616f5-cdc1-4074-b31c-adad5922351a | Carrie Soto Is Back
+ d7b46e40-8242-4f70-8996-6ba5d29bb64a | Catching Fire
+ 33c71273-b4ee-45fc-ae72-79048c9792b2 | Chain of Gold
+ 8d014e8c-c611-4440-9fd1-155064e07a27 | Chain of Iron
+ ffeba2da-9089-4354-9d48-a8a1bca080c2 | Children of Blood and Bone
+ 23c78129-82ff-48fd-8dd1-3772f1afff51 | Children of Virtue and Vengeance
+ 6d8c126a-6f52-4063-b46a-e00964dbd1e7 | Circe
+ 76999973-8825-4e01-9101-70714a9486e5 | City of Ashes
+ a91c59b3-eb49-462f-b6a3-3a8dcc723ec5 | City of Bones
+ f58abff5-0d08-412c-96bf-244e15f8aee6 | City of Fallen Angels
+ cfdf78b2-c54b-4f90-98c6-684321fbe3a1 | City of Glass
+ d84bc7b3-d136-4c66-a9a3-276c53978196 | City of Heavenly Fire
+ 9c14aa8a-70ea-4be8-a8ac-e1ee8ed4f755 | City of Lost Souls
+ d9a43bea-6187-46e9-93dd-aac0175a1708 | Clockwork Angel
+ 8dadf3d7-623a-4b37-abad-5cbdfb76890f | Clockwork Princess
+ 67c27067-9f20-4770-991a-29426cc34ec3 | Crescent City: House of Sky and Breath
+ 49640ebf-be54-4bf8-98c7-139c8fc728c3 | Crooked Kingdom
+ 222edd9c-bbe5-4f22-b380-e3c23e92a970 | Crown of Midnight
+ 7d447336-8fd1-4881-a2d9-d63b6c24d1ae | Darkdawn
+ 9bfa6939-ff65-4a89-b02b-cab365544ec4 | Defy Me
+ 0c046c96-9c1b-44cd-bf7a-ea9d1f87fea6 | Demon Copperhead
+ ee722a96-7146-40b7-acec-349d304ab002 | Empire of Storms
+ 6472804e-f258-4431-842d-6f6e2d5fef32 | Empire of the Vampire
+ 2d312578-9dbd-450f-a62a-67729f8e74db | Fate Breaker
+ 65856882-88f7-4c34-983a-a66466cbbb4e | Finale
+ 086a303e-3247-4a0b-8994-54ff7e666480 | Four: A Divergent Collection
+ 16c51354-2fda-48fe-85f7-0ae0e1ac75ec | Fourth Wing
+ 79972b3e-04c5-43df-a4d0-2046ef79d6be | Glass Sword
+ 22e73320-3645-47b6-a9b5-0be5be8f05ad | Godsgrave
+ 913767b4-f2bc-4711-a058-23a1dc92d6a3 | Gone Girl
+ 81e40d49-4bf3-46d7-a16e-0d27f04aeeed | Happy Place
+ da42a843-33f4-4018-96e7-8982ed95baa0 | He Who Drowned the World
+ c3a219ff-bce7-4c1f-a075-bac2b1d3c1bd | Heir of Fire
+ c2aa178c-b58b-4b7d-a093-af38aeea0a67 | Heir of Fire: Collector’s Edition
+ fef9641f-1ed0-48c7-9d84-72a0e5618bef | House of Earth and Blood
+ 562d34dc-09e9-4aab-859f-5a486394ff9f | Iron Flame
+ f8c2f2a4-231e-4099-8ac2-5745326eadbd | Iron Widow
+ af1155b0-ca5a-4a8a-9091-e6fc4312b3cb | It Ends with Us
+ a3fe79d2-2a75-40be-945f-259ae87e26f3 | It Starts with Us
+ 71a1edd8-e536-4415-9daf-1ec428ee9b73 | King of Scars
+ 908ccf06-f3a9-4ee3-89b8-c1bfab8a07db | King’s Cage
+ b7bdb37a-2202-4c17-a0c8-dcf47f0ae88a | Kingdom of Ash
+ f3545f5d-3fc7-4be1-91e4-4d2b86150cbe | Klara and the Sun
+ ffc16873-1f35-45d9-a6f2-93ae90d2b387 | Lady Midnight
+ ecb5cef2-e4e8-4393-b167-d677b47f3546 | Legendary
+ 48e6f77d-903d-4b6d-827e-55628c4c03ab | Legendborn
+ 530800c6-b78d-4c1d-9367-7a1732ede5dc | Lessons
+ 6d1dd482-cd9d-456b-8de0-1b032e9e0df6 | Lessons in Chemistry
+ a48ccd0f-c3ff-4d5f-a6fe-c10848719ce5 | Lightlark
+ eb9910da-1c69-4ef0-8e0e-5840ca04a380 | Lincoln in the Bardo
+ 370bb1f1-7eda-4828-93e5-88cace76098d | Lord of Shadows
+ d251529b-44c7-4628-ae32-1b54f4efcc03 | Malibu Rising
+ fcf19eb6-74e4-482b-862a-f3c20f0a57a2 | Mockingjay
+ 8285b0f2-c2f1-4ff3-a74e-030e4cb47ffa | My Brilliant Friend
+ cb7028c5-583d-4505-870c-8918923e3468 | Never Let Me Go
+ ccecba4e-19f2-4977-a7f5-a64ba54c2de8 | Nevernight
+ 11c7b598-b577-4e5f-b988-3347839d9a96 | Nightbane
+ 7302da6b-0859-48c8-a743-8ffc73bd6ed5 | Normal People
+ caca1abb-0677-4801-9586-f8732d8937df | Obsidio
+ 8dd1495b-7b0a-41d1-97f6-77f99adbedd9 | Once Upon a Broken Heart
+ ecec3822-2abb-4fe8-8a35-8f75cb5b5d00 | Our Dark Duet
+ e1979d34-ff10-4f48-9ecc-c4d8fe3dc1d7 | Project Hail Mary
+ ae02e3da-e96e-4f34-8c45-33fe6327412c | Queen of Air and Darkness
+ 747d5df7-daf5-47ea-9ebe-e707e21d7fd8 | Queen of Shadows
+ 7ca6c205-ed24-4aee-a4a1-701d5926e58b | Realm Breaker
+ 1b8c2b12-c017-4804-8df8-9b5e45c3f87f | Red Queen
+ 72aac672-fcb5-4f75-8c9f-35b54c08b431 | Reminders of Him
+ 3e48080f-456f-4dd4-8ed3-996c4c5d1db9 | Restore Me
+ 1a14d2ed-b677-42eb-bc3e-6a78ddb1f7a8 | Ruin and Rising
+ 8c1b857f-852f-4bb9-bcca-3761a46d8a78 | Rule of Wolves
+ ac2c6867-0a1e-4e01-8016-b09183e01db9 | Sea of Tranquility
+ 665fe5b6-a36b-4104-883f-4400203a8976 | Serpent & Dove
+ d6aeba5f-5d8a-4b67-a1df-f38f28b38d41 | Shadow and Bone
+ d8e0d3f2-d01a-4d53-80f8-7d97e61c8eba | Shatter Me
+ fc7b50ee-89c4-4622-8ac4-4e9fceaa97c8 | She Who Became the Sun
+ af5fa9fa-03c7-4640-8c1a-3172f22ba55f | Siege and Storm
+ 221e8d86-6295-4e54-826a-530f2db1c035 | Six of Crows
+ 513fec1f-be49-4ef8-b19e-2202056073a0 | Small Things Like These
+ 0b32f06d-5edf-4077-8d6e-ff38e207961a | Spare
+ ed315038-fb94-4c41-9759-667b65c7c540 | The Ashes and the Star-Cursed King
+ c648e155-66b6-48dd-8374-9a8b5832df45 | The Atlas Six
+ fdc843e7-3df6-417b-8bb6-ca1c80b401db | The Atlas Six: Illustrated Edition
+ c54e0224-118c-43c2-857e-22e74330e174 | The Ballad of Songbirds and Snakes
+ 6e013b45-a52d-46c5-b45f-542274582583 | The Burning God
+ 4f82177e-15ce-4c56-9fbf-796d7ea2804c | The Covenant of Water
+ 333b9948-8b96-4be6-ac07-a03e5db15c92 | The Dragon Republic
+ bb23edc9-91fb-41b1-9c1a-cffaeb05d01e | The Glass Castle
+ 05cb7ddc-fbd5-4899-a854-dbf06ee86046 | The Goldfinch
+ 9a6b9e7c-7cac-4c32-b420-c71b3dfbdcfb | The House in the Cerulean Sea
+ d669ef37-51a5-42ba-89c1-a3d8db0f300a | The Hunger Games
+ 78529251-fc7e-40c4-b94f-1fe2fc676f4b | The Invisible Life of Addie LaRue
+ 775ee6ae-7471-4efa-a431-321fe0d8bb1f | The Midnight Library
+ fd1fe11b-e778-4802-aa00-416ac51e5f33 | The Night Circus
+ 56be8083-b5b0-4618-8d39-524ca8def7da | The Overstory
+ 921783dc-7146-457f-b481-e0a921d0c584 | The Poppy War
+ a74cdf3d-a11b-4f17-a7c5-0b3923aa4bba | The Priory of the Orange Tree
+ 1a28b1f2-7ec2-4664-82d3-3c69acd79969 | The Road
+ 8b2a2fa1-f832-429b-a4d8-27db06cc0fdc | The Rose and the Dagger
+ 96166a20-0c85-469a-961d-8e876f98d00b | The Serpent and the Wings of Night
+ f42ea33a-0edc-4697-b154-7cee4faf6919 | The Shadows Between Us
+ 061cc62d-4530-42d2-855d-365359e7b206 | The Song of Achilles
+ 08f2c938-7a33-48ea-a611-698f26df1195 | The Songbird and the Heart of Stone
+ 4310d0ed-3d59-4085-b4f1-0e7ffb31874f | The Stardust Thief
+ 290f8912-5cf8-4771-a6f3-ec9da866d3e7 | The Testaments
+ ce398622-71f1-46f4-afcc-53ae0361f631 | The Underground Railroad
+ f21d8987-d8bf-489e-a068-6369266d3fd0 | The Warmth of paperback Suns
+ af9d51dd-fe4e-479e-af77-854242f1ffff | The Wrath and the Dawn
+ 31e6de7e-1e85-4565-87f1-140d98670c23 | This Savage Song
+ bf42b2ff-49f8-4ee4-9170-c54e0c427c08 | Throne of Glass
+ 0009d0a3-d932-417c-8e05-560e54b6505a | Tomorrow, and Tomorrow, and Tomorrow
+ b490dbfa-1183-476d-8cff-23239c89ee4b | Tomorrow, and Tomorrow, and Tomorrow: Collector’s Edition
+ d2c936f3-18c9-416d-a11b-bae4199cb449 | Tower of Dawn
+ cf36f9f8-4b5f-4fd7-b9d1-d123775314be | Trust
+ d9d7198c-9c55-46db-9cd0-d24b7efecf88 | Under the Whispering Door
+ 9fc934b4-373c-4e47-8e87-6bfac305f403 | Vengeful
+ 31c6baac-7966-4ff0-b0dd-912889ef431f | Verity
+ d1e5b180-2da0-463f-9bfa-8170b15bcfe3 | War Storm
+ d3c81bd4-bd29-4236-a0d9-08b45ffacb78 | Where the Crawdads Sing
+ f37905f0-a109-4420-ab95-96e97a7d31b2 | Wolf Hall
+ b865cf43-8be2-42cd-9678-11d561cb94a4 | Yellowface
+(145 rows)
 
+//categories
+             category_id              |   category_name    
+--------------------------------------+--------------------
+ 9afa3511-0ba6-4c66-b2f2-169c6815d139 | Fiction
+ 0ed7950e-5e69-4aac-b67d-d426d8ead6fe | Non-Fiction
+ 17739b35-27cb-41af-bb8d-d996f3519ee7 | Science Fiction
+ 43f85820-0294-49e4-953c-ea119f2eb8f9 | Fantasy
+ df3f99de-178a-4afb-8d5b-1e4b1baa42c2 | Mystery
+ 84484d09-8b66-4ea7-9edc-106fd13ffd73 | Romance
+ ec0889c4-d73c-4fd6-bdc1-2019b30354f4 | Biography
+ 9d63c60f-7d13-44cb-9c19-441065e52970 | History
+ 6f658bbf-f7ec-4e3c-a308-14508f6f0227 | Science
+ 16d30dff-9a95-4782-b291-6f8b94de161f | Self-Help
+ 7d26a24b-ae3b-49bb-9548-1018a5c2fee3 | Comics
+ 7714415f-2a2c-4c93-b573-c8636f2c43f1 | Kids
+ 976f1dbf-8f7e-47b1-963e-1248dc8878da | Literary Fiction
+ 0b4c28ac-7736-4224-96af-e0fbe31bfd1b | Thriller
+ 6a151e20-73d9-45e0-94bf-be7a0f73f4cf | Horror
+ 7a6b9d3b-dece-4c9b-bb09-9353b2162b4a | Memoir
+ 3e0912eb-37da-4b7a-b2a1-957ce7880335 | Essays
+ 12a94927-a872-4f85-bb9c-18d1bd716733 | Travel
+ fa7e1059-7a33-4976-8bbd-2e6189548642 | Space Opera
+ 2fdbc5bc-8d2d-44ff-a310-dd8935be5f92 | Cyberpunk
+ 7c78a105-695c-4a82-b99a-b4d0fdcb1915 | High Fantasy
+ 48505004-1f42-4e63-8239-97f58d28695f | Urban Fantasy
+ 4eead143-9d1a-4833-983b-dc4db5423996 | Paranormal Romance
+ e7a732e2-8fa5-404f-ad92-c6a8e74e4fd5 | Manga
+ d93f78b4-ac63-42e7-9948-eeaf37454f94 | Picture Books
+ 813e9cc2-5251-49d4-bee0-a85fd21934f7 | Early Readers
+(26 rows)
 
+//genres
+               genre_id               |      genre_name      
+--------------------------------------+----------------------
+ f250adc5-8454-4ed3-81ff-dbde4c78bd1f | Adventure
+ 66eb7658-e0ec-42f2-81e5-dbf2fae92a7a | Comics
+ bf3da532-c2f1-412f-9ec1-00bef471b602 | Dystopian
+ 5c1074cd-d714-4d26-9612-e3b7cd658012 | Epic Fantasy
+ fa20b252-7783-4d1b-ad94-32105fe66f65 | Historical Fiction
+ e88a4263-f077-4766-bcdf-1b7c585d211b | Horror
+ 805dcfc3-1e6a-438a-99dc-ba561122d404 | Humor
+ e1ab905f-081f-4a7d-af4e-deabbd543583 | Magical Realism
+ d593ca2c-74ac-404a-af1b-52f38f7f325b | Manga
+ 1e2f9b36-f664-4981-89a4-181aaee35eec | Noir
+ 9ae1fac3-0fd2-475e-bdfb-a916296450f1 | Romance
+ 68e2ff8f-6716-4de9-99cf-990050bc8f92 | Science Fiction
+ 90923e17-feac-40d3-b71a-765b15dbc600 | Steampunk
+ 202f2f51-ada8-430d-82e0-69c842374693 | Superhero
+ d9f01075-d55c-4023-ba92-8dc49a70f976 | Urban Fantasy
+ 266310e8-0287-41e8-b5b0-fd0e237d438f | Young Adult
+ a7010a6c-d6e8-4003-887f-f6298c65c147 | Zombie Apocalypse
+ 19c3f489-1c50-442f-886d-0c12b920843f | Hard Science Fiction
+ 24b6f710-3aef-4366-946b-e96c4ab9cee2 | Space Opera
+ 281180bb-22f5-4d70-ad6e-1ef83ac4075f | Space Western
+ e24133c2-7389-4025-ac73-f115f2d4dd26 | Time Travel Romance
+ a0482b48-0021-4379-9f87-f33fdea112d5 | Dark Fantasy
+ 11210297-4c99-4591-91af-523b7a12cdb3 | Gothic Fiction
+ 01d76067-7374-4d66-98a8-1dbb54b9b23a | Shonen
+ 8cf9b6ad-3de3-4950-ac39-b7b21f29840e | Shojo
+ c0c8c831-40d8-4e4d-8034-bb0ab8b4c682 | Seinen
+ 2e0259ae-254f-4378-9761-53e3a3797cf0 | Josei
+ 34a002a9-a810-408e-abe7-f3c6dca0283f | Superhero Comics
+ 62162227-45f3-444c-84b2-facde7d49fa1 | Indie Comics
+ e2e54289-a55d-401a-a341-77e5b08023e0 | Coming-of-Age
+(30 rows)
+
+//how the relations are 
 ### File: ./migrations/001_db_setup.sql
 
 ```sql
