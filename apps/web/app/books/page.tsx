@@ -89,7 +89,6 @@ export default function BooksPage() {
   useEffect(() => {
     let result = [...mockBooks];
 
-    // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(book =>
@@ -126,7 +125,6 @@ export default function BooksPage() {
       );
     }
 
-    // Apply sorting
     switch (sortBy) {
       case "price-low":
         result.sort((a, b) => a.price - b.price);
@@ -148,7 +146,6 @@ export default function BooksPage() {
     setFilteredBooks(result);
   }, [searchQuery, priceRange, selectedCategories, selectedRatings, inStockOnly, onSaleOnly, sortBy]);
 
-  // Clear all filters
   const clearFilters = () => {
     setSearchQuery("");
     setPriceRange([0, 50]);
@@ -159,7 +156,6 @@ export default function BooksPage() {
     setSortBy("relevance");
   };
 
-  // Check if any filters are active
   const hasActiveFilters =
     searchQuery !== "" ||
     priceRange[0] > 0 ||
@@ -170,9 +166,8 @@ export default function BooksPage() {
     onSaleOnly;
 
   return (
-    <div className=" container mx-auto px-4 py-8">
+    <div className="pt-28 container mx-auto px-4 py-8">
       <div className="lg:mt-12 flex flex-col md:flex-row gap-8">
-        {/* Filters sidebar */}
         <BookFilters
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}

@@ -1,5 +1,5 @@
 import express from "express";
-import { bookPublicActionsController } from "../controller/booksPublicActionsController.js";
+import { booksController } from "../controller/booksController.js";
 import { validate } from "../middleware/validate.js";
 import { authenticate } from "../../auth/middlewares/authenticate.js";
 import {
@@ -30,124 +30,124 @@ const bookPublicRouter = express.Router();
 
 bookPublicRouter.get(
   "/search-with-authors",
-  bookPublicActionsController.searchBooksWithAuthors,
+  booksController.searchBooksWithAuthors,
 );
 bookPublicRouter.get(
   "/search",
   validate(searchBooksByNameSchema),
-  bookPublicActionsController.getBooksByName,
+  booksController.getBooksByName,
 );
 bookPublicRouter.get(
   "/search/author",
   validate(searchBooksByAuthorSchema),
-  bookPublicActionsController.getBooksByAuthor,
+  booksController.getBooksByAuthor,
 );
 bookPublicRouter.get(
   "/search/category",
   validate(searchBooksByCategorySchema),
-  bookPublicActionsController.getBooksByCategory,
+  booksController.getBooksByCategory,
 );
 bookPublicRouter.get(
   "/search/isbn",
   validate(searchBooksByISBNSchema),
-  bookPublicActionsController.getBooksByISBN,
+  booksController.getBooksByISBN,
 );
 bookPublicRouter.get(
   "/new-releases",
   validate(getNewReleasesSchema),
-  bookPublicActionsController.getNewReleases,
+  booksController.getNewReleases,
 );
 bookPublicRouter.get(
   "/:id/related",
   validate(getRelatedBooksSchema),
-  bookPublicActionsController.getRelatedBooks,
+  booksController.getRelatedBooks,
 );
 bookPublicRouter.get(
   "/filter",
   validate(filterBooksSchema),
-  bookPublicActionsController.getFilteredBooks,
+  booksController.getFilteredBooks,
 );
 
 bookPublicRouter.get(
   "/",
   validate(getAllBooksSchema),
-  bookPublicActionsController.getAllBooks,
+  booksController.getAllBooks,
 );
 bookPublicRouter.get(
   "/:id",
   validate(getBookByIdSchema),
-  bookPublicActionsController.getBookById,
+  booksController.getBookById,
 );
 
 bookPublicRouter.post(
   "/",
   authenticate,
   validate(createBookSchema),
-  bookPublicActionsController.createBook,
+  booksController.createBook,
 );
 bookPublicRouter.put(
   "/:id",
   authenticate,
   validate(updateBookSchema),
-  bookPublicActionsController.updateBook,
+  booksController.updateBook,
 );
 bookPublicRouter.delete(
   "/:id",
   authenticate,
   validate(deleteBookSchema),
-  bookPublicActionsController.deleteBook,
+  booksController.deleteBook,
 );
 bookPublicRouter.patch(
   "/:id/soft-delete",
   authenticate,
   validate(softDeleteBookSchema),
-  bookPublicActionsController.softDeleteBook,
+  booksController.softDeleteBook,
 );
 bookPublicRouter.patch(
   "/:id/restore",
   authenticate,
   validate(restoreBookSchema),
-  bookPublicActionsController.restoreBook,
+  booksController.restoreBook,
 );
 bookPublicRouter.get(
   "/:id/exists",
   validate(bookExistsSchema),
-  bookPublicActionsController.bookExists,
+  booksController.bookExists,
 );
 bookPublicRouter.get(
   "/slug/:slug",
   validate(getBookBySlugSchema),
-  bookPublicActionsController.getBookBySlug,
+  booksController.getBookBySlug,
 );
 bookPublicRouter.patch(
   "/:id/stock",
   authenticate,
   validate(updateBookStockSchema),
-  bookPublicActionsController.updateBookStock,
+  booksController.updateBookStock,
 );
 bookPublicRouter.patch(
   "/:id/stock/add",
   authenticate,
   validate(addToBookStockSchema),
-  bookPublicActionsController.addToBookStock,
+  booksController.addToBookStock,
 );
 bookPublicRouter.patch(
   "/:id/stock/reserve",
   authenticate,
   validate(reserveBooksSchema),
-  bookPublicActionsController.reserveBooks,
+  booksController.reserveBooks,
 );
 bookPublicRouter.patch(
   "/:id/stock/release",
   authenticate,
   validate(releaseReservedBooksSchema),
-  bookPublicActionsController.releaseReservedBooks,
+  booksController.releaseReservedBooks,
 );
 bookPublicRouter.patch(
   "/:id/ratings",
   authenticate,
   validate(updateBookRatingsSchema),
-  bookPublicActionsController.updateBookRatings,
+  booksController.updateBookRatings,
 );
 
 export default bookPublicRouter;
