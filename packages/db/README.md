@@ -45,3 +45,4 @@ REDIS_PASSWORD=your_redis_password
 ## Health Checks
 
 The package provides comprehensive health checking for both PostgreSQL and Redis connections, with detailed status reporting.
+
