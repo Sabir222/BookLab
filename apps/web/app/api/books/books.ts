@@ -1,8 +1,6 @@
-"use client";
-
 import { Book } from "@repo/types/types";
 import { ApiResponse } from "@/types";
-import fetchWithRefresh from "../fetchWithRefresh";
+import fetchWithRefresh from "@/lib/fetchWithRefresh";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001";
@@ -19,6 +17,23 @@ export interface BookWithAuthor extends Book {
 }
 
 export const bookApi = {
+  async getBooksTest(): Promise<Book[]> {
+    const res = await fetchWithRefresh(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books`,
+      {
+        cache: "no-store",
+      },
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch books");
+    }
+    const json: ApiResponse<{ books: Book[] }> = await res.json();
+    console.log("api response is: ", json);
+    if (!json.success || !json.data) {
+      throw new Error(json.error ?? "Unknown error");
+    }
+    return json.data.books;
+  },
   async getTopRatedBooks(limit: number = 10): Promise<BookWithAuthor[]> {
     try {
       const response = await fetchWithRefresh(
@@ -69,31 +84,6 @@ export const bookApi = {
     }
   },
 
-  async getRelatedBooks(bookId: string): Promise<BookWithAuthor[]> {
-    try {
-      const response = await fetchWithRefresh(
-        `${API_BASE_URL}/api/books/${bookId}/related`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch related books: ${response.status}`);
-      }
-
-      const result: ApiResponse<{ books: BookWithAuthor[] }> =
-        await response.json();
-      return result.data?.books || [];
-    } catch (error) {
-      console.error("Error fetching related books:", error);
-      return [];
-    }
-  },
-
   async createBook(bookData: any): Promise<Book> {
     const response = await fetchWithRefresh(`${API_BASE_URL}/api/books`, {
       method: "POST",
@@ -110,4 +100,3 @@ export const bookApi = {
     return response.json();
   },
 };
-
