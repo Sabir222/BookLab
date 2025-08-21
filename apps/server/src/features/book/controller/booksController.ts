@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { bookQueries } from "@repo/db/postgres";
-import { type Book } from "@repo/types/types";
+import { type Book, type BookWithDetails } from "@repo/types/types";
 import {
   getCache,
   setCache,
@@ -83,7 +83,7 @@ const getBooksByName = async (
 
   try {
     redis = getRedisClient();
-    const cached = await getCache<Book[]>(redis, cacheKey, true);
+    const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
     if (cached) {
       return sendSuccess(res, { books: cached }, undefined, 200, {
         cached: true,
@@ -95,37 +95,6 @@ const getBooksByName = async (
     return sendSuccess(res, { books }, undefined, 200, { cached: false });
   } catch (error) {
     console.error("Search failed:", error);
-    return sendError(res, "Search failed", "SEARCH_ERROR", 500);
-  }
-};
-
-const searchBooksWithAuthors = async (
-  req: Request,
-  res: Response,
-): Promise<Response> => {
-  const { q } = req.query;
-  if (!q || typeof q !== "string" || !q.trim()) {
-    return sendError(res, "Invalid search query", "INVALID_SEARCH_QUERY", 400);
-  }
-
-  const normalizedQuery = q.trim();
-  const cacheKey = `books:search-with-authors:${normalizedQuery.toLowerCase()}`;
-  let redis: RedisClientType | null = null;
-
-  try {
-    redis = getRedisClient();
-    const cached = await getCache<(Book & { author_name?: string })[]>(redis, cacheKey, true);
-    if (cached) {
-      return sendSuccess(res, { books: cached }, undefined, 200, {
-        cached: true,
-      });
-    }
-
-    const books = await bookQueries.searchBooksWithAuthors(normalizedQuery);
-    setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
-    return sendSuccess(res, { books }, undefined, 200, { cached: false });
-  } catch (error) {
-    console.error("Search with authors failed:", error);
     return sendError(res, "Search failed", "SEARCH_ERROR", 500);
   }
 };
@@ -439,7 +408,6 @@ const getFilteredBooks = async (
   }
 };
 
-// Create a new book
 const createBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const bookData = req.body;
@@ -451,7 +419,6 @@ const createBook = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Update a book
 const updateBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
@@ -474,7 +441,6 @@ const updateBook = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Delete a book
 const deleteBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
@@ -496,7 +462,6 @@ const deleteBook = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Soft delete a book
 const softDeleteBook = async (
   req: Request,
   res: Response,
@@ -527,7 +492,6 @@ const softDeleteBook = async (
   }
 };
 
-// Restore a book
 const restoreBook = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
@@ -549,7 +513,6 @@ const restoreBook = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Check if a book exists
 const bookExists = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
@@ -566,7 +529,6 @@ const bookExists = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Get book by slug
 const getBookBySlug = async (
   req: Request,
   res: Response,
@@ -596,7 +558,6 @@ const getBookBySlug = async (
   }
 };
 
-// Update book stock
 const updateBookStock = async (
   req: Request,
   res: Response,
@@ -631,7 +592,6 @@ const updateBookStock = async (
   }
 };
 
-// Add to book stock
 const addToBookStock = async (
   req: Request,
   res: Response,
@@ -662,7 +622,6 @@ const addToBookStock = async (
   }
 };
 
-// Reserve books
 const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
   try {
     const { id: bookId } = req.params;
@@ -690,7 +649,6 @@ const reserveBooks = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// Release reserved books
 const releaseReservedBooks = async (
   req: Request,
   res: Response,
@@ -721,7 +679,6 @@ const releaseReservedBooks = async (
   }
 };
 
-// Update book ratings
 const updateBookRatings = async (
   req: Request,
   res: Response,
@@ -778,6 +735,4 @@ export const booksController = {
   reserveBooks,
   releaseReservedBooks,
   updateBookRatings,
-  searchBooksWithAuthors,
 };
-

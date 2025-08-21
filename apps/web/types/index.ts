@@ -1,16 +1,5 @@
 import { User, Book } from "@repo/types/types";
 
-export interface BookWithAuthor extends Book {
-  author_name?: string;
-  authors?: Array<{
-    author_id: string;
-    first_name?: string;
-    last_name: string;
-    role?: string;
-    order_index?: number;
-  }>;
-}
-
 export type ProfileUser = Pick<
   User,
   | "user_id"
@@ -23,8 +12,6 @@ export type ProfileUser = Pick<
   | "role"
   | "last_login"
 >;
-
-export type { Book } from "@repo/types/types";
 
 export interface SimpleBook {
   id: string;

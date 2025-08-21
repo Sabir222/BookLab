@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { WishlistButton } from "@/components/books/LikeButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import { BookWithAuthor } from "@/types";
+import { BookWithDetails } from "@repo/types/types";
 
 interface BookCardProps {
-        book?: BookWithAuthor;
+        book?: BookWithDetails;
         isLoading?: boolean;
 }
 

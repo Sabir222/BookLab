@@ -29,10 +29,6 @@ import {
 const bookPublicRouter = express.Router();
 
 bookPublicRouter.get(
-  "/search-with-authors",
-  booksController.searchBooksWithAuthors,
-);
-bookPublicRouter.get(
   "/search",
   validate(searchBooksByNameSchema),
   booksController.getBooksByName,
