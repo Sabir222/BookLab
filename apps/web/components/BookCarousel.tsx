@@ -17,7 +17,7 @@ interface BookCarouselProps {
 
 export function BookCarousel({ title, books, isLoading, onToggleFavorite }: BookCarouselProps) {
         if (isLoading) {
-                const skeletonBooks = Array(5).fill(null);
+                const skeletonBooks = Array(8).fill(null);
                 return (
                         <section className="w-full py-6">
                                 <div className="container mx-auto px-4">
@@ -76,7 +76,7 @@ export function BookCarousel({ title, books, isLoading, onToggleFavorite }: Book
                                                         {books.map((book) => (
                                                                 <CarouselItem
                                                                         key={book.id}
-                                                                        className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                                                                        className="basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/6"
                                                                 >
                                                                         <BookCard
                                                                                 book={{

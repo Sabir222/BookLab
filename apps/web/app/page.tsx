@@ -2,7 +2,6 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { MangaPromoSection } from "@/components/home/MangaPromoSection";
 import { TopRatedBooksSection } from "@/components/home/TopRatedBooksSection";
 import { AuthorsSection } from "@/components/home/AuthorsSection";
-import { Calendar } from "@/components/ui/calendar";
 
 export default async function Home() {
         return (
