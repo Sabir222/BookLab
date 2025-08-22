@@ -17,7 +17,6 @@ export const bookApi = {
       throw new Error("Failed to fetch books");
     }
     const json: ApiResponse<{ books: BookWithDetails[] }> = await res.json();
-    console.log("api response is: ", json);
     if (!json.success || !json.data) {
       throw new Error(json.error ?? "Unknown error");
     }
@@ -26,7 +25,7 @@ export const bookApi = {
   async getTopRatedBooks(limit: number = 10): Promise<BookWithDetails[]> {
     try {
       const response = await fetchWithRefresh(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books/top-rated?limit=10`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books/top-rated?limit=${limit}`,
         {
           method: "GET",
           headers: {

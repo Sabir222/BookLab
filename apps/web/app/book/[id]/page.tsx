@@ -25,7 +25,6 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
         const { id } = await params;
 
         const book = await bookApi.getBookById(id);
-        console.log(book)
         if (!book) {
                 notFound();
         }

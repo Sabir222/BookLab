@@ -14,8 +14,6 @@ export type LoginResponse = {
 const login = async (_previousState: unknown, formData: FormData) => {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
-  console.log("this run here ✓");
-
   if (!username || !password) {
     return {
       message: "",
@@ -46,7 +44,6 @@ const login = async (_previousState: unknown, formData: FormData) => {
     }
 
     const data: LoginResponse = await res.json();
-    console.log(data.user);
     return data;
   } catch (error: unknown) {
     return {

@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BookCarousel } from "@/components/BookCarousel";
-import { SimpleBook as Book } from "@/types";
+import { SimpleBook } from "@/types";
 import { bookApi } from "@/app/api/books/books";
 
 export function TopRatedBooksSection() {
@@ -12,17 +12,29 @@ export function TopRatedBooksSection() {
                 queryFn: () => bookApi.getTopRatedBooks(8),
         });
 
-        const books: Book[] = useMemo(() => {
+        const books: SimpleBook[] = useMemo(() => {
                 if (!data) return [];
                 return data.map(book => {
-                        let authorName = 'Unknown Author';
-                        if (book.author_name) {
-                                authorName = book.author_name;
-                        } else if (book.authors && book.authors.length > 0 && book.authors[0]) {
-                                const firstAuthor = book.authors[0];
-                                authorName = `${firstAuthor.first_name || ''} ${firstAuthor.last_name || ''}`.trim() || 'Unknown Author';
+
+                        const authors: string[] = [];
+                        book.authors?.map(author => {
+                                if (authors.includes(author.first_name + " " + author.last_name)) {
+                                        return;
+                                }
+                                authors.push(author.first_name + " " + author.last_name);
+
+                        })
+                        let authorName = "Unknown Author"
+
+                        if (authors.length === 1) {
+                                authorName = `${authors[0]}`
+                        } else if (authors.length > 1) {
+                                authorName = `${authors[0]} & ${authors[1]}`
+                        } else if (authors.length > 2) {
+                                authorName = `${authors[0]},${authors[1]} & ${authors.length - 2} more`
                         }
 
+                        console.log(book.primary_category?.category_name)
                         return {
                                 id: book.book_id,
                                 title: book.title,
@@ -32,7 +44,7 @@ export function TopRatedBooksSection() {
                                 reviewCount: book.total_ratings || 0,
                                 price: book.price_sale ? Number(book.price_sale) : 0,
                                 originalPrice: book.price_sale ? Number(book.price_sale) : 0,
-                                category: 'Unknown',
+                                category: book.primary_category?.category_name,
                         };
                 });
         }, [data]);
