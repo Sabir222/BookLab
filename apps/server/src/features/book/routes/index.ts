@@ -53,6 +53,8 @@ bookPublicRouter.get(
   validate(getNewReleasesSchema),
   booksController.getNewReleases,
 );
+
+bookPublicRouter.get("/top-rated", booksController.getTopRatedBooks);
 bookPublicRouter.get(
   "/:id/related",
   validate(getRelatedBooksSchema),

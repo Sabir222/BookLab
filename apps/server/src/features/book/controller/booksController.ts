@@ -713,6 +713,57 @@ const updateBookRatings = async (
   }
 };
 
+const getTopRatedBooks = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  const { limit, minRating } = req.query;
+  const bookLimit = limit ? parseInt(limit as string, 10) : 50;
+  const minimumRating = minRating ? parseFloat(minRating as string) : 4.0;
+
+  if (isNaN(bookLimit) || bookLimit < 1 || bookLimit > 100) {
+    return sendError(
+      res,
+      "Invalid limit parameter (1-100)",
+      "INVALID_LIMIT",
+      400,
+    );
+  }
+
+  if (isNaN(minimumRating) || minimumRating < 0 || minimumRating > 5) {
+    return sendError(
+      res,
+      "Invalid minRating parameter (0-5)",
+      "INVALID_MIN_RATING",
+      400,
+    );
+  }
+
+  const cacheKey = `books:top-rated:${bookLimit}:${minimumRating}`;
+  let redis: RedisClientType | null = null;
+
+  try {
+    redis = getRedisClient();
+    const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
+    if (cached) {
+      return sendSuccess(res, { books: cached }, undefined, 200, {
+        cached: true,
+      });
+    }
+
+    const books = await bookQueries.findTopRatedBooks(bookLimit, minimumRating);
+    setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+    return sendSuccess(res, { books }, undefined, 200, { cached: false });
+  } catch (error) {
+    console.error("Failed to get top rated books:", error);
+    return sendError(
+      res,
+      "Failed to get top rated books",
+      "TOP_RATED_BOOKS_ERROR",
+      500,
+    );
+  }
+};
 export const booksController = {
   getBookById,
   getAllBooks,
@@ -722,6 +773,7 @@ export const booksController = {
   getNewReleases,
   getBooksByISBN,
   getRelatedBooks,
+  getTopRatedBooks,
   getFilteredBooks,
   createBook,
   updateBook,
