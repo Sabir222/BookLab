@@ -1,4 +1,46 @@
+export interface BookAuthor {
+  author_id: string;
+  first_name?: string;
+  last_name: string;
+  role?: string;
+  order_index?: number;
+}
+
+export interface BookCategory {
+  category_id: string;
+  category_name: string;
+  description?: string;
+  parent_category_id?: string;
+}
+
+export interface BookGenre {
+  genre_id: string;
+  genre_name: string;
+  description?: string;
+  parent_genre_id?: string;
+}
+
+export interface BookPublisher {
+  publisher_id: string;
+  publisher_name: string;
+  description?: string;
+  founded_year?: number;
+  country?: string;
+  website_url?: string;
+  is_active: boolean;
+}
+
+export interface BookWithDetails extends Book {
+  authors?: BookAuthor[];
+  author_name?: string; // Concatenated author names for backward compatibility
+  primary_category?: BookCategory;
+  categories?: BookCategory[];
+  genres?: BookGenre[];
+  publisher?: BookPublisher;
+}
+
 // whislist types
+
 export type UserWishlistItem = {
   user_id: string;
   book_id: string;

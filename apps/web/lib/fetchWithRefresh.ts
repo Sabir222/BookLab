@@ -1,5 +1,6 @@
 async function fetchWithRefresh(url: string, options: RequestInit = {}) {
   let res = await fetch(url, { ...options, credentials: "include" });
+  console.log("Fetching:", url, "Status:", res.status);
 
   if (res.status === 401) {
     console.log("this is running because fetched response was 401 ✗");

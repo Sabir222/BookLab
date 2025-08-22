@@ -29,10 +29,6 @@ import {
 const bookPublicRouter = express.Router();
 
 bookPublicRouter.get(
-  "/search-with-authors",
-  booksController.searchBooksWithAuthors,
-);
-bookPublicRouter.get(
   "/search",
   validate(searchBooksByNameSchema),
   booksController.getBooksByName,
@@ -57,6 +53,8 @@ bookPublicRouter.get(
   validate(getNewReleasesSchema),
   booksController.getNewReleases,
 );
+
+bookPublicRouter.get("/top-rated", booksController.getTopRatedBooks);
 bookPublicRouter.get(
   "/:id/related",
   validate(getRelatedBooksSchema),

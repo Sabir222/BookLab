@@ -1,23 +1,12 @@
-import { Book } from "@repo/types/types";
+import { Book, BookWithDetails } from "@repo/types/types";
 import { ApiResponse } from "@/types";
 import fetchWithRefresh from "@/lib/fetchWithRefresh";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001";
 
-export interface BookWithAuthor extends Book {
-  author_name?: string;
-  authors?: Array<{
-    author_id: string;
-    first_name?: string;
-    last_name: string;
-    role?: string;
-    order_index?: number;
-  }>;
-}
-
 export const bookApi = {
-  async getBooksTest(): Promise<Book[]> {
+  async getBooksTest(): Promise<BookWithDetails[]> {
     const res = await fetchWithRefresh(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books`,
       {
@@ -27,17 +16,17 @@ export const bookApi = {
     if (!res.ok) {
       throw new Error("Failed to fetch books");
     }
-    const json: ApiResponse<{ books: Book[] }> = await res.json();
+    const json: ApiResponse<{ books: BookWithDetails[] }> = await res.json();
     console.log("api response is: ", json);
     if (!json.success || !json.data) {
       throw new Error(json.error ?? "Unknown error");
     }
     return json.data.books;
   },
-  async getTopRatedBooks(limit: number = 10): Promise<BookWithAuthor[]> {
+  async getTopRatedBooks(limit: number = 10): Promise<BookWithDetails[]> {
     try {
       const response = await fetchWithRefresh(
-        `${API_BASE_URL}/api/books?limit=${limit}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books/top-rated?limit=10`,
         {
           method: "GET",
           headers: {
@@ -50,7 +39,7 @@ export const bookApi = {
         throw new Error(`Failed to fetch top rated books: ${response.status}`);
       }
 
-      const result: ApiResponse<{ books: BookWithAuthor[] }> =
+      const result: ApiResponse<{ books: BookWithDetails[] }> =
         await response.json();
       return result.data?.books || [];
     } catch (error) {
@@ -59,7 +48,7 @@ export const bookApi = {
     }
   },
 
-  async getBookById(bookId: string): Promise<BookWithAuthor | null> {
+  async getBookById(bookId: string): Promise<BookWithDetails | null> {
     try {
       const response = await fetchWithRefresh(
         `${API_BASE_URL}/api/books/${bookId}`,
@@ -75,7 +64,7 @@ export const bookApi = {
         throw new Error(`Failed to fetch book: ${response.status}`);
       }
 
-      const result: ApiResponse<{ book: BookWithAuthor }> =
+      const result: ApiResponse<{ book: BookWithDetails }> =
         await response.json();
       return result.data?.book || null;
     } catch (error) {

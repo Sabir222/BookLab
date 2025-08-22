@@ -1,0 +1,115 @@
+{
+  "success": true,
+  "data": {
+    "book": {
+      "book_id": "a74cdf3d-a11b-4f17-a7c5-0b3923aa4bba",
+      "title": "The Priory of the Orange Tree",
+      "subtitle": null,
+      "description": "\"The Priory of the Orange Tree\" is a high fantasy novel that weaves together multiple perspectives across a world on the brink of destruction due to the re-emergence of a dangerous dragon. It explores themes of religious conflict, political intrigue, and the power of uniting disparate cultures to confront a common threat. The story follows individuals from different regions who must challenge long-held beliefs and work together to save humanity.",
+      "isbn_13": "9781635570298",
+      "isbn_10": null,
+      "publication_date": null,
+      "published_year": null,
+      "page_count": 646,
+      "language": "en ",
+      "cover_image_url": "https://covers.openlibrary.org/b/id/10093837-L.jpg",
+      "cover_image_small_url": "https://covers.openlibrary.org/b/id/10093837-S.jpg",
+      "cover_image_medium_url": "https://covers.openlibrary.org/b/id/10093837-M.jpg",
+      "cover_image_large_url": "https://covers.openlibrary.org/b/id/10093837-L.jpg",
+      "edition": null,
+      "book_format": "paperback",
+      "book_condition": "like_new",
+      "dimensions": "16 x 11 cm",
+      "weight_grams": 524,
+      "for_sale": true,
+      "for_rent": false,
+      "price_sale": "29.94",
+      "price_rent_daily": "4.00",
+      "price_rent_weekly": "9.17",
+      "price_rent_monthly": "26.32",
+      "stock_quantity": 93,
+      "reserved_quantity": 0,
+      "is_active": true,
+      "average_rating": "0.90",
+      "total_ratings": 2592,
+      "total_reviews": 356,
+      "publisher_id": "f1d98936-9d9f-452e-81aa-648e1a167e85",
+      "owner_id": null,
+      "primary_category_id": "9afa3511-0ba6-4c66-b2f2-169c6815d139",
+      "slug": "the-priory-of-the-orange-tree",
+      "search_keywords": [
+        "the",
+        "book"
+      ],
+      "created_at": "2019-05-28T00:00:00.000Z",
+      "updated_at": "2025-08-20T20:09:38.649Z",
+      "created_by": "00000000-0000-0000-0000-000000000000",
+      "last_modified_by": "00000000-0000-0000-0000-000000000000",
+      "deleted_at": null,
+      "deleted_by": null,
+      "primary_category_name": "Fiction",
+      "primary_category_description": "Narrative literary works rooted in imagination.",
+      "primary_category_parent_id": null,
+      "publisher_name": "Harper Voyager",
+      "publisher_description": "The science fiction and fantasy imprint of HarperCollins, Harper Voyager publishes top speculative fiction authors worldwide.",
+      "founded_year": 1995,
+      "publisher_country": "USA",
+      "publisher_website": "https://www.harpervoyager.com",
+      "publisher_is_active": true,
+      "authors": [
+        {
+          "role": "author",
+          "author_id": "87a56a01-1d3a-47b8-8924-733ed98d07ed",
+          "last_name": "Shannon",
+          "first_name": "Samantha",
+          "order_index": 1
+        },
+        {
+          "role": "author",
+          "author_id": "87a56a01-1d3a-47b8-8924-733ed98d07ed",
+          "last_name": "Shannon",
+          "first_name": "Samantha",
+          "order_index": 1
+        }
+      ],
+      "author_name": "Samantha Shannon, Samantha Shannon",
+      "categories": [
+        {
+          "category_id": "84484d09-8b66-4ea7-9edc-106fd13ffd73",
+          "description": "Fiction centered on love and romantic relationships.",
+          "category_name": "Romance",
+          "parent_category_id": null
+        },
+        {
+          "category_id": "9afa3511-0ba6-4c66-b2f2-169c6815d139",
+          "description": "Narrative literary works rooted in imagination.",
+          "category_name": "Fiction",
+          "parent_category_id": null
+        }
+      ],
+      "genres": [
+        {
+          "genre_id": "f250adc5-8454-4ed3-81ff-dbde4c78bd1f",
+          "genre_name": "Adventure",
+          "description": "Fiction featuring exciting, unusual, or dangerous activities.",
+          "parent_genre_id": null
+        }
+      ],
+      "primary_category": {
+        "category_id": "9afa3511-0ba6-4c66-b2f2-169c6815d139",
+        "category_name": "Fiction",
+        "description": "Narrative literary works rooted in imagination.",
+        "parent_category_id": null
+      },
+      "publisher": {
+        "publisher_id": "f1d98936-9d9f-452e-81aa-648e1a167e85",
+        "publisher_name": "Harper Voyager",
+        "description": "The science fiction and fantasy imprint of HarperCollins, Harper Voyager publishes top speculative fiction authors worldwide.",
+        "founded_year": 1995,
+        "country": "USA",
+        "website_url": "https://www.harpervoyager.com",
+        "is_active": true
+      }
+    }
+  }
+}
