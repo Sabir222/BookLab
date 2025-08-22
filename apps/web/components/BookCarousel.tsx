@@ -122,6 +122,9 @@ export function BookCarousel({ title, books, isLoading, onToggleFavorite }: Book
                                                                                         last_modified_by: "",
                                                                                         deleted_at: null,
                                                                                         deleted_by: null,
+                                                                                        author_name: book.author || "Unknown Author",
+                                                                                        categories: book.category ? [{ category_id: "1", category_name: book.category }] : [],
+                                                                                        genres: [],
                                                                                 }}
                                                                         />
                                                                 </CarouselItem>

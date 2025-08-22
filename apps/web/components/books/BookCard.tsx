@@ -24,11 +24,26 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                 ? parseFloat(book.average_rating)
                 : 0;
 
+        // Enhanced author display logic to handle various data structures
         const displayAuthor = !isLoading && book
-                ? book.author_name || (book.authors && book.authors.length > 0 && book.authors[0]
+                ? book.author_name || 
+                  (book.authors && book.authors.length > 0 && book.authors[0]
                         ? `${book.authors[0].first_name || ''} ${book.authors[0].last_name || ''}`.trim()
                         : 'Unknown Author')
                 : '';
+
+        // Get primary category or first category if available
+        const displayCategory = !isLoading && book
+                ? book.primary_category?.category_name ||
+                (book.categories && book.categories.length > 0
+                        ? book.categories[0].category_name
+                        : null)
+                : null;
+
+        // Get first genre if available
+        const displayGenre = !isLoading && book && book.genres && book.genres.length > 0
+                ? book.genres[0].genre_name
+                : null;
 
         return (
                 <div className="group relative rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 w-full max-w-[220px]">
@@ -89,6 +104,22 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                 <p className="text-xs text-gray-600 mb-2 line-clamp-1">
                                                         {displayAuthor}
                                                 </p>
+
+                                                {/* Category and Genre Tags */}
+                                                {(displayCategory || displayGenre) && (
+                                                        <div className="flex flex-wrap gap-1 mb-2">
+                                                                {displayCategory && (
+                                                                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                                                                {displayCategory}
+                                                                        </span>
+                                                                )}
+                                                                {displayGenre && (
+                                                                        <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
+                                                                                {displayGenre}
+                                                                        </span>
+                                                                )}
+                                                        </div>
+                                                )}
 
                                                 <div className="flex items-center gap-1 mb-2">
                                                         <div className="flex items-center">

@@ -248,6 +248,9 @@ export default function BooksPage() {
                     last_modified_by: "",
                     deleted_at: null,
                     deleted_by: null,
+                    author_name: book.author,
+                    categories: book.category ? [{ category_id: "1", category_name: book.category }] : [],
+                    genres: [],
                   }}
                 />
               ))}
