@@ -8,13 +8,7 @@ export const getBookByIdSchema = z.object({
 
 export const getAllBooksSchema = z.object({
   query: z.object({
-    limit: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseInt(val, 10) : 50))
-      .refine((val) => !isNaN(val) && val >= 1 && val <= 100, {
-        message: "Limit must be a number between 1 and 100",
-      }),
+    limit: z.coerce.number().min(1).max(100).default(50).optional(),
   }),
 });
 
@@ -38,20 +32,8 @@ export const searchBooksByCategorySchema = z.object({
 
 export const getNewReleasesSchema = z.object({
   query: z.object({
-    days: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseInt(val, 10) : 30))
-      .refine((val) => !isNaN(val) && val >= 1 && val <= 365, {
-        message: "Days must be a number between 1 and 365",
-      }),
-    limit: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseInt(val, 10) : 20))
-      .refine((val) => !isNaN(val) && val >= 1 && val <= 100, {
-        message: "Limit must be a number between 1 and 100",
-      }),
+    days: z.coerce.number().min(1).max(365).default(30).optional(),
+    limit: z.coerce.number().min(1).max(100).default(20).optional(),
   }),
 });
 
@@ -72,54 +54,27 @@ export const filterBooksSchema = z.object({
     title: z.string().optional(),
     authorName: z.string().optional(),
     categoryName: z.string().optional(),
-    minRating: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseFloat(val) : undefined))
-      .refine(
-        (val) => val === undefined || (!isNaN(val) && val >= 0 && val <= 5),
-        {
-          message: "Minimum rating must be a number between 0 and 5",
-        },
-      ),
-    maxPrice: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseFloat(val) : undefined))
-      .refine((val) => val === undefined || !isNaN(val), {
-        message: "Maximum price must be a valid number",
-      }),
+    minRating: z.coerce.number().min(0).max(5).optional(),
+    maxPrice: z.coerce.number().min(0).optional(),
     format: z.string().optional(),
     inStock: z
-      .string()
-      .optional()
-      .transform((val) => (val ? val === "true" : undefined)),
+      .enum(["true", "false"])
+      .transform((val) => val === "true")
+      .optional(),
     forSale: z
-      .string()
-      .optional()
-      .transform((val) => (val ? val === "true" : undefined)),
+      .enum(["true", "false"])
+      .transform((val) => val === "true")
+      .optional(),
     forRent: z
-      .string()
-      .optional()
-      .transform((val) => (val ? val === "true" : undefined)),
+      .enum(["true", "false"])
+      .transform((val) => val === "true")
+      .optional(),
     language: z.string().optional(),
     publisherId: z.string().optional(),
     publishedAfter: z.string().optional(),
     publishedBefore: z.string().optional(),
-    limit: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseInt(val, 10) : 20))
-      .refine((val) => !isNaN(val) && val >= 1 && val <= 100, {
-        message: "Limit must be a number between 1 and 100",
-      }),
-    offset: z
-      .string()
-      .optional()
-      .transform((val) => (val ? parseInt(val, 10) : 0))
-      .refine((val) => !isNaN(val) && val >= 0, {
-        message: "Offset must be a non-negative number",
-      }),
+    limit: z.coerce.number().min(1).max(100).default(20).optional(),
+    offset: z.coerce.number().min(0).default(0).optional(),
   }),
 });
 
@@ -141,7 +96,8 @@ export const createBookSchema = z.object({
       "paperback",
       "ebook",
       "audiobook",
-      "other",
+      "magazine",
+      "journal",
     ]),
     bookCondition: z.string().optional(),
     dimensions: z.string().optional(),
@@ -189,7 +145,14 @@ export const updateBookSchema = z.object({
     coverImageUrl: z.string().nullable().optional(),
     edition: z.string().nullable().optional(),
     bookFormat: z
-      .enum(["hardcover", "paperback", "ebook", "audiobook", "other"])
+      .enum([
+        "hardcover",
+        "paperback",
+        "ebook",
+        "audiobook",
+        "magazine",
+        "journal",
+      ])
       .optional(),
     bookCondition: z.string().nullable().optional(),
     dimensions: z.string().nullable().optional(),
@@ -299,3 +262,39 @@ export const updateBookRatingsSchema = z.object({
       .min(0, { message: "Total ratings must be non-negative" }),
   }),
 });
+
+export const getTopRatedBooksSchema = z.object({
+  query: z.object({
+    limit: z.coerce.number().min(1).max(100).default(50).optional(),
+    minRating: z.coerce.number().min(0).max(5).default(4.0).optional(),
+  }),
+});
+
+export type GetBookByIdRequest = z.infer<typeof getBookByIdSchema>;
+export type GetAllBooksRequest = z.infer<typeof getAllBooksSchema>;
+export type SearchBooksByNameRequest = z.infer<typeof searchBooksByNameSchema>;
+export type SearchBooksByAuthorRequest = z.infer<
+  typeof searchBooksByAuthorSchema
+>;
+export type SearchBooksByCategoryRequest = z.infer<
+  typeof searchBooksByCategorySchema
+>;
+export type GetNewReleasesRequest = z.infer<typeof getNewReleasesSchema>;
+export type SearchBooksByISBNRequest = z.infer<typeof searchBooksByISBNSchema>;
+export type GetRelatedBooksRequest = z.infer<typeof getRelatedBooksSchema>;
+export type FilterBooksRequest = z.infer<typeof filterBooksSchema>;
+export type CreateBookRequest = z.infer<typeof createBookSchema>;
+export type UpdateBookRequest = z.infer<typeof updateBookSchema>;
+export type DeleteBookRequest = z.infer<typeof deleteBookSchema>;
+export type SoftDeleteBookRequest = z.infer<typeof softDeleteBookSchema>;
+export type RestoreBookRequest = z.infer<typeof restoreBookSchema>;
+export type BookExistsRequest = z.infer<typeof bookExistsSchema>;
+export type GetBookBySlugRequest = z.infer<typeof getBookBySlugSchema>;
+export type UpdateBookStockRequest = z.infer<typeof updateBookStockSchema>;
+export type AddToBookStockRequest = z.infer<typeof addToBookStockSchema>;
+export type ReserveBooksRequest = z.infer<typeof reserveBooksSchema>;
+export type ReleaseReservedBooksRequest = z.infer<
+  typeof releaseReservedBooksSchema
+>;
+export type UpdateBookRatingsRequest = z.infer<typeof updateBookRatingsSchema>;
+export type GetTopRatedBooksRequest = z.infer<typeof getTopRatedBooksSchema>;
