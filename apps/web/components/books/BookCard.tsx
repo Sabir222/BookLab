@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { WishlistButton } from "@/components/books/LikeButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
-import { BookWithDetails } from "@repo/types/types";
+import { SimpleBook } from "@/types";
+import { Badge } from "../ui/badge";
 
 interface BookCardProps {
-        book?: BookWithDetails;
+        book?: SimpleBook;
         isLoading?: boolean;
 }
 
@@ -20,43 +21,19 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                 setFavorite((prev) => !prev);
         };
 
-        const rating = !isLoading && book?.average_rating
-                ? parseFloat(book.average_rating)
-                : 0;
-
-        // Enhanced author display logic to handle various data structures
-        const displayAuthor = !isLoading && book
-                ? book.author_name || 
-                  (book.authors && book.authors.length > 0 && book.authors[0]
-                        ? `${book.authors[0].first_name || ''} ${book.authors[0].last_name || ''}`.trim()
-                        : 'Unknown Author')
-                : '';
-
-        // Get primary category or first category if available
-        const displayCategory = !isLoading && book
-                ? book.primary_category?.category_name ||
-                (book.categories && book.categories.length > 0
-                        ? book.categories[0].category_name
-                        : null)
-                : null;
-
-        // Get first genre if available
-        const displayGenre = !isLoading && book && book.genres && book.genres.length > 0
-                ? book.genres[0].genre_name
-                : null;
+        const rating = !isLoading && book?.rating ? book.rating : 0;
 
         return (
                 <div className="group relative rounded-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 w-full max-w-[220px]">
 
-                        {/* Book Cover */}
                         <div className="relative w-full">
                                 {isLoading ? (
                                         <Skeleton className="w-full aspect-[3/4] bg-gray-300" />
-                                ) : book?.cover_image_large_url ? (
-                                        <Link href={`/book/${book.book_id}`}>
+                                ) : book?.coverImage ? (
+                                        <Link href={`/book/${book.id}`}>
                                                 <div className="relative w-full aspect-[3/4] overflow-hidden">
                                                         <Image
-                                                                src={book.cover_image_large_url}
+                                                                src={book.coverImage}
                                                                 alt={book.title}
                                                                 fill
                                                                 className="object-cover hover:scale-105 transition-transform duration-300"
@@ -74,7 +51,6 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                 )}
                         </div>
 
-                        {/* Book Details */}
                         <div className="p-3 flex flex-col">
                                 {isLoading ? (
                                         <>
@@ -96,28 +72,19 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                 ) : book ? (
                                         <>
                                                 <h3 className="text-sm font-medium leading-tight mb-1 text-gray-900 truncate">
-                                                        <Link href={`/book/${book.book_id}`} className="hover:text-blue-600 hover:underline">
+                                                        <Link href={`/book/${book.id}`} className="hover:text-blue-600 hover:underline">
                                                                 {book.title}
                                                         </Link>
                                                 </h3>
 
                                                 <p className="text-xs text-gray-600 mb-2 line-clamp-1">
-                                                        {displayAuthor}
+                                                        {book.author}
                                                 </p>
 
-                                                {/* Category and Genre Tags */}
-                                                {(displayCategory || displayGenre) && (
+                                                {book.category && (
+
                                                         <div className="flex flex-wrap gap-1 mb-2">
-                                                                {displayCategory && (
-                                                                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                                                                                {displayCategory}
-                                                                        </span>
-                                                                )}
-                                                                {displayGenre && (
-                                                                        <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                                                                                {displayGenre}
-                                                                        </span>
-                                                                )}
+                                                                <Badge className="bg-gray-100 text-blue-800 rounded-sm">{book.category}</Badge>
                                                         </div>
                                                 )}
 
@@ -134,13 +101,13 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                                 {rating.toFixed(1)}
                                                         </span>
                                                         <span className="text-xs text-gray-400">
-                                                                ({book.total_ratings})
+                                                                ({book.reviewCount})
                                                         </span>
                                                 </div>
 
                                                 <div className="mb-3">
                                                         <span className="text-lg font-bold text-gray-900">
-                                                                ${parseFloat(book.price_sale).toFixed(2)}
+                                                                ${book.price?.toFixed(2) || '0.00'}
                                                         </span>
                                                 </div>
 

@@ -124,7 +124,6 @@ export async function middleware(request: NextRequest) {
       const setCookieHeader = refreshRes.headers.get("set-cookie");
 
       if (setCookieHeader) {
-        console.log(" Setting new cookies from middleware ✓");
         const cookieStrings = setCookieHeader.split(/,(?=\s*\w+\s*=)/);
         cookieStrings.forEach((cookieString) => {
           const trimmed = cookieString.trim();
@@ -138,10 +137,8 @@ export async function middleware(request: NextRequest) {
       }
       return response;
     } else if (refreshRes === null && refreshLocks.size > 0) {
-      console.log(" Refresh completed by another request, continuing... ✓");
       return NextResponse.next();
     } else {
-      console.log(" Token refresh failed, redirecting to login ✗");
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("booklab_refresh_token");
       response.cookies.delete("booklab_access_token");

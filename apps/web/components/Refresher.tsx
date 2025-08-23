@@ -11,8 +11,6 @@ export default function TokenRefresher() {
                         lastRefresh.current = Date.now();
                 };
 
-                console.log("refresher runned!! ✓");
-
                 refresh();
 
                 const interval = setInterval(() => {
