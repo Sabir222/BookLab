@@ -1,12 +1,22 @@
 "use client";
 
-import { BookWithDetails } from "@repo/types/types";
+import { useQuery } from "@tanstack/react-query";
+import { bookApi } from "@/app/api/books/books";
 
 interface ReviewsProps {
-  book: BookWithDetails;
+  bookId: string;
 }
 
-export function Reviews({ book }: ReviewsProps) {
+export function Reviews({ bookId }: ReviewsProps) {
+  const { data: book, isLoading, error } = useQuery({
+    queryKey: ['book', bookId],
+    queryFn: () => bookApi.getBookById(bookId),
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading reviews</div>;
+  if (!book) return <div>Book not found</div>;
+
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-bold text-primary mb-6">Customer Reviews</h2>

@@ -1,6 +1,7 @@
 "use client";
 
-import { BookWithDetails } from "@repo/types/types";
+import { useQuery } from "@tanstack/react-query";
+import { bookApi } from "@/app/api/books/books";
 import { BookImage } from "@/components/books/BookImage";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 
 interface BookInfoProps {
-        book: BookWithDetails;
+        bookId: string;
 }
 
 const formatPrice = (priceString: string): number => {
@@ -26,7 +27,6 @@ const formatRating = (ratingString: string | null): number => {
 const formatAuthors = (authors: Array<{ first_name?: string; last_name: string }> | undefined): string => {
         if (!authors || authors.length === 0) return "Unknown Author";
 
-        // Remove duplicates
         const uniqueAuthors = authors.filter((author, index, self) =>
                 index === self.findIndex(a =>
                         a.first_name === author.first_name &&
@@ -39,7 +39,16 @@ const formatAuthors = (authors: Array<{ first_name?: string; last_name: string }
                 .join(", ");
 };
 
-export function BookInfo({ book }: BookInfoProps) {
+export function BookInfo({ bookId }: BookInfoProps) {
+        const { data: book, isLoading, error } = useQuery({
+                queryKey: ['book', bookId],
+                queryFn: () => bookApi.getBookById(bookId),
+        });
+
+        if (isLoading) return <div>Loading...</div>;
+        if (error) return <div>Error loading book</div>;
+        if (!book) return <div>Book not found</div>;
+
         const price = formatPrice(book.price_sale);
         const rentDailyPrice = book.price_rent_daily ? formatPrice(book.price_rent_daily) : null;
         const rentWeeklyPrice = book.price_rent_weekly ? formatPrice(book.price_rent_weekly) : null;
@@ -53,11 +62,9 @@ export function BookInfo({ book }: BookInfoProps) {
         const authors = book.authors;
         const authorName = authors ? formatAuthors(authors) : (book.author_name || "Unknown Author");
 
-        // Get categories and genres
         const categories = book.categories || [];
         const genres = book.genres || [];
 
-        // Get publisher info
         const publisher = book.publisher || {
                 publisher_name: "Unknown Publisher",
                 founded_year: null,
@@ -68,7 +75,6 @@ export function BookInfo({ book }: BookInfoProps) {
         return (
                 <div className="max-w-7xl mx-auto px-6 py-16">
                         <div className="grid lg:grid-cols-12 gap-16">
-                                {/* Book Cover */}
                                 <div className="lg:col-span-4">
                                         <div className="sticky top-8">
                                                 {book.cover_image_large_url ? (
@@ -87,9 +93,7 @@ export function BookInfo({ book }: BookInfoProps) {
                                         </div>
                                 </div>
 
-                                {/* Book Information */}
                                 <div className="lg:col-span-8 space-y-12">
-                                        {/* Header */}
                                         <div className="space-y-6">
                                                 <div className="space-y-3">
                                                         <h1 className="text-4xl font-light text-gray-900 leading-tight">
@@ -100,7 +104,6 @@ export function BookInfo({ book }: BookInfoProps) {
                                                         </p>
                                                 </div>
 
-                                                {/* Rating */}
                                                 <div className="flex items-center gap-3">
                                                         <div className="flex">
                                                                 {[...Array(5)].map((_, i) => (
@@ -117,7 +120,6 @@ export function BookInfo({ book }: BookInfoProps) {
                                                         </span>
                                                 </div>
 
-                                                {/* Categories and Genres */}
                                                 <TooltipProvider>
                                                         {(categories.length > 0 || genres.length > 0) && (
                                                                 <div className="flex flex-wrap gap-2">
@@ -150,7 +152,6 @@ export function BookInfo({ book }: BookInfoProps) {
                                                 </TooltipProvider>
                                         </div>
 
-                                        {/* Pricing */}
                                         <div className="border-t pt-8">
                                                 <div className="space-y-4">
                                                         <div className="flex items-baseline gap-3">
@@ -215,7 +216,17 @@ export function BookInfo({ book }: BookInfoProps) {
                                                 </div>
                                         </div>
 
-                                        {/* Book Details */}
+                                        {book.description && (
+                                                <div className="border-t pt-8">
+                                                        <h2 className="text-lg font-medium text-gray-900 mb-4">About this book</h2>
+                                                        <div className="prose prose-gray max-w-none">
+                                                                <p className="text-gray-700 leading-relaxed">
+                                                                        {book.description}
+                                                                </p>
+                                                        </div>
+                                                </div>
+                                        )}
+
                                         <div className="border-t pt-8">
                                                 <h2 className="text-lg font-medium text-gray-900 mb-6">Details</h2>
 
