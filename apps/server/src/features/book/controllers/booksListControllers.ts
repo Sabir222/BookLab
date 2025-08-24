@@ -7,11 +7,7 @@ import {
   getTopRatedBooksSchema,
 } from "../validation/booksControllerValidations.js";
 import { type Book, type BookWithDetails } from "@repo/types/types";
-import {
-  getCache,
-  getRedisClient,
-  type RedisClientType,
-} from "@repo/db/redis";
+import { getCache, getRedisClient, type RedisClientType } from "@repo/db/redis";
 
 const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -23,11 +19,11 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
 
     const books = await bookService.getAllBooks(bookLimit);
     const cacheKey = `books:all:${bookLimit}`;
-    
+
     // Check if response was cached
     let redis: RedisClientType | null = null;
     let wasCached = false;
-    
+
     try {
       redis = getRedisClient();
       const cached = await getCache<Book[]>(redis, cacheKey, true);
@@ -36,8 +32,8 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
       console.warn("Failed to check cache status:", cacheError);
     }
 
-    return sendSuccess(res, { books }, undefined, 200, { 
-      cached: wasCached 
+    return sendSuccess(res, { books }, undefined, 200, {
+      cached: wasCached,
     });
   } catch (error) {
     console.error("Failed to get books:", error);
@@ -62,11 +58,11 @@ const getTopRatedBooks = async (
 
     const books = await bookService.getTopRatedBooks(bookLimit, minimumRating);
     const cacheKey = `books:top-rated:${bookLimit}:${minimumRating}`;
-    
+
     // Check if response was cached
     let redis: RedisClientType | null = null;
     let wasCached = false;
-    
+
     try {
       redis = getRedisClient();
       const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
@@ -75,8 +71,8 @@ const getTopRatedBooks = async (
       console.warn("Failed to check cache status:", cacheError);
     }
 
-    return sendSuccess(res, { books }, undefined, 200, { 
-      cached: wasCached 
+    return sendSuccess(res, { books }, undefined, 200, {
+      cached: wasCached,
     });
   } catch (error) {
     console.error("Failed to get top rated books:", error);
