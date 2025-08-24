@@ -36,6 +36,7 @@ export function BookCard({ book, isLoading = false }: BookCardProps) {
                                                                 src={book.coverImage}
                                                                 alt={book.title}
                                                                 fill
+                                                                priority={true}
                                                                 className="object-cover hover:scale-105 transition-transform duration-300"
                                                                 onError={(e) => {
                                                                         const target = e.target as HTMLImageElement;
