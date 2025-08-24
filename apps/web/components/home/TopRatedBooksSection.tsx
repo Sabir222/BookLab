@@ -28,7 +28,7 @@ export function TopRatedBooksSection() {
 
                         if (authors.length === 1) {
                                 authorName = `${authors[0]}`
-                        } else if (authors.length > 1) {
+                        } else if (authors.length === 2) {
                                 authorName = `${authors[0]} & ${authors[1]}`
                         } else if (authors.length > 2) {
                                 authorName = `${authors[0]},${authors[1]} & ${authors.length - 2} more`

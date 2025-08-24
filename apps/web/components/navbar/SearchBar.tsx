@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MiniBookCard } from "@/components/books/MiniBookCard";
 import { useNavbarStore } from "./navbarStore";
-import type { Book, ApiResponse, SearchResponse, SimpleBook } from "@/types";
+import type { ApiResponse, SearchResponse, SimpleBook } from "@/types";
+import { Book } from "@repo/types/types";
+
+
 
 interface SearchBarProps {
         className?: string;
@@ -30,7 +33,7 @@ export function SearchBar({ className }: SearchBarProps) {
 
         const formatAuthors = (authors: Array<{ first_name?: string; last_name: string }> | undefined): string => {
                 if (!authors || authors.length === 0) return "Unknown Author";
-                
+
                 return authors
                         .map(author => `${author.first_name ? `${author.first_name} ${author.last_name}` : author.last_name}`)
                         .join(", ");
