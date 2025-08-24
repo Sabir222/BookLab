@@ -6,6 +6,8 @@ import generateToken from "../../../utils/generateToken.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
 import { CreateUserData, User } from "@repo/types/types";
 import { sendCreated, sendError } from "../../../utils/responseHandler.js";
+import { ZodError } from "zod";
+import { type SignupRequest } from "../validation/signUpValidation.js";
 
 class SignUpError extends Error {
   constructor(
@@ -17,12 +19,6 @@ class SignUpError extends Error {
     this.name = "SignUpError";
   }
 }
-
-type SignUpRequestBody = {
-  email: string;
-  username: string;
-  password: string;
-};
 
 /**
  * Creates a new user in the database after validating that the email and username
@@ -84,12 +80,9 @@ export const signUpController = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const { email, username, password }: SignUpRequestBody = req.body;
-
-    if (!email || !username || !password) {
-      sendError(res, "Data missing try again please!", "MISSING_FIELDS", 400);
-      return;
-    }
+    // The validation is now handled by the middleware, but we'll keep this try/catch
+    // for consistency with the error handling pattern
+    const { email, username, password }: SignupRequest["body"] = req.body;
 
     const hashedPassword = hashPassword(password);
 
@@ -119,6 +112,11 @@ export const signUpController = async (
     }, "User created successfully");
   } catch (error) {
     console.error("SignUp error:", error);
+
+    if (error instanceof ZodError) {
+      sendError(res, "Validation failed", "VALIDATION_ERROR", 400);
+      return;
+    }
 
     if (error instanceof SignUpError) {
       sendError(res, error.message, error.code || "SIGNUP_ERROR", error.statusCode);

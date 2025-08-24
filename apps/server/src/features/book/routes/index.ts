@@ -1,5 +1,9 @@
 import express from "express";
-import { booksController } from "../controller/booksController.js";
+import { 
+  bookControllers,
+  booksListControllers,
+  searchControllers
+} from "../controllers/index.js";
 import { validate } from "../middleware/validate.js";
 import {
   getBookByIdSchema,
@@ -13,25 +17,25 @@ const bookPublicRouter = express.Router();
 bookPublicRouter.get(
   "/top-rated",
   validate(getTopRatedBooksSchema),
-  booksController.getTopRatedBooks,
+  booksListControllers.getTopRatedBooks,
 );
 
 bookPublicRouter.get(
   "/search",
   validate(searchBooksByNameSchema),
-  booksController.getBooksByName,
+  searchControllers.getBooksByName,
 );
 
 bookPublicRouter.get(
   "/",
   validate(getAllBooksSchema),
-  booksController.getAllBooks,
+  booksListControllers.getAllBooks,
 );
 
 bookPublicRouter.get(
   "/:id",
   validate(getBookByIdSchema),
-  booksController.getBookById,
+  bookControllers.getBookById,
 );
 
 export default bookPublicRouter;

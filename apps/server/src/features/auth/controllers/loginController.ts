@@ -6,6 +6,8 @@ import type { JWTPayload } from "../../../utils/generateToken.js";
 import generateToken from "../../../utils/generateToken.js";
 import setAuthCookies from "../../../utils/setAuthCookies.js";
 import { sendSuccess, sendError } from "../../../utils/responseHandler.js";
+import { ZodError } from "zod";
+import { type LoginRequest } from "../validation/logInValidation.js";
 
 class LoginError extends Error {
   constructor(
@@ -17,11 +19,6 @@ class LoginError extends Error {
     this.name = "LoginError";
   }
 }
-
-type LoginRequestBody = {
-  username: string;
-  password: string;
-};
 
 const authenticateUser = async (username: string, password: string) => {
   //TODO: make this to work if user want to login with email too
@@ -44,29 +41,14 @@ const authenticateUser = async (username: string, password: string) => {
   };
 };
 
-/**
- * Controller for handling user login requests.
- * Validates the request, authenticates the user, generates JWT tokens,
- * sets cookies, and responds with user data and access token.
- *
- * @param {Request} req - The request object containing user credentials.
- * @param {Response} res - The response object to send back the result.
- * @returns {Promise<void>} - A promise that resolves when the response is sent.
- *
- * @throws {LoginError} - If authentication fails or required fields are missing
- */
-
 export const loginController = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    const { username, password }: LoginRequestBody = req.body;
-
-    if (!username || !password) {
-      sendError(res, "Data missing try again please!", "MISSING_FIELDS", 400);
-      return;
-    }
+    // The validation is now handled by the middleware, but we'll keep this try/catch
+    // for consistency with the error handling pattern
+    const { username, password }: LoginRequest["body"] = req.body;
 
     const user = await authenticateUser(username, password);
 
@@ -84,22 +66,37 @@ export const loginController = async (
       `User successfully logged in: ${user.username} (ID: ${user.id})`,
     );
 
-    sendSuccess(res, {
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
+    sendSuccess(
+      res,
+      {
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
+        accessToken,
       },
-      accessToken,
-    }, "Logged in successfully");
+      "Logged in successfully",
+    );
   } catch (error) {
     console.error("Login error:", error);
 
+    if (error instanceof ZodError) {
+      sendError(res, "Validation failed", "VALIDATION_ERROR", 400);
+      return;
+    }
+
     if (error instanceof LoginError) {
-      sendError(res, error.message, error.code || "LOGIN_ERROR", error.statusCode);
+      sendError(
+        res,
+        error.message,
+        error.code || "LOGIN_ERROR",
+        error.statusCode,
+      );
       return;
     }
 
     sendError(res, "Internal server error", "INTERNAL_ERROR", 500);
   }
 };
+

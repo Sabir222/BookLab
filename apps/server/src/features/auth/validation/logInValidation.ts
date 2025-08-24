@@ -1,17 +1,18 @@
 import { z } from "zod";
 
-/**
- * Schema for validating user login data.
- * It requires a username and password, both as strings.
- * If validation fails, it provides custom error messages.
- */
 export const loginSchema = z.object({
   body: z.object({
-    username: z.string({
-      message: "username is required!",
-    }),
-    password: z.string({
-      message: "Password is required",
-    }),
+    username: z
+      .string({
+        error: "Username is required",
+      })
+      .min(3, { message: "Username must be at least 3 characters" }),
+    password: z
+      .string({
+        error: "Password is required",
+      })
+      .min(8, { message: "Password must be at least 8 characters" }),
   }),
 });
+
+export type LoginRequest = z.infer<typeof loginSchema>;
