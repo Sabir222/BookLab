@@ -10,8 +10,6 @@ import { connectRedis, registerRedisShutdownHandlers } from "@repo/db/redis";
 import bookPublicRouter from "./features/book/routes/index.js";
 import authRouter from "./features/auth/routes/index.js";
 import userRouter from "./features/user/routes/index.js";
-import newsletterRouter from "./features/newsletter/routes/index.js";
-import wishlistRouter from "./features/wishlist/routes/index.js";
 import { validateEnvironment } from "./utils/validateEnv.js";
 import swaggerDocument from "./docs/swagger.json" with { type: "json" };
 
@@ -69,8 +67,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/health", healthRouter);
 app.use("/api/books", bookPublicRouter);
 app.use("/api/users", userRouter);
-app.use("/api/newsletter", newsletterRouter);
-app.use("/api/wishlist", wishlistRouter);
 
 const startServer = async () => {
   try {

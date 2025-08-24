@@ -1,33 +1,30 @@
 import { z } from "zod";
 
-/**
- * Schema for validating user signup data.
- * It requires a username, email, and password with specific validation rules.
- * If validation fails, it provides custom error messages.
- */
 export const signupSchema = z.object({
   body: z.object({
     username: z
       .string({
-        message: "Username is required",
+        error: "Username is required",
       })
-      .min(3, "Username must be at least 3 characters"),
+      .min(3, { message: "Username must be at least 3 characters" }),
     email: z
       .string({
-        message: "Email is required",
+        error: "Email is required",
       })
-      .email("Please enter a valid email"),
+      .email({ message: "Please enter a valid email" }),
     password: z
       .string({
-        message: "Password is required",
+        error: "Password is required",
       })
-      .min(8, "Password must be at least 8 characters")
-      .regex(/\d/, "Password must contain at least one number")
-
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(
-        /[!@#$%^&*(),.?":{}|<>]/,
-        "Password must contain at least one symbol",
-      ),
+      .min(8, { message: "Password must be at least 8 characters" })
+      .regex(/\d/, { message: "Password must contain at least one number" })
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+        message: "Password must contain at least one symbol",
+      }),
   }),
 });
+
+export type SignupRequest = z.infer<typeof signupSchema>;
