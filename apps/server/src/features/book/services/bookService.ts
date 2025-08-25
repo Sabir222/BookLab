@@ -34,6 +34,26 @@ export const bookService = {
     }
   },
 
+  async getNewReleases(limit: number, daysRange: number): Promise<BookWithDetails[]> {
+    const cacheKey = `books:new-releases:${limit}:${daysRange}`;
+    let redis: RedisClientType | null = null;
+
+    try {
+      redis = getRedisClient();
+      const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
+      if (cached) {
+        return cached;
+      }
+
+      const books = await bookQueries.findNewReleases(limit, daysRange);
+      setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+      return books;
+    } catch (error) {
+      console.error("Failed to get new releases from service:", error);
+      throw error;
+    }
+  },
+
   async searchBooksByName(query: string): Promise<BookWithDetails[]> {
     const normalizedQuery = query.trim();
     const cacheKey = `books:title:${normalizedQuery.toLowerCase()}`;

@@ -25,7 +25,15 @@ export const getTopRatedBooksSchema = z.object({
   }),
 });
 
+export const getNewReleasesSchema = z.object({
+  query: z.object({
+    limit: z.coerce.number().min(1).max(100).default(50).optional(),
+    daysRange: z.coerce.number().min(1).max(365).default(365).optional(),
+  }),
+});
+
 export type GetBookByIdRequest = z.infer<typeof getBookByIdSchema>;
 export type GetAllBooksRequest = z.infer<typeof getAllBooksSchema>;
 export type SearchBooksByNameRequest = z.infer<typeof searchBooksByNameSchema>;
 export type GetTopRatedBooksRequest = z.infer<typeof getTopRatedBooksSchema>;
+export type GetNewReleasesRequest = z.infer<typeof getNewReleasesSchema>;

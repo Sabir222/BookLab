@@ -8,7 +8,7 @@ import { BookInfo } from "@/components/books/BookInfo";
 import { Reviews } from "@/components/books/Reviews";
 
 
-export default async function BookDetailPage({ params }: { params: { id: string } }) {
+export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const queryClient = new QueryClient();
   console.log(id)
