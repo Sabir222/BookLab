@@ -32,8 +32,15 @@ export const getNewReleasesSchema = z.object({
   }),
 });
 
+export const getPopularBooksSchema = z.object({
+  query: z.object({
+    limit: z.coerce.number().min(1).max(100).default(50).optional(),
+  }),
+});
+
 export type GetBookByIdRequest = z.infer<typeof getBookByIdSchema>;
 export type GetAllBooksRequest = z.infer<typeof getAllBooksSchema>;
 export type SearchBooksByNameRequest = z.infer<typeof searchBooksByNameSchema>;
 export type GetTopRatedBooksRequest = z.infer<typeof getTopRatedBooksSchema>;
 export type GetNewReleasesRequest = z.infer<typeof getNewReleasesSchema>;
+export type GetPopularBooksRequest = z.infer<typeof getPopularBooksSchema>;

@@ -6,6 +6,7 @@ import {
   getAllBooksSchema,
   getTopRatedBooksSchema,
   getNewReleasesSchema,
+  getPopularBooksSchema,
 } from "../validation/booksControllerValidations.js";
 import { type Book, type BookWithDetails } from "@repo/types/types";
 import { getCache, getRedisClient, type RedisClientType } from "@repo/db/redis";
@@ -130,8 +131,51 @@ const getNewReleases = async (
   }
 };
 
+const getPopularBooks = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { query } = getPopularBooksSchema.parse({
+      query: req.query,
+    });
+    const { limit } = query;
+    const bookLimit = limit ?? 50;
+
+    const books = await bookService.getPopularBooks(bookLimit);
+    const cacheKey = `books:popular:${bookLimit}`;
+
+    let redis: RedisClientType | null = null;
+    let wasCached = false;
+
+    try {
+      redis = getRedisClient();
+      const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
+      wasCached = !!cached;
+    } catch (cacheError) {
+      console.warn("Failed to check cache status:", cacheError);
+    }
+
+    return sendSuccess(res, { books }, undefined, 200, {
+      cached: wasCached,
+    });
+  } catch (error) {
+    console.error("Failed to get popular books:", error);
+    if (error instanceof ZodError) {
+      return sendError(res, "Validation failed", "VALIDATION_ERROR", 400);
+    }
+    return sendError(
+      res,
+      "Failed to get popular books",
+      "POPULAR_BOOKS_ERROR",
+      500,
+    );
+  }
+};
+
 export const booksListControllers = {
   getAllBooks,
   getTopRatedBooks,
   getNewReleases,
+  getPopularBooks,
 };
