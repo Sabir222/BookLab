@@ -1,4 +1,6 @@
 import { createClient, type RedisClientType } from "redis";
+import dotenv from "dotenv";
+dotenv.config();
 
 export interface RedisConfig {
   url?: string;
