@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 import {
   getAllBooksSchema,
   getTopRatedBooksSchema,
+  getNewReleasesSchema,
 } from "../validation/booksControllerValidations.js";
 import { type Book, type BookWithDetails } from "@repo/types/types";
 import { getCache, getRedisClient, type RedisClientType } from "@repo/db/redis";
@@ -20,7 +21,6 @@ const getAllBooks = async (req: Request, res: Response): Promise<Response> => {
     const books = await bookService.getAllBooks(bookLimit);
     const cacheKey = `books:all:${bookLimit}`;
 
-    // Check if response was cached
     let redis: RedisClientType | null = null;
     let wasCached = false;
 
@@ -59,7 +59,6 @@ const getTopRatedBooks = async (
     const books = await bookService.getTopRatedBooks(bookLimit, minimumRating);
     const cacheKey = `books:top-rated:${bookLimit}:${minimumRating}`;
 
-    // Check if response was cached
     let redis: RedisClientType | null = null;
     let wasCached = false;
 
@@ -88,7 +87,51 @@ const getTopRatedBooks = async (
   }
 };
 
+const getNewReleases = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const { query } = getNewReleasesSchema.parse({
+      query: req.query,
+    });
+    const { limit, daysRange } = query;
+    const bookLimit = limit ?? 50;
+    const rangeDays = daysRange ?? 365;
+
+    const books = await bookService.getNewReleases(bookLimit, rangeDays);
+    const cacheKey = `books:new-releases:${bookLimit}:${rangeDays}`;
+
+    let redis: RedisClientType | null = null;
+    let wasCached = false;
+
+    try {
+      redis = getRedisClient();
+      const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
+      wasCached = !!cached;
+    } catch (cacheError) {
+      console.warn("Failed to check cache status:", cacheError);
+    }
+
+    return sendSuccess(res, { books }, undefined, 200, {
+      cached: wasCached,
+    });
+  } catch (error) {
+    console.error("Failed to get new releases:", error);
+    if (error instanceof ZodError) {
+      return sendError(res, "Validation failed", "VALIDATION_ERROR", 400);
+    }
+    return sendError(
+      res,
+      "Failed to get new releases",
+      "NEW_RELEASES_ERROR",
+      500,
+    );
+  }
+};
+
 export const booksListControllers = {
   getAllBooks,
   getTopRatedBooks,
+  getNewReleases,
 };

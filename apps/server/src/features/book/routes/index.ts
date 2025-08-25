@@ -1,8 +1,8 @@
 import express from "express";
-import { 
+import {
   bookControllers,
   booksListControllers,
-  searchControllers
+  searchControllers,
 } from "../controllers/index.js";
 import { validate } from "../middleware/validate.js";
 import {
@@ -10,9 +10,16 @@ import {
   getAllBooksSchema,
   searchBooksByNameSchema,
   getTopRatedBooksSchema,
+  getNewReleasesSchema,
 } from "../validation/booksControllerValidations.js";
 
 const bookPublicRouter = express.Router();
+
+bookPublicRouter.get(
+  "/new-releases",
+  validate(getNewReleasesSchema),
+  booksListControllers.getNewReleases,
+);
 
 bookPublicRouter.get(
   "/top-rated",

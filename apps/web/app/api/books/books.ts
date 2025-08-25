@@ -22,6 +22,30 @@ export const bookApi = {
     }
     return json.data.books;
   },
+  async getNewReleases(limit: number = 10): Promise<BookWithDetails[]> {
+    try {
+      const response = await fetchWithRefresh(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/books/new-releases?limit=${limit}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch new releases: ${response.status}`);
+      }
+
+      const result: ApiResponse<{ books: BookWithDetails[] }> =
+        await response.json();
+      return result.data?.books || [];
+    } catch (error) {
+      console.error("Error fetching new releases:", error);
+      return [];
+    }
+  },
   async getTopRatedBooks(limit: number = 10): Promise<BookWithDetails[]> {
     try {
       const response = await fetchWithRefresh(
