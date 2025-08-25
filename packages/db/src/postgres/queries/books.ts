@@ -591,6 +591,142 @@ export const bookQueries = {
     }) as BookWithDetails[];
   },
 
+  async findPopularBooks(limit = 50): Promise<BookWithDetails[]> {
+    const result = await db.query(
+      `SELECT 
+         b.*,
+         -- Primary Category
+         pc.category_id as primary_category_id,
+         pc.category_name as primary_category_name,
+         pc.description as primary_category_description,
+         pc.parent_category_id as primary_category_parent_id,
+         
+         -- Publisher Information  
+         p.publisher_id,
+         p.publisher_name,
+         p.description as publisher_description,
+         p.founded_year,
+         p.country as publisher_country,
+         p.website_url as publisher_website,
+         p.is_active as publisher_is_active,
+         
+         -- Authors aggregation
+         COALESCE(
+           json_agg(
+             jsonb_build_object(
+               'author_id', a.author_id,
+               'first_name', a.first_name,
+               'last_name', a.last_name,
+               'role', ba.role,
+               'order_index', ba.order_index
+             ) ORDER BY ba.order_index
+           ) FILTER (WHERE a.author_id IS NOT NULL), 
+           '[]'::json
+         ) as authors,
+         
+         -- Author names concatenated for backward compatibility
+         STRING_AGG(CONCAT(COALESCE(a.first_name, ''), ' ', a.last_name), ', ' ORDER BY ba.order_index) as author_name,
+         
+         -- Categories aggregation
+         COALESCE(
+           json_agg(
+             DISTINCT jsonb_build_object(
+               'category_id', c.category_id,
+               'category_name', c.category_name,
+               'description', c.description,
+               'parent_category_id', c.parent_category_id
+             )
+           ) FILTER (WHERE c.category_id IS NOT NULL), 
+           '[]'::json
+         ) as categories,
+         
+         -- Genres aggregation  
+         COALESCE(
+           json_agg(
+             DISTINCT jsonb_build_object(
+               'genre_id', g.genre_id,
+               'genre_name', g.genre_name,
+               'description', g.description,
+               'parent_genre_id', g.parent_genre_id
+             )
+           ) FILTER (WHERE g.genre_id IS NOT NULL), 
+           '[]'::json
+         ) as genres
+         
+       FROM books b
+       
+       -- Primary Category join
+       LEFT JOIN categories pc ON b.primary_category_id = pc.category_id
+       
+       -- Publisher join
+       LEFT JOIN publishers p ON b.publisher_id = p.publisher_id
+       
+       -- Authors join
+       LEFT JOIN book_authors ba ON b.book_id = ba.book_id
+       LEFT JOIN authors a ON ba.author_id = a.author_id
+       
+       -- All Categories join
+       LEFT JOIN book_categories bc ON b.book_id = bc.book_id
+       LEFT JOIN categories c ON bc.category_id = c.category_id AND c.is_active = true
+       
+       -- Genres join
+       LEFT JOIN book_genres bg ON b.book_id = bg.book_id
+       LEFT JOIN genres g ON bg.genre_id = g.genre_id AND g.is_active = true
+       
+       WHERE b.is_active = true
+         AND (b.total_reviews IS NOT NULL OR b.total_ratings IS NOT NULL)
+       GROUP BY 
+         b.book_id, 
+         pc.category_id, 
+         pc.category_name, 
+         pc.description, 
+         pc.parent_category_id,
+         p.publisher_id,
+         p.publisher_name,
+         p.description,
+         p.founded_year,
+         p.country,
+         p.website_url,
+         p.is_active
+       ORDER BY 
+         COALESCE(b.total_reviews::INTEGER, 0) + COALESCE(b.total_ratings::INTEGER, 0) DESC
+       LIMIT $1`,
+      [limit],
+    );
+
+    return result.rows.map((book) => {
+      const primary_category = book.primary_category_id
+        ? {
+            category_id: book.primary_category_id,
+            category_name: book.primary_category_name,
+            description: book.primary_category_description,
+            parent_category_id: book.primary_category_parent_id,
+          }
+        : undefined;
+
+      const publisher = book.publisher_id
+        ? {
+            publisher_id: book.publisher_id,
+            publisher_name: book.publisher_name,
+            description: book.publisher_description,
+            founded_year: book.founded_year,
+            country: book.publisher_country,
+            website_url: book.publisher_website,
+            is_active: book.publisher_is_active,
+          }
+        : undefined;
+
+      return {
+        ...book,
+        primary_category,
+        publisher,
+        authors: book.authors || [],
+        categories: book.categories || [],
+        genres: book.genres || [],
+      };
+    }) as BookWithDetails[];
+  },
+
   async findBooks(limit = 50): Promise<Book[]> {
     const result = await db.query(
       `SELECT * 

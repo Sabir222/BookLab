@@ -11,9 +11,16 @@ import {
   searchBooksByNameSchema,
   getTopRatedBooksSchema,
   getNewReleasesSchema,
+  getPopularBooksSchema,
 } from "../validation/booksControllerValidations.js";
 
 const bookPublicRouter = express.Router();
+
+bookPublicRouter.get(
+  "/popular",
+  validate(getPopularBooksSchema),
+  booksListControllers.getPopularBooks,
+);
 
 bookPublicRouter.get(
   "/new-releases",

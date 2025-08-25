@@ -93,5 +93,25 @@ export const bookService = {
       console.error("Failed to get top rated books from service:", error);
       throw error;
     }
+  },
+
+  async getPopularBooks(limit: number): Promise<BookWithDetails[]> {
+    const cacheKey = `books:popular:${limit}`;
+    let redis: RedisClientType | null = null;
+
+    try {
+      redis = getRedisClient();
+      const cached = await getCache<BookWithDetails[]>(redis, cacheKey, true);
+      if (cached) {
+        return cached;
+      }
+
+      const books = await bookQueries.findPopularBooks(limit);
+      setCache(redis, cacheKey, books, CACHE_TTL).catch(console.warn);
+      return books;
+    } catch (error) {
+      console.error("Failed to get popular books from service:", error);
+      throw error;
+    }
   }
 };
