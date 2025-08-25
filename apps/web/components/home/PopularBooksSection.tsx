@@ -6,10 +6,10 @@ import { BookCarousel } from "@/components/BookCarousel";
 import { SimpleBook } from "@/types";
 import { bookApi } from "@/app/api/books/books";
 
-export function TopRatedBooksSection() {
+export function PopularBooksSection() {
         const { data, isLoading } = useQuery({
-                queryKey: ["top-rated-books", 8],
-                queryFn: () => bookApi.getTopRatedBooks(8),
+                queryKey: ["popular-books", 8],
+                queryFn: () => bookApi.getPopularBooks(8),
         });
 
         const books: SimpleBook[] = useMemo(() => {
@@ -51,7 +51,7 @@ export function TopRatedBooksSection() {
         return (
                 <section className="w-full py-6 bg-muted/10">
                         <div className="container mx-auto px-4">
-                                <BookCarousel title="Top Rated Books" books={books} isLoading={isLoading} />
+                                <BookCarousel title="Popular Books" books={books} isLoading={isLoading} />
                         </div>
                 </section>
         );

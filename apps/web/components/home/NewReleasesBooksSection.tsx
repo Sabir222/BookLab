@@ -49,7 +49,7 @@ export function NewReleasesBooksSection() {
         }, [data]);
 
         return (
-                <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/10">
+                <section className="w-full py-6 bg-muted/10">
                         <div className="container mx-auto px-4">
                                 <BookCarousel title="New Releases" books={books} isLoading={isLoading} />
                         </div>
