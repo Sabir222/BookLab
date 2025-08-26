@@ -18,6 +18,7 @@ dotenv.config();
 validateEnvironment();
 
 const app = express();
+app.set("trust proxy", 1);
 
 app.get("/", (_req, res) => {
   res.send("Hello from Express with Bun!");
@@ -26,18 +27,24 @@ app.get("/", (_req, res) => {
 const PORT = process.env.PORT || 4000;
 
 const corsOptions: CorsOptions = {
-  origin: (origin, callback) => {
-    const origins = String(process.env.CORS_ORIGIN).split(",");
-    if (!origin || origins.includes(String(origin))) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed."), false);
-    }
-  },
-  credentials: true,
+  origin: "https://book-lab-web-f7jd.vercel.app",
+  credentials: true, // allow cookies
   optionsSuccessStatus: 200,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
+// const corsOptions: CorsOptions = {
+//   origin: (origin, callback) => {
+//     const origins = String(process.env.CORS_ORIGIN).split(",");
+//     if (!origin || origins.includes(String(origin))) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed."), false);
+//     }
+//   },
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// };
 
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -54,7 +61,7 @@ app.use(
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   }),
 );

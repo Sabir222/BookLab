@@ -8,9 +8,14 @@ const refreshController = async (req: Request, res: Response) => {
     const refreshTokenName =
       process.env.REFRESH_TOKEN_COOKIE_NAME || "refreshToken";
     const refreshToken = req.cookies[refreshTokenName];
-    
+
     if (!refreshToken) {
-      return sendError(res, "Refresh token is missing!", "MISSING_REFRESH_TOKEN", 400);
+      return sendError(
+        res,
+        "Refresh token is missing!",
+        "MISSING_REFRESH_TOKEN",
+        400,
+      );
     }
 
     const decoded: any = jwt.verify(
@@ -20,7 +25,12 @@ const refreshController = async (req: Request, res: Response) => {
 
     if (!process.env.JWT_SECRET || !process.env.JWT_REFRESH_SECRET) {
       console.error("Missing JWT secrets in environment variables");
-      return sendError(res, "Server configuration error", "SERVER_CONFIG_ERROR", 500);
+      return sendError(
+        res,
+        "Server configuration error",
+        "SERVER_CONFIG_ERROR",
+        500,
+      );
     }
 
     const user = await userQueries.findById(decoded.id);
@@ -48,14 +58,14 @@ const refreshController = async (req: Request, res: Response) => {
     res.cookie(process.env.REFRESH_TOKEN_COOKIE_NAME!, refresh_token, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: Number(process.env.REFRESH_TOKEN_COOKIE_MAX_AGE),
     });
 
     res.cookie(process.env.ACCESS_TOKEN_COOKIE_NAME!, access_token, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: Number(process.env.ACCESS_TOKEN_COOKIE_MAX_AGE),
     });
 
@@ -82,3 +92,4 @@ const refreshController = async (req: Request, res: Response) => {
 };
 
 export default refreshController;
+

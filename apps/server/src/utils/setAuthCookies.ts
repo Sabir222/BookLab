@@ -17,7 +17,7 @@ const setAuthCookies = (
   const cookieOptions = {
     secure: isProduction,
     httpOnly: true,
-    sameSite: "strict" as const,
+    sameSite: "none" as const,
   };
 
   res.cookie(
