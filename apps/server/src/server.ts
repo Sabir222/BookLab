@@ -55,10 +55,10 @@ const corsOptions: CorsOptions = {
 //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 // };
 
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
-app.options("*", cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
