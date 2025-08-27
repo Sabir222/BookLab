@@ -12,10 +12,8 @@ const setAuthCookies = (
   accessToken: string,
   refreshToken: string,
 ) => {
-  const isProduction = process.env.NODE_ENV === "production";
-
   const cookieOptions = {
-    secure: isProduction,
+    secure: true,
     httpOnly: true,
     sameSite: "none" as const,
   };

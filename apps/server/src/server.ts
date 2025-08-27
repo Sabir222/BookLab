@@ -25,12 +25,21 @@ app.get("/", (_req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-
 const corsOptions: CorsOptions = {
-  origin: "https://book-lab-web-f7jd.vercel.app",
-  credentials: true, // allow cookies
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://book-lab-web-f7jd.vercel.app",
+      "https://booklab.ddns.net",
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
   optionsSuccessStatus: 200,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
 };
 // const corsOptions: CorsOptions = {
 //   origin: (origin, callback) => {
@@ -46,10 +55,10 @@ const corsOptions: CorsOptions = {
 //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 // };
 
-app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(helmet());
 app.use(express.json());
+app.options("*", cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
